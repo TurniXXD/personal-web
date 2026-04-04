@@ -1,0 +1,251 @@
+{
+  "Metadata": {
+    "title": "Jakub Vantuch | Fullstack Engineer",
+    "description": "Full-stack engineer with 5+ years experience building production web applications — from idea and UX to backend systems and deployment."
+  },
+  "AppShell": {
+    "name": "Jakub Vantuch",
+    "primaryNavLabel": "Primary",
+    "overviewAria": "Zoom out to overview",
+    "terminalOpenAria": "Open terminal",
+    "terminalCloseAria": "Close terminal"
+  },
+  "Navigation": {
+    "about": {
+      "title": "About",
+      "summary": "Who I am, how I work, and what I optimize for.",
+      "command": "open about"
+    },
+    "work": {
+      "title": "Work",
+      "summary": "Selected projects, products, and collaborations.",
+      "command": "open work"
+    },
+    "skills": {
+      "title": "Capabilities",
+      "summary": "Core capabilities across product, code, and delivery.",
+      "command": "open capabilities"
+    },
+    "contact": {
+      "title": "Contact",
+      "summary": "Ways to reach me directly and start a conversation.",
+      "command": "open contact"
+    }
+  },
+  "Scene": {
+    "labels": {
+      "about": "About",
+      "work": "Work",
+      "skills": "Capabilities",
+      "contact": "Contact"
+    }
+  },
+  "AboutDialog": {
+    "title": "About me",
+    "cards": {
+      "engineer": {
+        "title": "Full-stack engineer",
+        "summary": "I’m a full-stack engineer with 5+ years of experience building and maintaining production web applications."
+      },
+      "product": {
+        "title": "Product development",
+        "summary": "I take products from idea to production — designing user flows, building backend systems, and deploying reliable applications."
+      },
+      "focus": {
+        "title": "Current focus",
+        "summary": "Building production software systems while exploring bioinformatics and mathematical modeling. Open to new opportunities and collaborations."
+      }
+    }
+  },
+  "WorkDialog": {
+    "title": "My work",
+    "scrollToEnd": "Scroll to the last project",
+    "previewBadge": "Live site",
+    "companies": {
+      "appio": {
+        "label": "Appio",
+        "message": "Take me there"
+      },
+      "prorocketeers": {
+        "label": "ProRocketeers",
+        "message": "Take me there"
+      }
+    },
+    "projects": {
+      "robe": "Robe",
+      "kinedok": "Kinedok",
+      "revizio": "Revizio",
+      "my213": "My213",
+      "ondrasek": "ONDRÁŠEK",
+      "seedr": "Seedr"
+    }
+  },
+  "CapabilitiesDialog": {
+    "title": "Capabilities",
+    "scrollToEnd": "Scroll to the last capability",
+    "capabilityBadge": "Capability",
+    "cards": {
+      "productDesign": {
+        "title": "Product & Design",
+        "label": "Strategy + UX",
+        "summary": "From shaping requirements to flows, prototypes, and interface direction in Figma.",
+        "items": {
+          "productThinking": "Product thinking",
+          "userFlows": "User flows",
+          "uiux": "UI/UX design",
+          "prototyping": "Prototyping",
+          "clientCommunication": "Client communication"
+        }
+      },
+      "frontend": {
+        "title": "Frontend Engineering",
+        "label": "React stack",
+        "summary": "Production interfaces built with modern frontend tooling and typed application structure.",
+        "items": {
+          "react": "React",
+          "next": "Next.js",
+          "typescript": "TypeScript"
+        }
+      },
+      "backend": {
+        "title": "Backend & Systems",
+        "label": "Architecture",
+        "summary": "Service design, APIs, realtime transport, and system-level thinking across the stack.",
+        "items": {
+          "node": "Node.js",
+          "python": "Python",
+          "go": "Go",
+          "rest": "REST APIs",
+          "graphql": "GraphQL",
+          "websockets": "WebSockets",
+          "systemDesign": "System design"
+        }
+      },
+      "infrastructure": {
+        "title": "Infrastructure & Deployment",
+        "label": "Operations",
+        "summary": "Shipping, automating, and running production systems with hands-on infrastructure control.",
+        "items": {
+          "docker": "Docker",
+          "linux": "Linux",
+          "githubActions": "GitHub Actions",
+          "networking": "Networking",
+          "productionDeployment": "Production deployment"
+        }
+      },
+      "data": {
+        "title": "Data",
+        "label": "Modeling",
+        "summary": "Database structure and data design focused on clean relationships and usable systems.",
+        "items": {
+          "postgresql": "PostgreSQL",
+          "dataModeling": "Data modeling"
+        }
+      }
+    }
+  },
+  "ContactDialog": {
+    "title": "Launch your project",
+    "fields": {
+      "name": {
+        "label": "Name",
+        "placeholder": "Your name"
+      },
+      "email": {
+        "label": "Email",
+        "placeholder": "you@example.com"
+      },
+      "phone": {
+        "label": "Phone",
+        "placeholder": "420123456789"
+      },
+      "message": {
+        "label": "Message",
+        "placeholder": "Project scope, timing, and what you want built."
+      }
+    },
+    "submitIdle": "Send inquiry",
+    "submitSubmitting": "Sending...",
+    "status": {
+      "success": "Message sent.",
+      "sendFailed": "Failed to send message.",
+      "missingApiKey": "Contact delivery is not configured yet."
+    },
+    "errors": {
+      "required": "This field is required",
+      "invalidEmail": "Invalid email address",
+      "invalidPhone": "Invalid phone number"
+    }
+  },
+  "Terminal": {
+    "label": "Navigation terminal",
+    "placeholder": "open work",
+    "initial": {
+      "line1": "Cluster terminal ready.",
+      "line2": "Type `cd about`, `cd work`, `cd capabilities`, or `cd contact`."
+    },
+    "awaitingInput": "Awaiting input. Type `help` or `list`.",
+    "availableCommands": "Available commands:",
+    "unknownTarget": "Unknown target: {target}",
+    "useList": "Use `list` to inspect clusters.",
+    "unknownTargetLs": "Use `ls` to inspect available page files.",
+    "unknownCommand": "Unknown command: {command}",
+    "typeHelp": "Type `help` for supported commands.",
+    "focusCluster": "Focusing {section} cluster",
+    "listLabel": "{title}: cluster {id}",
+    "fileLabel": "- {id}.md",
+    "help": {
+      "open": "open <page>",
+      "cd": "cd <page>",
+      "ls": "ls",
+      "lsPage": "ls <page>",
+      "list": "list",
+      "help": "help",
+      "clear": "clear"
+    },
+    "pageMarkdown": {
+      "about": {
+        "title": "# About",
+        "body": "Full-stack engineer with 5+ years of experience building and maintaining production web applications.",
+        "focusTitle": "## Focus",
+        "focus1": "- Product development",
+        "focus2": "- End-to-end systems",
+        "focus3": "- Bioinformatics and mathematical modeling"
+      },
+      "work": {
+        "title": "# Work",
+        "body": "Selected production websites and collaborations.",
+        "includesTitle": "## Includes",
+        "include1": "- Robe",
+        "include2": "- Revizio",
+        "include3": "- My213",
+        "include4": "- ONDRÁŠEK",
+        "include5": "- Kinedok"
+      },
+      "skills": {
+        "title": "# Capabilities",
+        "section1": "## Product & Design",
+        "s1i1": "- Product thinking",
+        "s1i2": "- UI/UX design",
+        "s1i3": "- Prototyping",
+        "section2": "## Engineering",
+        "s2i1": "- React, Next.js, TypeScript",
+        "s2i2": "- Node.js, Python, Go",
+        "s2i3": "- APIs, GraphQL, WebSockets",
+        "section3": "## Infrastructure & Data",
+        "s3i1": "- Docker, Linux, GitHub Actions",
+        "s3i2": "- PostgreSQL, Data modeling"
+      },
+      "contact": {
+        "title": "# Contact",
+        "line1": "- Email: contact@vantuch.dev",
+        "line2": "- LinkedIn, GitHub, Telegram available on page",
+        "formTitle": "## Form",
+        "formBody": "Use the contact form to send a project inquiry."
+      }
+    },
+    "suggestions": {
+      "inspect": "inspect {title} content"
+    }
+  }
+}
