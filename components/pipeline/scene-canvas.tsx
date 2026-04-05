@@ -31,6 +31,7 @@ type SceneCanvasControlsProps = {
   onSelectSection: SectionChangeHandler;
   onHoverSection: HoverSectionHandler;
   closeDialogs: () => void;
+  onSceneReady: () => void;
   targetPan: TargetPanRef;
   zoom: number;
   maxZoom: number;
@@ -57,6 +58,7 @@ export function PipelineSceneCanvas({
   onSelectSection,
   onHoverSection,
   closeDialogs,
+  onSceneReady,
   targetPan,
   zoom,
   maxZoom,
@@ -67,7 +69,15 @@ export function PipelineSceneCanvas({
   contactDialogRef,
 }: PipelineSceneCanvasProps) {
   return (
-    <Canvas camera={{ position: [0, 12, 24], fov: 36 }} onPointerMissed={closeDialogs}>
+    <Canvas
+      camera={{ position: [0, 12, 24], fov: 36 }}
+      onPointerMissed={closeDialogs}
+      onCreated={() => {
+        window.requestAnimationFrame(() => {
+          onSceneReady();
+        });
+      }}
+    >
       <color attach="background" args={["#ffffff"]} />
       <fog attach="fog" args={["#ffffff", fogNear, fogFar]} />
       <ambientLight intensity={ambientIntensity} />

@@ -146,6 +146,12 @@
   },
   "ContactDialog": {
     "title": "Launch your project",
+    "socials": {
+      "label": "Social links",
+      "github": "GitHub",
+      "linkedin": "LinkedIn",
+      "telegram": "Telegram"
+    },
     "fields": {
       "name": {
         "label": "Name",
@@ -161,10 +167,10 @@
       },
       "message": {
         "label": "Message",
-        "placeholder": "Project scope, timing, and what you want built."
+        "placeholder": "Briefly describe your idea or project."
       }
     },
-    "submitIdle": "Send inquiry",
+    "submitIdle": "Get in touch",
     "submitSubmitting": "Sending...",
     "status": {
       "success": "Message sent.",

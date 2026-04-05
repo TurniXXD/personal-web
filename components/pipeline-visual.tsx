@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useAppShellScene } from "@/components/app-shell-scene-context";
 import {
   AboutDialog,
@@ -28,6 +28,7 @@ export function PipelineVisual() {
   const workDialogRef = useRef<HTMLDivElement>(null);
   const skillsDialogRef = useRef<HTMLDivElement>(null);
   const contactDialogRef = useRef<HTMLDivElement>(null);
+  const [sceneLoaded, setSceneLoaded] = useState(false);
   const {
     targetPan,
     isCompactScreen,
@@ -84,6 +85,14 @@ export function PipelineVisual() {
       onWheel={onWheel}
       onPointerLeave={onPointerLeave}
     >
+      <div
+        className={`scene-preloader${sceneLoaded ? " scene-preloader--hidden" : ""}`}
+        aria-hidden={sceneLoaded}
+      >
+        <div className="scene-preloader__pulse" />
+        <div className="scene-preloader__label">Loading simulation</div>
+      </div>
+
       <AboutDialog
         dialogRef={aboutDialogRef}
         open={openDialogSection === "about"}
@@ -123,6 +132,7 @@ export function PipelineVisual() {
         onSelectSection={handleSelectSection}
         onHoverSection={setHoveredSection}
         closeDialogs={closeDialogs}
+        onSceneReady={() => setSceneLoaded(true)}
         targetPan={targetPan}
         zoom={zoom}
         maxZoom={maxZoom}
