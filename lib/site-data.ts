@@ -39,7 +39,10 @@ export type SkillCard = {
   accent: "violet" | "cyan" | "blue";
 };
 
-type Translator = (key: string, values?: Record<string, string | number>) => string;
+type Translator = (
+  key: string,
+  values?: Record<string, string | number>,
+) => string;
 
 export function getRouteItems(t: Translator): RouteItem[] {
   return [
@@ -154,7 +157,7 @@ export function getSkillCards(t: Translator): SkillCard[] {
         t("cards.backend.items.go"),
         t("cards.backend.items.rest"),
         t("cards.backend.items.graphql"),
-        t("cards.backend.items.websockets"),
+        t("cards.backend.items.postgresql"),
         t("cards.backend.items.systemDesign"),
       ],
       accent: "blue",
@@ -171,16 +174,6 @@ export function getSkillCards(t: Translator): SkillCard[] {
         t("cards.infrastructure.items.productionDeployment"),
       ],
       accent: "violet",
-    },
-    {
-      title: t("cards.data.title"),
-      label: t("cards.data.label"),
-      summary: t("cards.data.summary"),
-      items: [
-        t("cards.data.items.postgresql"),
-        t("cards.data.items.dataModeling"),
-      ],
-      accent: "blue",
     },
   ];
 }

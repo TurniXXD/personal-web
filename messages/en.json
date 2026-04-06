@@ -8,7 +8,8 @@
     "primaryNavLabel": "Primary",
     "overviewAria": "Zoom out to overview",
     "terminalOpenAria": "Open terminal",
-    "terminalCloseAria": "Close terminal"
+    "terminalCloseAria": "Close terminal",
+    "languageSelectAria": "Select language"
   },
   "Navigation": {
     "about": {
@@ -110,36 +111,27 @@
       "backend": {
         "title": "Backend & Systems",
         "label": "Architecture",
-        "summary": "Service design, APIs, realtime transport, and system-level thinking across the stack.",
+        "summary": "Designing backend systems that integrate services, APIs, and data into cohesive, reliable architectures.",
         "items": {
           "node": "Node.js",
           "python": "Python",
           "go": "Go",
           "rest": "REST APIs",
           "graphql": "GraphQL",
-          "websockets": "WebSockets",
+          "postgresql": "PostgreSQL",
           "systemDesign": "System design"
         }
       },
       "infrastructure": {
         "title": "Infrastructure & Deployment",
         "label": "Operations",
-        "summary": "Shipping, automating, and running production systems with hands-on infrastructure control.",
+        "summary": "Deploying and operating production systems with full control over infrastructure and delivery.",
         "items": {
           "docker": "Docker",
           "linux": "Linux",
           "githubActions": "GitHub Actions",
           "networking": "Networking",
           "productionDeployment": "Production deployment"
-        }
-      },
-      "data": {
-        "title": "Data",
-        "label": "Modeling",
-        "summary": "Database structure and data design focused on clean relationships and usable systems.",
-        "items": {
-          "postgresql": "PostgreSQL",
-          "dataModeling": "Data modeling"
         }
       }
     }
