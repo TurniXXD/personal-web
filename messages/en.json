@@ -1,7 +1,7 @@
 {
   "Metadata": {
-    "title": "Jakub Vantuch | Fullstack Engineer",
-    "description": "Full-stack engineer with 5+ years experience building production web applications — from idea and UX to backend systems and deployment."
+    "title": "Jakub Vantuch | Fullstack Developer",
+    "description": "Full-stack developer with 5+ years experience building production web applications — from idea and UX to backend systems and deployment."
   },
   "AppShell": {
     "name": "Jakub Vantuch",
@@ -44,9 +44,9 @@
   "AboutDialog": {
     "title": "About me",
     "cards": {
-      "engineer": {
-        "title": "Full-stack engineer",
-        "summary": "I’m a full-stack engineer with 5+ years of experience building and maintaining production web applications."
+      "developer": {
+        "title": "Full-stack developer",
+        "summary": "I’m a full-stack developer with 5+ years of experience building and maintaining web applications."
       },
       "product": {
         "title": "Product development",
@@ -99,7 +99,7 @@
         }
       },
       "frontend": {
-        "title": "Frontend Engineering",
+        "title": "Frontend Development",
         "label": "React stack",
         "summary": "Production interfaces built with modern frontend tooling and typed application structure.",
         "items": {
@@ -204,7 +204,7 @@
     "pageMarkdown": {
       "about": {
         "title": "# About",
-        "body": "Full-stack engineer with 5+ years of experience building and maintaining production web applications.",
+        "body": "Full-stack developer with 5+ years of experience building and maintaining production web applications.",
         "focusTitle": "## Focus",
         "focus1": "- Product development",
         "focus2": "- End-to-end systems",
@@ -226,7 +226,7 @@
         "s1i1": "- Product thinking",
         "s1i2": "- UI/UX design",
         "s1i3": "- Prototyping",
-        "section2": "## Engineering",
+        "section2": "## Development",
         "s2i1": "- React, Next.js, TypeScript",
         "s2i2": "- Node.js, Python, Go",
         "s2i3": "- APIs, GraphQL, WebSockets",
