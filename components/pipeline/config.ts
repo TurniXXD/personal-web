@@ -6,8 +6,8 @@ type Translator = (key: string) => string;
 export function getAboutCards(t: Translator) {
   return [
     {
-      title: t("cards.engineer.title"),
-      summary: t("cards.engineer.summary"),
+      title: t("cards.developer.title"),
+      summary: t("cards.developer.summary"),
       accent: "violet",
     },
     {
