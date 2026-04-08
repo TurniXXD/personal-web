@@ -3,8 +3,8 @@ import { useFrame, useThree } from "@react-three/fiber";
 import { useTranslations } from "next-intl";
 import * as THREE from "three";
 import type { SectionId } from "@/lib/site-data";
-import { fixedCameraOffset, getSceneNodes } from "@/components/pipeline/config";
-import type { TargetPanRef } from "@/components/pipeline/types";
+import { fixedCameraOffset, getSceneNodes } from "@/components/scene/config";
+import type { TargetPanRef } from "@/components/scene/types";
 
 type FocusRigProps = {
   activeSection: SectionId | null;
@@ -14,21 +14,23 @@ type FocusRigProps = {
   viewResetToken: number;
 };
 
-export function FocusRig({
+export const FocusRig = ({
   activeSection,
   targetPan,
   zoom,
   maxZoom,
   viewResetToken,
-}: FocusRigProps) {
+}: FocusRigProps) => {
   const tScene = useTranslations("Scene");
   const { size } = useThree();
   const sceneNodes = useMemo(() => getSceneNodes(tScene), [tScene]);
+  // Even when nothing is selected we keep a stable "active" node fallback for camera math.
   const activeNode = useMemo(
     () => sceneNodes.find((node) => node.id === activeSection) ?? sceneNodes[0],
     [activeSection, sceneNodes],
   );
   const overviewTarget = useMemo(() => {
+    // Overview mode frames the center of the authored node layout instead of a hardcoded point.
     const center = sceneNodes.reduce(
       (acc, node) => {
         acc.x += node.position[0];
@@ -55,6 +57,7 @@ export function FocusRig({
 
   useEffect(() => {
     const [x, y, z] = activeNode.position;
+    // Selecting a node recenters the local pan state around that node.
     targetPan.current = { x: 0, z: 0 };
     target.current.set(x, y, z);
     desiredLookAt.current.copy(target.current);
@@ -71,6 +74,7 @@ export function FocusRig({
   }, [activeNode, targetPan, zoom]);
 
   useEffect(() => {
+    // A reset switches the camera back into overview framing and clears manual panning.
     targetPan.current = { x: 0, z: 0 };
     target.current.copy(overviewTarget);
     desiredLookAt.current.copy(overviewTarget);
@@ -80,12 +84,17 @@ export function FocusRig({
     desiredCameraPosition.current.copy(
       overviewTarget
         .clone()
-        .add(fixedCameraOffset.clone().multiplyScalar(maxZoom * overviewMultiplier)),
+        .add(
+          fixedCameraOffset
+            .clone()
+            .multiplyScalar(maxZoom * overviewMultiplier),
+        ),
     );
   }, [maxZoom, overviewTarget, targetPan, viewResetToken]);
 
   useFrame(({ camera }, delta) => {
     const isCompactViewport = size.width <= 1024;
+    // Damping values are tuned separately so pan input feels a little tighter than camera travel.
     const smoothing = 1 - Math.exp(-delta * 1.7);
     const panSmoothing = 1 - Math.exp(-delta * 2.1);
     const focusLift = isCompactViewport ? 3.2 : 0.35;
@@ -106,20 +115,33 @@ export function FocusRig({
     if (overviewMode) {
       target.current.copy(overviewTarget);
     } else {
-      target.current.set(x + currentPan.current.x, y + focusLift, z + currentPan.current.z);
+      // In focused mode the camera tracks the selected node plus any drag pan offset.
+      target.current.set(
+        x + currentPan.current.x,
+        y + focusLift,
+        z + currentPan.current.z,
+      );
     }
     desiredLookAt.current.copy(target.current);
-    desiredCameraPosition.current.copy(target.current).add(
-      fixedCameraOffset.clone().multiplyScalar(
-        overviewMode ? zoom * (isCompactViewport ? 1.24 : 1.08) : zoom,
-      ),
-    );
+    desiredCameraPosition.current
+      .copy(target.current)
+      .add(
+        fixedCameraOffset
+          .clone()
+          .multiplyScalar(
+            overviewMode ? zoom * (isCompactViewport ? 1.24 : 1.08) : zoom,
+          ),
+      );
 
+    // Interpolate both look-at and camera position for a soft dolly effect.
     currentLookAt.current.lerp(desiredLookAt.current, smoothing);
-    currentCameraPosition.current.lerp(desiredCameraPosition.current, smoothing);
+    currentCameraPosition.current.lerp(
+      desiredCameraPosition.current,
+      smoothing,
+    );
     camera.position.copy(currentCameraPosition.current);
     camera.lookAt(currentLookAt.current);
   });
 
   return null;
-}
+};

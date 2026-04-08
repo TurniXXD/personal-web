@@ -14,12 +14,15 @@
   },
   "dependencies": {
     "@react-three/fiber": "^9.4.0",
+    "classnames": "^2.5.1",
     "lucide-react": "^0.575.0",
     "next": "16.1.6",
     "next-intl": "^4.9.0",
     "react": "19.2.3",
     "react-dom": "19.2.3",
     "resend": "^6.10.0",
+    "sass": "^1.99.0",
+    "sonner": "^2.0.7",
     "three": "^0.180.0"
   },
   "devDependencies": {

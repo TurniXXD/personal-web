@@ -9,7 +9,13 @@
     "overviewAria": "Zoom out to overview",
     "terminalOpenAria": "Open terminal",
     "terminalCloseAria": "Close terminal",
-    "languageSelectAria": "Select language"
+    "languageSelectAria": "Select language",
+    "menuOpenAria": "Open quick actions menu",
+    "menuCloseAria": "Close quick actions menu",
+    "localeEn": "EN",
+    "localeCs": "CZ",
+    "switchToEnglishAria": "Switch to English",
+    "switchToCzechAria": "Switch to Czech"
   },
   "Navigation": {
     "about": {
@@ -22,7 +28,7 @@
       "summary": "Selected projects, products, and collaborations.",
       "command": "open work"
     },
-    "skills": {
+    "capabilities": {
       "title": "Capabilities",
       "summary": "Core capabilities across product, code, and delivery.",
       "command": "open capabilities"
@@ -37,7 +43,7 @@
     "labels": {
       "about": "About",
       "work": "Work",
-      "skills": "Capabilities",
+      "capabilities": "Capabilities",
       "contact": "Contact"
     }
   },
@@ -61,13 +67,12 @@
   "WorkDialog": {
     "title": "My work",
     "scrollToEnd": "Scroll to the last project",
-    "previewBadge": "Live site",
     "companies": {
       "appio": {
         "label": "Appio",
         "message": "Take me there"
       },
-      "prorocketeers": {
+      "proRocketeers": {
         "label": "ProRocketeers",
         "message": "Take me there"
       }
@@ -77,22 +82,19 @@
       "kinedok": "Kinedok",
       "revizio": "Revizio",
       "my213": "My213",
-      "ondrasek": "ONDRÁŠEK",
+      "ondrasek": "Ondrášek",
       "seedr": "Seedr"
     }
   },
   "CapabilitiesDialog": {
     "title": "Capabilities",
     "scrollToEnd": "Scroll to the last capability",
-    "capabilityBadge": "Capability",
     "cards": {
       "productDesign": {
         "title": "Product & Design",
-        "label": "Strategy + UX",
-        "summary": "From shaping requirements to flows, prototypes, and interface direction in Figma.",
+        "summary": "Turning ideas into clear product direction, user flows, and usable interfaces.",
         "items": {
           "productThinking": "Product thinking",
-          "userFlows": "User flows",
           "uiux": "UI/UX design",
           "prototyping": "Prototyping",
           "clientCommunication": "Client communication"
@@ -100,18 +102,17 @@
       },
       "frontend": {
         "title": "Frontend Development",
-        "label": "React stack",
-        "summary": "Production interfaces built with modern frontend tooling and typed application structure.",
+        "summary": "Building fast, reliable user interfaces that work with real-world systems.",
         "items": {
           "react": "React",
           "next": "Next.js",
-          "typescript": "TypeScript"
+          "typescript": "TypeScript",
+          "performance": "Performance"
         }
       },
       "backend": {
         "title": "Backend & Systems",
-        "label": "Architecture",
-        "summary": "Designing backend systems that integrate services, APIs, and data into cohesive, reliable architectures.",
+        "summary": "Designing systems that connect services, APIs, and data into scalable architectures.",
         "items": {
           "node": "Node.js",
           "python": "Python",
@@ -124,14 +125,12 @@
       },
       "infrastructure": {
         "title": "Infrastructure & Deployment",
-        "label": "Operations",
-        "summary": "Deploying and operating production systems with full control over infrastructure and delivery.",
+        "summary": "Running and scaling applications in production with reliable deployments and observability.",
         "items": {
           "docker": "Docker",
           "linux": "Linux",
-          "githubActions": "GitHub Actions",
-          "networking": "Networking",
-          "productionDeployment": "Production deployment"
+          "cicd": "CI/CD",
+          "networking": "Networking"
         }
       }
     }
@@ -164,6 +163,7 @@
     },
     "submitIdle": "Get in touch",
     "submitSubmitting": "Sending...",
+    "consultCta": "Book a consultation",
     "status": {
       "success": "Message sent.",
       "sendFailed": "Failed to send message.",
@@ -187,6 +187,8 @@
     "unknownTarget": "Unknown target: {target}",
     "useList": "Use `list` to inspect clusters.",
     "unknownTargetLs": "Use `ls` to inspect available page files.",
+    "unknownTargetCat": "Use `ls` to see available files.",
+    "catUsage": "Usage: `cat <file.md>`",
     "unknownCommand": "Unknown command: {command}",
     "typeHelp": "Type `help` for supported commands.",
     "focusCluster": "Focusing {section} cluster",
@@ -196,7 +198,7 @@
       "open": "open <page>",
       "cd": "cd <page>",
       "ls": "ls",
-      "lsPage": "ls <page>",
+      "cat": "cat <file.md>",
       "list": "list",
       "help": "help",
       "clear": "clear"
@@ -217,10 +219,10 @@
         "include1": "- Robe",
         "include2": "- Revizio",
         "include3": "- My213",
-        "include4": "- ONDRÁŠEK",
+        "include4": "- Ondrášek",
         "include5": "- Kinedok"
       },
-      "skills": {
+      "capabilities": {
         "title": "# Capabilities",
         "section1": "## Product & Design",
         "s1i1": "- Product thinking",
@@ -231,7 +233,7 @@
         "s2i2": "- Node.js, Python, Go",
         "s2i3": "- APIs, GraphQL, WebSockets",
         "section3": "## Infrastructure & Data",
-        "s3i1": "- Docker, Linux, GitHub Actions",
+        "s3i1": "- Docker, Linux, CI/CD",
         "s3i2": "- PostgreSQL, Data modeling"
       },
       "contact": {
@@ -243,7 +245,8 @@
       }
     },
     "suggestions": {
-      "inspect": "inspect {title} content"
+      "inspect": "inspect {title} content",
+      "file": "show {title} file"
     }
   }
 }

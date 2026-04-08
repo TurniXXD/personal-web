@@ -1,16 +1,11 @@
 "use client";
 
-import {
-  createContext,
-  useContext,
-  useMemo,
-  useState,
-} from "react";
+import { createContext, useContext, useMemo, useState } from "react";
 import { type SectionId } from "@/lib/site-data";
 import type {
   ChildrenProps,
   NullableSectionChangeHandler,
-} from "@/components/pipeline/types";
+} from "@/components/scene/types";
 
 type FocusContextValue = {
   activeSection: SectionId | null;
@@ -19,7 +14,7 @@ type FocusContextValue = {
 
 const FocusContext = createContext<FocusContextValue | null>(null);
 
-export function FocusProvider({ children }: ChildrenProps) {
+export const FocusProvider = ({ children }: ChildrenProps) => {
   const [activeSection, setActiveSection] = useState<SectionId | null>(null);
 
   const value = useMemo(
@@ -30,9 +25,9 @@ export function FocusProvider({ children }: ChildrenProps) {
   return (
     <FocusContext.Provider value={value}>{children}</FocusContext.Provider>
   );
-}
+};
 
-export function useFocus() {
+export const useFocus = () => {
   const context = useContext(FocusContext);
 
   if (!context) {
@@ -40,4 +35,4 @@ export function useFocus() {
   }
 
   return context;
-}
+};

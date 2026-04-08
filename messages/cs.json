@@ -1,0 +1,250 @@
+{
+  "Metadata": {
+    "title": "Jakub Vantuch | Full-stack Vývojář",
+    "description": "Full-stack vývojář s 5+ lety zkušeností ve vývoji webových aplikací — od návrhu řešení a UX až po frontend, backend a infrastrukturu."
+  },
+  "AppShell": {
+    "name": "Jakub Vantuch",
+    "primaryNavLabel": "Primární",
+    "overviewAria": "Oddálit na přehled",
+    "terminalOpenAria": "Otevřít terminál",
+    "terminalCloseAria": "Zavřít terminál",
+    "languageSelectAria": "Vybrat jazyk",
+    "menuOpenAria": "Otevřít menu rychlých akcí",
+    "menuCloseAria": "Zavřít menu rychlých akcí",
+    "localeEn": "EN",
+    "localeCs": "CZ",
+    "switchToEnglishAria": "Přepnout do angličtiny",
+    "switchToCzechAria": "Přepnout do češtiny"
+  },
+  "Navigation": {
+    "about": {
+      "title": "O mně",
+      "summary": "Kdo jsem, jak pracuji a na co se zaměřuji.",
+      "command": "open about"
+    },
+    "work": {
+      "title": "Projekty",
+      "summary": "Vybrané projekty, produkty a spolupráce.",
+      "command": "open work"
+    },
+    "capabilities": {
+      "title": "Dovednosti",
+      "summary": "Klíčové oblasti, ve kterých navrhuji, stavím a nasazuji digitální produkty.",
+      "command": "open capabilities"
+    },
+    "contact": {
+      "title": "Kontakt",
+      "summary": "Způsoby, jak mě kontaktovat a probrat spolupráci.",
+      "command": "open contact"
+    }
+  },
+  "Scene": {
+    "labels": {
+      "about": "O mně",
+      "work": "Projekty",
+      "capabilities": "Dovednosti",
+      "contact": "Kontakt"
+    }
+  },
+  "AboutDialog": {
+    "title": "O mně",
+    "cards": {
+      "developer": {
+        "title": "Full-stack vývojář",
+        "summary": "Jsem full-stack vývojář s 5+ lety zkušeností s vývojem webových aplikací — od návrhu řešení po implementaci a nasazení."
+      },
+      "product": {
+        "title": "Vývoj produktů",
+        "summary": "Navrhuji a stavím produkty od návrhu řešení přes implementaci až po nasazení."
+      },
+      "focus": {
+        "title": "Současné zaměření",
+        "summary": "Zaměřuji se na vývoj spolehlivých systémů a zajímám se o bioinformatiku a matematické modelování. Otevřený spolupráci."
+      }
+    }
+  },
+  "WorkDialog": {
+    "title": "Vybrané projekty",
+    "scrollToEnd": "Posunout nakonec",
+    "companies": {
+      "appio": {
+        "label": "Appio",
+        "message": "Zobrazit web"
+      },
+      "proRocketeers": {
+        "label": "ProRocketeers",
+        "message": "Zobrazit web"
+      }
+    },
+    "projects": {
+      "robe": "Robe",
+      "kinedok": "Kinedok",
+      "revizio": "Revizio",
+      "my213": "My213",
+      "ondrasek": "Ondrášek",
+      "seedr": "Seedr"
+    }
+  },
+  "CapabilitiesDialog": {
+    "title": "Dovednosti",
+    "scrollToEnd": "Posunout nakonec",
+    "cards": {
+      "productDesign": {
+        "title": "Produktové myšlení & UX",
+        "summary": "Od návrhu UX až po prototypy a validaci řešení.",
+        "items": {
+          "productThinking": "Produktové myšlení",
+          "uiux": "UI/UX design",
+          "prototyping": "Prototyping",
+          "clientCommunication": "Komunikace s klienty"
+        }
+      },
+      "frontend": {
+        "title": "Frontend Development",
+        "summary": "Stavím rychlá a spolehlivá uživatelská rozhraní, která fungují v reálných aplikacích.",
+        "items": {
+          "react": "React",
+          "next": "Next.js",
+          "typescript": "TypeScript",
+          "performance": "Performance"
+        }
+      },
+      "backend": {
+        "title": "Backend & Systémy",
+        "summary": "Navrhuji backend systémy, které propojují služby, API a data do škálovatelných architektur.",
+        "items": {
+          "node": "Node.js",
+          "python": "Python",
+          "go": "Go",
+          "rest": "REST APIs",
+          "graphql": "GraphQL",
+          "postgresql": "PostgreSQL",
+          "systemDesign": "System design"
+        }
+      },
+      "infrastructure": {
+        "title": "Infrastruktura & Deployment",
+        "summary": "Zajišťuji nasazení a provoz aplikací včetně infrastruktury, výkonu a spolehlivosti.",
+        "items": {
+          "docker": "Docker",
+          "linux": "Linux",
+          "cicd": "CI/CD",
+          "networking": "Networking"
+        }
+      }
+    }
+  },
+  "ContactDialog": {
+    "title": "Pojďme probrat váš projekt",
+    "socials": {
+      "label": "Sociální odkazy",
+      "github": "GitHub",
+      "linkedin": "LinkedIn",
+      "telegram": "Telegram"
+    },
+    "fields": {
+      "name": {
+        "label": "Jméno",
+        "placeholder": "Vaše jméno"
+      },
+      "email": {
+        "label": "Email",
+        "placeholder": "vas@example.com"
+      },
+      "phone": {
+        "label": "Telefon",
+        "placeholder": "420123456789"
+      },
+      "message": {
+        "label": "Zpráva",
+        "placeholder": "Stručně popište svůj nápad nebo projekt."
+      }
+    },
+    "submitIdle": "Odeslat poptávku",
+    "submitSubmitting": "Odesílám...",
+    "consultCta": "Rezervovat konzultaci",
+    "status": {
+      "success": "Zpráva odeslána.",
+      "sendFailed": "Nepodařilo se odeslat zprávu.",
+      "missingApiKey": "Kontakt není zatím nakonfigurován."
+    },
+    "errors": {
+      "required": "Toto pole je povinné",
+      "invalidEmail": "Neplatná emailová adresa",
+      "invalidPhone": "Neplatné telefonní číslo"
+    }
+  },
+  "Terminal": {
+    "label": "Navigační terminál",
+    "placeholder": "open work",
+    "initial": {
+      "line1": "Terminál clusteru připraven.",
+      "line2": "Zadejte `cd about`, `cd work`, `cd capabilities`, nebo `cd contact`."
+    },
+    "awaitingInput": "Čekám na vstup. Zadejte `help` nebo `list`.",
+    "availableCommands": "Dostupné příkazy:",
+    "unknownTarget": "Neznámý cíl: {target}",
+    "useList": "Použijte `list` k prozkoumání clusterů.",
+    "unknownTargetLs": "Použijte `ls` k prozkoumání dostupných souborů stránek.",
+    "unknownCommand": "Neznámý příkaz: {command}",
+    "typeHelp": "Zadejte `help` pro podporované příkazy.",
+    "focusCluster": "Zaměřuji cluster {section}",
+    "listLabel": "{title}: cluster {id}",
+    "fileLabel": "- {id}.md",
+    "help": {
+      "open": "open <stránka>",
+      "cd": "cd <stránka>",
+      "ls": "ls",
+      "cat": "cat <file.md>",
+      "list": "list",
+      "help": "help",
+      "clear": "clear"
+    },
+    "pageMarkdown": {
+      "about": {
+        "title": "# O mně",
+        "body": "Full-stack vývojař s 5+ lety zkušeností v budování a údržbě produkčních webových aplikací.",
+        "focusTitle": "## Zaměření",
+        "focus1": "- Vývoj produktů",
+        "focus2": "- End-to-end systémy",
+        "focus3": "- Bioinformatika a matematické modelování"
+      },
+      "work": {
+        "title": "# Projekty",
+        "body": "Vybrané produkční weby a spolupráce.",
+        "includesTitle": "## Zahrnuje",
+        "include1": "- Robe",
+        "include2": "- Revizio",
+        "include3": "- My213",
+        "include4": "- Ondrášek",
+        "include5": "- Kinedok"
+      },
+      "capabilities": {
+        "title": "# Dovednosti",
+        "section1": "## Produkt & Design",
+        "s1i1": "- Produktové myšlení",
+        "s1i2": "- UI/UX design",
+        "s1i3": "- Prototyping",
+        "section2": "## Development",
+        "s2i1": "- React, Next.js, TypeScript",
+        "s2i2": "- Node.js, Python, Go",
+        "s2i3": "- APIs, GraphQL, WebSockets",
+        "section3": "## Infrastruktura & Data",
+        "s3i1": "- Docker, Linux, CI/CD",
+        "s3i2": "- PostgreSQL, Data modeling"
+      },
+      "contact": {
+        "title": "# Kontakt",
+        "line1": "- Email: contact@vantuch.dev",
+        "line2": "- LinkedIn, GitHub, Telegram dostupné na stránce",
+        "formTitle": "## Formulář",
+        "formBody": "Použijte kontaktní formulář k odeslání poptávky projektu."
+      }
+    },
+    "suggestions": {
+      "inspect": "prozkoumat obsah {title}",
+      "file": "zobrazit soubor {title}"
+    }
+  }
+}

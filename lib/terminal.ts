@@ -10,76 +10,71 @@ type Translator = (key: string, values?: Record<string, string | number>) => str
 const baseRouteAliases = new Map([
   ["home", "about"],
   ["index", "about"],
-  ["capabilities", "skills"],
 ] as const);
 
-function getTerminalHelp(t: Translator) {
-  return [
-    t("help.open"),
-    t("help.cd"),
-    t("help.ls"),
-    t("help.lsPage"),
-    t("help.list"),
-    t("help.help"),
-    t("help.clear"),
-  ];
-}
+const getTerminalHelp = (t: Translator) => [
+  t("help.open"),
+  t("help.cd"),
+  t("help.ls"),
+  t("help.cat"),
+  t("help.list"),
+  t("help.help"),
+  t("help.clear"),
+];
 
-function getPageMarkdown(t: Translator): Record<SectionId, string[]> {
-  return {
-    about: [
-      t("pageMarkdown.about.title"),
-      "",
-      t("pageMarkdown.about.body"),
-      "",
-      t("pageMarkdown.about.focusTitle"),
-      t("pageMarkdown.about.focus1"),
-      t("pageMarkdown.about.focus2"),
-      t("pageMarkdown.about.focus3"),
-    ],
-    work: [
-      t("pageMarkdown.work.title"),
-      "",
-      t("pageMarkdown.work.body"),
-      "",
-      t("pageMarkdown.work.includesTitle"),
-      t("pageMarkdown.work.include1"),
-      t("pageMarkdown.work.include2"),
-      t("pageMarkdown.work.include3"),
-      t("pageMarkdown.work.include4"),
-      t("pageMarkdown.work.include5"),
-    ],
-    skills: [
-      t("pageMarkdown.skills.title"),
-      "",
-      t("pageMarkdown.skills.section1"),
-      t("pageMarkdown.skills.s1i1"),
-      t("pageMarkdown.skills.s1i2"),
-      t("pageMarkdown.skills.s1i3"),
-      "",
-      t("pageMarkdown.skills.section2"),
-      t("pageMarkdown.skills.s2i1"),
-      t("pageMarkdown.skills.s2i2"),
-      t("pageMarkdown.skills.s2i3"),
-      "",
-      t("pageMarkdown.skills.section3"),
-      t("pageMarkdown.skills.s3i1"),
-      t("pageMarkdown.skills.s3i2"),
-    ],
-    contact: [
-      t("pageMarkdown.contact.title"),
-      "",
-      t("pageMarkdown.contact.line1"),
-      t("pageMarkdown.contact.line2"),
-      "",
-      t("pageMarkdown.contact.formTitle"),
-      t("pageMarkdown.contact.formBody"),
-    ],
-  };
-}
+const getPageMarkdown = (t: Translator): Record<SectionId, string[]> => ({
+  about: [
+    t("pageMarkdown.about.title"),
+    "",
+    t("pageMarkdown.about.body"),
+    "",
+    t("pageMarkdown.about.focusTitle"),
+    t("pageMarkdown.about.focus1"),
+    t("pageMarkdown.about.focus2"),
+    t("pageMarkdown.about.focus3"),
+  ],
+  work: [
+    t("pageMarkdown.work.title"),
+    "",
+    t("pageMarkdown.work.body"),
+    "",
+    t("pageMarkdown.work.includesTitle"),
+    t("pageMarkdown.work.include1"),
+    t("pageMarkdown.work.include2"),
+    t("pageMarkdown.work.include3"),
+    t("pageMarkdown.work.include4"),
+    t("pageMarkdown.work.include5"),
+  ],
+  capabilities: [
+    t("pageMarkdown.capabilities.title"),
+    "",
+    t("pageMarkdown.capabilities.section1"),
+    t("pageMarkdown.capabilities.s1i1"),
+    t("pageMarkdown.capabilities.s1i2"),
+    t("pageMarkdown.capabilities.s1i3"),
+    "",
+    t("pageMarkdown.capabilities.section2"),
+    t("pageMarkdown.capabilities.s2i1"),
+    t("pageMarkdown.capabilities.s2i2"),
+    t("pageMarkdown.capabilities.s2i3"),
+    "",
+    t("pageMarkdown.capabilities.section3"),
+    t("pageMarkdown.capabilities.s3i1"),
+    t("pageMarkdown.capabilities.s3i2"),
+  ],
+  contact: [
+    t("pageMarkdown.contact.title"),
+    "",
+    t("pageMarkdown.contact.line1"),
+    t("pageMarkdown.contact.line2"),
+    "",
+    t("pageMarkdown.contact.formTitle"),
+    t("pageMarkdown.contact.formBody"),
+  ],
+});
 
-function getRouteAliases(routeItems: RouteItem[]) {
-  return new Map([
+const getRouteAliases = (routeItems: RouteItem[]) =>
+  new Map([
     ...baseRouteAliases,
     ...routeItems.flatMap((item) => {
       const key = item.title.toLowerCase();
@@ -91,45 +86,46 @@ function getRouteAliases(routeItems: RouteItem[]) {
       ] as const;
     }),
   ]);
-}
 
-function getCommandSuggestions(routeItems: RouteItem[], t: Translator) {
-  return [
-    ...getTerminalHelp(t).map((command) => ({ label: command, value: command })),
-    ...routeItems.flatMap((item) => [
-      {
-        label: `${item.command}  ->  ${item.summary}`,
-        value: item.command,
-      },
-      {
-        label: `cd ${item.title.toLowerCase()}  ->  ${item.summary}`,
-        value: `cd ${item.title.toLowerCase()}`,
-      },
-      {
-        label: `ls ${item.title.toLowerCase()}  ->  ${t("suggestions.inspect", {
-          title: item.title.toLowerCase(),
-        })}`,
-        value: `ls ${item.title.toLowerCase()}`,
-      },
-    ]),
-  ];
-}
-
-export function getInitialTerminalHistory(t: Translator) {
-  return [
+const getCommandSuggestions = (routeItems: RouteItem[], t: Translator) => [
+  ...getTerminalHelp(t).map((command) => ({ label: command, value: command })),
+  ...routeItems.flatMap((item) => [
     {
-      id: 1,
-      command: "help",
-      output: [t("initial.line1"), t("initial.line2")],
+      label: `${item.command}  ->  ${item.summary}`,
+      value: item.command,
     },
-  ];
-}
+    {
+      label: `cd ${item.title.toLowerCase()}  ->  ${item.summary}`,
+      value: `cd ${item.title.toLowerCase()}`,
+    },
+    {
+      label: `ls ${item.title.toLowerCase()}  ->  ${t("suggestions.file", {
+        title: item.title.toLowerCase(),
+      })}`,
+      value: `ls ${item.title.toLowerCase()}`,
+    },
+    {
+      label: `cat ${item.id}.md  ->  ${t("suggestions.inspect", {
+        title: item.title.toLowerCase(),
+      })}`,
+      value: `cat ${item.id}.md`,
+    },
+  ]),
+];
 
-export function getTerminalSuggestions(
+export const getInitialTerminalHistory = (t: Translator) => [
+  {
+    id: 1,
+    command: "help",
+    output: [t("initial.line1"), t("initial.line2")],
+  },
+];
+
+export const getTerminalSuggestions = (
   input: string,
   routeItems: RouteItem[],
   t: Translator,
-) {
+) => {
   const value = input.trim().toLowerCase();
 
   if (!value) {
@@ -147,17 +143,20 @@ export function getTerminalSuggestions(
   return Array.from(
     new Map(rankedSuggestions.map((suggestion) => [suggestion.value, suggestion])).values(),
   ).slice(0, 8);
-}
+};
 
-export function executeTerminalCommand(
+export const executeTerminalCommand = (
   rawInput: string,
   routeItems: RouteItem[],
   t: Translator,
-): TerminalResult {
+): TerminalResult => {
   const input = rawInput.trim().toLowerCase();
   const terminalHelp = getTerminalHelp(t);
   const pageMarkdown = getPageMarkdown(t);
   const aliases = getRouteAliases(routeItems);
+  const fileAliases = new Map<string, SectionId>(
+    routeItems.map((item) => [`${item.id}.md`, item.id] as const),
+  );
 
   if (!input) {
     return { type: "output", output: [t("awaitingInput")] };
@@ -176,13 +175,6 @@ export function executeTerminalCommand(
       output: routeItems.map((item) =>
         t("listLabel", { title: item.title, id: item.id }),
       ),
-    };
-  }
-
-  if (input === "ls") {
-    return {
-      type: "output",
-      output: routeItems.map((item) => t("fileLabel", { id: item.id })),
     };
   }
 
@@ -206,21 +198,48 @@ export function executeTerminalCommand(
     return {
       type: "focus",
       target: section,
-      output: [
-        t("focusCluster", {
-          section: section === "skills" ? "capabilities" : section,
-        }),
-      ],
+      output: [t("focusCluster", { section })],
     };
   }
 
   if (command === "ls") {
+    if (!target) {
+      return {
+        type: "output",
+        output: routeItems.map((item) => t("fileLabel", { id: item.id })),
+      };
+    }
+
     const section = aliases.get(target) as SectionId | undefined;
 
     if (!section) {
       return {
         type: "output",
         output: [t("unknownTarget", { target }), t("unknownTargetLs")],
+      };
+    }
+
+    return {
+      type: "output",
+      output: [t("fileLabel", { id: section })],
+    };
+  }
+
+  if (command === "cat") {
+    if (!target) {
+      return {
+        type: "output",
+        output: [t("catUsage")],
+      };
+    }
+
+    const normalizedTarget = target.endsWith(".md") ? target : `${target}.md`;
+    const section = fileAliases.get(normalizedTarget);
+
+    if (!section) {
+      return {
+        type: "output",
+        output: [t("unknownTarget", { target }), t("unknownTargetCat")],
       };
     }
 
@@ -234,4 +253,4 @@ export function executeTerminalCommand(
     type: "output",
     output: [t("unknownCommand", { command: rawInput }), t("typeHelp")],
   };
-}
+};

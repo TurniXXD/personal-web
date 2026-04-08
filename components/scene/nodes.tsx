@@ -2,12 +2,12 @@ import { useFrame } from "@react-three/fiber";
 import { useTranslations } from "next-intl";
 import { useMemo, useRef } from "react";
 import * as THREE from "three";
-import { getSceneNodes, type NodeConfig } from "@/components/pipeline/config";
+import { getSceneNodes, type NodeConfig } from "@/components/scene/config";
+import { usePipelineDialogs } from "@/components/scene/dialogs-context";
 import type {
   HoverSectionHandler,
-  SceneSelectionState,
   SectionChangeHandler,
-} from "@/components/pipeline/types";
+} from "@/components/scene/types";
 
 type StopPropagationEvent = {
   stopPropagation: () => void;
@@ -30,26 +30,33 @@ type GroundLabelProps = {
   config: NodeConfig;
 };
 
-type SceneNodesProps = SceneSelectionState & {
+type SceneNodesProps = {
   onSelect: SectionChangeHandler;
   onHover: HoverSectionHandler;
+  hoveredSection: NodeConfig["id"] | null;
 };
 
-export function SceneCube({
+export const SceneCube = ({
   config,
   active,
   hovered,
   onSelect,
   onHover,
-}: SceneCubeProps) {
+}: SceneCubeProps) => {
   const materialRef = useRef<THREE.MeshStandardMaterial>(null);
   const meshRef = useRef<THREE.Mesh>(null);
   const ledMaterialsRef = useRef<THREE.MeshStandardMaterial[]>([]);
   const hitScale = useMemo<[number, number, number]>(() => {
-    return [config.scale[0] * 1.55, config.scale[1] * 1.55, config.scale[2] * 1.55];
+    // The visible cube is small, so interaction uses a larger invisible hit box.
+    return [
+      config.scale[0] * 1.55,
+      config.scale[1] * 1.55,
+      config.scale[2] * 1.55,
+    ];
   }, [config.scale]);
   const ledOffsets = useMemo(() => [0.15, 0.88, 1.61], []);
   const bodyShape = useMemo(() => {
+    // Build a rounded 2D profile first, then extrude it into the hardware block shape.
     const shape = new THREE.Shape();
     const radius = 0.14;
     const x = -0.5;
@@ -68,6 +75,7 @@ export function SceneCube({
     return shape;
   }, []);
   const bodyGeometry = useMemo(() => {
+    // The translated geometry keeps the mesh centered after extrusion.
     const geometry = new THREE.ExtrudeGeometry(bodyShape, {
       depth: 1,
       bevelEnabled: false,
@@ -79,24 +87,25 @@ export function SceneCube({
   }, [bodyShape]);
   const ledDepth = config.scale[2] * 0.5 + 0.035;
 
-  function handleSelect(event: StopPropagationEvent) {
+  const handleSelect = (event: StopPropagationEvent) => {
     event.stopPropagation();
     onSelect(config.id);
-  }
+  };
 
-  function handleEnter(event: StopPropagationEvent) {
+  const handleEnter = (event: StopPropagationEvent) => {
     event.stopPropagation();
     onHover(config.id);
-  }
+  };
 
-  function handleLeave(event: StopPropagationEvent) {
+  const handleLeave = (event: StopPropagationEvent) => {
     event.stopPropagation();
     onHover(null);
-  }
+  };
 
   useFrame((_, delta) => {
     const material = materialRef.current;
     const mesh = meshRef.current;
+    // Exponential smoothing keeps hover/active transitions stable across frame rates.
     const damping = 1 - Math.exp(-delta * 4.5);
 
     if (!material) {
@@ -122,21 +131,25 @@ export function SceneCube({
     }
 
     ledMaterialsRef.current.forEach((ledMaterial, index) => {
+      // Offset each LED pulse so the block feels alive rather than blinking in sync.
       const pulse =
         0.35 +
-        Math.max(0, Math.sin(performance.now() * 0.0032 + ledOffsets[index])) * 1.45;
+        Math.max(0, Math.sin(performance.now() * 0.0032 + ledOffsets[index])) *
+          1.45;
       ledMaterial.emissiveIntensity = pulse;
     });
   });
 
   return (
     <group position={config.position}>
+      {/* Active/hover rings are projected onto the floor to ground the floating block. */}
       {active ? (
         <ActiveCubeMarker config={config} tone="active" />
       ) : hovered ? (
         <ActiveCubeMarker config={config} tone="hover" />
       ) : null}
 
+      {/* Invisible hit target makes the scene easier to interact with on touch devices. */}
       <mesh
         scale={hitScale}
         onPointerDown={handleSelect}
@@ -148,6 +161,7 @@ export function SceneCube({
         <meshBasicMaterial transparent opacity={0} depthWrite={false} />
       </mesh>
 
+      {/* Visible block body. */}
       <mesh
         ref={meshRef}
         scale={config.scale}
@@ -167,10 +181,15 @@ export function SceneCube({
         />
       </mesh>
 
+      {/* Front LEDs reinforce the "device" metaphor and provide subtle motion. */}
       {[-0.34, -0.12, 0.1].map((xOffset, index) => (
         <mesh
           key={`led-${index}`}
-          position={[xOffset * config.scale[0], config.scale[1] * 0.3, ledDepth]}
+          position={[
+            xOffset * config.scale[0],
+            config.scale[1] * 0.3,
+            ledDepth,
+          ]}
         >
           <boxGeometry args={[0.12, 0.12, 0.07]} />
           <meshStandardMaterial
@@ -189,12 +208,10 @@ export function SceneCube({
       ))}
     </group>
   );
-}
+};
 
-function ActiveCubeMarker({
-  config,
-  tone,
-}: ActiveCubeMarkerProps) {
+const ActiveCubeMarker = ({ config, tone }: ActiveCubeMarkerProps) => {
+  // Marker size scales with the node so different section blocks still feel related.
   const radius = Math.max(config.scale[0], config.scale[2]) * 1.86;
   const fillColor = tone === "active" ? "#7b52ff" : "#d7c8ff";
   const ringColor = tone === "active" ? "#8d68ff" : "#ede4ff";
@@ -227,11 +244,12 @@ function ActiveCubeMarker({
       </mesh>
     </group>
   );
-}
+};
 
-export function GroundLabel({ config }: GroundLabelProps) {
+export const GroundLabel = ({ config }: GroundLabelProps) => {
+  // Labels are rendered into a canvas texture because text meshes would be heavier here.
   const labelOffset =
-    config.id === "contact" ? 2.1 : config.id === "skills" ? 2.3 : 2.75;
+    config.id === "contact" ? 2.1 : config.id === "capabilities" ? 2.3 : 2.75;
   const texture = useMemo(() => {
     const canvas = document.createElement("canvas");
     canvas.width = 1344;
@@ -266,6 +284,7 @@ export function GroundLabel({ config }: GroundLabelProps) {
       rotation={[-Math.PI / 2, 0, 0]}
       position={[config.position[0], 0.02, config.position[2] + labelOffset]}
     >
+      {/* A flat plane just above the floor avoids z-fighting with the grid below. */}
       <planeGeometry args={[7.8, 1.9]} />
       <meshBasicMaterial
         map={texture}
@@ -276,15 +295,16 @@ export function GroundLabel({ config }: GroundLabelProps) {
       />
     </mesh>
   );
-}
+};
 
-export function SceneNodes({
-  activeSection,
+export const SceneNodes = ({
   hoveredSection,
   onSelect,
   onHover,
-}: SceneNodesProps) {
+}: SceneNodesProps) => {
   const tScene = useTranslations("Scene");
+  const { openDialogSection } = usePipelineDialogs();
+  // Node definitions come from config so labels/positions stay centralized.
   const sceneNodes = useMemo(() => getSceneNodes(tScene), [tScene]);
 
   return (
@@ -294,7 +314,7 @@ export function SceneNodes({
           <GroundLabel config={node} />
           <SceneCube
             config={node}
-            active={node.id === activeSection}
+            active={node.id === openDialogSection}
             hovered={node.id === hoveredSection}
             onSelect={onSelect}
             onHover={onHover}
@@ -303,4 +323,4 @@ export function SceneNodes({
       ))}
     </>
   );
-}
+};

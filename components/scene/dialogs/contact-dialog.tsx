@@ -1,15 +1,15 @@
+import { X } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { Github, Linkedin, Send } from "lucide-react";
-import type { ContactDialogProps } from "@/components/pipeline/dialogs/types";
+import type { ContactDialogProps } from "@/components/scene/dialogs/types";
 
 export const ContactDialog = ({
   dialogRef,
   open,
   interactionProps,
+  onClose,
   onSubmit,
   errors,
   status,
-  message,
 }: ContactDialogProps) => {
   const t = useTranslations("ContactDialog");
 
@@ -23,6 +23,14 @@ export const ContactDialog = ({
     >
       <div className="work-dialog__header">
         <strong>{t("title")}</strong>
+        <button
+          type="button"
+          className="work-dialog__close"
+          aria-label="Close dialog"
+          onClick={onClose}
+        >
+          <X size={18} strokeWidth={2.2} />
+        </button>
       </div>
 
       <form className="contact-dialog__form" onSubmit={onSubmit} noValidate>
@@ -82,59 +90,14 @@ export const ContactDialog = ({
           {errors.message ? <small>{errors.message}</small> : null}
         </label>
 
-        {message ? (
-          <p
-            className={`contact-dialog__status${
-              status === "success" ? " contact-dialog__status--success" : ""
-            }`}
-          >
-            {message}
-          </p>
-        ) : null}
-
         <button
           type="submit"
-          className="contact-dialog__submit"
+          className="contact-dialog__consult contact-dialog__submit"
           disabled={status === "submitting"}
         >
           {status === "submitting" ? t("submitSubmitting") : t("submitIdle")}
         </button>
       </form>
-
-      <div className="contact-dialog__socials" aria-label={t("socials.label")}>
-        <a
-          className="contact-dialog__social-link"
-          href="https://github.com/TurniXXD"
-          target="_blank"
-          rel="noreferrer"
-          aria-label={t("socials.github")}
-        >
-          <Github size={18} strokeWidth={2} />
-          <span>{t("socials.github")}</span>
-        </a>
-
-        <a
-          className="contact-dialog__social-link"
-          href="https://www.linkedin.com/in/jakub-vantuch-552514197/"
-          target="_blank"
-          rel="noreferrer"
-          aria-label={t("socials.linkedin")}
-        >
-          <Linkedin size={18} strokeWidth={2} />
-          <span>{t("socials.linkedin")}</span>
-        </a>
-
-        <a
-          className="contact-dialog__social-link"
-          href="https://t.me/turnix"
-          target="_blank"
-          rel="noreferrer"
-          aria-label={t("socials.telegram")}
-        >
-          <Send size={18} strokeWidth={2} />
-          <span>{t("socials.telegram")}</span>
-        </a>
-      </div>
     </div>
   );
 };

@@ -2,13 +2,18 @@ import { useMemo, useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 import { useTranslations } from "next-intl";
 import * as THREE from "three";
-import { CABLE_SIZE, circuitConnections, getSceneNodes } from "@/components/pipeline/config";
+import {
+  CABLE_SIZE,
+  circuitConnections,
+  getSceneNodes,
+} from "@/components/scene/config";
 
-function buildCircuitPath(
+const buildCircuitPath = (
   start: [number, number, number],
   end: [number, number, number],
   laneOffset: number,
-) {
+) => {
+  // Cables travel as orthogonal traces so the scene reads like a schematic board.
   const startX = start[0];
   const startZ = start[2];
   const endX = end[0];
@@ -24,7 +29,7 @@ function buildCircuitPath(
     new THREE.Vector3(endX, travelY, endZ - laneOffset * 0.24),
     new THREE.Vector3(endX, travelY, endZ),
   ];
-}
+};
 
 type CircuitTrace = {
   key: string;
@@ -36,8 +41,9 @@ type CircuitPacketProps = {
   index: number;
 };
 
-function getCircuitTraces(sceneNodes: ReturnType<typeof getSceneNodes>) {
-  return circuitConnections.flatMap(([fromId, toId], index) => {
+const getCircuitTraces = (sceneNodes: ReturnType<typeof getSceneNodes>) =>
+  // Resolve the configured node graph into concrete 3D points once per locale/config change.
+  circuitConnections.flatMap(([fromId, toId], index) => {
     const from = sceneNodes.find((node) => node.id === fromId);
     const to = sceneNodes.find((node) => node.id === toId);
 
@@ -56,15 +62,12 @@ function getCircuitTraces(sceneNodes: ReturnType<typeof getSceneNodes>) {
       },
     ];
   });
-}
 
-function CircuitPacket({
-  trace,
-  index,
-}: CircuitPacketProps) {
+const CircuitPacket = ({ trace, index }: CircuitPacketProps) => {
   const packetRef = useRef<THREE.Group>(null);
   const directionRef = useRef(new THREE.Vector3(1, 0, 0));
   const rotationRef = useRef(new THREE.Euler());
+  // The visible packet and its trail share a constant authored length.
   const trailLength = CABLE_SIZE * 2.6;
 
   useFrame(({ clock }) => {
@@ -83,6 +86,7 @@ function CircuitPacket({
     const start = points[segmentIndex];
     const end = points[segmentIndex + 1];
 
+    // Move the packet along the current segment and stretch the trail behind it.
     packet.position.lerpVectors(start, end, localT);
 
     const direction = directionRef.current.subVectors(end, start).normalize();
@@ -117,7 +121,9 @@ function CircuitPacket({
       </mesh>
 
       <mesh>
-        <boxGeometry args={[CABLE_SIZE * 0.92, CABLE_SIZE * 0.92, trailLength]} />
+        <boxGeometry
+          args={[CABLE_SIZE * 0.92, CABLE_SIZE * 0.92, trailLength]}
+        />
         <meshStandardMaterial
           color="#8b5fff"
           emissive="#8b5fff"
@@ -131,9 +137,9 @@ function CircuitPacket({
       </mesh>
     </group>
   );
-}
+};
 
-export function CircuitLines() {
+export const CircuitLines = () => {
   const tScene = useTranslations("Scene");
   const sceneNodes = useMemo(() => getSceneNodes(tScene), [tScene]);
   const traces = useMemo(() => getCircuitTraces(sceneNodes), [sceneNodes]);
@@ -142,10 +148,14 @@ export function CircuitLines() {
     <>
       {traces.map((trace, traceIndex) => (
         <group key={trace.key}>
+          {/* Straight cable segments are boxes stretched along the dominant axis. */}
           {trace.points.slice(0, -1).map((start, segmentIndex) => {
             const end = trace.points[segmentIndex + 1];
-            const center = new THREE.Vector3().addVectors(start, end).multiplyScalar(0.5);
-            const isXAxis = Math.abs(end.x - start.x) > Math.abs(end.z - start.z);
+            const center = new THREE.Vector3()
+              .addVectors(start, end)
+              .multiplyScalar(0.5);
+            const isXAxis =
+              Math.abs(end.x - start.x) > Math.abs(end.z - start.z);
             const length = isXAxis
               ? Math.abs(end.x - start.x)
               : Math.abs(end.z - start.z);
@@ -154,7 +164,11 @@ export function CircuitLines() {
               <mesh
                 key={`${trace.key}-${segmentIndex}`}
                 position={center}
-                scale={isXAxis ? [length, CABLE_SIZE, CABLE_SIZE] : [CABLE_SIZE, CABLE_SIZE, length]}
+                scale={
+                  isXAxis
+                    ? [length, CABLE_SIZE, CABLE_SIZE]
+                    : [CABLE_SIZE, CABLE_SIZE, length]
+                }
               >
                 <boxGeometry args={[1, 1, 1]} />
                 <meshStandardMaterial
@@ -168,6 +182,7 @@ export function CircuitLines() {
             );
           })}
 
+          {/* Joints reinforce the intentional right-angle routing at each bend. */}
           {trace.points.slice(1, -1).map((point, pointIndex) => (
             <mesh key={`${trace.key}-joint-${pointIndex}`} position={point}>
               <boxGeometry args={[CABLE_SIZE, CABLE_SIZE, CABLE_SIZE]} />
@@ -181,10 +196,11 @@ export function CircuitLines() {
             </mesh>
           ))}
 
+          {/* Two packets per trace keep the board from feeling static. */}
           <CircuitPacket trace={trace} index={traceIndex} />
           <CircuitPacket trace={trace} index={traceIndex + traces.length} />
         </group>
       ))}
     </>
   );
-}
+};

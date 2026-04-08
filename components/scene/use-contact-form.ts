@@ -1,5 +1,6 @@
 import { useState, type FormEvent } from "react";
 import { useTranslations } from "next-intl";
+import { toast } from "sonner";
 
 type ContactStatus = "idle" | "submitting" | "success" | "error";
 
@@ -13,7 +14,6 @@ export const useContactForm = () => {
   const t = useTranslations("ContactDialog");
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [status, setStatus] = useState<ContactStatus>("idle");
-  const [message, setMessage] = useState("");
 
   const mapErrorCodeToMessage = (code: string) => {
     if (code === "invalidEmail") {
@@ -31,7 +31,6 @@ export const useContactForm = () => {
     event.preventDefault();
     setErrors({});
     setStatus("submitting");
-    setMessage("");
 
     const form = event.currentTarget;
     const formData = new FormData(form);
@@ -64,12 +63,10 @@ export const useContactForm = () => {
         );
 
         setStatus("error");
-        setMessage(
+        toast.error(
           result.message === "missingApiKey"
             ? t("status.missingApiKey")
-            : result.message === "invalidBody"
-              ? t("status.sendFailed")
-              : t("status.sendFailed"),
+            : t("status.sendFailed"),
         );
 
         return;
@@ -77,17 +74,16 @@ export const useContactForm = () => {
 
       form.reset();
       setStatus("success");
-      setMessage(t("status.success"));
+      toast.success(t("status.success"));
     } catch {
       setStatus("error");
-      setMessage(t("status.sendFailed"));
+      toast.error(t("status.sendFailed"));
     }
   };
 
   return {
     errors,
     status,
-    message,
     handleSubmit,
   };
 };

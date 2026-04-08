@@ -10,7 +10,7 @@ import {
 } from "@/lib/terminal";
 import { useFocus } from "@/components/focus-context";
 import { getRouteItems } from "@/lib/site-data";
-import type { SectionChangeHandler } from "@/components/pipeline/types";
+import type { SectionChangeHandler } from "@/components/scene/types";
 
 type HistoryLine = {
   id: number;
@@ -20,18 +20,21 @@ type HistoryLine = {
 
 type CommandTerminalProps = {
   isOpen?: boolean;
-  onFocusCommand?: SectionChangeHandler;
+  onFocusCommandAction?: SectionChangeHandler;
 };
 
-export function CommandTerminal({
+export const CommandTerminal = ({
   isOpen = false,
-  onFocusCommand,
-}: CommandTerminalProps) {
+  onFocusCommandAction,
+}: CommandTerminalProps) => {
   const tNavigation = useTranslations("Navigation");
   const tTerminal = useTranslations("Terminal");
   const { setActiveSection } = useFocus();
   const routeItems = useMemo(() => getRouteItems(tNavigation), [tNavigation]);
-  const initialHistory = useMemo(() => getInitialTerminalHistory(tTerminal), [tTerminal]);
+  const initialHistory = useMemo(
+    () => getInitialTerminalHistory(tTerminal),
+    [tTerminal],
+  );
   const [input, setInput] = useState("");
   const [history, setHistory] = useState<HistoryLine[]>(initialHistory);
   const historyRef = useRef<HTMLDivElement>(null);
@@ -79,15 +82,15 @@ export function CommandTerminal({
     });
   }, [isOpen]);
 
-  function applyAutocomplete() {
+  const applyAutocomplete = () => {
     if (!inlineSuggestion) {
       return;
     }
 
     setInput(inlineSuggestion);
-  }
+  };
 
-  function submit(commandValue: string) {
+  const submit = (commandValue: string) => {
     const result = executeTerminalCommand(commandValue, routeItems, tTerminal);
 
     if (result.type === "clear") {
@@ -107,16 +110,21 @@ export function CommandTerminal({
 
     if (result.type === "focus") {
       setActiveSection(result.target);
-      onFocusCommand?.(result.target);
+      onFocusCommandAction?.(result.target);
     }
 
     setInput("");
-  }
+  };
 
   return (
     <section className="terminal-panel" aria-label={tTerminal("label")}>
       <div className="terminal-panel__body">
-        <div className="terminal-history" role="log" aria-live="polite" ref={historyRef}>
+        <div
+          className="terminal-history"
+          role="log"
+          aria-live="polite"
+          ref={historyRef}
+        >
           {history.map((entry) => (
             <div key={entry.id} className="terminal-line-group">
               <div className="terminal-line terminal-line--command">
@@ -189,4 +197,4 @@ export function CommandTerminal({
       </div>
     </section>
   );
-}
+};

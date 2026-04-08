@@ -1,0 +1,85 @@
+.work-dialog__badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-top: auto;
+  position: relative;
+  z-index: 2;
+}
+
+.work-dialog__badges > span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.2rem 0.46rem;
+  border-radius: 999px;
+  background: rgba(123, 92, 255, 0.1);
+  color: #6f55d8;
+  font-size: 0.66rem;
+  font-weight: 600;
+  line-height: 1.1;
+  white-space: nowrap;
+}
+
+.work-dialog__badge {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.2rem 0.7rem;
+  border-radius: 999px;
+  background: rgba(123, 92, 255, 0.1);
+  color: #6f55d8;
+  font-size: 0.74rem;
+  font-weight: 600;
+  line-height: 1.1;
+  transition:
+    transform 180ms ease,
+    background-color 180ms ease,
+    color 180ms ease;
+}
+
+.work-dialog__badge:hover,
+.work-dialog__badge:focus-visible {
+  transform: translateY(-1px);
+  background: rgba(111, 85, 216, 0.18);
+  color: #5435c6;
+}
+
+.work-dialog__badge-popup {
+  position: absolute;
+  left: calc(100% + 0.45rem);
+  top: 50%;
+  transform: translateY(-50%) translateX(-0.2rem);
+  padding: 0.48rem 0.68rem;
+  border-radius: 0.8rem;
+  background: rgba(10, 10, 14, 0.98);
+  color: rgba(255, 255, 255, 0.96);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+  box-shadow: 0 16px 28px rgba(23, 19, 43, 0.18);
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    opacity 180ms ease,
+    transform 180ms ease;
+}
+
+.work-dialog__badge-popup::after {
+  content: "";
+  position: absolute;
+  right: calc(100% - 0.08rem);
+  top: 50%;
+  width: 0.6rem;
+  height: 0.6rem;
+  background: rgba(10, 10, 14, 0.98);
+  transform: translateY(-50%) rotate(45deg);
+}
+
+.work-dialog__badge:hover .work-dialog__badge-popup,
+.work-dialog__badge:focus-visible .work-dialog__badge-popup {
+  opacity: 1;
+  transform: translateY(-50%) translateX(0);
+}

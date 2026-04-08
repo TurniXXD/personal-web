@@ -1,0 +1,76 @@
+.bottom-nav {
+  position: fixed;
+  left: 50%;
+  bottom: 1rem;
+  z-index: 24;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 0.65rem 0.85rem;
+  border-radius: 999px;
+  border: 1px solid rgba(126, 126, 142, 0.26);
+  background: rgba(255, 255, 255, 0.62);
+  backdrop-filter: blur(18px);
+  box-shadow: 0 16px 38px rgba(30, 25, 48, 0.1);
+}
+
+.bottom-nav__button {
+  min-width: 5.2rem;
+  display: grid;
+  justify-items: center;
+  gap: 0.34rem;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  background: transparent;
+  color: rgba(74, 82, 118, 0.86);
+  padding: 0.5rem 0.75rem;
+  cursor: pointer;
+  transition:
+    background-color 180ms ease,
+    color 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.bottom-nav__icon {
+  width: 2.85rem;
+  height: 2.85rem;
+  display: inline-grid;
+  place-items: center;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  background: rgba(111, 124, 255, 0.08);
+  transition:
+    border-color 180ms ease,
+    background-color 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.bottom-nav__label {
+  font-size: 0.72rem;
+  line-height: 1;
+  font-weight: 600;
+}
+
+.bottom-nav__button--active {
+  color: #5f6cff;
+}
+
+.bottom-nav__button--active .bottom-nav__icon {
+  background: rgba(111, 124, 255, 0.14);
+  box-shadow: inset 0 0 0 1px rgba(111, 124, 255, 0.18);
+}
+
+.bottom-nav__button:hover,
+.bottom-nav__button:focus-visible {
+  color: #737dff;
+}
+
+.bottom-nav__button:hover .bottom-nav__icon,
+.bottom-nav__button:focus-visible .bottom-nav__icon {
+  border-color: rgba(111, 124, 255, 0.28);
+  background: rgba(111, 124, 255, 0.12);
+  box-shadow: inset 0 0 0 1px rgba(111, 124, 255, 0.1);
+}
+

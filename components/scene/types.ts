@@ -24,14 +24,10 @@ export type SceneSelectionState = {
   hoveredSection: SectionId | null;
 };
 
-export type DialogVisibilityState = {
-  openDialogSection: SectionId | null;
-};
-
 export type SceneDialogRefs = {
   aboutDialogRef: DialogRef;
   workDialogRef: DialogRef;
-  skillsDialogRef: DialogRef;
+  capabilitiesDialogRef: DialogRef;
   contactDialogRef: DialogRef;
 };
 

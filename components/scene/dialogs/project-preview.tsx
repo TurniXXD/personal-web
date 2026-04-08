@@ -1,6 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
 
+import classNames from "classnames";
 import { useTranslations } from "next-intl";
+import { getDisplayHostname } from "@/lib/url";
 
 type ProjectPreviewProps = {
   name: string;
@@ -8,9 +10,9 @@ type ProjectPreviewProps = {
   imgUrl: string;
 };
 
-export function ProjectPreview({ name, url, imgUrl }: ProjectPreviewProps) {
+export const ProjectPreview = ({ name, url, imgUrl }: ProjectPreviewProps) => {
   const t = useTranslations("WorkDialog");
-  const hostname = url.replace(/^https?:\/\//, "").replace(/\/$/, "");
+  const hostname = getDisplayHostname(url);
   const accent = hostname.length % 3;
   const accentClass =
     accent === 0
@@ -19,12 +21,13 @@ export function ProjectPreview({ name, url, imgUrl }: ProjectPreviewProps) {
         ? "work-dialog__preview--cyan"
         : "work-dialog__preview--blue";
 
-
-
-        
   return (
     <div
-      className={`work-dialog__preview ${accentClass}${imgUrl ? " work-dialog__preview--image" : ""}`}
+      className={classNames(
+        "work-dialog__preview",
+        accentClass,
+        imgUrl && "work-dialog__preview--image",
+      )}
     >
       {imgUrl ? (
         <img
@@ -57,4 +60,4 @@ export function ProjectPreview({ name, url, imgUrl }: ProjectPreviewProps) {
       )}
     </div>
   );
-}
+};

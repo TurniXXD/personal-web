@@ -1,9 +1,25 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { SearchSlash, TerminalSquare, X } from "lucide-react";
-import { useTranslations } from "next-intl";
-import { getRouteItems, type SectionId } from "@/lib/site-data";
+import classNames from "classnames";
+import { useCallback, useEffect, useState } from "react";
+import {
+  CalendarDays,
+  Github,
+  Linkedin,
+  Menu,
+  SearchSlash,
+  Send,
+  TerminalSquare,
+  X,
+} from "lucide-react";
+import { useSearchParams } from "next/navigation";
+import { useLocale, useTranslations } from "next-intl";
+import { Link, useRouter, usePathname } from "@/navigation";
+import {
+  getRouteItems,
+  getSectionFromNavigationParam,
+  type SectionId,
+} from "@/lib/site-data";
 import { AppShellSceneContext } from "@/components/app-shell-scene-context";
 import { FocusProvider, useFocus } from "@/components/focus-context";
 import { PipelineVisual } from "@/components/pipeline-visual";
@@ -11,25 +27,31 @@ import { CommandTerminal } from "@/components/command-terminal";
 import type {
   ChildrenProps,
   TerminalDialogRequest,
-} from "@/components/pipeline/types";
+} from "@/components/scene/types";
 import { subtitleWelcomeMessages } from "@/lib/constants";
 
 const MAX_ZOOM = 2.15;
 const MIN_ZOOM = 0.75;
 const FOCUS_ZOOM = 1.15;
 const WELCOME_MESSAGE_COUNT = subtitleWelcomeMessages.length;
+const WELCOME_CYCLE_MS = 5200;
+const WELCOME_FADE_MS = 260;
+const WELCOME_VISIBLE_MS = WELCOME_CYCLE_MS - WELCOME_FADE_MS * 2;
+const calendlyUrl = process.env.NEXT_PUBLIC_CALENDLY_URL?.trim() || null;
 
-export function AppShell({ children }: ChildrenProps) {
+export const AppShell = ({ children }: ChildrenProps) => {
   return (
     <FocusProvider>
       <ShellContent>{children}</ShellContent>
     </FocusProvider>
   );
-}
+};
 
-function ShellContent({ children }: ChildrenProps) {
+const ShellContent = ({ children }: ChildrenProps) => {
   const tShell = useTranslations("AppShell");
   const tNavigation = useTranslations("Navigation");
+  const tContact = useTranslations("ContactDialog");
+  const locale = useLocale();
   const { activeSection, setActiveSection } = useFocus();
   const routeItems = getRouteItems(tNavigation);
   const [isHydrated, setIsHydrated] = useState(false);
@@ -38,21 +60,33 @@ function ShellContent({ children }: ChildrenProps) {
   const [viewResetToken, setViewResetToken] = useState(0);
   const [terminalDialogRequest, setTerminalDialogRequest] =
     useState<TerminalDialogRequest | null>(null);
-  const [dialogOpen, setDialogOpen] = useState(false);
-  const [isCompactViewport, setIsCompactViewport] = useState(false);
+  const [openDialogSection, setOpenDialogSection] = useState<SectionId | null>(
+    null,
+  );
   const [welcomeIndex, setWelcomeIndex] = useState(0);
+  const [isWelcomeVisible, setIsWelcomeVisible] = useState(true);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const currentLocale = locale === "cs" ? "cs" : "en";
+  const nextLocale = currentLocale === "en" ? "cs" : "en";
+  const currentHref = searchParams.toString()
+    ? `${pathname || "/"}?${searchParams.toString()}`
+    : pathname || "/";
 
   useEffect(() => {
     setIsHydrated(true);
   }, []);
 
   useEffect(() => {
-    function onKeyDown(event: KeyboardEvent) {
+    const onKeyDown = (event: KeyboardEvent) => {
       if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "k") {
         event.preventDefault();
         setTerminalOpen(true);
       }
-    }
+    };
 
     window.addEventListener("keydown", onKeyDown);
 
@@ -60,29 +94,86 @@ function ShellContent({ children }: ChildrenProps) {
   }, []);
 
   useEffect(() => {
-    function syncViewportState() {
-      setIsCompactViewport(window.innerWidth <= 768);
+    if (terminalOpen) {
+      setMobileMenuOpen(false);
     }
-
-    syncViewportState();
-    window.addEventListener("resize", syncViewportState);
-
-    return () => window.removeEventListener("resize", syncViewportState);
-  }, []);
+  }, [terminalOpen]);
 
   useEffect(() => {
-    const intervalId = window.setInterval(() => {
-      setWelcomeIndex((current) => (current + 1) % WELCOME_MESSAGE_COUNT);
-    }, 5200);
+    const timeoutIds: number[] = [];
 
-    return () => window.clearInterval(intervalId);
+    const scheduleNextCycle = () => {
+      const fadeOutTimeout = window.setTimeout(() => {
+        setIsWelcomeVisible(false);
+      }, WELCOME_VISIBLE_MS);
+
+      const swapTimeout = window.setTimeout(() => {
+        setWelcomeIndex((current) => (current + 1) % WELCOME_MESSAGE_COUNT);
+        setIsWelcomeVisible(true);
+        scheduleNextCycle();
+      }, WELCOME_VISIBLE_MS + WELCOME_FADE_MS);
+
+      timeoutIds.push(fadeOutTimeout, swapTimeout);
+    };
+
+    scheduleNextCycle();
+
+    return () => {
+      timeoutIds.forEach((timeoutId) => window.clearTimeout(timeoutId));
+    };
   }, []);
 
-  function handleSelectSection(section: SectionId) {
+  const handleSelectSection = (section: SectionId) => {
+    setMobileMenuOpen(false);
     setActiveSection(section);
     setZoom(FOCUS_ZOOM);
     setTerminalDialogRequest({ section, token: Date.now() });
-  }
+  };
+
+  useEffect(() => {
+    const querySection = getSectionFromNavigationParam(
+      searchParams.get("navigation"),
+    );
+
+    if (!querySection) {
+      return;
+    }
+
+    setActiveSection(querySection);
+    setZoom(FOCUS_ZOOM);
+    setTerminalDialogRequest({ section: querySection, token: Date.now() });
+
+    const nextSearchParams = new URLSearchParams(searchParams.toString());
+    nextSearchParams.delete("navigation");
+
+    const nextUrl = nextSearchParams.toString()
+      ? `${pathname}?${nextSearchParams.toString()}`
+      : pathname;
+
+    router.replace(nextUrl, { scroll: false });
+  }, [pathname, router, searchParams, setActiveSection]);
+
+  const handleDialogSectionChange = useCallback(
+    (section: SectionId | null) => {
+      setOpenDialogSection((current) =>
+        current === section ? current : section,
+      );
+    },
+    [],
+  );
+
+  const dialogOpen = openDialogSection !== null;
+  const handleOverview = () => {
+    setActiveSection(null);
+    setZoom(MAX_ZOOM);
+    setViewResetToken((current) => current + 1);
+    setMobileMenuOpen(false);
+  };
+
+  const handleTerminalToggle = () => {
+    setTerminalOpen((current) => !current);
+    setMobileMenuOpen(false);
+  };
 
   return (
     <div
@@ -91,11 +182,19 @@ function ShellContent({ children }: ChildrenProps) {
       data-hydrated={isHydrated ? "true" : "false"}
     >
       <div
-        className={`top-signature${dialogOpen ? " top-signature--hidden" : ""}`}
+        className={classNames(
+          "top-signature",
+          dialogOpen && "top-signature--hidden",
+        )}
         aria-hidden="true"
       >
         <h2>{tShell("name")}</h2>
-        <p key={welcomeIndex} className="welcome-line">
+        <p
+          className={classNames(
+            "welcome-line",
+            isWelcomeVisible && "welcome-line--visible",
+          )}
+        >
           {subtitleWelcomeMessages[welcomeIndex]}
         </p>
       </div>
@@ -108,7 +207,7 @@ function ShellContent({ children }: ChildrenProps) {
           onZoomChange: setZoom,
           minZoom: MIN_ZOOM,
           maxZoom: MAX_ZOOM,
-          onDialogOpenChange: setDialogOpen,
+          onDialogSectionChange: handleDialogSectionChange,
           viewResetToken,
           terminalDialogRequest,
         }}
@@ -126,7 +225,10 @@ function ShellContent({ children }: ChildrenProps) {
               key={item.id}
               type="button"
               data-testid={`nav-${item.id}`}
-              className={`bottom-nav__button${isActive ? " bottom-nav__button--active" : ""}`}
+              className={classNames(
+                "bottom-nav__button",
+                isActive && "bottom-nav__button--active",
+              )}
               aria-label={item.title}
               onClick={() => handleSelectSection(item.id)}
             >
@@ -141,43 +243,247 @@ function ShellContent({ children }: ChildrenProps) {
 
       <main className="content-frame">{children}</main>
 
-      {(!dialogOpen || !isCompactViewport) && !terminalOpen ? (
-        <div className="floating-actions">
-          <button
-            type="button"
-            data-testid="overview-button"
-            className="terminal-toggle terminal-toggle--secondary"
-            aria-label={tShell("overviewAria")}
-            onClick={() => {
-              setActiveSection(null);
-              setZoom(MAX_ZOOM);
-              setViewResetToken((current) => current + 1);
-            }}
-          >
-            <SearchSlash size={18} />
-          </button>
+      {!terminalOpen ? (
+        <>
+          {isHydrated && !dialogOpen ? (
+            <>
+              {calendlyUrl ? (
+                <div className="mobile-cta">
+                  <a
+                    className="contact-dialog__consult"
+                    href={calendlyUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <CalendarDays size={18} strokeWidth={2} />
+                    <span>{tContact("consultCta")}</span>
+                  </a>
+                </div>
+              ) : null}
 
-          <button
-            type="button"
-            data-testid="terminal-toggle"
-            className="terminal-toggle"
-            aria-label={
-              terminalOpen
-                ? tShell("terminalCloseAria")
-                : tShell("terminalOpenAria")
-            }
-            aria-expanded={terminalOpen}
-            onClick={() => setTerminalOpen((current) => !current)}
+              <button
+                type="button"
+                className="mobile-menu-toggle terminal-toggle"
+                aria-label={
+                  mobileMenuOpen
+                    ? tShell("menuCloseAria")
+                    : tShell("menuOpenAria")
+                }
+                aria-expanded={mobileMenuOpen}
+                onClick={() => setMobileMenuOpen((current) => !current)}
+              >
+                {mobileMenuOpen ? <X size={18} /> : <Menu size={18} />}
+              </button>
+            </>
+          ) : null}
+
+          <div className="app-corner-actions app-corner-actions--left">
+            <button
+              type="button"
+              data-testid="overview-button"
+              className="terminal-toggle terminal-toggle--secondary"
+              aria-label={tShell("overviewAria")}
+              onClick={handleOverview}
+            >
+              <SearchSlash size={18} />
+            </button>
+
+            <div
+              className="locale-switcher"
+              aria-label={tShell("languageSelectAria")}
+            >
+              <Link
+                href={currentHref}
+                locale={nextLocale}
+                className="terminal-toggle terminal-toggle--secondary"
+                onClick={() => setMobileMenuOpen(false)}
+                aria-label={
+                  nextLocale === "en"
+                    ? tShell("switchToEnglishAria")
+                    : tShell("switchToCzechAria")
+                }
+              >
+                {nextLocale === "en" ? tShell("localeEn") : tShell("localeCs")}
+              </Link>
+            </div>
+
+            <button
+              type="button"
+              data-testid="terminal-toggle"
+              className="terminal-toggle"
+              aria-label={
+                terminalOpen
+                  ? tShell("terminalCloseAria")
+                  : tShell("terminalOpenAria")
+              }
+              aria-expanded={terminalOpen}
+              onClick={handleTerminalToggle}
+            >
+              {terminalOpen ? <X size={18} /> : <TerminalSquare size={18} />}
+            </button>
+          </div>
+
+          <div className="app-corner-actions app-corner-actions--right">
+            <div
+              className="contact-dialog__socials"
+              aria-label={tContact("socials.label")}
+            >
+              <a
+                className="contact-dialog__social-icon"
+                href="https://github.com/TurniXXD"
+                target="_blank"
+                rel="noreferrer"
+                onClick={() => setMobileMenuOpen(false)}
+                aria-label={tContact("socials.github")}
+                title={tContact("socials.github")}
+              >
+                <Github size={18} strokeWidth={2} />
+              </a>
+
+              <a
+                className="contact-dialog__social-icon"
+                href="https://www.linkedin.com/in/jakub-vantuch-552514197/"
+                target="_blank"
+                rel="noreferrer"
+                onClick={() => setMobileMenuOpen(false)}
+                aria-label={tContact("socials.linkedin")}
+                title={tContact("socials.linkedin")}
+              >
+                <Linkedin size={18} strokeWidth={2} />
+              </a>
+
+              <a
+                className="contact-dialog__social-icon"
+                href="https://t.me/turnix"
+                target="_blank"
+                rel="noreferrer"
+                onClick={() => setMobileMenuOpen(false)}
+                aria-label={tContact("socials.telegram")}
+                title={tContact("socials.telegram")}
+              >
+                <Send size={18} strokeWidth={2} />
+              </a>
+            </div>
+
+            {calendlyUrl ? (
+              <a
+                className="contact-dialog__consult"
+                href={calendlyUrl}
+                target="_blank"
+                rel="noreferrer"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                <CalendarDays size={18} strokeWidth={2} />
+                <span>{tContact("consultCta")}</span>
+              </a>
+            ) : null}
+          </div>
+
+          <div
+            className={classNames(
+              "mobile-menu",
+              mobileMenuOpen && "mobile-menu--open",
+            )}
           >
-            {terminalOpen ? <X size={18} /> : <TerminalSquare size={18} />}
-          </button>
-        </div>
+            <div className="mobile-menu__group mobile-menu__group--controls">
+              <button
+                type="button"
+                className="mobile-menu__action terminal-toggle terminal-toggle--secondary"
+                aria-label={tShell("overviewAria")}
+                onClick={handleOverview}
+              >
+                <SearchSlash size={18} />
+              </button>
+
+              <Link
+                href={currentHref}
+                locale={nextLocale}
+                className="mobile-menu__action terminal-toggle terminal-toggle--secondary"
+                aria-label={
+                  nextLocale === "en"
+                    ? tShell("switchToEnglishAria")
+                    : tShell("switchToCzechAria")
+                }
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                {nextLocale === "en" ? tShell("localeEn") : tShell("localeCs")}
+              </Link>
+
+              <button
+                type="button"
+                className="mobile-menu__action terminal-toggle"
+                aria-label={
+                  terminalOpen
+                    ? tShell("terminalCloseAria")
+                    : tShell("terminalOpenAria")
+                }
+                aria-expanded={terminalOpen}
+                onClick={handleTerminalToggle}
+              >
+                {terminalOpen ? <X size={18} /> : <TerminalSquare size={18} />}
+              </button>
+            </div>
+
+            <div
+              className="mobile-menu__group mobile-menu__group--socials contact-dialog__socials"
+              aria-label={tContact("socials.label")}
+            >
+              <a
+                className="mobile-menu__action contact-dialog__social-icon"
+                href="https://github.com/TurniXXD"
+                target="_blank"
+                rel="noreferrer"
+                onClick={() => setMobileMenuOpen(false)}
+                aria-label={tContact("socials.github")}
+                title={tContact("socials.github")}
+              >
+                <Github size={18} strokeWidth={2} />
+              </a>
+
+              <a
+                className="mobile-menu__action contact-dialog__social-icon"
+                href="https://www.linkedin.com/in/jakub-vantuch-552514197/"
+                target="_blank"
+                rel="noreferrer"
+                onClick={() => setMobileMenuOpen(false)}
+                aria-label={tContact("socials.linkedin")}
+                title={tContact("socials.linkedin")}
+              >
+                <Linkedin size={18} strokeWidth={2} />
+              </a>
+
+              <a
+                className="mobile-menu__action contact-dialog__social-icon"
+                href="https://t.me/turnix"
+                target="_blank"
+                rel="noreferrer"
+                onClick={() => setMobileMenuOpen(false)}
+                aria-label={tContact("socials.telegram")}
+                title={tContact("socials.telegram")}
+              >
+                <Send size={18} strokeWidth={2} />
+              </a>
+            </div>
+          </div>
+        </>
+      ) : null}
+
+      {terminalOpen ? (
+        <button
+          type="button"
+          className="terminal-backdrop"
+          aria-label={tShell("terminalCloseAria")}
+          onClick={() => setTerminalOpen(false)}
+        />
       ) : null}
 
       <div
         data-testid="terminal-dock"
         data-open={terminalOpen ? "true" : "false"}
-        className={`terminal-dock${terminalOpen ? " terminal-dock--open" : ""}`}
+        className={classNames(
+          "terminal-dock",
+          terminalOpen && "terminal-dock--open",
+        )}
       >
         {terminalOpen ? (
           <div className="terminal-dock-actions">
@@ -195,11 +501,11 @@ function ShellContent({ children }: ChildrenProps) {
         ) : null}
         <CommandTerminal
           isOpen={terminalOpen}
-          onFocusCommand={(section) =>
+          onFocusCommandAction={(section) =>
             setTerminalDialogRequest({ section, token: Date.now() })
           }
         />
       </div>
     </div>
   );
-}
+};
