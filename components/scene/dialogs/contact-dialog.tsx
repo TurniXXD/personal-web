@@ -1,4 +1,4 @@
-import { X } from "lucide-react";
+import { Mail, Phone, X } from "lucide-react";
 import { useTranslations } from "next-intl";
 import type { ContactDialogProps } from "@/components/scene/dialogs/types";
 
@@ -98,6 +98,26 @@ export const ContactDialog = ({
           {status === "submitting" ? t("submitSubmitting") : t("submitIdle")}
         </button>
       </form>
+
+      <div className="contact-dialog__direct">
+        <p className="contact-dialog__direct-title">{t("direct.title")}</p>
+        <div className="contact-dialog__direct-items">
+          <a
+            className="contact-dialog__direct-item"
+            href="mailto:contact@vantuch.dev"
+          >
+            <Mail size={16} strokeWidth={2} />
+            <span>{t("direct.emailLabel")}</span>
+          </a>
+          <a
+            className="contact-dialog__direct-item"
+            href="tel:+420735023812"
+          >
+            <Phone size={16} strokeWidth={2} />
+            <span>{t("direct.phoneLabel")}</span>
+          </a>
+        </div>
+      </div>
     </div>
   );
 };

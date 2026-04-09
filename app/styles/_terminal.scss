@@ -175,7 +175,7 @@
 
 .app-corner-actions .terminal-toggle {
   position: static;
-  box-shadow: none;
+  box-shadow: 0 8px 18px rgba(78, 88, 138, 0.08);
 }
 
 .mobile-cta,
@@ -227,7 +227,7 @@
   border: 0;
   padding: 0;
   background: transparent;
-  display: none;
+  display: block;
 }
 
 .terminal-dock--open {
@@ -306,10 +306,6 @@
 
   .terminal-dock--open {
     transform: translate(-50%, 0);
-  }
-
-  .terminal-backdrop {
-    display: block;
   }
 
   .bottom-nav {

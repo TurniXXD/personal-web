@@ -150,7 +150,7 @@
       },
       "email": {
         "label": "Email",
-        "placeholder": "vas@example.com"
+        "placeholder": "vas@email.com"
       },
       "phone": {
         "label": "Telefon",
@@ -164,6 +164,11 @@
     "submitIdle": "Odeslat poptávku",
     "submitSubmitting": "Odesílám...",
     "consultCta": "Rezervovat konzultaci",
+    "direct": {
+      "title": "nebo mě kontaktujte přímo",
+      "emailLabel": "contact@vantuch.dev",
+      "phoneLabel": "+ 420 735 023 812"
+    },
     "status": {
       "success": "Zpráva odeslána.",
       "sendFailed": "Nepodařilo se odeslat zprávu.",
@@ -180,26 +185,30 @@
     "placeholder": "open work",
     "initial": {
       "line1": "Terminál clusteru připraven.",
-      "line2": "Zadejte `cd about`, `cd work`, `cd capabilities`, nebo `cd contact`."
+      "line2": "Zadejte `help` pro zobrazení dostupných příkazů, nebo rovnou `cd about`, `cd work`, `cd capabilities` či `cd contact`."
     },
     "awaitingInput": "Čekám na vstup. Zadejte `help` nebo `list`.",
+    "closing": "Zavírám terminál.",
     "availableCommands": "Dostupné příkazy:",
     "unknownTarget": "Neznámý cíl: {target}",
     "useList": "Použijte `list` k prozkoumání clusterů.",
     "unknownTargetLs": "Použijte `ls` k prozkoumání dostupných souborů stránek.",
+    "unknownTargetCat": "Použijte `ls` pro zobrazení dostupných souborů.",
+    "catUsage": "Použití: `cat [soubor.md]`",
     "unknownCommand": "Neznámý příkaz: {command}",
     "typeHelp": "Zadejte `help` pro podporované příkazy.",
     "focusCluster": "Zaměřuji cluster {section}",
     "listLabel": "{title}: cluster {id}",
     "fileLabel": "- {id}.md",
     "help": {
-      "open": "open <stránka>",
-      "cd": "cd <stránka>",
+      "open": "open [stránka]",
+      "cd": "cd [stránka]",
       "ls": "ls",
-      "cat": "cat <file.md>",
+      "cat": "cat [soubor.md]",
       "list": "list",
       "help": "help",
-      "clear": "clear"
+      "clear": "clear",
+      "exit": "exit"
     },
     "pageMarkdown": {
       "about": {

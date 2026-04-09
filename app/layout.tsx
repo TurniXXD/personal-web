@@ -12,6 +12,9 @@ export const generateMetadata = async (): Promise<Metadata> => {
   return {
     title: t("title"),
     description: t("description"),
+    icons: {
+      icon: "/favicon.svg",
+    },
   };
 };
 

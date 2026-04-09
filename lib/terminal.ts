@@ -3,7 +3,8 @@ import type { RouteItem, SectionId } from "@/lib/site-data";
 export type TerminalResult =
   | { type: "focus"; target: SectionId; output: string[] }
   | { type: "output"; output: string[] }
-  | { type: "clear"; output: string[] };
+  | { type: "clear"; output: string[] }
+  | { type: "close"; output: string[] };
 
 type Translator = (key: string, values?: Record<string, string | number>) => string;
 
@@ -20,6 +21,7 @@ const getTerminalHelp = (t: Translator) => [
   t("help.list"),
   t("help.help"),
   t("help.clear"),
+  t("help.exit"),
 ];
 
 const getPageMarkdown = (t: Translator): Record<SectionId, string[]> => ({
@@ -180,6 +182,10 @@ export const executeTerminalCommand = (
 
   if (input === "clear") {
     return { type: "clear", output: [] };
+  }
+
+  if (input === "exit") {
+    return { type: "close", output: [t("closing")] };
   }
 
   const [command, ...args] = input.split(/\s+/);

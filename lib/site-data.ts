@@ -164,7 +164,7 @@ export const getCapabilityCards = (t: Translator): CapabilityCard[] => [
       t("cards.infrastructure.items.docker"),
       t("cards.infrastructure.items.linux"),
       t("cards.infrastructure.items.cicd"),
-      t("cards.infrastructure.items.networking")
+      t("cards.infrastructure.items.networking"),
     ],
     accent: "violet",
   },

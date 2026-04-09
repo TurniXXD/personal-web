@@ -21,11 +21,13 @@ type HistoryLine = {
 type CommandTerminalProps = {
   isOpen?: boolean;
   onFocusCommandAction?: SectionChangeHandler;
+  onCloseCommandAction?: () => void;
 };
 
 export const CommandTerminal = ({
   isOpen = false,
   onFocusCommandAction,
+  onCloseCommandAction,
 }: CommandTerminalProps) => {
   const tNavigation = useTranslations("Navigation");
   const tTerminal = useTranslations("Terminal");
@@ -111,6 +113,10 @@ export const CommandTerminal = ({
     if (result.type === "focus") {
       setActiveSection(result.target);
       onFocusCommandAction?.(result.target);
+    }
+
+    if (result.type === "close") {
+      onCloseCommandAction?.();
     }
 
     setInput("");

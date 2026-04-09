@@ -136,7 +136,7 @@
     }
   },
   "ContactDialog": {
-    "title": "Launch your project",
+    "title": "Let's talk about your project",
     "socials": {
       "label": "Social links",
       "github": "GitHub",
@@ -164,6 +164,11 @@
     "submitIdle": "Get in touch",
     "submitSubmitting": "Sending...",
     "consultCta": "Book a consultation",
+    "direct": {
+      "title": "or contact me directly",
+      "emailLabel": "contact@vantuch.dev",
+      "phoneLabel": "+ 420 735 023 812"
+    },
     "status": {
       "success": "Message sent.",
       "sendFailed": "Failed to send message.",
@@ -180,28 +185,30 @@
     "placeholder": "open work",
     "initial": {
       "line1": "Cluster terminal ready.",
-      "line2": "Type `cd about`, `cd work`, `cd capabilities`, or `cd contact`."
+      "line2": "Type `help` to view available commands, or jump straight to `cd about`, `cd work`, `cd capabilities`, or `cd contact`."
     },
     "awaitingInput": "Awaiting input. Type `help` or `list`.",
+    "closing": "Closing terminal.",
     "availableCommands": "Available commands:",
     "unknownTarget": "Unknown target: {target}",
     "useList": "Use `list` to inspect clusters.",
     "unknownTargetLs": "Use `ls` to inspect available page files.",
     "unknownTargetCat": "Use `ls` to see available files.",
-    "catUsage": "Usage: `cat <file.md>`",
+    "catUsage": "Usage: `cat [file.md]`",
     "unknownCommand": "Unknown command: {command}",
     "typeHelp": "Type `help` for supported commands.",
     "focusCluster": "Focusing {section} cluster",
     "listLabel": "{title}: cluster {id}",
     "fileLabel": "- {id}.md",
     "help": {
-      "open": "open <page>",
-      "cd": "cd <page>",
+      "open": "open [page]",
+      "cd": "cd [page]",
       "ls": "ls",
-      "cat": "cat <file.md>",
+      "cat": "cat [file.md]",
       "list": "list",
       "help": "help",
-      "clear": "clear"
+      "clear": "clear",
+      "exit": "exit"
     },
     "pageMarkdown": {
       "about": {

@@ -28,16 +28,12 @@ import type {
   ChildrenProps,
   TerminalDialogRequest,
 } from "@/components/scene/types";
-import { subtitleWelcomeMessages } from "@/lib/constants";
 
 const MAX_ZOOM = 2.15;
 const MIN_ZOOM = 0.75;
 const FOCUS_ZOOM = 1.15;
-const WELCOME_MESSAGE_COUNT = subtitleWelcomeMessages.length;
-const WELCOME_CYCLE_MS = 5200;
-const WELCOME_FADE_MS = 260;
-const WELCOME_VISIBLE_MS = WELCOME_CYCLE_MS - WELCOME_FADE_MS * 2;
 const calendlyUrl = process.env.NEXT_PUBLIC_CALENDLY_URL?.trim() || null;
+const subtitle = "I turn ideas into working products — from design and development to deployment.";
 
 export const AppShell = ({ children }: ChildrenProps) => {
   return (
@@ -63,8 +59,8 @@ const ShellContent = ({ children }: ChildrenProps) => {
   const [openDialogSection, setOpenDialogSection] = useState<SectionId | null>(
     null,
   );
-  const [welcomeIndex, setWelcomeIndex] = useState(0);
-  const [isWelcomeVisible, setIsWelcomeVisible] = useState(true);
+  const [pendingNavigationSection, setPendingNavigationSection] =
+    useState<SectionId | null>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const router = useRouter();
@@ -99,30 +95,6 @@ const ShellContent = ({ children }: ChildrenProps) => {
     }
   }, [terminalOpen]);
 
-  useEffect(() => {
-    const timeoutIds: number[] = [];
-
-    const scheduleNextCycle = () => {
-      const fadeOutTimeout = window.setTimeout(() => {
-        setIsWelcomeVisible(false);
-      }, WELCOME_VISIBLE_MS);
-
-      const swapTimeout = window.setTimeout(() => {
-        setWelcomeIndex((current) => (current + 1) % WELCOME_MESSAGE_COUNT);
-        setIsWelcomeVisible(true);
-        scheduleNextCycle();
-      }, WELCOME_VISIBLE_MS + WELCOME_FADE_MS);
-
-      timeoutIds.push(fadeOutTimeout, swapTimeout);
-    };
-
-    scheduleNextCycle();
-
-    return () => {
-      timeoutIds.forEach((timeoutId) => window.clearTimeout(timeoutId));
-    };
-  }, []);
-
   const handleSelectSection = (section: SectionId) => {
     setMobileMenuOpen(false);
     setActiveSection(section);
@@ -136,12 +108,24 @@ const ShellContent = ({ children }: ChildrenProps) => {
     );
 
     if (!querySection) {
+      setPendingNavigationSection(null);
       return;
     }
 
+    setPendingNavigationSection(querySection);
     setActiveSection(querySection);
     setZoom(FOCUS_ZOOM);
     setTerminalDialogRequest({ section: querySection, token: Date.now() });
+  }, [searchParams, setActiveSection]);
+
+  useEffect(() => {
+    if (!pendingNavigationSection) {
+      return;
+    }
+
+    if (openDialogSection !== pendingNavigationSection) {
+      return;
+    }
 
     const nextSearchParams = new URLSearchParams(searchParams.toString());
     nextSearchParams.delete("navigation");
@@ -151,7 +135,14 @@ const ShellContent = ({ children }: ChildrenProps) => {
       : pathname;
 
     router.replace(nextUrl, { scroll: false });
-  }, [pathname, router, searchParams, setActiveSection]);
+    setPendingNavigationSection(null);
+  }, [
+    openDialogSection,
+    pathname,
+    pendingNavigationSection,
+    router,
+    searchParams,
+  ]);
 
   const handleDialogSectionChange = useCallback(
     (section: SectionId | null) => {
@@ -189,13 +180,8 @@ const ShellContent = ({ children }: ChildrenProps) => {
         aria-hidden="true"
       >
         <h2>{tShell("name")}</h2>
-        <p
-          className={classNames(
-            "welcome-line",
-            isWelcomeVisible && "welcome-line--visible",
-          )}
-        >
-          {subtitleWelcomeMessages[welcomeIndex]}
+        <p className={classNames("welcome-line", "welcome-line--visible")}>
+          {subtitle}
         </p>
       </div>
 
@@ -504,6 +490,7 @@ const ShellContent = ({ children }: ChildrenProps) => {
           onFocusCommandAction={(section) =>
             setTerminalDialogRequest({ section, token: Date.now() })
           }
+          onCloseCommandAction={() => setTerminalOpen(false)}
         />
       </div>
     </div>

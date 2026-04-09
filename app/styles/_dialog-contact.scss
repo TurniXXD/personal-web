@@ -31,6 +31,7 @@
   background: rgba(255, 255, 255, 0.92);
   color: rgba(74, 82, 118, 0.9);
   padding: 0;
+  box-shadow: 0 8px 18px rgba(78, 88, 138, 0.08);
   transition:
     border-color 180ms ease,
     box-shadow 180ms ease,
@@ -184,6 +185,7 @@
   width: 100%;
   min-height: 3.2rem;
   padding-inline: 1.2rem;
+  cursor: pointer;
 }
 
 .contact-dialog__submit:disabled {
@@ -195,6 +197,46 @@
 
 .contact-dialog__submit:disabled::after {
   transform: translateX(-140%);
+}
+
+.contact-dialog__direct {
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(120, 134, 207, 0.18);
+  display: grid;
+  gap: 0.65rem;
+}
+
+.contact-dialog__direct-title {
+  margin: 0;
+  color: rgba(90, 102, 150, 0.78);
+  font-size: 0.7rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  font-family: var(--mono);
+}
+
+.contact-dialog__direct-items {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.contact-dialog__direct-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  color: rgba(56, 65, 102, 0.9);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.contact-dialog__direct-item svg {
+  color: rgba(111, 124, 255, 0.78);
+}
+
+.contact-dialog__direct-item:hover,
+.contact-dialog__direct-item:focus-visible {
+  color: #5d6cff;
 }
 
 .contact-dialog__status {

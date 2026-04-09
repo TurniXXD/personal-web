@@ -42,9 +42,11 @@ const t = (key: string, values?: Record<string, string | number>) => {
     "help.list": "list",
     "help.help": "help",
     "help.clear": "clear",
+    "help.exit": "exit",
     "initial.line1": "Cluster terminal ready.",
     "initial.line2": "Type `cd about`, `cd work`, `cd capabilities`, or `cd contact`.",
     awaitingInput: "Awaiting input. Type `help` or `list`.",
+    closing: "Closing terminal.",
     availableCommands: "Available commands:",
     unknownTarget: `Unknown target: ${replacements.target ?? ""}`.trim(),
     useList: "Use `list` to inspect clusters.",
@@ -174,6 +176,13 @@ describe("executeTerminalCommand", () => {
     expect(executeTerminalCommand("clear", routeItems, t)).toEqual({
       type: "clear",
       output: [],
+    });
+  });
+
+  it("closes the terminal for exit", () => {
+    expect(executeTerminalCommand("exit", routeItems, t)).toEqual({
+      type: "close",
+      output: ["Closing terminal."],
     });
   });
 
