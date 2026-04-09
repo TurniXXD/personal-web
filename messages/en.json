@@ -1,7 +1,7 @@
 {
   "Metadata": {
     "title": "Jakub Vantuch | Full-Stack Developer",
-    "description": "Full-Stack developer with 5+ years experience building production web applications — from idea and UX to backend systems and deployment."
+    "description": "Full-Stack Developer with 5+ years experience building production web applications — from idea and UX to backend systems and deployment."
   },
   "AppShell": {
     "name": "Jakub Vantuch",
@@ -53,12 +53,12 @@
     "title": "About me",
     "cards": {
       "developer": {
-        "title": "Full-stack developer",
-        "summary": "I’m a full-stack developer with 5+ years of experience building and maintaining web applications."
+        "title": "Full-Stack Developer",
+        "summary": "I’m a Full-Stack Developer with more than 5 years of experience building and maintaining web applications. I focus on React / Next.js / TypeScript / Node.js / PostgreSQL."
       },
       "product": {
-        "title": "Product development",
-        "summary": "I take products from idea to production — designing user flows, building backend systems, and deploying reliable applications."
+        "title": "Approach to development",
+        "summary": "I don’t just implement features — I think in terms of the whole product and design solutions that work not only today, but also in the future."
       },
       "focus": {
         "title": "Current focus",
@@ -167,7 +167,6 @@
     "submitSubmitting": "Sending...",
     "consultCta": "Book a consultation",
     "direct": {
-      "title": "or contact me directly",
       "emailLabel": "contact@vantuch.dev",
       "phoneLabel": "+ 420 735 023 812"
     },
@@ -215,7 +214,7 @@
     "pageMarkdown": {
       "about": {
         "title": "# About",
-        "body": "Full-stack developer with 5+ years of experience building and maintaining production web applications.",
+        "body": "Full-Stack Developer with 5+ years of experience building and maintaining production web applications.",
         "focusTitle": "## Focus",
         "focus1": "- Product development",
         "focus2": "- End-to-end systems",

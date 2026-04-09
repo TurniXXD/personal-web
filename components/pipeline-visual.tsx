@@ -31,6 +31,8 @@ export const PipelineVisual = () => {
   const capabilitiesDialogRef = useRef<HTMLDivElement>(null);
   const contactDialogRef = useRef<HTMLDivElement>(null);
   const [sceneLoaded, setSceneLoaded] = useState(false);
+  const [sceneDpr, setSceneDpr] = useState<number | [number, number]>([1, 2]);
+  const [isLowPowerDevice, setIsLowPowerDevice] = useState(false);
   const {
     targetPan,
     isCompactScreen,
@@ -84,6 +86,32 @@ export const PipelineVisual = () => {
   useEffect(() => {
     onDialogSectionChange(openDialogSection);
   }, [onDialogSectionChange, openDialogSection]);
+
+  // Reduce DPR for initial page load on slower devices
+  useEffect(() => {
+    const deviceMemory = (navigator as Navigator & { deviceMemory?: number })
+      .deviceMemory;
+    const hardwareConcurrency = navigator.hardwareConcurrency;
+
+    setIsLowPowerDevice(
+      (typeof deviceMemory === "number" && deviceMemory <= 4) ||
+        (typeof hardwareConcurrency === "number" && hardwareConcurrency <= 4),
+    );
+  }, []);
+
+  useEffect(() => {
+    if (sceneLoaded) {
+      setSceneDpr([1, 2]);
+      return;
+    }
+
+    if (isCompactScreen || isLowPowerDevice) {
+      setSceneDpr([1, 1.25]);
+      return;
+    }
+
+    setSceneDpr([1, 2]);
+  }, [isCompactScreen, isLowPowerDevice, sceneLoaded]);
 
   return (
     <PipelineDialogsProvider
@@ -165,6 +193,7 @@ export const PipelineVisual = () => {
           zoom={zoom}
           maxZoom={maxZoom}
           viewResetToken={viewResetToken}
+          dpr={sceneDpr}
         />
       </div>
     </PipelineDialogsProvider>

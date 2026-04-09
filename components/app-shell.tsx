@@ -240,6 +240,8 @@ const ShellContent = ({ children }: ChildrenProps) => {
                     href={calendlyUrl}
                     target="_blank"
                     rel="noreferrer"
+                    aria-label={tContact("consultCta")}
+                    title={tContact("consultCta")}
                   >
                     <CalendarDays size={18} strokeWidth={2} />
                     <span>{tContact("consultCta")}</span>
@@ -357,6 +359,8 @@ const ShellContent = ({ children }: ChildrenProps) => {
                 href={calendlyUrl}
                 target="_blank"
                 rel="noreferrer"
+                aria-label={tContact("consultCta")}
+                title={tContact("consultCta")}
                 onClick={() => setMobileMenuOpen(false)}
               >
                 <CalendarDays size={18} strokeWidth={2} />

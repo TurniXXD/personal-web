@@ -100,7 +100,6 @@ export const ContactDialog = ({
       </form>
 
       <div className="contact-dialog__direct">
-        <p className="contact-dialog__direct-title">{t("direct.title")}</p>
         <div className="contact-dialog__direct-items">
           <a
             className="contact-dialog__direct-item"

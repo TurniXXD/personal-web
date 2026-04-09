@@ -1,7 +1,7 @@
 {
   "Metadata": {
-    "title": "Jakub Vantuch | Full-stack Vývojář",
-    "description": "Full-stack vývojář s 5+ lety zkušeností ve vývoji webových aplikací — od návrhu řešení a UX až po frontend, backend a infrastrukturu."
+    "title": "Jakub Vantuch | Full-Stack Developer",
+    "description": "Full-Stack Developer s 5+ lety zkušeností ve vývoji webových aplikací — od návrhu řešení a UX až po frontend, backend a infrastrukturu."
   },
   "AppShell": {
     "name": "Jakub Vantuch",
@@ -53,12 +53,12 @@
     "title": "O mně",
     "cards": {
       "developer": {
-        "title": "Full-stack vývojář",
-        "summary": "Jsem full-stack vývojář s 5+ lety zkušeností s vývojem webových aplikací — od návrhu řešení po implementaci a nasazení."
+        "title": "Full-Stack Developer",
+        "summary": "Vyvíjím webové aplikace více než 5 let – od návrhu řešení po nasazení. Zaměřuji se na React / Next.js / TypeScript a návrh systémů, které dávají smysl dlouhodobě."
       },
       "product": {
-        "title": "Vývoj produktů",
-        "summary": "Navrhuji a stavím produkty od návrhu řešení přes implementaci až po nasazení."
+        "title": "Přístup k vývoji",
+        "summary": "Neřeším jen implementaci, ale přemýšlím nad produktem jako nad celkem – navrhuji řešení, která fungují nejen dnes, ale i za rok."
       },
       "focus": {
         "title": "Současné zaměření",
@@ -167,7 +167,6 @@
     "submitSubmitting": "Odesílám...",
     "consultCta": "Rezervovat konzultaci",
     "direct": {
-      "title": "nebo mě kontaktujte přímo",
       "emailLabel": "contact@vantuch.dev",
       "phoneLabel": "+ 420 735 023 812"
     },
@@ -215,7 +214,7 @@
     "pageMarkdown": {
       "about": {
         "title": "# O mně",
-        "body": "Full-stack vývojař s 5+ lety zkušeností v budování a údržbě produkčních webových aplikací.",
+        "body": "Full-Stack Developer s 5+ lety zkušeností v budování a údržbě produkčních webových aplikací.",
         "focusTitle": "## Zaměření",
         "focus1": "- Vývoj produktů",
         "focus2": "- End-to-end systémy",

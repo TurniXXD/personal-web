@@ -35,6 +35,7 @@ type SceneCanvasControlsProps = {
   zoom: number;
   maxZoom: number;
   viewResetToken: number;
+  dpr: number | [number, number];
 };
 
 type PipelineSceneCanvasProps = SceneCanvasLightingProps &
@@ -59,6 +60,7 @@ export const PipelineSceneCanvas = ({
   zoom,
   maxZoom,
   viewResetToken,
+  dpr,
 }: PipelineSceneCanvasProps) => {
   const { openDialogSection } = usePipelineDialogs();
 
@@ -66,6 +68,7 @@ export const PipelineSceneCanvas = ({
     <Canvas
       // The canvas owns the full WebGL scene; camera motion is delegated to FocusRig.
       camera={{ position: [0, 12, 24], fov: 36 }}
+      dpr={dpr}
       onPointerMissed={closeDialogs}
       onCreated={() => {
         // Wait one frame so overlays can measure against the mounted canvas correctly.

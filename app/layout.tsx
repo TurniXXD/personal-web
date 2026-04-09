@@ -16,6 +16,14 @@ export const generateMetadata = async (): Promise<Metadata> => {
     icons: {
       icon: "/favicon.svg",
     },
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+      },
+    },
   };
 };
 
