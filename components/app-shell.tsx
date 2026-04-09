@@ -33,7 +33,6 @@ const MAX_ZOOM = 2.15;
 const MIN_ZOOM = 0.75;
 const FOCUS_ZOOM = 1.15;
 const calendlyUrl = process.env.NEXT_PUBLIC_CALENDLY_URL?.trim() || null;
-const subtitle = "I turn ideas into working products — from design and development to deployment.";
 
 export const AppShell = ({ children }: ChildrenProps) => {
   return (
@@ -181,7 +180,8 @@ const ShellContent = ({ children }: ChildrenProps) => {
       >
         <h2>{tShell("name")}</h2>
         <p className={classNames("welcome-line", "welcome-line--visible")}>
-          {subtitle}
+          <span className="welcome-line__lead">{tShell("subtitleLead")}</span>
+          <span className="welcome-line__tail">{tShell("subtitleTail")}</span>
         </p>
       </div>
 

@@ -5,6 +5,8 @@
   },
   "AppShell": {
     "name": "Jakub Vantuch",
+    "subtitleLead": "Proměňuji nápady ve funkční produkty",
+    "subtitleTail": " — od návrhu přes vývoj až po nasazení.",
     "primaryNavLabel": "Primární",
     "overviewAria": "Oddálit na přehled",
     "terminalOpenAria": "Otevřít terminál",

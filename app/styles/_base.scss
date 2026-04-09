@@ -137,6 +137,12 @@ input {
   filter: blur(0);
 }
 
+@media (max-width: 767px) {
+  .welcome-line__tail {
+    display: none;
+  }
+}
+
 .content-frame,
 .terminal-panel {
   border: 1px solid var(--line);

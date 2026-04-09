@@ -1,10 +1,12 @@
 {
   "Metadata": {
-    "title": "Jakub Vantuch | Fullstack Developer",
-    "description": "Full-stack developer with 5+ years experience building production web applications — from idea and UX to backend systems and deployment."
+    "title": "Jakub Vantuch | Full-Stack Developer",
+    "description": "Full-Stack developer with 5+ years experience building production web applications — from idea and UX to backend systems and deployment."
   },
   "AppShell": {
     "name": "Jakub Vantuch",
+    "subtitleLead": "I turn ideas into working products",
+    "subtitleTail": " — from design and development to deployment.",
     "primaryNavLabel": "Primary",
     "overviewAria": "Zoom out to overview",
     "terminalOpenAria": "Open terminal",

@@ -249,3 +249,54 @@
 .contact-dialog__status--success {
   color: #2e8f79;
 }
+
+@media (max-width: 767px) {
+  .contact-dialog__form {
+    gap: 0.8rem;
+  }
+
+  .contact-dialog__field {
+    position: relative;
+    gap: 0;
+    padding-top: 0;
+  }
+
+  .contact-dialog__field span {
+    position: absolute;
+    top: 0;
+    left: 0.85rem;
+    transform: translateY(-50%);
+    padding: 0 0.35rem;
+    background: rgba(255, 255, 255, 0.9);
+    font-size: 0.6rem;
+    letter-spacing: 0.12em;
+    pointer-events: none;
+  }
+
+  .contact-dialog__field input,
+  .contact-dialog__field textarea {
+    padding: 0.65rem 0.75rem;
+    font-size: 0.9rem;
+    background: transparent;
+  }
+
+  .contact-dialog__field textarea {
+    min-height: 5.4rem;
+    font-size: 0.82rem;
+    line-height: 1.35;
+  }
+
+  .contact-dialog__field textarea::placeholder {
+    font-size: 0.82rem;
+    line-height: 1.35;
+  }
+
+  .contact-dialog__submit {
+    min-height: 2.85rem;
+    font-size: 0.78rem;
+  }
+
+  .contact-dialog__direct {
+    margin-top: 1.4rem;
+  }
+}

@@ -231,17 +231,21 @@ export const useSceneInteraction = ({
       setOpenDialogSection(null);
     }
 
+    const zoomScale = maxZoom / zoom;
+    const limitX = PAN_LIMIT_X * Math.max(1, zoomScale);
+    const limitZ = PAN_LIMIT_Z * Math.max(1, zoomScale);
+
     // Dragging shifts the camera target within the authored board limits.
     targetPan.current = {
       x: THREE.MathUtils.clamp(
         drag.panX - deltaX * 0.08,
-        -PAN_LIMIT_X,
-        PAN_LIMIT_X,
+        -limitX,
+        limitX,
       ),
       z: THREE.MathUtils.clamp(
         drag.panZ - deltaY * 0.08,
-        -PAN_LIMIT_Z,
-        PAN_LIMIT_Z,
+        -limitZ,
+        limitZ,
       ),
     };
   };
