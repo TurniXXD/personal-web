@@ -33,7 +33,7 @@ export type NodeConfig = {
 export const getSceneNodes = (t: Translator): NodeConfig[] => [
   {
     id: "about",
-    position: [-10, 0.8, 8],
+    position: [-7, 0.8, 8],
     scale: [1.8, 1.8, 1.8],
     label: t("labels.about"),
   },
