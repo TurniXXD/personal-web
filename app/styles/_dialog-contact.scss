@@ -159,7 +159,7 @@
   width: 100%;
   border: 1px solid rgba(114, 129, 202, 0.16);
   border-radius: 0.95rem;
-  background: rgba(247, 249, 255, 0.92);
+  background: rgba(255, 255, 255, 0.9);
   color: #1e2440;
   padding: 0.8rem 0.9rem;
   outline: 0;
@@ -167,6 +167,19 @@
   transition:
     border-color 180ms ease,
     box-shadow 180ms ease;
+}
+
+.contact-dialog__field input:-webkit-autofill,
+.contact-dialog__field input:-webkit-autofill:hover,
+.contact-dialog__field input:-webkit-autofill:focus,
+.contact-dialog__field textarea:-webkit-autofill,
+.contact-dialog__field textarea:-webkit-autofill:hover,
+.contact-dialog__field textarea:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0 1000px rgba(255, 255, 255, 0.9) inset;
+  box-shadow: 0 0 0 1000px rgba(255, 255, 255, 0.9) inset;
+  -webkit-text-fill-color: #1e2440;
+  caret-color: #1e2440;
+  transition: background-color 9999s ease-out 0s;
 }
 
 .contact-dialog__field input:hover,
@@ -289,6 +302,14 @@
   .contact-dialog__field textarea::placeholder {
     font-size: 0.82rem;
     line-height: 1.35;
+  }
+
+  .contact-dialog__field input:hover,
+  .contact-dialog__field textarea:hover,
+  .contact-dialog__field input:focus,
+  .contact-dialog__field textarea:focus {
+    border-color: rgba(114, 129, 202, 0.16);
+    box-shadow: none;
   }
 
   .contact-dialog__submit {
