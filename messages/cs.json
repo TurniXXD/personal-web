@@ -1,7 +1,7 @@
 {
   "Metadata": {
     "title": "Jakub Vantuch | Full-Stack Developer",
-    "description": "Full-Stack Developer s 5+ lety zkušeností ve vývoji webových aplikací — od návrhu řešení a UX až po frontend, backend a infrastrukturu."
+    "description": "Proměňuji nápady ve funkční produkty — od návrhu přes vývoj až po nasazení."
   },
   "AppShell": {
     "name": "Jakub Vantuch",
@@ -54,12 +54,13 @@
     "cards": {
       "developer": {
         "title": "Full-Stack Developer",
-        "summary": "Vyvíjím webové aplikace více než 5 let – od návrhu řešení po nasazení. Zaměřuji se na React / Next.js / TypeScript a návrh systémů, které dávají smysl dlouhodobě."
+        "summary": "Vyvíjím webové aplikace více než 5 let – od návrhu řešení po nasazení."
       },
-      "product": {
-        "title": "Přístup k vývoji",
-        "summary": "Neřeším jen implementaci, ale přemýšlím nad produktem jako nad celkem – navrhuji řešení, která fungují nejen dnes, ale i za rok."
+      "technologies": {
+        "title": "Technologie",
+        "summary": "Pracuji primárně s React / Next.js / TypeScript / Node.js / PostgreSQL. Mám zkušenosti s návrhem API, datovými modely a integrací komplexních systémů."
       },
+
       "focus": {
         "title": "Současné zaměření",
         "summary": "Zaměřuji se na vývoj spolehlivých systémů a zajímám se o bioinformatiku a matematické modelování. Otevřený spolupráci."

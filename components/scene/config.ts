@@ -11,8 +11,8 @@ export const getAboutCards = (t: Translator) =>
       accent: "violet",
     },
     {
-      title: t("cards.product.title"),
-      summary: t("cards.product.summary"),
+      title: t("cards.technologies.title"),
+      summary: t("cards.technologies.summary"),
       accent: "cyan",
     },
     {

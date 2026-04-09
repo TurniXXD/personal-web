@@ -1,3 +1,5 @@
+@use "./breakpoints" as *;
+
 .work-dialog__badges {
   display: flex;
   flex-wrap: wrap;
@@ -82,4 +84,10 @@
 .work-dialog__badge:focus-visible .work-dialog__badge-popup {
   opacity: 1;
   transform: translateY(-50%) translateX(0);
+}
+
+@media (max-width: $bp-sm) {
+  .work-dialog__badge-popup {
+    display: none;
+  }
 }

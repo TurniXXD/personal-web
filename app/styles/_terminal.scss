@@ -1,3 +1,5 @@
+@use "./breakpoints" as *;
+
 .terminal-panel {
   border-radius: 1.4rem;
   padding: 0.8rem;
@@ -254,7 +256,7 @@
   backdrop-filter: blur(12px);
 }
 
-@media (max-width: 1080px) {
+@media (max-width: $bp-xl) {
   .app-shell {
     padding: 1rem;
   }
@@ -264,13 +266,13 @@
   }
 }
 
-@media (max-width: 1200px) {
+@media (max-width: $bp-xxl) {
   .app-corner-actions--right .contact-dialog__consult span {
     display: none;
   }
 }
 
-@media (max-width: 720px) {
+@media (max-width: $bp-xs) {
   .app-shell {
     padding: 1rem;
   }
@@ -332,7 +334,7 @@
   }
 }
 
-@media (max-width: 999px) {
+@media (max-width: $bp-lg) {
   .app-corner-actions {
     display: none;
   }

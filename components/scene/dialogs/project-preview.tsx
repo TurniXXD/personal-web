@@ -1,6 +1,5 @@
-/* eslint-disable @next/next/no-img-element */
-
 import classNames from "classnames";
+import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { getDisplayHostname } from "@/lib/url";
 
@@ -30,9 +29,11 @@ export const ProjectPreview = ({ name, url, imgUrl }: ProjectPreviewProps) => {
       )}
     >
       {imgUrl ? (
-        <img
+        <Image
           src={imgUrl}
           alt={`${name} preview`}
+          fill
+          sizes="(min-width: 768px) 420px, 80vw"
           className="work-dialog__preview-image"
         />
       ) : (

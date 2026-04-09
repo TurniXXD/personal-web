@@ -1,7 +1,7 @@
 {
   "Metadata": {
     "title": "Jakub Vantuch | Full-Stack Developer",
-    "description": "Full-Stack Developer with 5+ years experience building production web applications — from idea and UX to backend systems and deployment."
+    "description": "I turn ideas into working products — from design and development to deployment."
   },
   "AppShell": {
     "name": "Jakub Vantuch",
@@ -54,11 +54,11 @@
     "cards": {
       "developer": {
         "title": "Full-Stack Developer",
-        "summary": "I’m a Full-Stack Developer with more than 5 years of experience building and maintaining web applications. I focus on React / Next.js / TypeScript / Node.js / PostgreSQL."
+        "summary": "Full-Stack Developer with more than 5 years of experience building and maintaining web applications."
       },
-      "product": {
-        "title": "Approach to development",
-        "summary": "I don’t just implement features — I think in terms of the whole product and design solutions that work not only today, but also in the future."
+      "technologies": {
+        "title": "Technologies",
+        "summary": "I primarily work with React / Next.js / TypeScript / Node.js / PostgreSQL, and I design APIs, data models, and integrate complex systems."
       },
       "focus": {
         "title": "Current focus",
@@ -114,7 +114,7 @@
       },
       "backend": {
         "title": "Backend & Systems",
-        "summary": "Designing systems that connect services, APIs, and data into scalable architectures.",
+        "summary": "Designing backend systems and APIs that scale, integrate reliably, and support real-world product requirements.",
         "items": {
           "node": "Node.js",
           "python": "Python",

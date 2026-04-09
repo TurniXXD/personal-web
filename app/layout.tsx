@@ -9,10 +9,12 @@ import "@/app/globals.scss";
 
 export const generateMetadata = async (): Promise<Metadata> => {
   const t = await getTranslations("Metadata");
+  const title = t("title");
+  const description = t("description");
 
   return {
-    title: t("title"),
-    description: t("description"),
+    title,
+    description,
     icons: {
       icon: "/favicon.svg",
     },
@@ -23,6 +25,16 @@ export const generateMetadata = async (): Promise<Metadata> => {
         index: true,
         follow: true,
       },
+    },
+    openGraph: {
+      title,
+      description,
+      type: "website",
+    },
+    twitter: {
+      card: "summary",
+      title,
+      description,
     },
   };
 };

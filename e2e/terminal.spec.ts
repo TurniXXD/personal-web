@@ -21,5 +21,5 @@ test("focuses a section from the terminal command input", async ({ page }) => {
   await page.keyboard.press("Enter");
 
   await expect(page.getByTestId("dialog-contact")).toHaveAttribute("data-open", "true");
-  await expect(page.getByText("Launch your project")).toBeVisible();
+  await expect(page.getByText("Let's talk about your project")).toBeVisible();
 });

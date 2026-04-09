@@ -31,6 +31,7 @@ import type {
 
 const MAX_ZOOM = 2.15;
 const MIN_ZOOM = 0.75;
+const MIN_ZOOM_MOBILE = 0.6;
 const FOCUS_ZOOM = 1.15;
 const calendlyUrl = process.env.NEXT_PUBLIC_CALENDLY_URL?.trim() || null;
 
@@ -52,6 +53,7 @@ const ShellContent = ({ children }: ChildrenProps) => {
   const [isHydrated, setIsHydrated] = useState(false);
   const [terminalOpen, setTerminalOpen] = useState(false);
   const [zoom, setZoom] = useState(MAX_ZOOM);
+  const [minZoom, setMinZoom] = useState(MIN_ZOOM);
   const [viewResetToken, setViewResetToken] = useState(0);
   const [terminalDialogRequest, setTerminalDialogRequest] =
     useState<TerminalDialogRequest | null>(null);
@@ -73,6 +75,20 @@ const ShellContent = ({ children }: ChildrenProps) => {
 
   useEffect(() => {
     setIsHydrated(true);
+  }, []);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(max-width: 720px)");
+    const updateMinZoom = () => {
+      const nextMinZoom = mediaQuery.matches ? MIN_ZOOM_MOBILE : MIN_ZOOM;
+      setMinZoom(nextMinZoom);
+      setZoom((current) => Math.max(current, nextMinZoom));
+    };
+
+    updateMinZoom();
+    mediaQuery.addEventListener("change", updateMinZoom);
+
+    return () => mediaQuery.removeEventListener("change", updateMinZoom);
   }, []);
 
   useEffect(() => {
@@ -169,7 +185,7 @@ const ShellContent = ({ children }: ChildrenProps) => {
     <div
       className="app-shell"
       data-testid="app-shell"
-      data-hydrated={isHydrated ? "true" : "false"}
+      data-hydrated="true"
     >
       <div
         className={classNames(
@@ -191,7 +207,7 @@ const ShellContent = ({ children }: ChildrenProps) => {
           onSelectSection: handleSelectSection,
           zoom,
           onZoomChange: setZoom,
-          minZoom: MIN_ZOOM,
+          minZoom,
           maxZoom: MAX_ZOOM,
           onDialogSectionChange: handleDialogSectionChange,
           viewResetToken,

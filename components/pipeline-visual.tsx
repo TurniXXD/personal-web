@@ -2,6 +2,7 @@
 
 import classNames from "classnames";
 import { useEffect, useRef, useState } from "react";
+import dynamic from "next/dynamic";
 import { useAppShellScene } from "@/components/app-shell-scene-context";
 import { PipelineDialogsProvider } from "@/components/scene/dialogs-context";
 import {
@@ -10,9 +11,16 @@ import {
   ContactDialog,
   WorkDialog,
 } from "@/components/scene/dialogs";
-import { PipelineSceneCanvas } from "@/components/scene/scene-canvas";
 import { useContactForm } from "@/components/scene/use-contact-form";
 import { useSceneInteraction } from "@/components/scene/use-scene-interaction";
+
+const PipelineSceneCanvas = dynamic(
+  () =>
+    import("@/components/scene/scene-canvas").then(
+      (mod) => mod.PipelineSceneCanvas,
+    ),
+  { ssr: false },
+);
 
 export const PipelineVisual = () => {
   const {
@@ -31,6 +39,7 @@ export const PipelineVisual = () => {
   const capabilitiesDialogRef = useRef<HTMLDivElement>(null);
   const contactDialogRef = useRef<HTMLDivElement>(null);
   const [sceneLoaded, setSceneLoaded] = useState(false);
+  const [mountScene, setMountScene] = useState(false);
   const [sceneDpr, setSceneDpr] = useState<number | [number, number]>([1, 2]);
   const [isLowPowerDevice, setIsLowPowerDevice] = useState(false);
   const {
@@ -86,6 +95,14 @@ export const PipelineVisual = () => {
   useEffect(() => {
     onDialogSectionChange(openDialogSection);
   }, [onDialogSectionChange, openDialogSection]);
+
+  useEffect(() => {
+    const rafId = window.requestAnimationFrame(() => {
+      setMountScene(true);
+    });
+
+    return () => window.cancelAnimationFrame(rafId);
+  }, []);
 
   // Reduce DPR for initial page load on slower devices
   useEffect(() => {
@@ -175,26 +192,28 @@ export const PipelineVisual = () => {
           status={contactStatus}
         />
 
-        <PipelineSceneCanvas
-          fogNear={fogNear}
-          fogFar={fogFar}
-          ambientIntensity={ambientIntensity}
-          directionalIntensity={directionalIntensity}
-          violetLightIntensity={violetLightIntensity}
-          cyanLightIntensity={cyanLightIntensity}
-          gridOpacity={gridOpacity}
-          activeSection={activeSection}
-          hoveredSection={hoveredSection}
-          onSelectSection={handleSelectSection}
-          onHoverSection={setHoveredSection}
-          closeDialogs={closeDialogs}
-          onSceneReady={() => setSceneLoaded(true)}
-          targetPan={targetPan}
-          zoom={zoom}
-          maxZoom={maxZoom}
-          viewResetToken={viewResetToken}
-          dpr={sceneDpr}
-        />
+        {mountScene ? (
+          <PipelineSceneCanvas
+            fogNear={fogNear}
+            fogFar={fogFar}
+            ambientIntensity={ambientIntensity}
+            directionalIntensity={directionalIntensity}
+            violetLightIntensity={violetLightIntensity}
+            cyanLightIntensity={cyanLightIntensity}
+            gridOpacity={gridOpacity}
+            activeSection={activeSection}
+            hoveredSection={hoveredSection}
+            onSelectSection={handleSelectSection}
+            onHoverSection={setHoveredSection}
+            closeDialogs={closeDialogs}
+            onSceneReady={() => setSceneLoaded(true)}
+            targetPan={targetPan}
+            zoom={zoom}
+            maxZoom={maxZoom}
+            viewResetToken={viewResetToken}
+            dpr={sceneDpr}
+          />
+        ) : null}
       </div>
     </PipelineDialogsProvider>
   );

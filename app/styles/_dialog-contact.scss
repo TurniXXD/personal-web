@@ -1,3 +1,5 @@
+@use "./breakpoints" as *;
+
 .work-dialog--form {
   width: min(22rem, calc(100vw - 2rem));
   max-height: min(40rem, calc(100vh - 2rem));
@@ -264,7 +266,7 @@
   color: #2e8f79;
 }
 
-@media (max-width: 767px) {
+@media (max-width: $bp-sm) {
   .contact-dialog__form {
     gap: 0.8rem;
   }

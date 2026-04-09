@@ -1,3 +1,5 @@
+@use "./breakpoints" as *;
+
 .work-dialog {
   position: fixed;
   top: 0;
@@ -20,7 +22,7 @@
   overflow: visible;
 }
 
-@media (min-width: 768px) {
+@media (min-width: $bp-md) {
   .work-dialog:not(.work-dialog--form):not(.work-dialog--about):not(.work-dialog--capabilities) {
     width: min(72rem, calc(100vw - 4rem));
   }

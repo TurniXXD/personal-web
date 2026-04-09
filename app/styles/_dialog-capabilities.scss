@@ -1,4 +1,6 @@
-@media (min-width: 768px) {
+@use "./breakpoints" as *;
+
+@media (min-width: $bp-md) {
   .work-dialog--capabilities {
     width: min(46.875rem, calc(100vw - 4rem));
   }
@@ -8,7 +10,7 @@
   display: none;
 }
 
-@media (min-width: 768px) {
+@media (min-width: $bp-md) {
   .work-dialog--capabilities .work-dialog__list {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
