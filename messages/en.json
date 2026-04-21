@@ -62,7 +62,7 @@
       },
       "focus": {
         "title": "Current focus",
-        "summary": "Building production software systems while exploring bioinformatics and mathematical modeling. Open to new opportunities and collaborations."
+        "summary": "I focus on building reliable systems and solutions that simplify complex processes. Open to new opportunities and collaborations."
       }
     }
   },
@@ -98,13 +98,12 @@
         "items": {
           "productThinking": "Product thinking",
           "uiux": "UI/UX design",
-          "prototyping": "Prototyping",
-          "clientCommunication": "Client communication"
+          "prototyping": "Prototyping"
         }
       },
       "frontend": {
         "title": "Frontend Development",
-        "summary": "Building fast, reliable user interfaces that work with real-world systems.",
+        "summary": "Building fast, reliable user interfaces with a strong focus on performance, usability, and long-term maintainability.",
         "items": {
           "react": "React",
           "next": "Next.js",
@@ -114,7 +113,7 @@
       },
       "backend": {
         "title": "Backend & Systems",
-        "summary": "Designing backend systems and APIs that scale, integrate reliably, and support real-world product requirements.",
+        "summary": "Designing backend systems that connect services and data into scalable architectures.",
         "items": {
           "node": "Node.js",
           "python": "Python",

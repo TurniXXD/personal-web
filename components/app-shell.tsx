@@ -69,9 +69,16 @@ const ShellContent = ({ children }: ChildrenProps) => {
   const searchParams = useSearchParams();
   const currentLocale = locale === "cs" ? "cs" : "en";
   const nextLocale = currentLocale === "en" ? "cs" : "en";
+  const normalizedPathname = (() => {
+    if (!pathname) {
+      return "/";
+    }
+    const trimmed = pathname.replace(/^\/(en|cs)(?=\/|$)/, "");
+    return trimmed.length ? trimmed : "/";
+  })();
   const currentHref = searchParams.toString()
-    ? `${pathname || "/"}?${searchParams.toString()}`
-    : pathname || "/";
+    ? `${normalizedPathname}?${searchParams.toString()}`
+    : normalizedPathname;
 
   useEffect(() => {
     setIsHydrated(true);

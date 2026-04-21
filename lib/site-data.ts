@@ -127,8 +127,7 @@ export const getCapabilityCards = (t: Translator): CapabilityCard[] => [
     items: [
       t("cards.productDesign.items.productThinking"),
       t("cards.productDesign.items.uiux"),
-      t("cards.productDesign.items.prototyping"),
-      t("cards.productDesign.items.clientCommunication"),
+      t("cards.productDesign.items.prototyping")
     ],
     accent: "violet",
   },

@@ -60,10 +60,9 @@
         "title": "Technologie",
         "summary": "Pracuji primárně s React / Next.js / TypeScript / Node.js / PostgreSQL. Mám zkušenosti s návrhem API, datovými modely a integrací komplexních systémů."
       },
-
       "focus": {
         "title": "Současné zaměření",
-        "summary": "Zaměřuji se na vývoj spolehlivých systémů a zajímám se o bioinformatiku a matematické modelování. Otevřený spolupráci."
+        "summary": "Zaměřuji se na vývoj spolehlivých systémů a řešení, která zjednodušují komplexní procesy. Otevřený spolupráci."
       }
     }
   },
@@ -99,13 +98,12 @@
         "items": {
           "productThinking": "Produktové myšlení",
           "uiux": "UI/UX design",
-          "prototyping": "Prototyping",
-          "clientCommunication": "Komunikace s klienty"
+          "prototyping": "Prototyping"
         }
       },
       "frontend": {
         "title": "Frontend Development",
-        "summary": "Stavím rychlá a spolehlivá uživatelská rozhraní, která fungují v reálných aplikacích.",
+        "summary": "Vyvíjím přehledná a spolehlivá uživatelská rozhraní, s důrazem na UX a dlouhodobou udržitelnost.",
         "items": {
           "react": "React",
           "next": "Next.js",
@@ -115,7 +113,7 @@
       },
       "backend": {
         "title": "Backend & Systémy",
-        "summary": "Navrhuji backend systémy, které propojují služby, API a data do škálovatelných architektur.",
+        "summary": "Navrhuji backend systémy, které propojují služby a data do škálovatelných architektur.",
         "items": {
           "node": "Node.js",
           "python": "Python",
@@ -128,7 +126,7 @@
       },
       "infrastructure": {
         "title": "Infrastruktura & Deployment",
-        "summary": "Zajišťuji nasazení a provoz aplikací včetně infrastruktury, výkonu a spolehlivosti.",
+        "summary": "Zajišťuji nasazení a provoz aplikací včetně infrastruktury, CI/CD a optimalizace výkonu.",
         "items": {
           "docker": "Docker",
           "linux": "Linux",
