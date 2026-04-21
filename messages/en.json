@@ -113,7 +113,7 @@
       },
       "backend": {
         "title": "Backend & Systems",
-        "summary": "Designing backend systems that connect services and data into scalable architectures.",
+        "summary": "Designing backend systems that connect services and data and remove unnecessary complexity.",
         "items": {
           "node": "Node.js",
           "python": "Python",

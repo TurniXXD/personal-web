@@ -113,7 +113,7 @@
       },
       "backend": {
         "title": "Backend & Systémy",
-        "summary": "Navrhuji backend systémy, které propojují služby a data do škálovatelných architektur.",
+        "summary": "Navrhuji backend systémy, které propojují služby a data a zbavují je zbytečné složitosti.",
         "items": {
           "node": "Node.js",
           "python": "Python",
