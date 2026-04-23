@@ -208,6 +208,7 @@ export const PipelineVisual = () => {
             closeDialogs={closeDialogs}
             onSceneReady={() => setSceneLoaded(true)}
             targetPan={targetPan}
+            isDragging={isDragging}
             zoom={zoom}
             maxZoom={maxZoom}
             viewResetToken={viewResetToken}

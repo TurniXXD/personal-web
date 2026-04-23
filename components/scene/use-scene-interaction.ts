@@ -238,12 +238,12 @@ export const useSceneInteraction = ({
     // Dragging shifts the camera target within the authored board limits.
     targetPan.current = {
       x: THREE.MathUtils.clamp(
-        drag.panX - deltaX * 0.08,
+        drag.panX - deltaX * 0.045,
         -limitX,
         limitX,
       ),
       z: THREE.MathUtils.clamp(
-        drag.panZ - deltaY * 0.08,
+        drag.panZ - deltaY * 0.045,
         -limitZ,
         limitZ,
       ),

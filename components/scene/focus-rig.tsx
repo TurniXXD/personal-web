@@ -9,6 +9,7 @@ import type { TargetPanRef } from "@/components/scene/types";
 type FocusRigProps = {
   activeSection: SectionId | null;
   targetPan: TargetPanRef;
+  isDragging: boolean;
   zoom: number;
   maxZoom: number;
   viewResetToken: number;
@@ -17,6 +18,7 @@ type FocusRigProps = {
 export const FocusRig = ({
   activeSection,
   targetPan,
+  isDragging,
   zoom,
   maxZoom,
   viewResetToken,
@@ -94,21 +96,21 @@ export const FocusRig = ({
 
   useFrame(({ camera }, delta) => {
     const isCompactViewport = size.width <= 1024;
-    // Damping values are tuned separately so pan input feels a little tighter than camera travel.
+    // Keep non-drag camera moves soft, but use only a trace of smoothing while grabbing.
     const smoothing = 1 - Math.exp(-delta * 1.7);
-    const panSmoothing = 1 - Math.exp(-delta * 2.1);
+    const dragSmoothing = 1 - Math.exp(-delta * 14);
     const focusLift = isCompactViewport ? 3.2 : 0.35;
     const overviewMode = zoom >= maxZoom - 0.02;
 
     currentPan.current.x = THREE.MathUtils.lerp(
       currentPan.current.x,
       targetPan.current.x,
-      panSmoothing,
+      isDragging ? dragSmoothing : smoothing,
     );
     currentPan.current.z = THREE.MathUtils.lerp(
       currentPan.current.z,
       targetPan.current.z,
-      panSmoothing,
+      isDragging ? dragSmoothing : smoothing,
     );
 
     const [x, y, z] = activeNode.position;
@@ -133,12 +135,20 @@ export const FocusRig = ({
           ),
       );
 
-    // Interpolate both look-at and camera position for a soft dolly effect.
-    currentLookAt.current.lerp(desiredLookAt.current, smoothing);
-    currentCameraPosition.current.lerp(
-      desiredCameraPosition.current,
-      smoothing,
-    );
+    if (isDragging) {
+      currentLookAt.current.lerp(desiredLookAt.current, dragSmoothing);
+      currentCameraPosition.current.lerp(
+        desiredCameraPosition.current,
+        dragSmoothing,
+      );
+    } else {
+      // Interpolate both look-at and camera position for a soft dolly effect.
+      currentLookAt.current.lerp(desiredLookAt.current, smoothing);
+      currentCameraPosition.current.lerp(
+        desiredCameraPosition.current,
+        smoothing,
+      );
+    }
     camera.position.copy(currentCameraPosition.current);
     camera.lookAt(currentLookAt.current);
   });

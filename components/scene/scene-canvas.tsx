@@ -32,6 +32,7 @@ type SceneCanvasControlsProps = {
   closeDialogs: () => void;
   onSceneReady: () => void;
   targetPan: TargetPanRef;
+  isDragging: boolean;
   zoom: number;
   maxZoom: number;
   viewResetToken: number;
@@ -57,6 +58,7 @@ export const PipelineSceneCanvas = ({
   closeDialogs,
   onSceneReady,
   targetPan,
+  isDragging,
   zoom,
   maxZoom,
   viewResetToken,
@@ -143,6 +145,7 @@ export const PipelineSceneCanvas = ({
       <FocusRig
         activeSection={activeSection}
         targetPan={targetPan}
+        isDragging={isDragging}
         zoom={zoom}
         maxZoom={maxZoom}
         viewResetToken={viewResetToken}
