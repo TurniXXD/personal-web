@@ -14,7 +14,7 @@ type FocusRigProps = {
   maxZoom: number;
   viewResetToken: number;
 };
-
+// test
 export const FocusRig = ({
   activeSection,
   targetPan,
