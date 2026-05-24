@@ -1,52 +1,13 @@
-import type { Metadata } from "next";
 import Script from "next/script";
-import { NextIntlClientProvider } from "next-intl";
-import { getLocale, getMessages, getTranslations } from "next-intl/server";
 import { Toaster } from "sonner";
-import { AppShell } from "@/components/app-shell";
 import type { ChildrenProps } from "@/components/scene/types";
 import "@/app/globals.scss";
 
-export const generateMetadata = async (): Promise<Metadata> => {
-  const t = await getTranslations("Metadata");
-  const title = t("title");
-  const description = t("description");
-
-  return {
-    title,
-    description,
-    icons: {
-      icon: "/favicon.svg",
-    },
-    robots: {
-      index: true,
-      follow: true,
-      googleBot: {
-        index: true,
-        follow: true,
-      },
-    },
-    openGraph: {
-      title,
-      description,
-      type: "website",
-    },
-    twitter: {
-      card: "summary",
-      title,
-      description,
-    },
-  };
-};
-
 type RootLayoutProps = Readonly<ChildrenProps>;
 
-const RootLayout = async ({ children }: RootLayoutProps) => {
-  const messages = await getMessages();
-  const locale = await getLocale();
-
+const RootLayout = ({ children }: RootLayoutProps) => {
   return (
-    <html lang={locale}>
+    <html lang="en">
       <body>
         <Script
           id="cloudflare-web-analytics"
@@ -57,7 +18,6 @@ const RootLayout = async ({ children }: RootLayoutProps) => {
         <Script
           id="structured-data"
           type="application/ld+json"
-           
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               "@context": "https://schema.org",
@@ -85,9 +45,7 @@ const RootLayout = async ({ children }: RootLayoutProps) => {
             },
           }}
         />
-        <NextIntlClientProvider messages={messages}>
-          <AppShell>{children}</AppShell>
-        </NextIntlClientProvider>
+        {children}
       </body>
     </html>
   );

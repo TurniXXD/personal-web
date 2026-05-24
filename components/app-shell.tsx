@@ -14,7 +14,7 @@ import {
 } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
-import { Link, useRouter, usePathname } from "@/navigation";
+import { useRouter, usePathname } from "@/navigation";
 import {
   getRouteItems,
   getSectionFromNavigationParam,
@@ -188,6 +188,11 @@ const ShellContent = ({ children }: ChildrenProps) => {
     setMobileMenuOpen(false);
   };
 
+  const handleLocaleSwitch = () => {
+    setMobileMenuOpen(false);
+    router.replace(currentHref, { locale: nextLocale, scroll: false });
+  };
+
   return (
     <div
       className="app-shell"
@@ -303,11 +308,10 @@ const ShellContent = ({ children }: ChildrenProps) => {
               className="locale-switcher"
               aria-label={tShell("languageSelectAria")}
             >
-              <Link
-                href={currentHref}
-                locale={nextLocale}
+              <button
+                type="button"
                 className="terminal-toggle terminal-toggle--secondary"
-                onClick={() => setMobileMenuOpen(false)}
+                onClick={handleLocaleSwitch}
                 aria-label={
                   nextLocale === "en"
                     ? tShell("switchToEnglishAria")
@@ -315,7 +319,7 @@ const ShellContent = ({ children }: ChildrenProps) => {
                 }
               >
                 {nextLocale === "en" ? tShell("localeEn") : tShell("localeCs")}
-              </Link>
+              </button>
             </div>
 
             <button
@@ -408,19 +412,18 @@ const ShellContent = ({ children }: ChildrenProps) => {
                 <SearchSlash size={18} />
               </button>
 
-              <Link
-                href={currentHref}
-                locale={nextLocale}
+              <button
+                type="button"
                 className="mobile-menu__action terminal-toggle terminal-toggle--secondary"
                 aria-label={
                   nextLocale === "en"
                     ? tShell("switchToEnglishAria")
                     : tShell("switchToCzechAria")
                 }
-                onClick={() => setMobileMenuOpen(false)}
+                onClick={handleLocaleSwitch}
               >
                 {nextLocale === "en" ? tShell("localeEn") : tShell("localeCs")}
-              </Link>
+              </button>
 
               <button
                 type="button"
