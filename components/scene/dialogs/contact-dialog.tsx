@@ -110,7 +110,7 @@ export const ContactDialog = ({
           </a>
           <a
             className="contact-dialog__direct-item"
-            href="tel:+420735023812"
+            href="tel:+420703973078"
           >
             <Phone size={16} strokeWidth={2} />
             <span>{t("direct.phoneLabel")}</span>
