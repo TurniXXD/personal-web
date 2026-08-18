@@ -128,15 +128,12 @@ export const useSceneInteraction = ({
   };
 
   const onPointerDown = (event: PointerEvent<HTMLDivElement>) => {
+    // Node clicks bubble through this DOM wrapper, so dialog dismissal belongs to
+    // the scene's empty-space hit targets instead of racing node selection here.
     const clickedInsideDialog = Boolean(
       (event.target as HTMLElement).closest(".work-dialog"),
     );
 
-    // Clicking the board outside a dialog dismisses it before starting a new gesture.
-    if (openDialogSection && !clickedInsideDialog) {
-      setOpenDialogSection(null);
-      setDialogInteracting(false);
-    }
     if (clickedInsideDialog) {
       return;
     }
@@ -274,13 +271,6 @@ export const useSceneInteraction = ({
   };
 
   const handleSelectSection = (section: SectionId) => {
-    if (openDialogSection === section) {
-      setOpenDialogSection(null);
-      setDialogInteracting(false);
-      onSelectSection(section);
-      return;
-    }
-
     setOpenDialogSection(section);
     setDialogInteracting(false);
     onSelectSection(section);

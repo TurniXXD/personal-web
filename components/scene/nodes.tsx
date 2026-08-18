@@ -149,10 +149,9 @@ export const SceneCube = ({
         <ActiveCubeMarker config={config} tone="hover" />
       ) : null}
 
-      {/* Invisible hit target makes the scene easier to interact with on touch devices. */}
+      {/* The larger hit target selects on a completed click, preserving pointer-down for drag. */}
       <mesh
         scale={hitScale}
-        onPointerDown={handleSelect}
         onClick={handleSelect}
         onPointerEnter={handleEnter}
         onPointerLeave={handleLeave}
@@ -165,7 +164,6 @@ export const SceneCube = ({
       <mesh
         ref={meshRef}
         scale={config.scale}
-        onPointerDown={handleSelect}
         onClick={handleSelect}
         onPointerEnter={handleEnter}
         onPointerLeave={handleLeave}
