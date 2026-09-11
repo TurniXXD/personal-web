@@ -32,7 +32,7 @@
     },
     "capabilities": {
       "title": "Dovednosti",
-      "summary": "Klíčové oblasti, ve kterých navrhuji, stavím a nasazuji digitální produkty.",
+      "summary": "Profesní dovednosti a oblasti, které aktuálně rozvíjím.",
       "command": "open capabilities"
     },
     "contact": {
@@ -53,16 +53,16 @@
     "title": "O mně",
     "cards": {
       "developer": {
-        "title": "Full-Stack Developer",
-        "summary": "Vyvíjím webové aplikace více než 5 let – od návrhu řešení po nasazení."
+        "title": "Softwarový vývojář a student matematické biologie",
+        "summary": "Stavím software a datově řízené systémy a zároveň studuji Matematickou biologii a biomedicínu na Masarykově univerzitě."
       },
       "technologies": {
-        "title": "Technologie",
-        "summary": "Pracuji primárně s React / Next.js / TypeScript / Node.js / PostgreSQL. Mám zkušenosti s návrhem API, datovými modely a integrací komplexních systémů."
+        "title": "Mimo software",
+        "summary": "Moje zájmy přesahují software do biologie, medicíny, datové analýzy, elektroniky a praktické experimentální práce. Baví mě projekty, ve kterých software interaguje s fyzickým světem."
       },
       "focus": {
         "title": "Současné zaměření",
-        "summary": "Zaměřuji se na vývoj spolehlivých systémů a řešení, která zjednodušují komplexní procesy. Otevřený spolupráci."
+        "summary": "Vyvíjím webové aplikace a softwarové systémy a zároveň se posouvám směrem k matematické biologii, biomedicínskému výzkumu a datové analýze. Zajímají mě hlavně projekty, které propojují software s reálnými biologickými a experimentálními problémy."
       }
     }
   },
@@ -83,55 +83,87 @@
       "robe": "Robe",
       "kinedok": "Kinedok",
       "revizio": "Revizio",
+      "mycopod": "MycoPod",
       "my213": "My213",
       "ondrasek": "Ondrášek",
       "seedr": "Seedr"
+    },
+    "projectMeta": {
+      "mycopod": "IoT pěstební prototyp"
+    },
+    "projectDescriptions": {
+      "robe": "Produktově zaměřený web pro výrobce profesionální světelné techniky, postavený na přehledném objevování produktů a čisté vizuální prezentaci.",
+      "kinedok": "Platforma pro síť dokumentárních filmů, která pomáhá návštěvníkům objevovat program, místa promítání a festivalový obsah napříč regiony.",
+      "revizio": "Aplikace pro správu revizních procesů, přehlednější evidenci a hladší každodenní administraci.",
+      "mycopod": "Experimentální automatizovaný systém pro pěstování hub v kontrolovaném prostředí. Propojuje 3D návrh a tisk, elektroniku, senzory řízené přes ESP32 a vlastní software pro monitoring pěstebních dat.",
+      "my213": "Digitální portál zaměřený na zjednodušení strukturovaných business procesů, zadávání dat a uživatelské administrace.",
+      "ondrasek": "Prezentační web pro Ondrášek se zaměřením na strukturu obsahu, vizuální přehlednost a snadný přístup ke klíčovým informacím."
     }
   },
   "CapabilitiesDialog": {
     "title": "Dovednosti",
-    "scrollToEnd": "Posunout nakonec",
+    "scrollToEnd": "Posunout na poslední oblast",
     "cards": {
-      "productDesign": {
-        "title": "Produktové myšlení & UX",
-        "summary": "Od návrhu UX až po prototypy a validaci řešení.",
-        "items": {
-          "productThinking": "Produktové myšlení",
-          "uiux": "UI/UX design",
-          "prototyping": "Prototyping"
-        }
-      },
-      "frontend": {
-        "title": "Frontend Development",
-        "summary": "Vyvíjím přehledná a spolehlivá uživatelská rozhraní, s důrazem na UX a dlouhodobou udržitelnost.",
+      "softwareEngineering": {
+        "title": "Softwarové inženýrství",
+        "summary": "Vývoj moderních webových aplikací a softwarových produktů.",
         "items": {
           "react": "React",
           "next": "Next.js",
           "typescript": "TypeScript",
-          "performance": "Performance"
+          "node": "Node.js",
+          "go": "Go"
         }
       },
-      "backend": {
-        "title": "Backend & Systémy",
-        "summary": "Navrhuji backend systémy, které propojují služby a data a zbavují je zbytečné složitosti.",
+      "dataAnalysis": {
+        "title": "Data & analýza",
+        "summary": "Práce s daty, statistikou, vizualizací a datovým zpracováním.",
         "items": {
-          "node": "Node.js",
           "python": "Python",
-          "go": "Go",
-          "rest": "REST APIs",
-          "graphql": "GraphQL",
+          "sql": "SQL",
+          "statistics": "Statistika",
+          "visualization": "Vizualizace",
+          "processing": "Zpracování dat"
+        }
+      },
+      "backendSystems": {
+        "title": "Backend & Systémy",
+        "summary": "Návrh API, datových modelů, integrací a systémové architektury.",
+        "items": {
+          "apis": "API",
           "postgresql": "PostgreSQL",
-          "systemDesign": "System design"
+          "systemDesign": "Návrh systémů",
+          "integrations": "Integrace"
+        }
+      },
+      "hardwarePrototyping": {
+        "title": "Hardware & prototypování",
+        "summary": "Propojování softwaru s elektronikou, senzory a fyzickými prototypy.",
+        "items": {
+          "esp32": "ESP32",
+          "sensors": "Senzory",
+          "electronics": "Elektronika",
+          "printing": "3D tisk",
+          "cad": "CAD"
+        }
+      },
+      "biologyResearch": {
+        "title": "Biologie & výzkum",
+        "summary": "Oblasti, které aktivně rozvíjím studiem a experimentální prací.",
+        "items": {
+          "mathematicalBiology": "Matematická biologie",
+          "biomedicine": "Biomedicína",
+          "experimentalWork": "Experimentální práce"
         }
       },
       "infrastructure": {
-        "title": "Infrastruktura & Deployment",
-        "summary": "Zajišťuji nasazení a provoz aplikací včetně infrastruktury, CI/CD a optimalizace výkonu.",
+        "title": "Infrastruktura",
+        "summary": "Provoz softwaru v praktických prostředích včetně nasazení a sítí.",
         "items": {
           "docker": "Docker",
           "linux": "Linux",
-          "cicd": "CI/CD",
-          "networking": "Networking"
+          "networking": "Sítě",
+          "cicd": "CI/CD"
         }
       }
     }
@@ -167,7 +199,7 @@
     "consultCta": "Rezervovat konzultaci",
     "direct": {
       "emailLabel": "contact@vantuch.dev",
-      "phoneLabel": "+ 420 703 973 078"
+      "phoneLabel": "735 023 812"
     },
     "status": {
       "success": "Zpráva odeslána.",
@@ -213,7 +245,7 @@
     "pageMarkdown": {
       "about": {
         "title": "# O mně",
-        "body": "Full-Stack Developer s 5+ lety zkušeností v budování a údržbě produkčních webových aplikací.",
+        "body": "Softwarový vývojář a student matematické biologie. Stavím software a datově řízené systémy a zároveň studuji Matematickou biologii a biomedicínu na Masarykově univerzitě.",
         "focusTitle": "## Zaměření",
         "focus1": "- Vývoj produktů",
         "focus2": "- End-to-end systémy",
@@ -227,21 +259,20 @@
         "include2": "- Revizio",
         "include3": "- My213",
         "include4": "- Ondrášek",
-        "include5": "- Kinedok"
+        "include5": "- Kinedok",
+        "include6": "- MycoPod"
       },
       "capabilities": {
         "title": "# Dovednosti",
-        "section1": "## Produkt & Design",
-        "s1i1": "- Produktové myšlení",
-        "s1i2": "- UI/UX design",
-        "s1i3": "- Prototyping",
-        "section2": "## Development",
-        "s2i1": "- React, Next.js, TypeScript",
-        "s2i2": "- Node.js, Python, Go",
-        "s2i3": "- APIs, GraphQL, WebSockets",
-        "section3": "## Infrastruktura & Data",
-        "s3i1": "- Docker, Linux, CI/CD",
-        "s3i2": "- PostgreSQL, Data modeling"
+        "section1": "## Softwarové inženýrství",
+        "s1i1": "- React, Next.js, TypeScript, Node.js, Go",
+        "section2": "## Data & backend",
+        "s2i1": "- Python, SQL, statistika, vizualizace, zpracování dat",
+        "s2i2": "- API, PostgreSQL, návrh systémů, integrace",
+        "section3": "## Hardware, biologie & infrastruktura",
+        "s3i1": "- ESP32, senzory, elektronika, 3D tisk, CAD",
+        "s3i2": "- Matematická biologie, biomedicína, experimentální práce",
+        "s3i3": "- Docker, Linux, sítě, CI/CD"
       },
       "contact": {
         "title": "# Kontakt",

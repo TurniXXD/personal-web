@@ -1,4 +1,5 @@
-import { useRef } from "react";
+import classNames from "classnames";
+import { useEffect, useRef, useState } from "react";
 import { X } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { getProjects } from "@/lib/site-data";
@@ -16,6 +17,75 @@ export const WorkDialog = ({
   const t = useTranslations("WorkDialog");
   const projects = getProjects((key) => t(key));
   const listRef = useRef<HTMLDivElement>(null);
+  const [activeProjectIndex, setActiveProjectIndex] = useState(0);
+  const activeProject = projects[activeProjectIndex] ?? projects[0];
+
+  useEffect(() => {
+    const list = listRef.current;
+
+    if (!list || !open) {
+      return;
+    }
+
+    let scrollEndTimer: number | null = null;
+
+    const syncActiveProjectFromScroll = () => {
+      const projectItems = Array.from(
+        list.querySelectorAll<HTMLElement>(".work-dialog__item"),
+      );
+
+      if (!projectItems.length) {
+        return;
+      }
+
+      const listRect = list.getBoundingClientRect();
+      const listCenter = listRect.left + listRect.width / 2;
+      const closestProjectIndex = projectItems.reduce(
+        (closestIndex, item, index) => {
+          const itemRect = item.getBoundingClientRect();
+          const itemCenter = itemRect.left + itemRect.width / 2;
+          const currentDistance = Math.abs(itemCenter - listCenter);
+          const closestItem = projectItems[closestIndex];
+          const closestRect = closestItem.getBoundingClientRect();
+          const closestCenter = closestRect.left + closestRect.width / 2;
+          const closestDistance = Math.abs(closestCenter - listCenter);
+
+          return currentDistance < closestDistance ? index : closestIndex;
+        },
+        0,
+      );
+
+      setActiveProjectIndex((currentIndex) =>
+        currentIndex === closestProjectIndex
+          ? currentIndex
+          : closestProjectIndex,
+      );
+    };
+
+    const syncActiveProjectAfterScroll = () => {
+      if (scrollEndTimer) {
+        window.clearTimeout(scrollEndTimer);
+      }
+
+      scrollEndTimer = window.setTimeout(syncActiveProjectFromScroll, 120);
+    };
+
+    syncActiveProjectFromScroll();
+
+    list.addEventListener("scroll", syncActiveProjectAfterScroll, {
+      passive: true,
+    });
+    list.addEventListener("scrollend", syncActiveProjectFromScroll);
+
+    return () => {
+      if (scrollEndTimer) {
+        window.clearTimeout(scrollEndTimer);
+      }
+
+      list.removeEventListener("scroll", syncActiveProjectAfterScroll);
+      list.removeEventListener("scrollend", syncActiveProjectFromScroll);
+    };
+  }, [open]);
 
   const scrollToEnd = () => {
     const list = listRef.current;
@@ -35,7 +105,7 @@ export const WorkDialog = ({
       ref={dialogRef}
       data-testid="dialog-work"
       data-open={open ? "true" : "false"}
-      className="work-dialog"
+      className="work-dialog work-dialog--projects"
       {...interactionProps}
     >
       <div className="work-dialog__header">
@@ -61,27 +131,51 @@ export const WorkDialog = ({
         ref={listRef}
         className="work-dialog__list work-dialog__list--scroll-tail"
       >
-        {projects.map((project) => {
-          const projectHostname = getDisplayHostname(project.url);
+        {projects.map((project, index) => {
+          const projectMeta = project.url
+            ? getDisplayHostname(project.url)
+            : project.meta;
+          const isActive = index === activeProjectIndex;
+          const projectPreview = (
+            <>
+              <ProjectPreview
+                name={project.name}
+                url={project.url}
+                imgUrl={project.imgUrl}
+                imageFit={project.imageFit}
+              />
+              <div className="work-dialog__meta">
+                <strong>{project.name}</strong>
+                {projectMeta ? <small>{projectMeta}</small> : null}
+              </div>
+            </>
+          );
 
           return (
-            <article key={project.name} className="work-dialog__item">
-              <a
-                className="work-dialog__item-link"
-                href={project.url}
-                target="_blank"
-                rel="noreferrer"
-              >
-                <ProjectPreview
-                  name={project.name}
-                  url={project.url}
-                  imgUrl={project.imgUrl}
-                />
-                <div className="work-dialog__meta">
-                  <strong>{project.name}</strong>
-                  <small>{projectHostname}</small>
+            <article
+              key={project.name}
+              className={classNames(
+                "work-dialog__item",
+                isActive && "work-dialog__item--active",
+              )}
+              onFocus={() => setActiveProjectIndex(index)}
+              onMouseEnter={() => setActiveProjectIndex(index)}
+              tabIndex={project.url ? undefined : 0}
+            >
+              {project.url ? (
+                <a
+                  className="work-dialog__item-link"
+                  href={project.url}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  {projectPreview}
+                </a>
+              ) : (
+                <div className="work-dialog__item-link">
+                  {projectPreview}
                 </div>
-              </a>
+              )}
               <div className="work-dialog__badges">
                 {project.isAppio ? (
                   <a
@@ -114,6 +208,12 @@ export const WorkDialog = ({
           );
         })}
       </div>
+      {activeProject ? (
+        <div className="work-dialog__project-description" aria-live="polite">
+          <strong>{activeProject.name}</strong>
+          <p>{activeProject.description}</p>
+        </div>
+      ) : null}
     </div>
   );
 };

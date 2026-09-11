@@ -5,13 +5,19 @@ import { getDisplayHostname } from "@/lib/url";
 
 type ProjectPreviewProps = {
   name: string;
-  url: string;
+  url?: string;
   imgUrl: string;
+  imageFit?: "cover" | "contain";
 };
 
-export const ProjectPreview = ({ name, url, imgUrl }: ProjectPreviewProps) => {
+export const ProjectPreview = ({
+  name,
+  url,
+  imgUrl,
+  imageFit = "cover",
+}: ProjectPreviewProps) => {
   const t = useTranslations("WorkDialog");
-  const hostname = getDisplayHostname(url);
+  const hostname = url ? getDisplayHostname(url) : name;
   const accent = hostname.length % 3;
   const accentClass =
     accent === 0
@@ -34,7 +40,10 @@ export const ProjectPreview = ({ name, url, imgUrl }: ProjectPreviewProps) => {
           alt={`${name} preview`}
           fill
           sizes="(min-width: 768px) 420px, 80vw"
-          className="work-dialog__preview-image"
+          className={classNames(
+            "work-dialog__preview-image",
+            imageFit === "contain" && "work-dialog__preview-image--contain",
+          )}
         />
       ) : (
         <>

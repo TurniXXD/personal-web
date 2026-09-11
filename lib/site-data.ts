@@ -25,8 +25,11 @@ export const SECTION_IDS: SectionId[] = [
 
 export type Project = {
   name: string;
-  url: string;
+  url?: string;
   imgUrl: string;
+  meta?: string;
+  description: string;
+  imageFit?: "cover" | "contain";
   isAppio?: boolean;
   isProRocketeers?: boolean;
 };
@@ -87,74 +90,102 @@ export const getProjects = (t: Translator): Project[] => [
     name: t("projects.robe"),
     url: "https://www.robe.cz/",
     imgUrl: "/images/work/robe.png",
+    description: t("projectDescriptions.robe"),
     isAppio: true,
   },
   {
     name: t("projects.kinedok"),
     url: "https://kinedok.net/",
     imgUrl: "/images/work/kinedok.png",
+    description: t("projectDescriptions.kinedok"),
     isAppio: true,
   },
   {
     name: t("projects.revizio"),
     url: "https://www.revizio.app/",
     imgUrl: "/images/work/revizio.png",
+    description: t("projectDescriptions.revizio"),
+  },
+  {
+    name: t("projects.mycopod"),
+    imgUrl: "/images/work/mycopod.png",
+    meta: t("projectMeta.mycopod"),
+    description: t("projectDescriptions.mycopod"),
+    imageFit: "contain",
   },
   {
     name: t("projects.my213"),
     url: "https://www.my213.cz/",
     imgUrl: "/images/work/my213.png",
+    description: t("projectDescriptions.my213"),
     isProRocketeers: true,
   },
   {
     name: t("projects.ondrasek"),
     url: "https://www.ondrasek.cz/",
     imgUrl: "/images/work/ondrasek.png",
-    isProRocketeers: true,
-  },
-  {
-    name: t("projects.seedr"),
-    url: "https://www.prorocketeers.com/startups/seedr",
-    imgUrl: "/images/work/seedr.avif",
+    description: t("projectDescriptions.ondrasek"),
     isProRocketeers: true,
   },
 ];
 
 export const getCapabilityCards = (t: Translator): CapabilityCard[] => [
   {
-    title: t("cards.productDesign.title"),
-    summary: t("cards.productDesign.summary"),
+    title: t("cards.softwareEngineering.title"),
+    summary: t("cards.softwareEngineering.summary"),
     items: [
-      t("cards.productDesign.items.productThinking"),
-      t("cards.productDesign.items.uiux"),
-      t("cards.productDesign.items.prototyping")
+      t("cards.softwareEngineering.items.react"),
+      t("cards.softwareEngineering.items.next"),
+      t("cards.softwareEngineering.items.typescript"),
+      t("cards.softwareEngineering.items.node"),
+      t("cards.softwareEngineering.items.go"),
     ],
     accent: "violet",
   },
   {
-    title: t("cards.frontend.title"),
-    summary: t("cards.frontend.summary"),
+    title: t("cards.dataAnalysis.title"),
+    summary: t("cards.dataAnalysis.summary"),
     items: [
-      t("cards.frontend.items.react"),
-      t("cards.frontend.items.next"),
-      t("cards.frontend.items.typescript"),
-      t("cards.frontend.items.performance"),
+      t("cards.dataAnalysis.items.python"),
+      t("cards.dataAnalysis.items.sql"),
+      t("cards.dataAnalysis.items.statistics"),
+      t("cards.dataAnalysis.items.visualization"),
+      t("cards.dataAnalysis.items.processing"),
     ],
     accent: "cyan",
   },
   {
-    title: t("cards.backend.title"),
-    summary: t("cards.backend.summary"),
+    title: t("cards.backendSystems.title"),
+    summary: t("cards.backendSystems.summary"),
     items: [
-      t("cards.backend.items.node"),
-      t("cards.backend.items.python"),
-      t("cards.backend.items.go"),
-      t("cards.backend.items.rest"),
-      t("cards.backend.items.graphql"),
-      t("cards.backend.items.postgresql"),
-      t("cards.backend.items.systemDesign"),
+      t("cards.backendSystems.items.apis"),
+      t("cards.backendSystems.items.postgresql"),
+      t("cards.backendSystems.items.systemDesign"),
+      t("cards.backendSystems.items.integrations"),
     ],
     accent: "blue",
+  },
+  {
+    title: t("cards.hardwarePrototyping.title"),
+    summary: t("cards.hardwarePrototyping.summary"),
+    items: [
+      t("cards.hardwarePrototyping.items.esp32"),
+      t("cards.hardwarePrototyping.items.sensors"),
+      t("cards.hardwarePrototyping.items.electronics"),
+      t("cards.hardwarePrototyping.items.printing"),
+      t("cards.hardwarePrototyping.items.cad"),
+    ],
+    accent: "violet",
+  },
+  {
+    title: t("cards.biologyResearch.title"),
+    summary: t("cards.biologyResearch.summary"),
+    items: [
+      t("cards.biologyResearch.items.mathematicalBiology"),
+      t("cards.biologyResearch.items.biomedicine"),
+      t("cards.biologyResearch.items.experimentalWork"),
+    ],
+    accent: "cyan",
   },
   {
     title: t("cards.infrastructure.title"),

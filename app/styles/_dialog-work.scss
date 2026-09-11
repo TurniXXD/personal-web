@@ -1,5 +1,72 @@
 @use "./breakpoints" as *;
 
+.work-dialog--projects {
+  grid-template-rows: auto minmax(0, 1fr) auto;
+}
+
+.work-dialog--projects .work-dialog__list {
+  padding-bottom: 1rem;
+}
+
+.work-dialog--projects .work-dialog__scroll-button {
+  bottom: 6.55rem;
+}
+
+.work-dialog--projects .work-dialog__item {
+  transition:
+    border-color 180ms ease,
+    background-color 180ms ease,
+    transform 180ms ease;
+}
+
+.work-dialog--projects .work-dialog__item--active {
+  border-color: rgba(123, 92, 255, 0.28);
+  background: rgba(250, 248, 255, 0.96);
+}
+
+.work-dialog--projects .work-dialog__preview {
+  transition:
+    border-color 180ms ease,
+    box-shadow 180ms ease,
+    transform 180ms ease;
+}
+
+.work-dialog--projects .work-dialog__item--active .work-dialog__preview {
+  border-color: rgba(123, 92, 255, 0.86);
+  box-shadow: 0 0 0 2px rgba(123, 92, 255, 0.2);
+  transform: translateY(-1px);
+}
+
+.work-dialog__project-description {
+  display: grid;
+  gap: 0.35rem;
+  min-height: 5.15rem;
+  margin-top: 0.75rem;
+  padding: 0.85rem 1rem;
+  border-radius: 0.95rem;
+  border: 1px solid rgba(123, 92, 255, 0.16);
+  background: rgba(250, 251, 255, 0.94);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7);
+}
+
+.work-dialog__project-description strong {
+  color: #1e2440;
+  font-size: 0.86rem;
+}
+
+.work-dialog__project-description p {
+  margin: 0;
+  color: rgba(58, 68, 112, 0.78);
+  font-size: 0.78rem;
+  line-height: 1.55;
+}
+
+.work-dialog__preview-image--contain {
+  object-fit: contain;
+  padding: 0.45rem;
+  background: #344454;
+}
+
 .work-dialog__badges {
   display: flex;
   flex-wrap: wrap;
@@ -87,6 +154,14 @@
 }
 
 @media (max-width: $bp-sm) {
+  .work-dialog--projects .work-dialog__scroll-button {
+    bottom: 7.45rem;
+  }
+
+  .work-dialog__project-description {
+    min-height: 6rem;
+  }
+
   .work-dialog__badge-popup {
     display: none;
   }

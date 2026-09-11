@@ -18,9 +18,9 @@ const routeItems: RouteItem[] = [
   },
   {
     id: "capabilities",
-    title: "Capabilities",
+    title: "Skills",
     icon: (() => null) as unknown as RouteItem["icon"],
-    summary: "Capabilities summary",
+    summary: "Skills summary",
     command: "open capabilities",
   },
   {
@@ -72,18 +72,23 @@ const t = (key: string, values?: Record<string, string | number>) => {
     "pageMarkdown.work.include3": "- My213",
     "pageMarkdown.work.include4": "- Ondrasek",
     "pageMarkdown.work.include5": "- Kinedok",
-    "pageMarkdown.capabilities.title": "# Capabilities",
-    "pageMarkdown.capabilities.section1": "## Product & Design",
-    "pageMarkdown.capabilities.s1i1": "- Product thinking",
-    "pageMarkdown.capabilities.s1i2": "- UI/UX design",
-    "pageMarkdown.capabilities.s1i3": "- Prototyping",
-    "pageMarkdown.capabilities.section2": "## Development",
-    "pageMarkdown.capabilities.s2i1": "- React, Next.js, TypeScript",
-    "pageMarkdown.capabilities.s2i2": "- Node.js, Python, Go",
-    "pageMarkdown.capabilities.s2i3": "- APIs, GraphQL, WebSockets",
-    "pageMarkdown.capabilities.section3": "## Infrastructure & Data",
-    "pageMarkdown.capabilities.s3i1": "- Docker, Linux, CI/CD",
-    "pageMarkdown.capabilities.s3i2": "- PostgreSQL, Data modeling",
+    "pageMarkdown.work.include6": "- MycoPod",
+    "pageMarkdown.capabilities.title": "# Skills",
+    "pageMarkdown.capabilities.section1": "## Software Engineering",
+    "pageMarkdown.capabilities.s1i1": "- React, Next.js, TypeScript, Node.js, Go",
+    "pageMarkdown.capabilities.section2": "## Data & Backend",
+    "pageMarkdown.capabilities.s2i1":
+      "- Python, SQL, statistics, visualization, data processing",
+    "pageMarkdown.capabilities.s2i2":
+      "- APIs, PostgreSQL, system design, integrations",
+    "pageMarkdown.capabilities.section3":
+      "## Hardware, Biology & Infrastructure",
+    "pageMarkdown.capabilities.s3i1":
+      "- ESP32, sensors, electronics, 3D printing, CAD",
+    "pageMarkdown.capabilities.s3i2":
+      "- Mathematical biology, biomedicine, experimental work",
+    "pageMarkdown.capabilities.s3i3":
+      "- Docker, Linux, networking, CI/CD",
     "pageMarkdown.contact.title": "# Contact",
     "pageMarkdown.contact.line1": "- Email: contact@vantuch.dev",
     "pageMarkdown.contact.line2": "- LinkedIn, GitHub, Telegram available on page",
@@ -150,7 +155,7 @@ describe("executeTerminalCommand", () => {
       output: [
         "About: cluster about",
         "Work: cluster work",
-        "Capabilities: cluster capabilities",
+        "Skills: cluster capabilities",
         "Contact: cluster contact",
       ],
     });

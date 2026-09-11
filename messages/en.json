@@ -31,8 +31,8 @@
       "command": "open work"
     },
     "capabilities": {
-      "title": "Capabilities",
-      "summary": "Core capabilities across product, code, and delivery.",
+      "title": "Skills",
+      "summary": "Professional skills and fields I am actively developing.",
       "command": "open capabilities"
     },
     "contact": {
@@ -45,7 +45,7 @@
     "labels": {
       "about": "About",
       "work": "Work",
-      "capabilities": "Capabilities",
+      "capabilities": "Skills",
       "contact": "Contact"
     }
   },
@@ -53,16 +53,16 @@
     "title": "About me",
     "cards": {
       "developer": {
-        "title": "Full-Stack Developer",
-        "summary": "Full-Stack Developer with more than 5 years of experience building and maintaining web applications."
+        "title": "Software Developer & Mathematical Biology Student",
+        "summary": "I build software and data-driven systems, while studying Mathematical Biology and Biomedicine at Masaryk University."
       },
       "technologies": {
-        "title": "Technologies",
-        "summary": "I primarily work with React / Next.js / TypeScript / Node.js / PostgreSQL, and I design APIs, data models, and integrate complex systems."
+        "title": "Beyond software",
+        "summary": "My interests extend beyond software into biology, medicine, data analysis, electronics and hands-on experimental work. I enjoy projects where software interacts with the physical world."
       },
       "focus": {
         "title": "Current focus",
-        "summary": "I focus on building reliable systems and solutions that simplify complex processes. Open to new opportunities and collaborations."
+        "summary": "I build web applications and software systems while expanding into mathematical biology, biomedical research and data analysis. I’m particularly interested in projects that connect software with real-world biological and experimental problems."
       }
     }
   },
@@ -83,55 +83,87 @@
       "robe": "Robe",
       "kinedok": "Kinedok",
       "revizio": "Revizio",
+      "mycopod": "MycoPod",
       "my213": "My213",
       "ondrasek": "Ondrášek",
       "seedr": "Seedr"
+    },
+    "projectMeta": {
+      "mycopod": "IoT cultivation prototype"
+    },
+    "projectDescriptions": {
+      "robe": "Product-focused web experience for a professional lighting manufacturer, built around clear product discovery and polished visual presentation.",
+      "kinedok": "Platform for a documentary film network, helping visitors explore programs, venues and festival content across regions.",
+      "revizio": "Application for managing inspection and revision workflows, with clearer records and smoother day-to-day administration.",
+      "mycopod": "Experimental automated system for growing mushrooms in a controlled environment. It combines 3D design and printing, electronics, ESP32-based sensing and control, and custom software for monitoring cultivation data.",
+      "my213": "Digital portal focused on simplifying structured business workflows, data entry and user-facing administration.",
+      "ondrasek": "Presentation website for Ondrášek, focused on content structure, visual clarity and straightforward access to key information."
     }
   },
   "CapabilitiesDialog": {
-    "title": "Capabilities",
-    "scrollToEnd": "Scroll to the last capability",
+    "title": "Skills",
+    "scrollToEnd": "Scroll to the last field",
     "cards": {
-      "productDesign": {
-        "title": "Product & Design",
-        "summary": "Turning ideas into clear product direction, user flows, and usable interfaces.",
-        "items": {
-          "productThinking": "Product thinking",
-          "uiux": "UI/UX design",
-          "prototyping": "Prototyping"
-        }
-      },
-      "frontend": {
-        "title": "Frontend Development",
-        "summary": "Building fast, reliable user interfaces with a strong focus on performance, usability, and long-term maintainability.",
+      "softwareEngineering": {
+        "title": "Software Engineering",
+        "summary": "Building modern web applications and software products.",
         "items": {
           "react": "React",
           "next": "Next.js",
           "typescript": "TypeScript",
-          "performance": "Performance"
+          "node": "Node.js",
+          "go": "Go"
         }
       },
-      "backend": {
-        "title": "Backend & Systems",
-        "summary": "Designing backend systems that connect services and data and remove unnecessary complexity.",
+      "dataAnalysis": {
+        "title": "Data & Analysis",
+        "summary": "Working with data, statistics, visualization, and processing workflows.",
         "items": {
-          "node": "Node.js",
           "python": "Python",
-          "go": "Go",
-          "rest": "REST APIs",
-          "graphql": "GraphQL",
+          "sql": "SQL",
+          "statistics": "Statistics",
+          "visualization": "Visualization",
+          "processing": "Data processing"
+        }
+      },
+      "backendSystems": {
+        "title": "Backend & Systems",
+        "summary": "Designing APIs, data models, integrations, and system architecture.",
+        "items": {
+          "apis": "APIs",
           "postgresql": "PostgreSQL",
-          "systemDesign": "System design"
+          "systemDesign": "System design",
+          "integrations": "Integrations"
+        }
+      },
+      "hardwarePrototyping": {
+        "title": "Hardware & Prototyping",
+        "summary": "Connecting software with electronics, sensors, and physical prototypes.",
+        "items": {
+          "esp32": "ESP32",
+          "sensors": "Sensors",
+          "electronics": "Electronics",
+          "printing": "3D printing",
+          "cad": "CAD"
+        }
+      },
+      "biologyResearch": {
+        "title": "Biology & Research",
+        "summary": "Fields I am actively developing through study and experimental work.",
+        "items": {
+          "mathematicalBiology": "Mathematical biology",
+          "biomedicine": "Biomedicine",
+          "experimentalWork": "Experimental work"
         }
       },
       "infrastructure": {
-        "title": "Infrastructure & Deployment",
-        "summary": "Running and scaling applications in production with reliable deployments and observability.",
+        "title": "Infrastructure",
+        "summary": "Running software in practical environments with deployment and networking basics.",
         "items": {
           "docker": "Docker",
           "linux": "Linux",
-          "cicd": "CI/CD",
-          "networking": "Networking"
+          "networking": "Networking",
+          "cicd": "CI/CD"
         }
       }
     }
@@ -167,7 +199,7 @@
     "consultCta": "Book a consultation",
     "direct": {
       "emailLabel": "contact@vantuch.dev",
-      "phoneLabel": "+ 420 703 973 078"
+      "phoneLabel": "735 023 812"
     },
     "status": {
       "success": "Message sent.",
@@ -213,7 +245,7 @@
     "pageMarkdown": {
       "about": {
         "title": "# About",
-        "body": "Full-Stack Developer with 5+ years of experience building and maintaining production web applications.",
+        "body": "Software Developer & Mathematical Biology Student. I build software and data-driven systems, while studying Mathematical Biology and Biomedicine at Masaryk University.",
         "focusTitle": "## Focus",
         "focus1": "- Product development",
         "focus2": "- End-to-end systems",
@@ -227,21 +259,20 @@
         "include2": "- Revizio",
         "include3": "- My213",
         "include4": "- Ondrášek",
-        "include5": "- Kinedok"
+        "include5": "- Kinedok",
+        "include6": "- MycoPod"
       },
       "capabilities": {
-        "title": "# Capabilities",
-        "section1": "## Product & Design",
-        "s1i1": "- Product thinking",
-        "s1i2": "- UI/UX design",
-        "s1i3": "- Prototyping",
-        "section2": "## Development",
-        "s2i1": "- React, Next.js, TypeScript",
-        "s2i2": "- Node.js, Python, Go",
-        "s2i3": "- APIs, GraphQL, WebSockets",
-        "section3": "## Infrastructure & Data",
-        "s3i1": "- Docker, Linux, CI/CD",
-        "s3i2": "- PostgreSQL, Data modeling"
+        "title": "# Skills",
+        "section1": "## Software Engineering",
+        "s1i1": "- React, Next.js, TypeScript, Node.js, Go",
+        "section2": "## Data & Backend",
+        "s2i1": "- Python, SQL, statistics, visualization, data processing",
+        "s2i2": "- APIs, PostgreSQL, system design, integrations",
+        "section3": "## Hardware, Biology & Infrastructure",
+        "s3i1": "- ESP32, sensors, electronics, 3D printing, CAD",
+        "s3i2": "- Mathematical biology, biomedicine, experimental work",
+        "s3i3": "- Docker, Linux, networking, CI/CD"
       },
       "contact": {
         "title": "# Contact",
