@@ -1,5 +1,5 @@
 import Script from "next/script";
-import { Toaster } from "sonner";
+import { AppToaster } from "@/components/app-toaster";
 import type { ChildrenProps } from "@/components/scene/types";
 import "@/app/globals.scss";
 
@@ -11,7 +11,7 @@ const RootLayout = ({ children }: RootLayoutProps) => {
       <body>
         <Script
           id="cloudflare-web-analytics"
-          defer
+          strategy="lazyOnload"
           src="https://static.cloudflareinsights.com/beacon.min.js"
           data-cf-beacon='{"token": "a3aed3e49da84a789c911037547a662a"}'
         />
@@ -36,15 +36,7 @@ const RootLayout = ({ children }: RootLayoutProps) => {
           <div className="site-bg__blur site-bg__blur--primary" />
           <div className="site-bg__blur site-bg__blur--secondary" />
         </div>
-        <Toaster
-          position="top-right"
-          richColors
-          toastOptions={{
-            style: {
-              borderRadius: "1rem",
-            },
-          }}
-        />
+        <AppToaster />
         {children}
       </body>
     </html>

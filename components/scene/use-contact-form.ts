@@ -1,6 +1,5 @@
 import { useState, type FormEvent } from "react";
 import { useTranslations } from "next-intl";
-import { toast } from "sonner";
 
 type ContactStatus = "idle" | "submitting" | "success" | "error";
 
@@ -8,6 +7,11 @@ type ContactResponse = {
   ok?: boolean;
   message?: string;
   formErrors?: Record<string, string>;
+};
+
+const showToast = async (type: "success" | "error", message: string) => {
+  const { toast } = await import("sonner");
+  toast[type](message);
 };
 
 export const useContactForm = () => {
@@ -63,7 +67,8 @@ export const useContactForm = () => {
         );
 
         setStatus("error");
-        toast.error(
+        void showToast(
+          "error",
           result.message === "missingApiKey"
             ? t("status.missingApiKey")
             : t("status.sendFailed"),
@@ -74,10 +79,10 @@ export const useContactForm = () => {
 
       form.reset();
       setStatus("success");
-      toast.success(t("status.success"));
+      void showToast("success", t("status.success"));
     } catch {
       setStatus("error");
-      toast.error(t("status.sendFailed"));
+      void showToast("error", t("status.sendFailed"));
     }
   };
 

@@ -12,6 +12,7 @@ import {
   TerminalSquare,
   X,
 } from "lucide-react";
+import dynamic from "next/dynamic";
 import { useSearchParams } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
 import { useRouter, usePathname } from "@/navigation";
@@ -22,12 +23,24 @@ import {
 } from "@/lib/site-data";
 import { AppShellSceneContext } from "@/components/app-shell-scene-context";
 import { FocusProvider, useFocus } from "@/components/focus-context";
-import { PipelineVisual } from "@/components/pipeline-visual";
-import { CommandTerminal } from "@/components/command-terminal";
 import type {
   ChildrenProps,
   TerminalDialogRequest,
 } from "@/components/scene/types";
+
+const PipelineVisual = dynamic(
+  () =>
+    import("@/components/pipeline-visual").then((mod) => mod.PipelineVisual),
+  { ssr: false },
+);
+
+const CommandTerminal = dynamic(
+  () =>
+    import("@/components/command-terminal").then(
+      (mod) => mod.CommandTerminal,
+    ),
+  { ssr: false },
+);
 
 const MAX_ZOOM = 2.15;
 const MIN_ZOOM = 0.75;

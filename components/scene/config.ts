@@ -1,26 +1,12 @@
 import * as THREE from "three";
 import type { SectionId } from "@/lib/site-data";
+export {
+  PAN_LIMIT_X,
+  PAN_LIMIT_Z,
+  WHEEL_ZOOM_STEP,
+} from "@/components/scene/interaction-constants";
 
 type Translator = (key: string) => string;
-
-export const getAboutCards = (t: Translator) =>
-  [
-    {
-      title: t("cards.developer.title"),
-      summary: t("cards.developer.summary"),
-      accent: "violet",
-    },
-    {
-      title: t("cards.technologies.title"),
-      summary: t("cards.technologies.summary"),
-      accent: "cyan",
-    },
-    {
-      title: t("cards.focus.title"),
-      summary: t("cards.focus.summary"),
-      accent: "blue",
-    },
-  ] as const;
 
 export type NodeConfig = {
   id: SectionId;
@@ -59,9 +45,6 @@ export const getSceneNodes = (t: Translator): NodeConfig[] => [
 
 // Camera/board constants live here to keep the rendering math deterministic across files.
 export const fixedCameraOffset = new THREE.Vector3(0, 12, 24);
-export const PAN_LIMIT_X = 16;
-export const PAN_LIMIT_Z = 13;
-export const WHEEL_ZOOM_STEP = 0.08;
 export const CABLE_SIZE = 0.22;
 export const FLOOR_SIZE = 240;
 export const FLOOR_SEGMENTS = 144;
@@ -74,12 +57,3 @@ export const circuitConnections: Array<[SectionId, SectionId]> = [
   ["capabilities", "contact"],
   ["work", "contact"],
 ];
-
-export const companyLinks = {
-  appio: {
-    href: "https://www.appio.dev/en",
-  },
-  proRocketeers: {
-    href: "https://www.prorocketeers.com",
-  },
-} as const;

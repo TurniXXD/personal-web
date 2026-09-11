@@ -5,10 +5,9 @@ import {
   GRID_DIVISIONS,
 } from "@/components/scene/config";
 import { CircuitLines } from "@/components/scene/circuit";
-import { usePipelineDialogs } from "@/components/scene/dialogs-context";
 import { FocusRig } from "@/components/scene/focus-rig";
 import { SceneNodes } from "@/components/scene/nodes";
-import { WorkDialogAnchor } from "@/components/scene/dialogs";
+import { WorkDialogAnchor } from "@/components/scene/dialogs/work-dialog-anchor";
 import type {
   HoverSectionHandler,
   SceneSelectionState,
@@ -64,8 +63,6 @@ export const PipelineSceneCanvas = ({
   viewResetToken,
   dpr,
 }: PipelineSceneCanvasProps) => {
-  const { openDialogSection } = usePipelineDialogs();
-
   return (
     <Canvas
       // The canvas owns the full WebGL scene; camera motion is delegated to FocusRig.

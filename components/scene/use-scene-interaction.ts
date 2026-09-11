@@ -5,14 +5,13 @@ import {
   type PointerEvent,
   type WheelEvent,
 } from "react";
-import * as THREE from "three";
 import type { SectionId } from "@/lib/site-data";
 import {
   PAN_LIMIT_X,
   PAN_LIMIT_Z,
   WHEEL_ZOOM_STEP,
-} from "@/components/scene/config";
-import type { DialogInteractionProps } from "@/components/scene/dialogs";
+} from "@/components/scene/interaction-constants";
+import type { DialogInteractionProps } from "@/components/scene/dialogs/types";
 import type {
   PanState,
   SectionChangeHandler,
@@ -46,6 +45,9 @@ type UseSceneInteractionParams = {
   maxZoom: number;
   terminalDialogRequest: TerminalDialogRequest | null;
 };
+
+const clamp = (value: number, min: number, max: number) =>
+  Math.min(Math.max(value, min), max);
 
 export const useSceneInteraction = ({
   activeSection,
@@ -194,11 +196,7 @@ export const useSceneInteraction = ({
       if (pinchState && pinchState.distance > 0 && pinchDistance > 0) {
         // Pinch zoom scales relative to the distance captured when the gesture started.
         const pinchRatio = pinchState.distance / pinchDistance;
-        const nextZoom = THREE.MathUtils.clamp(
-          pinchState.zoom * pinchRatio,
-          minZoom,
-          maxZoom,
-        );
+        const nextZoom = clamp(pinchState.zoom * pinchRatio, minZoom, maxZoom);
         onZoomChange(nextZoom);
       } else {
         pinchStateRef.current = {
@@ -234,16 +232,8 @@ export const useSceneInteraction = ({
 
     // Dragging shifts the camera target within the authored board limits.
     targetPan.current = {
-      x: THREE.MathUtils.clamp(
-        drag.panX - deltaX * 0.045,
-        -limitX,
-        limitX,
-      ),
-      z: THREE.MathUtils.clamp(
-        drag.panZ - deltaY * 0.045,
-        -limitZ,
-        limitZ,
-      ),
+      x: clamp(drag.panX - deltaX * 0.045, -limitX, limitX),
+      z: clamp(drag.panZ - deltaY * 0.045, -limitZ, limitZ),
     };
   };
 
@@ -267,7 +257,7 @@ export const useSceneInteraction = ({
       ? Math.abs(event.deltaY) * 0.0035
       : WHEEL_ZOOM_STEP;
     const nextZoom = zoom + (event.deltaY > 0 ? zoomStep : -zoomStep);
-    onZoomChange(THREE.MathUtils.clamp(nextZoom, minZoom, maxZoom));
+    onZoomChange(clamp(nextZoom, minZoom, maxZoom));
   };
 
   const handleSelectSection = (section: SectionId) => {

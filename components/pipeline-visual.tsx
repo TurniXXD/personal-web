@@ -5,12 +5,10 @@ import { useEffect, useRef, useState } from "react";
 import dynamic from "next/dynamic";
 import { useAppShellScene } from "@/components/app-shell-scene-context";
 import { PipelineDialogsProvider } from "@/components/scene/dialogs-context";
-import {
-  AboutDialog,
-  CapabilitiesDialog,
-  ContactDialog,
-  WorkDialog,
-} from "@/components/scene/dialogs";
+import { AboutDialog } from "@/components/scene/dialogs/about-dialog";
+import { CapabilitiesDialog } from "@/components/scene/dialogs/capabilities-dialog";
+import { ContactDialog } from "@/components/scene/dialogs/contact-dialog";
+import { WorkDialog } from "@/components/scene/dialogs/work-dialog";
 import { useContactForm } from "@/components/scene/use-contact-form";
 import { useSceneInteraction } from "@/components/scene/use-scene-interaction";
 
@@ -97,11 +95,29 @@ export const PipelineVisual = () => {
   }, [onDialogSectionChange, openDialogSection]);
 
   useEffect(() => {
-    const rafId = window.requestAnimationFrame(() => {
-      setMountScene(true);
-    });
+    const mountWhenIdle = () => setMountScene(true);
+    const idleWindow = window as Window & {
+      requestIdleCallback?: (
+        callback: IdleRequestCallback,
+        options?: IdleRequestOptions,
+      ) => number;
+      cancelIdleCallback?: (handle: number) => void;
+    };
 
-    return () => window.cancelAnimationFrame(rafId);
+    if (
+      typeof idleWindow.requestIdleCallback === "function" &&
+      typeof idleWindow.cancelIdleCallback === "function"
+    ) {
+      const idleId = idleWindow.requestIdleCallback(mountWhenIdle, {
+        timeout: 1600,
+      });
+
+      return () => idleWindow.cancelIdleCallback?.(idleId);
+    }
+
+    const timerId = window.setTimeout(mountWhenIdle, 900);
+
+    return () => window.clearTimeout(timerId);
   }, []);
 
   // Reduce DPR for initial page load on slower devices

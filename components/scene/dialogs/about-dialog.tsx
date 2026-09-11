@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import { X } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { getAboutCards } from "@/components/scene/config";
+import { getAboutCards } from "@/components/scene/content-config";
 import type { BaseDialogProps } from "@/components/scene/dialogs/types";
 
 export const AboutDialog = ({

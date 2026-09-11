@@ -4,7 +4,7 @@ import { X } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { getProjects } from "@/lib/site-data";
 import { getDisplayHostname } from "@/lib/url";
-import { companyLinks } from "@/components/scene/config";
+import { companyLinks } from "@/components/scene/content-config";
 import { ProjectPreview } from "@/components/scene/dialogs/project-preview";
 import type { BaseDialogProps } from "@/components/scene/dialogs/types";
 
