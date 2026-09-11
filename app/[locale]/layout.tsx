@@ -7,6 +7,13 @@ import { HtmlLang } from "@/components/html-lang";
 import { routing } from "@/i18n/routing";
 import type { ChildrenProps } from "@/components/scene/types";
 
+const siteUrl = "https://www.vantuch.dev";
+const languageAlternates = {
+  cs: "/",
+  en: "/en",
+  "x-default": "/",
+} as const;
+
 type LocaleLayoutProps = Readonly<
   ChildrenProps & {
     params: Promise<{
@@ -30,10 +37,16 @@ export const generateMetadata = async ({
   const t = await getTranslations({ locale, namespace: "Metadata" });
   const title = t("title");
   const description = t("description");
+  const canonicalPath = locale === "en" ? "/en" : "/";
 
   return {
+    metadataBase: new URL(siteUrl),
     title,
     description,
+    alternates: {
+      canonical: canonicalPath,
+      languages: languageAlternates,
+    },
     icons: {
       icon: "/favicon.svg",
     },
@@ -49,6 +62,9 @@ export const generateMetadata = async ({
       title,
       description,
       type: "website",
+      url: canonicalPath,
+      locale: locale === "cs" ? "cs_CZ" : "en_US",
+      alternateLocale: locale === "cs" ? ["en_US"] : ["cs_CZ"],
     },
     twitter: {
       card: "summary",

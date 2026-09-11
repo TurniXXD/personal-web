@@ -2,13 +2,12 @@ import { defineRouting } from "next-intl/routing";
 
 export const routing = defineRouting({
   locales: ["en", "cs"],
-  defaultLocale: "en",
-  localePrefix: "always",
-  localeDetection: true,
+  defaultLocale: "cs",
+  localePrefix: "as-needed",
+  localeDetection: false,
   localeCookie: {
     name: "NEXT_LOCALE",
     sameSite: "lax",
     maxAge: 60 * 60 * 24 * 365,
   },
 });
-
