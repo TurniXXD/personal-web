@@ -6,18 +6,26 @@ test("opens the work dialog from navigation", async ({ page }) => {
 
   await page.getByTestId("nav-work").click();
 
+  const workDialog = page.getByTestId("dialog-work");
+
   await expect(page).toHaveURL(/\/en\/?$/);
-  await expect(page.getByTestId("dialog-work")).toHaveAttribute("data-open", "true");
-  await expect(page.getByText("My work")).toBeVisible();
+  await expect(workDialog).toHaveAttribute("data-open", "true");
+  await expect(
+    workDialog.locator(".work-dialog__header").getByText("My work"),
+  ).toBeVisible();
   await expect(page.getByRole("link", { name: /Kinedok/i })).toBeVisible();
 });
 
 test("opens the work dialog from the navigation query param and clears it", async ({ page }) => {
   await page.goto("/en?navigation=work", { waitUntil: "networkidle" });
 
+  const workDialog = page.getByTestId("dialog-work");
+
   await expect(page).toHaveURL(/\/en\/?$/);
-  await expect(page.getByTestId("dialog-work")).toHaveAttribute("data-open", "true");
-  await expect(page.getByText("My work")).toBeVisible();
+  await expect(workDialog).toHaveAttribute("data-open", "true");
+  await expect(
+    workDialog.locator(".work-dialog__header").getByText("My work"),
+  ).toBeVisible();
 });
 
 test("opens the skills and contact dialogs from navigation", async ({ page }) => {
