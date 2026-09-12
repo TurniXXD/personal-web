@@ -98,6 +98,55 @@
       "mycopod": "Experimentální automatizovaný systém pro pěstování hub v kontrolovaném prostředí. Propojuje 3D návrh a tisk, elektroniku, senzory řízené přes ESP32 a vlastní software pro monitoring pěstebních dat.",
       "my213": "Digitální portál zaměřený na zjednodušení strukturovaných business procesů, zadávání dat a uživatelské administrace.",
       "ondrasek": "Prezentační web pro Ondrášek se zaměřením na strukturu obsahu, vizuální přehlednost a snadný přístup ke klíčovým informacím."
+    },
+    "detail": {
+      "workTitle": "Moje práce"
+    },
+    "projectStacks": {
+      "robe": "Next.js · TypeScript · PostgreSQL",
+      "kinedok": "Next.js · TypeScript · CMS",
+      "revizio": "React · TypeScript · UX",
+      "mycopod": "ESP32 · Senzory · 3D tisk",
+      "my213": "React · TypeScript · Integrace",
+      "ondrasek": "Frontend · CMS · SEO"
+    },
+    "projectWork": {
+      "robe": {
+        "frontend": "Frontend development",
+        "architecture": "Refaktor architektury",
+        "cms": "CMS & dynamický obsah",
+        "performance": "Performance & maintenance"
+      },
+      "kinedok": {
+        "frontend": "Frontend development",
+        "content": "Práce s programem a obsahem",
+        "responsive": "Responzivní UI",
+        "maintenance": "Údržba a ladění"
+      },
+      "revizio": {
+        "frontend": "Frontend aplikace",
+        "ux": "UX struktura",
+        "views": "Přehledy a workflow",
+        "product": "Produktový vývoj"
+      },
+      "mycopod": {
+        "design": "3D návrh a tisk",
+        "firmware": "ESP32 firmware",
+        "control": "Senzory a řízení prostředí",
+        "monitoring": "Monitoring aplikace"
+      },
+      "my213": {
+        "frontend": "Frontend development",
+        "workflow": "Business workflow UI",
+        "forms": "Formuláře a práce s daty",
+        "integrations": "Integrace a údržba"
+      },
+      "ondrasek": {
+        "frontend": "Frontend development",
+        "content": "Struktura obsahu",
+        "presentation": "Responzivní prezentace",
+        "seo": "SEO základ"
+      }
     }
   },
   "CapabilitiesDialog": {
@@ -106,7 +155,8 @@
     "cards": {
       "softwareEngineering": {
         "title": "Softwarové inženýrství",
-        "summary": "Vývoj moderních webových aplikací a softwarových produktů.",
+        "summary": "Návrh a vývoj webových aplikací, služeb a softwarových produktů.",
+        "level": "5+ let",
         "items": {
           "react": "React",
           "next": "Next.js",
@@ -117,7 +167,8 @@
       },
       "dataAnalysis": {
         "title": "Data & analýza",
-        "summary": "Práce s daty, statistikou, vizualizací a datovým zpracováním.",
+        "summary": "Práce s daty, vizualizací a datovým zpracováním.",
+        "level": "Rozvíjím",
         "items": {
           "python": "Python",
           "sql": "SQL",
@@ -127,8 +178,9 @@
         }
       },
       "backendSystems": {
-        "title": "Backend & Systémy",
+        "title": "Backend & systémy",
         "summary": "Návrh API, datových modelů, integrací a systémové architektury.",
+        "level": "5+ let",
         "items": {
           "apis": "API",
           "postgresql": "PostgreSQL",
@@ -139,6 +191,7 @@
       "hardwarePrototyping": {
         "title": "Hardware & prototypování",
         "summary": "Propojování softwaru s elektronikou, senzory a fyzickými prototypy.",
+        "level": "Praktické projekty",
         "items": {
           "esp32": "ESP32",
           "sensors": "Senzory",
@@ -149,7 +202,8 @@
       },
       "biologyResearch": {
         "title": "Biologie & výzkum",
-        "summary": "Oblasti, které aktivně rozvíjím studiem a experimentální prací.",
+        "summary": "Studium biologických a biomedicínských problémů pomocí matematiky, dat a experimentální práce.",
+        "level": "Studium & experimenty",
         "items": {
           "mathematicalBiology": "Matematická biologie",
           "biomedicine": "Biomedicína",
@@ -158,7 +212,8 @@
       },
       "infrastructure": {
         "title": "Infrastruktura",
-        "summary": "Provoz softwaru v praktických prostředích včetně nasazení a sítí.",
+        "summary": "Nasazování a provoz aplikací, služeb a síťové infrastruktury.",
+        "level": "Produkční praxe",
         "items": {
           "docker": "Docker",
           "linux": "Linux",

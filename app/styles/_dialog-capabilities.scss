@@ -32,6 +32,36 @@
   justify-content: space-between;
 }
 
+.work-dialog--capabilities .work-dialog__capability-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+  width: 100%;
+}
+
+.work-dialog--capabilities .work-dialog__level-badge {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.22rem 0.52rem;
+  border: 1px solid rgba(111, 124, 255, 0.18);
+  border-radius: 999px;
+  background: rgba(111, 124, 255, 0.14);
+  color: #5f6cff;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  line-height: 1.1;
+  white-space: nowrap;
+}
+
 .work-dialog--capabilities .work-dialog__badges {
   margin-top: 0.75rem;
+}
+
+.work-dialog--capabilities .work-dialog__badges > span {
+  background: rgba(111, 124, 255, 0.14);
+  color: #5f6cff;
 }

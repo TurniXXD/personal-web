@@ -98,6 +98,55 @@
       "mycopod": "Experimental automated system for growing mushrooms in a controlled environment. It combines 3D design and printing, electronics, ESP32-based sensing and control, and custom software for monitoring cultivation data.",
       "my213": "Digital portal focused on simplifying structured business workflows, data entry and user-facing administration.",
       "ondrasek": "Presentation website for Ondrášek, focused on content structure, visual clarity and straightforward access to key information."
+    },
+    "detail": {
+      "workTitle": "My work"
+    },
+    "projectStacks": {
+      "robe": "Next.js · TypeScript · PostgreSQL",
+      "kinedok": "Next.js · TypeScript · CMS",
+      "revizio": "React · TypeScript · UX",
+      "mycopod": "ESP32 · Sensors · 3D printing",
+      "my213": "React · TypeScript · Integrations",
+      "ondrasek": "Frontend · CMS · SEO"
+    },
+    "projectWork": {
+      "robe": {
+        "frontend": "Frontend development",
+        "architecture": "Architecture refactor",
+        "cms": "CMS & dynamic content",
+        "performance": "Performance & maintenance"
+      },
+      "kinedok": {
+        "frontend": "Frontend development",
+        "content": "Program and content work",
+        "responsive": "Responsive UI",
+        "maintenance": "Maintenance and tuning"
+      },
+      "revizio": {
+        "frontend": "Frontend application",
+        "ux": "UX structure",
+        "views": "Dashboards and workflows",
+        "product": "Product development"
+      },
+      "mycopod": {
+        "design": "3D design and printing",
+        "firmware": "ESP32 firmware",
+        "control": "Sensors and environment control",
+        "monitoring": "Monitoring application"
+      },
+      "my213": {
+        "frontend": "Frontend development",
+        "workflow": "Business workflow UI",
+        "forms": "Forms and data handling",
+        "integrations": "Integrations and maintenance"
+      },
+      "ondrasek": {
+        "frontend": "Frontend development",
+        "content": "Content structure",
+        "presentation": "Responsive presentation",
+        "seo": "SEO basics"
+      }
     }
   },
   "CapabilitiesDialog": {
@@ -106,7 +155,8 @@
     "cards": {
       "softwareEngineering": {
         "title": "Software Engineering",
-        "summary": "Building modern web applications and software products.",
+        "summary": "Building web applications, services, and software products.",
+        "level": "5+ years",
         "items": {
           "react": "React",
           "next": "Next.js",
@@ -117,7 +167,8 @@
       },
       "dataAnalysis": {
         "title": "Data & Analysis",
-        "summary": "Working with data, statistics, visualization, and processing workflows.",
+        "summary": "Working with data, visualization, and data processing.",
+        "level": "Developing",
         "items": {
           "python": "Python",
           "sql": "SQL",
@@ -129,6 +180,7 @@
       "backendSystems": {
         "title": "Backend & Systems",
         "summary": "Designing APIs, data models, integrations, and system architecture.",
+        "level": "5+ years",
         "items": {
           "apis": "APIs",
           "postgresql": "PostgreSQL",
@@ -139,6 +191,7 @@
       "hardwarePrototyping": {
         "title": "Hardware & Prototyping",
         "summary": "Connecting software with electronics, sensors, and physical prototypes.",
+        "level": "Practical projects",
         "items": {
           "esp32": "ESP32",
           "sensors": "Sensors",
@@ -149,7 +202,8 @@
       },
       "biologyResearch": {
         "title": "Biology & Research",
-        "summary": "Fields I am actively developing through study and experimental work.",
+        "summary": "Exploring biological and biomedical problems through mathematics, data, and experimental work.",
+        "level": "Study & experiments",
         "items": {
           "mathematicalBiology": "Mathematical biology",
           "biomedicine": "Biomedicine",
@@ -158,7 +212,8 @@
       },
       "infrastructure": {
         "title": "Infrastructure",
-        "summary": "Running software in practical environments with deployment and networking basics.",
+        "summary": "Deploying and operating applications, services, and network infrastructure.",
+        "level": "Production practice",
         "items": {
           "docker": "Docker",
           "linux": "Linux",

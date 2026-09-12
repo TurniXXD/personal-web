@@ -210,8 +210,19 @@ export const WorkDialog = ({
       </div>
       {activeProject ? (
         <div className="work-dialog__project-description" aria-live="polite">
-          <strong>{activeProject.name}</strong>
-          <p>{activeProject.description}</p>
+          <div className="work-dialog__project-copy">
+            <strong>{activeProject.name}</strong>
+            <p>{activeProject.description}</p>
+            <small>{activeProject.stack}</small>
+          </div>
+          <div className="work-dialog__project-work">
+            <strong>{t("detail.workTitle")}</strong>
+            <ul>
+              {activeProject.workItems.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          </div>
         </div>
       ) : null}
     </div>

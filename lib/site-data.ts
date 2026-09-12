@@ -29,6 +29,8 @@ export type Project = {
   imgUrl: string;
   meta?: string;
   description: string;
+  stack: string;
+  workItems: string[];
   imageFit?: "cover" | "contain";
   isAppio?: boolean;
   isProRocketeers?: boolean;
@@ -37,6 +39,7 @@ export type Project = {
 export type CapabilityCard = {
   title: string;
   summary: string;
+  level: string;
   items: string[];
   accent: "violet" | "cyan" | "blue";
 };
@@ -91,6 +94,13 @@ export const getProjects = (t: Translator): Project[] => [
     url: "https://www.robe.cz/",
     imgUrl: "/images/work/robe.png",
     description: t("projectDescriptions.robe"),
+    stack: t("projectStacks.robe"),
+    workItems: [
+      t("projectWork.robe.frontend"),
+      t("projectWork.robe.architecture"),
+      t("projectWork.robe.cms"),
+      t("projectWork.robe.performance"),
+    ],
     isAppio: true,
   },
   {
@@ -98,6 +108,13 @@ export const getProjects = (t: Translator): Project[] => [
     url: "https://kinedok.net/",
     imgUrl: "/images/work/kinedok.png",
     description: t("projectDescriptions.kinedok"),
+    stack: t("projectStacks.kinedok"),
+    workItems: [
+      t("projectWork.kinedok.frontend"),
+      t("projectWork.kinedok.content"),
+      t("projectWork.kinedok.responsive"),
+      t("projectWork.kinedok.maintenance"),
+    ],
     isAppio: true,
   },
   {
@@ -105,12 +122,26 @@ export const getProjects = (t: Translator): Project[] => [
     url: "https://www.revizio.app/",
     imgUrl: "/images/work/revizio.png",
     description: t("projectDescriptions.revizio"),
+    stack: t("projectStacks.revizio"),
+    workItems: [
+      t("projectWork.revizio.frontend"),
+      t("projectWork.revizio.ux"),
+      t("projectWork.revizio.views"),
+      t("projectWork.revizio.product"),
+    ],
   },
   {
     name: t("projects.mycopod"),
     imgUrl: "/images/work/mycopod.png",
     meta: t("projectMeta.mycopod"),
     description: t("projectDescriptions.mycopod"),
+    stack: t("projectStacks.mycopod"),
+    workItems: [
+      t("projectWork.mycopod.design"),
+      t("projectWork.mycopod.firmware"),
+      t("projectWork.mycopod.control"),
+      t("projectWork.mycopod.monitoring"),
+    ],
     imageFit: "contain",
   },
   {
@@ -118,6 +149,13 @@ export const getProjects = (t: Translator): Project[] => [
     url: "https://www.my213.cz/",
     imgUrl: "/images/work/my213.png",
     description: t("projectDescriptions.my213"),
+    stack: t("projectStacks.my213"),
+    workItems: [
+      t("projectWork.my213.frontend"),
+      t("projectWork.my213.workflow"),
+      t("projectWork.my213.forms"),
+      t("projectWork.my213.integrations"),
+    ],
     isProRocketeers: true,
   },
   {
@@ -125,6 +163,13 @@ export const getProjects = (t: Translator): Project[] => [
     url: "https://www.ondrasek.cz/",
     imgUrl: "/images/work/ondrasek.png",
     description: t("projectDescriptions.ondrasek"),
+    stack: t("projectStacks.ondrasek"),
+    workItems: [
+      t("projectWork.ondrasek.frontend"),
+      t("projectWork.ondrasek.content"),
+      t("projectWork.ondrasek.presentation"),
+      t("projectWork.ondrasek.seo"),
+    ],
     isProRocketeers: true,
   },
 ];
@@ -133,6 +178,7 @@ export const getCapabilityCards = (t: Translator): CapabilityCard[] => [
   {
     title: t("cards.softwareEngineering.title"),
     summary: t("cards.softwareEngineering.summary"),
+    level: t("cards.softwareEngineering.level"),
     items: [
       t("cards.softwareEngineering.items.react"),
       t("cards.softwareEngineering.items.next"),
@@ -145,6 +191,7 @@ export const getCapabilityCards = (t: Translator): CapabilityCard[] => [
   {
     title: t("cards.dataAnalysis.title"),
     summary: t("cards.dataAnalysis.summary"),
+    level: t("cards.dataAnalysis.level"),
     items: [
       t("cards.dataAnalysis.items.python"),
       t("cards.dataAnalysis.items.sql"),
@@ -157,6 +204,7 @@ export const getCapabilityCards = (t: Translator): CapabilityCard[] => [
   {
     title: t("cards.backendSystems.title"),
     summary: t("cards.backendSystems.summary"),
+    level: t("cards.backendSystems.level"),
     items: [
       t("cards.backendSystems.items.apis"),
       t("cards.backendSystems.items.postgresql"),
@@ -168,6 +216,7 @@ export const getCapabilityCards = (t: Translator): CapabilityCard[] => [
   {
     title: t("cards.hardwarePrototyping.title"),
     summary: t("cards.hardwarePrototyping.summary"),
+    level: t("cards.hardwarePrototyping.level"),
     items: [
       t("cards.hardwarePrototyping.items.esp32"),
       t("cards.hardwarePrototyping.items.sensors"),
@@ -180,6 +229,7 @@ export const getCapabilityCards = (t: Translator): CapabilityCard[] => [
   {
     title: t("cards.biologyResearch.title"),
     summary: t("cards.biologyResearch.summary"),
+    level: t("cards.biologyResearch.level"),
     items: [
       t("cards.biologyResearch.items.mathematicalBiology"),
       t("cards.biologyResearch.items.biomedicine"),
@@ -190,6 +240,7 @@ export const getCapabilityCards = (t: Translator): CapabilityCard[] => [
   {
     title: t("cards.infrastructure.title"),
     summary: t("cards.infrastructure.summary"),
+    level: t("cards.infrastructure.level"),
     items: [
       t("cards.infrastructure.items.docker"),
       t("cards.infrastructure.items.linux"),

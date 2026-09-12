@@ -93,7 +93,10 @@ export const CapabilitiesDialog = ({
         {capabilityCards.map((capability) => (
           <article key={capability.title} className="work-dialog__item">
             <div className="work-dialog__meta">
-              <strong>{capability.title}</strong>
+              <div className="work-dialog__capability-heading">
+                <strong>{capability.title}</strong>
+                <span className="work-dialog__level-badge">{capability.level}</span>
+              </div>
               <small>{capability.summary}</small>
             </div>
             <div className="work-dialog__badges">
