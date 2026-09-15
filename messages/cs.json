@@ -172,7 +172,6 @@
         "items": {
           "python": "Python",
           "sql": "SQL",
-          "statistics": "Statistika",
           "visualization": "Vizualizace",
           "processing": "Zpracování dat"
         }
@@ -271,21 +270,21 @@
     "label": "Navigační terminál",
     "placeholder": "open work",
     "initial": {
-      "line1": "Terminál clusteru připraven.",
+      "line1": "Terminál připraven.",
       "line2": "Zadejte `help` pro zobrazení dostupných příkazů, nebo rovnou `cd about`, `cd work`, `cd capabilities` či `cd contact`."
     },
     "awaitingInput": "Čekám na vstup. Zadejte `help` nebo `list`.",
     "closing": "Zavírám terminál.",
     "availableCommands": "Dostupné příkazy:",
     "unknownTarget": "Neznámý cíl: {target}",
-    "useList": "Použijte `list` k prozkoumání clusterů.",
+    "useList": "Použijte `list` k prozkoumání nodů.",
     "unknownTargetLs": "Použijte `ls` k prozkoumání dostupných souborů stránek.",
     "unknownTargetCat": "Použijte `ls` pro zobrazení dostupných souborů.",
     "catUsage": "Použití: `cat [soubor.md]`",
     "unknownCommand": "Neznámý příkaz: {command}",
     "typeHelp": "Zadejte `help` pro podporované příkazy.",
-    "focusCluster": "Zaměřuji cluster {section}",
-    "listLabel": "{title}: cluster {id}",
+    "focusNode": "Zaměřuji node {section}",
+    "listLabel": "{title}: node {id}",
     "fileLabel": "- {id}.md",
     "help": {
       "open": "open [stránka]",
@@ -322,7 +321,7 @@
         "section1": "## Softwarové inženýrství",
         "s1i1": "- React, Next.js, TypeScript, Node.js, Go",
         "section2": "## Data & backend",
-        "s2i1": "- Python, SQL, statistika, vizualizace, zpracování dat",
+        "s2i1": "- Python, SQL, vizualizace, zpracování dat",
         "s2i2": "- API, PostgreSQL, návrh systémů, integrace",
         "section3": "## Hardware, biologie & infrastruktura",
         "s3i1": "- ESP32, senzory, elektronika, 3D tisk, CAD",
@@ -336,10 +335,6 @@
         "formTitle": "## Formulář",
         "formBody": "Použijte kontaktní formulář k odeslání poptávky projektu."
       }
-    },
-    "suggestions": {
-      "inspect": "prozkoumat obsah {title}",
-      "file": "zobrazit soubor {title}"
     }
   }
 }

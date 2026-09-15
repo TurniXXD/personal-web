@@ -195,7 +195,6 @@ export const getCapabilityCards = (t: Translator): CapabilityCard[] => [
     items: [
       t("cards.dataAnalysis.items.python"),
       t("cards.dataAnalysis.items.sql"),
-      t("cards.dataAnalysis.items.statistics"),
       t("cards.dataAnalysis.items.visualization"),
       t("cards.dataAnalysis.items.processing"),
     ],

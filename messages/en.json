@@ -172,7 +172,6 @@
         "items": {
           "python": "Python",
           "sql": "SQL",
-          "statistics": "Statistics",
           "visualization": "Visualization",
           "processing": "Data processing"
         }
@@ -271,21 +270,21 @@
     "label": "Navigation terminal",
     "placeholder": "open work",
     "initial": {
-      "line1": "Cluster terminal ready.",
+      "line1": "Terminal ready.",
       "line2": "Type `help` to view available commands, or jump straight to `cd about`, `cd work`, `cd capabilities`, or `cd contact`."
     },
     "awaitingInput": "Awaiting input. Type `help` or `list`.",
     "closing": "Closing terminal.",
     "availableCommands": "Available commands:",
     "unknownTarget": "Unknown target: {target}",
-    "useList": "Use `list` to inspect clusters.",
+    "useList": "Use `list` to inspect nodes.",
     "unknownTargetLs": "Use `ls` to inspect available page files.",
     "unknownTargetCat": "Use `ls` to see available files.",
     "catUsage": "Usage: `cat [file.md]`",
     "unknownCommand": "Unknown command: {command}",
     "typeHelp": "Type `help` for supported commands.",
-    "focusCluster": "Focusing {section} cluster",
-    "listLabel": "{title}: cluster {id}",
+    "focusNode": "Focusing {section} node",
+    "listLabel": "{title}: node {id}",
     "fileLabel": "- {id}.md",
     "help": {
       "open": "open [page]",
@@ -322,7 +321,7 @@
         "section1": "## Software Engineering",
         "s1i1": "- React, Next.js, TypeScript, Node.js, Go",
         "section2": "## Data & Backend",
-        "s2i1": "- Python, SQL, statistics, visualization, data processing",
+        "s2i1": "- Python, SQL, visualization, data processing",
         "s2i2": "- APIs, PostgreSQL, system design, integrations",
         "section3": "## Hardware, Biology & Infrastructure",
         "s3i1": "- ESP32, sensors, electronics, 3D printing, CAD",
@@ -336,10 +335,6 @@
         "formTitle": "## Form",
         "formBody": "Use the contact form to send a project inquiry."
       }
-    },
-    "suggestions": {
-      "inspect": "inspect {title} content",
-      "file": "show {title} file"
     }
   }
 }

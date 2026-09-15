@@ -6,7 +6,6 @@ import { useTranslations } from "next-intl";
 import {
   executeTerminalCommand,
   getInitialTerminalHistory,
-  getTerminalSuggestions,
 } from "@/lib/terminal";
 import { useFocus } from "@/components/focus-context";
 import { getRouteItems } from "@/lib/site-data";
@@ -46,24 +45,6 @@ export const CommandTerminal = ({
     setHistory(initialHistory);
   }, [initialHistory]);
 
-  const suggestions = useMemo(
-    () => getTerminalSuggestions(input, routeItems, tTerminal),
-    [input, routeItems, tTerminal],
-  );
-  const inlineSuggestion = useMemo(() => {
-    const normalizedInput = input.trim().toLowerCase();
-
-    if (!normalizedInput) {
-      return "";
-    }
-
-    return (
-      suggestions.find((suggestion) =>
-        suggestion.value.toLowerCase().startsWith(normalizedInput),
-      )?.value ?? ""
-    );
-  }, [input, suggestions]);
-
   useEffect(() => {
     const historyElement = historyRef.current;
 
@@ -83,14 +64,6 @@ export const CommandTerminal = ({
       inputRef.current?.focus();
     });
   }, [isOpen]);
-
-  const applyAutocomplete = () => {
-    if (!inlineSuggestion) {
-      return;
-    }
-
-    setInput(inlineSuggestion);
-  };
 
   const submit = (commandValue: string) => {
     const result = executeTerminalCommand(commandValue, routeItems, tTerminal);
@@ -157,49 +130,18 @@ export const CommandTerminal = ({
             <CornerDownLeft size={14} />
           </label>
           <div className="terminal-input-shell">
-            {inlineSuggestion && inlineSuggestion !== input ? (
-              <div className="terminal-input-ghost" aria-hidden="true">
-                <span className="terminal-input-ghost__typed">{input}</span>
-                <span>{inlineSuggestion.slice(input.length)}</span>
-              </div>
-            ) : null}
             <input
               id="terminal-input"
               ref={inputRef}
               className="terminal-input"
               value={input}
               onChange={(event) => setInput(event.target.value)}
-              onKeyDown={(event) => {
-                if (
-                  (event.key === "Tab" || event.key === "ArrowRight") &&
-                  inlineSuggestion &&
-                  inlineSuggestion !== input
-                ) {
-                  event.preventDefault();
-                  applyAutocomplete();
-                }
-              }}
               placeholder={tTerminal("placeholder")}
               autoComplete="off"
               spellCheck={false}
             />
           </div>
         </form>
-
-        {input.trim() ? (
-          <div className="terminal-suggestions">
-            {suggestions.map((suggestion) => (
-              <button
-                key={suggestion.label}
-                type="button"
-                className="terminal-suggestion"
-                onClick={() => submit(suggestion.value)}
-              >
-                {suggestion.label}
-              </button>
-            ))}
-          </div>
-        ) : null}
       </div>
     </section>
   );

@@ -88,32 +88,6 @@ const getRouteAliases = (routeItems: RouteItem[]) =>
     }),
   ]);
 
-const getCommandSuggestions = (routeItems: RouteItem[], t: Translator) => [
-  ...getTerminalHelp(t).map((command) => ({ label: command, value: command })),
-  ...routeItems.flatMap((item) => [
-    {
-      label: `${item.command}  ->  ${item.summary}`,
-      value: item.command,
-    },
-    {
-      label: `cd ${item.title.toLowerCase()}  ->  ${item.summary}`,
-      value: `cd ${item.title.toLowerCase()}`,
-    },
-    {
-      label: `ls ${item.title.toLowerCase()}  ->  ${t("suggestions.file", {
-        title: item.title.toLowerCase(),
-      })}`,
-      value: `ls ${item.title.toLowerCase()}`,
-    },
-    {
-      label: `cat ${item.id}.md  ->  ${t("suggestions.inspect", {
-        title: item.title.toLowerCase(),
-      })}`,
-      value: `cat ${item.id}.md`,
-    },
-  ]),
-];
-
 export const getInitialTerminalHistory = (t: Translator) => [
   {
     id: 1,
@@ -121,30 +95,6 @@ export const getInitialTerminalHistory = (t: Translator) => [
     output: [t("initial.line1"), t("initial.line2")],
   },
 ];
-
-export const getTerminalSuggestions = (
-  input: string,
-  routeItems: RouteItem[],
-  t: Translator,
-) => {
-  const value = input.trim().toLowerCase();
-
-  if (!value) {
-    return [];
-  }
-
-  const commandSuggestions = getCommandSuggestions(routeItems, t);
-  const rankedSuggestions = commandSuggestions.filter((suggestion) => {
-    const label = suggestion.label.toLowerCase();
-    const suggestionValue = suggestion.value.toLowerCase();
-
-    return suggestionValue.startsWith(value) || label.includes(value);
-  });
-
-  return Array.from(
-    new Map(rankedSuggestions.map((suggestion) => [suggestion.value, suggestion])).values(),
-  ).slice(0, 8);
-};
 
 export const executeTerminalCommand = (
   rawInput: string,
@@ -203,7 +153,7 @@ export const executeTerminalCommand = (
     return {
       type: "focus",
       target: section,
-      output: [t("focusCluster", { section })],
+      output: [t("focusNode", { section })],
     };
   }
 

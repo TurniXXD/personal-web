@@ -12,6 +12,21 @@ test("opens the terminal with the keyboard shortcut", async ({ page }) => {
   await expect(page.getByLabel("Navigation terminal")).toBeVisible();
 });
 
+test("closes the terminal with the escape key", async ({ page }) => {
+  await page.goto("/en", { waitUntil: "networkidle" });
+  await expect(page.getByTestId("terminal-toggle")).toBeVisible();
+
+  await page.keyboard.press(modK);
+
+  const terminalDock = page.getByTestId("terminal-dock");
+
+  await expect(terminalDock).toHaveAttribute("data-open", "true");
+
+  await page.keyboard.press("Escape");
+
+  await expect(terminalDock).toHaveAttribute("data-open", "false");
+});
+
 test("focuses a section from the terminal command input", async ({ page }) => {
   await page.goto("/en", { waitUntil: "networkidle" });
   await expect(page.getByTestId("terminal-toggle")).toBeVisible();

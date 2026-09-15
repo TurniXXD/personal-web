@@ -17,8 +17,20 @@ export const WorkDialog = ({
   const t = useTranslations("WorkDialog");
   const projects = getProjects((key) => t(key));
   const listRef = useRef<HTMLDivElement>(null);
+  const scrollEndTimerRef = useRef<number | null>(null);
   const [activeProjectIndex, setActiveProjectIndex] = useState(0);
   const activeProject = projects[activeProjectIndex] ?? projects[0];
+
+  const activateProject = (index: number) => {
+    if (scrollEndTimerRef.current) {
+      window.clearTimeout(scrollEndTimerRef.current);
+      scrollEndTimerRef.current = null;
+    }
+
+    setActiveProjectIndex((currentIndex) =>
+      currentIndex === index ? currentIndex : index,
+    );
+  };
 
   useEffect(() => {
     const list = listRef.current;
@@ -26,8 +38,6 @@ export const WorkDialog = ({
     if (!list || !open) {
       return;
     }
-
-    let scrollEndTimer: number | null = null;
 
     const syncActiveProjectFromScroll = () => {
       const projectItems = Array.from(
@@ -63,11 +73,14 @@ export const WorkDialog = ({
     };
 
     const syncActiveProjectAfterScroll = () => {
-      if (scrollEndTimer) {
-        window.clearTimeout(scrollEndTimer);
+      if (scrollEndTimerRef.current) {
+        window.clearTimeout(scrollEndTimerRef.current);
       }
 
-      scrollEndTimer = window.setTimeout(syncActiveProjectFromScroll, 120);
+      scrollEndTimerRef.current = window.setTimeout(() => {
+        scrollEndTimerRef.current = null;
+        syncActiveProjectFromScroll();
+      }, 120);
     };
 
     syncActiveProjectFromScroll();
@@ -78,8 +91,9 @@ export const WorkDialog = ({
     list.addEventListener("scrollend", syncActiveProjectFromScroll);
 
     return () => {
-      if (scrollEndTimer) {
-        window.clearTimeout(scrollEndTimer);
+      if (scrollEndTimerRef.current) {
+        window.clearTimeout(scrollEndTimerRef.current);
+        scrollEndTimerRef.current = null;
       }
 
       list.removeEventListener("scroll", syncActiveProjectAfterScroll);
@@ -158,8 +172,9 @@ export const WorkDialog = ({
                 "work-dialog__item",
                 isActive && "work-dialog__item--active",
               )}
-              onFocus={() => setActiveProjectIndex(index)}
-              onMouseEnter={() => setActiveProjectIndex(index)}
+              onFocus={() => activateProject(index)}
+              onMouseEnter={() => activateProject(index)}
+              onPointerEnter={() => activateProject(index)}
               tabIndex={project.url ? undefined : 0}
             >
               {project.url ? (
@@ -168,11 +183,18 @@ export const WorkDialog = ({
                   href={project.url}
                   target="_blank"
                   rel="noreferrer"
+                  onFocus={() => activateProject(index)}
+                  onMouseEnter={() => activateProject(index)}
+                  onPointerEnter={() => activateProject(index)}
                 >
                   {projectPreview}
                 </a>
               ) : (
-                <div className="work-dialog__item-link">
+                <div
+                  className="work-dialog__item-link"
+                  onMouseEnter={() => activateProject(index)}
+                  onPointerEnter={() => activateProject(index)}
+                >
                   {projectPreview}
                 </div>
               )}

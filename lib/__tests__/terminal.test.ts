@@ -1,4 +1,4 @@
-import { executeTerminalCommand, getTerminalSuggestions } from "@/lib/terminal";
+import { executeTerminalCommand } from "@/lib/terminal";
 import type { RouteItem } from "@/lib/site-data";
 
 const routeItems: RouteItem[] = [
@@ -43,20 +43,20 @@ const t = (key: string, values?: Record<string, string | number>) => {
     "help.help": "help",
     "help.clear": "clear",
     "help.exit": "exit",
-    "initial.line1": "Cluster terminal ready.",
+    "initial.line1": "Terminal ready.",
     "initial.line2": "Type `cd about`, `cd work`, `cd capabilities`, or `cd contact`.",
     awaitingInput: "Awaiting input. Type `help` or `list`.",
     closing: "Closing terminal.",
     availableCommands: "Available commands:",
     unknownTarget: `Unknown target: ${replacements.target ?? ""}`.trim(),
-    useList: "Use `list` to inspect clusters.",
+    useList: "Use `list` to inspect nodes.",
     unknownTargetLs: "Use `ls` to inspect available page files.",
     unknownTargetCat: "Use `ls` to see available files.",
     catUsage: "Usage: `cat <file.md>`",
     unknownCommand: `Unknown command: ${replacements.command ?? ""}`.trim(),
     typeHelp: "Type `help` for supported commands.",
-    focusCluster: `Focusing ${replacements.section ?? ""} cluster`.trim(),
-    listLabel: `${replacements.title ?? ""}: cluster ${replacements.id ?? ""}`.trim(),
+    focusNode: `Focusing ${replacements.section ?? ""} node`.trim(),
+    listLabel: `${replacements.title ?? ""}: node ${replacements.id ?? ""}`.trim(),
     fileLabel: `- ${replacements.id ?? ""}.md`.trim(),
     "pageMarkdown.about.title": "# About",
     "pageMarkdown.about.body": "About body",
@@ -78,7 +78,7 @@ const t = (key: string, values?: Record<string, string | number>) => {
     "pageMarkdown.capabilities.s1i1": "- React, Next.js, TypeScript, Node.js, Go",
     "pageMarkdown.capabilities.section2": "## Data & Backend",
     "pageMarkdown.capabilities.s2i1":
-      "- Python, SQL, statistics, visualization, data processing",
+      "- Python, SQL, visualization, data processing",
     "pageMarkdown.capabilities.s2i2":
       "- APIs, PostgreSQL, system design, integrations",
     "pageMarkdown.capabilities.section3":
@@ -94,43 +94,10 @@ const t = (key: string, values?: Record<string, string | number>) => {
     "pageMarkdown.contact.line2": "- LinkedIn, GitHub, Telegram available on page",
     "pageMarkdown.contact.formTitle": "## Form",
     "pageMarkdown.contact.formBody": "Use the contact form to send a project inquiry.",
-    "suggestions.inspect": `inspect ${replacements.title ?? ""} content`.trim(),
-    "suggestions.file": `show ${replacements.title ?? ""} file`.trim(),
   };
 
   return map[key] ?? key;
 };
-
-describe("getTerminalSuggestions", () => {
-  it("returns no suggestions for blank input", () => {
-    expect(getTerminalSuggestions("   ", routeItems, t)).toEqual([]);
-  });
-
-  it("suggests terminal commands that match the query", () => {
-    expect(getTerminalSuggestions("he", routeItems, t)).toEqual(
-      expect.arrayContaining([
-        expect.objectContaining({
-          label: "help",
-          value: "help",
-        }),
-      ]),
-    );
-  });
-
-  it("suggests route commands for matching section queries", () => {
-    expect(getTerminalSuggestions("wor", routeItems, t)).toEqual(
-      expect.arrayContaining([
-        expect.objectContaining({
-          value: "open work",
-        }),
-      ]),
-    );
-  });
-
-  it("caps the suggestion list", () => {
-    expect(getTerminalSuggestions("o", routeItems, t)).toHaveLength(8);
-  });
-});
 
 describe("executeTerminalCommand", () => {
   it("returns a prompt for empty input", () => {
@@ -149,14 +116,14 @@ describe("executeTerminalCommand", () => {
     );
   });
 
-  it("lists the available clusters", () => {
+  it("lists the available nodes", () => {
     expect(executeTerminalCommand("list", routeItems, t)).toEqual({
       type: "output",
       output: [
-        "About: cluster about",
-        "Work: cluster work",
-        "Skills: cluster capabilities",
-        "Contact: cluster contact",
+        "About: node about",
+        "Work: node work",
+        "Skills: node capabilities",
+        "Contact: node contact",
       ],
     });
   });
@@ -195,7 +162,7 @@ describe("executeTerminalCommand", () => {
     expect(executeTerminalCommand("open work", routeItems, t)).toEqual({
       type: "focus",
       target: "work",
-      output: ["Focusing work cluster"],
+      output: ["Focusing work node"],
     });
   });
 
@@ -203,7 +170,7 @@ describe("executeTerminalCommand", () => {
     expect(executeTerminalCommand("cd home", routeItems, t)).toEqual({
       type: "focus",
       target: "about",
-      output: ["Focusing about cluster"],
+      output: ["Focusing about node"],
     });
   });
 
@@ -211,14 +178,14 @@ describe("executeTerminalCommand", () => {
     expect(executeTerminalCommand("open capabilities", routeItems, t)).toEqual({
       type: "focus",
       target: "capabilities",
-      output: ["Focusing capabilities cluster"],
+      output: ["Focusing capabilities node"],
     });
   });
 
   it("reports unknown targets", () => {
     expect(executeTerminalCommand("open missing", routeItems, t)).toEqual({
       type: "output",
-      output: ["Unknown target: missing", "Use `list` to inspect clusters."],
+      output: ["Unknown target: missing", "Use `list` to inspect nodes."],
     });
   });
 

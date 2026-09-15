@@ -62,7 +62,6 @@
   position: relative;
 }
 
-.terminal-input-ghost,
 .terminal-input {
   width: 100%;
   padding-left: 0.6rem;
@@ -71,54 +70,12 @@
   line-height: 1.55;
 }
 
-.terminal-input-ghost {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  color: rgba(214, 205, 255, 0.42);
-  pointer-events: none;
-  white-space: pre;
-  overflow: hidden;
-}
-
-.terminal-input-ghost__typed {
-  opacity: 0;
-}
-
 .terminal-input {
   position: relative;
   border: 0;
   outline: 0;
   background: transparent;
   color: inherit;
-}
-
-.terminal-suggestions {
-  display: grid;
-  gap: 0.35rem;
-  padding: 0.2rem 0;
-}
-
-.terminal-suggestion {
-  text-align: left;
-  cursor: pointer;
-  border-radius: 0.9rem;
-  border: 1px solid rgba(130, 130, 148, 0.24);
-  background: rgba(255, 255, 255, 0.2);
-  color: var(--text);
-  padding: 0.72rem 0.85rem;
-  transition:
-    transform 180ms ease,
-    border-color 180ms ease,
-    background-color 180ms ease;
-}
-
-.terminal-suggestion:hover,
-.terminal-suggestion:focus-visible {
-  transform: translateY(-1px);
-  border-color: rgba(110, 110, 126, 0.38);
-  background: rgba(255, 255, 255, 0.34);
 }
 
 .terminal-toggle {

@@ -28,6 +28,20 @@ test("opens the work dialog from the navigation query param and clears it", asyn
   ).toBeVisible();
 });
 
+test("closes an open dialog with the escape key", async ({ page }) => {
+  await page.goto("/en", { waitUntil: "networkidle" });
+
+  await page.getByTestId("nav-work").click();
+
+  const workDialog = page.getByTestId("dialog-work");
+
+  await expect(workDialog).toHaveAttribute("data-open", "true");
+
+  await page.keyboard.press("Escape");
+
+  await expect(workDialog).toHaveAttribute("data-open", "false");
+});
+
 test("opens the skills and contact dialogs from navigation", async ({ page }) => {
   await page.goto("/en", { waitUntil: "networkidle" });
   await expect(page.getByTestId("nav-capabilities")).toBeVisible();

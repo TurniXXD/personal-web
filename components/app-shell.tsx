@@ -116,13 +116,36 @@ const ShellContent = ({ children }: ChildrenProps) => {
       if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "k") {
         event.preventDefault();
         setTerminalOpen(true);
+        return;
+      }
+
+      if (event.key !== "Escape") {
+        return;
+      }
+
+      if (terminalOpen) {
+        event.preventDefault();
+        setTerminalOpen(false);
+        return;
+      }
+
+      if (mobileMenuOpen) {
+        event.preventDefault();
+        setMobileMenuOpen(false);
+        return;
+      }
+
+      if (openDialogSection) {
+        event.preventDefault();
+        setActiveSection(null);
+        setTerminalDialogRequest(null);
       }
     };
 
     window.addEventListener("keydown", onKeyDown);
 
     return () => window.removeEventListener("keydown", onKeyDown);
-  }, []);
+  }, [mobileMenuOpen, openDialogSection, setActiveSection, terminalOpen]);
 
   useEffect(() => {
     if (terminalOpen) {
