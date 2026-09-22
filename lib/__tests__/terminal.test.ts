@@ -63,7 +63,7 @@ const t = (key: string, values?: Record<string, string | number>) => {
     "pageMarkdown.about.focusTitle": "## Focus",
     "pageMarkdown.about.focus1": "- Product development",
     "pageMarkdown.about.focus2": "- End-to-end systems",
-    "pageMarkdown.about.focus3": "- Bioinformatics and mathematical modeling",
+    "pageMarkdown.about.focus3": "- Data analysis, IoT, and prototyping",
     "pageMarkdown.work.title": "# Work",
     "pageMarkdown.work.body": "Work body",
     "pageMarkdown.work.includesTitle": "## Includes",
@@ -82,11 +82,11 @@ const t = (key: string, values?: Record<string, string | number>) => {
     "pageMarkdown.capabilities.s2i2":
       "- APIs, PostgreSQL, system design, integrations",
     "pageMarkdown.capabilities.section3":
-      "## Hardware, Biology & Infrastructure",
+      "## Hardware, Experimentation & Infrastructure",
     "pageMarkdown.capabilities.s3i1":
       "- ESP32, sensors, electronics, 3D printing, CAD",
     "pageMarkdown.capabilities.s3i2":
-      "- Mathematical biology, biomedicine, experimental work",
+      "- Measurement, data collection, experimental work",
     "pageMarkdown.capabilities.s3i3":
       "- Docker, Linux, networking, CI/CD",
     "pageMarkdown.contact.title": "# Contact",

@@ -1,7 +1,7 @@
 {
   "Metadata": {
     "title": "Jakub Vantuch | Software Developer, Data & Technology",
-    "description": "Software developer with 5+ years of experience building web applications and systems. Exploring data analysis, mathematical biology, biomedicine, IoT and physical prototyping."
+    "description": "Software developer with 5+ years of experience building web applications and systems. Exploring data analysis, IoT and physical prototyping."
   },
   "AppShell": {
     "name": "Jakub Vantuch",
@@ -53,16 +53,16 @@
     "title": "About me",
     "cards": {
       "developer": {
-        "title": "Software Developer & Mathematical Biology Student",
-        "summary": "I build software and data-driven systems, while studying Mathematical Biology and Biomedicine at Masaryk University."
+        "title": "Software Developer",
+        "summary": "I build software and data-driven systems with a focus on web applications, backend development, and practical technology solutions."
       },
       "technologies": {
         "title": "Beyond software",
-        "summary": "My interests extend beyond software into biology, medicine, data analysis, electronics and hands-on experimental work. I enjoy projects where software interacts with the physical world."
+        "summary": "My interests extend beyond software into data analysis, electronics, and hands-on experimental work. I enjoy projects where software interacts with the physical world."
       },
       "focus": {
         "title": "Current focus",
-        "summary": "I build web applications and software systems while expanding into mathematical biology, biomedical research and data analysis. I’m particularly interested in projects that connect software with real-world biological and experimental problems."
+        "summary": "I build web applications and software systems while expanding into data analysis, IoT, and physical prototyping. I’m particularly interested in projects that connect software with real-world experimental problems."
       }
     }
   },
@@ -199,14 +199,14 @@
           "cad": "CAD"
         }
       },
-      "biologyResearch": {
-        "title": "Biology & Research",
-        "summary": "Exploring biological and biomedical problems through mathematics, data, and experimental work.",
-        "level": "Study & experiments",
+      "researchExperimentation": {
+        "title": "Research & Experimentation",
+        "summary": "Exploring practical problems through data, measurement, and hands-on experiments.",
+        "level": "Hands-on exploration",
         "items": {
-          "mathematicalBiology": "Mathematical biology",
-          "biomedicine": "Biomedicine",
-          "experimentalWork": "Experimental work"
+          "experimentalWork": "Experimental work",
+          "measurement": "Measurement",
+          "dataCollection": "Data collection"
         }
       },
       "infrastructure": {
@@ -299,11 +299,11 @@
     "pageMarkdown": {
       "about": {
         "title": "# About",
-        "body": "Software Developer & Mathematical Biology Student. I build software and data-driven systems, while studying Mathematical Biology and Biomedicine at Masaryk University.",
+        "body": "Software developer with more than 5 years of experience. I build software and data-driven systems with a focus on web applications, backend development, and practical technology solutions.",
         "focusTitle": "## Focus",
         "focus1": "- Product development",
         "focus2": "- End-to-end systems",
-        "focus3": "- Bioinformatics and mathematical modeling"
+        "focus3": "- Data analysis, IoT, and prototyping"
       },
       "work": {
         "title": "# Work",
@@ -323,9 +323,9 @@
         "section2": "## Data & Backend",
         "s2i1": "- Python, SQL, visualization, data processing",
         "s2i2": "- APIs, PostgreSQL, system design, integrations",
-        "section3": "## Hardware, Biology & Infrastructure",
+        "section3": "## Hardware, Experimentation & Infrastructure",
         "s3i1": "- ESP32, sensors, electronics, 3D printing, CAD",
-        "s3i2": "- Mathematical biology, biomedicine, experimental work",
+        "s3i2": "- Measurement, data collection, experimental work",
         "s3i3": "- Docker, Linux, networking, CI/CD"
       },
       "contact": {

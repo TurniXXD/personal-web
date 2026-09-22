@@ -213,6 +213,18 @@
     bottom: 15rem;
   }
 
+  .work-dialog--projects .work-dialog__badges {
+    align-self: stretch;
+    justify-content: flex-end;
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .work-dialog--projects .work-dialog__badge {
+    max-width: 100%;
+  }
+
   .work-dialog__project-description {
     grid-template-columns: 1fr;
     gap: 0.85rem;

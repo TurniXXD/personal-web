@@ -13,13 +13,9 @@ const personStructuredData = {
   url: "https://www.vantuch.dev",
   jobTitle: "Software Developer",
   description:
-    "Software developer with 5+ years of experience building web applications and systems. Exploring data analysis, mathematical biology, biomedicine, IoT and physical prototyping.",
+    "Software developer with 5+ years of experience building web applications and systems. Exploring data analysis, IoT and physical prototyping.",
   email: "mailto:contact@vantuch.dev",
   telephone: "+420735023812",
-  affiliation: {
-    "@type": "CollegeOrUniversity",
-    name: "Masaryk University",
-  },
   knowsLanguage: ["cs", "en"],
   knowsAbout: [
     "Software Development",
@@ -46,9 +42,6 @@ const personStructuredData = {
     "Sensors",
     "3D Printing",
     "CAD",
-    "Mathematical Biology",
-    "Biomedicine",
-    "Biomedical Research",
     "Experimental Work",
   ],
   sameAs: [

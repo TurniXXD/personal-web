@@ -1,7 +1,7 @@
 {
   "Metadata": {
     "title": "Jakub Vantuch | Software Developer, Data & Technology",
-    "description": "Softwarový vývojář s více než 5 lety zkušeností s vývojem webových aplikací a systémů. Věnuji se také datové analýze, matematické biologii, biomedicíně, IoT a prototypování."
+    "description": "Softwarový vývojář s více než 5 lety zkušeností s vývojem webových aplikací a systémů. Věnuji se také datové analýze, IoT a prototypování."
   },
   "AppShell": {
     "name": "Jakub Vantuch",
@@ -53,16 +53,16 @@
     "title": "O mně",
     "cards": {
       "developer": {
-        "title": "Softwarový vývojář a student matematické biologie",
-        "summary": "Stavím software a datově řízené systémy a zároveň studuji Matematickou biologii a biomedicínu na Masarykově univerzitě."
+        "title": "Softwarový vývojář",
+        "summary": "Stavím software a datově řízené systémy se zaměřením na webové aplikace, backend a praktická technologická řešení."
       },
       "technologies": {
         "title": "Mimo software",
-        "summary": "Moje zájmy přesahují software do biologie, medicíny, datové analýzy, elektroniky a praktické experimentální práce. Baví mě projekty, ve kterých software interaguje s fyzickým světem."
+        "summary": "Moje zájmy přesahují software do datové analýzy, elektroniky a praktické experimentální práce. Baví mě projekty, ve kterých software interaguje s fyzickým světem."
       },
       "focus": {
         "title": "Současné zaměření",
-        "summary": "Vyvíjím webové aplikace a softwarové systémy a zároveň se posouvám směrem k matematické biologii, biomedicínskému výzkumu a datové analýze. Zajímají mě hlavně projekty, které propojují software s reálnými biologickými a experimentálními problémy."
+        "summary": "Vyvíjím webové aplikace a softwarové systémy a zároveň se posouvám směrem k datové analýze, IoT a fyzickému prototypování. Zajímají mě hlavně projekty, které propojují software s reálnými experimentálními problémy."
       }
     }
   },
@@ -199,14 +199,14 @@
           "cad": "CAD"
         }
       },
-      "biologyResearch": {
-        "title": "Biologie & výzkum",
-        "summary": "Studium biologických a biomedicínských problémů pomocí matematiky, dat a experimentální práce.",
-        "level": "Studium & experimenty",
+      "researchExperimentation": {
+        "title": "Výzkum & experimenty",
+        "summary": "Praktické zkoumání problémů pomocí dat, měření a experimentální práce.",
+        "level": "Praktické zkoumání",
         "items": {
-          "mathematicalBiology": "Matematická biologie",
-          "biomedicine": "Biomedicína",
-          "experimentalWork": "Experimentální práce"
+          "experimentalWork": "Experimentální práce",
+          "measurement": "Měření",
+          "dataCollection": "Sběr dat"
         }
       },
       "infrastructure": {
@@ -299,11 +299,11 @@
     "pageMarkdown": {
       "about": {
         "title": "# O mně",
-        "body": "Softwarový vývojář a student matematické biologie. Stavím software a datově řízené systémy a zároveň studuji Matematickou biologii a biomedicínu na Masarykově univerzitě.",
+        "body": "Softwarový vývojář s více než 5 lety zkušeností. Stavím software a datově řízené systémy se zaměřením na webové aplikace, backend a praktická technologická řešení.",
         "focusTitle": "## Zaměření",
         "focus1": "- Vývoj produktů",
         "focus2": "- End-to-end systémy",
-        "focus3": "- Bioinformatika a matematické modelování"
+        "focus3": "- Datová analýza, IoT a prototypování"
       },
       "work": {
         "title": "# Projekty",
@@ -323,9 +323,9 @@
         "section2": "## Data & backend",
         "s2i1": "- Python, SQL, vizualizace, zpracování dat",
         "s2i2": "- API, PostgreSQL, návrh systémů, integrace",
-        "section3": "## Hardware, biologie & infrastruktura",
+        "section3": "## Hardware, experimenty & infrastruktura",
         "s3i1": "- ESP32, senzory, elektronika, 3D tisk, CAD",
-        "s3i2": "- Matematická biologie, biomedicína, experimentální práce",
+        "s3i2": "- Měření, sběr dat, experimentální práce",
         "s3i3": "- Docker, Linux, sítě, CI/CD"
       },
       "contact": {
