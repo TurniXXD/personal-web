@@ -210,19 +210,50 @@
 
 @media (max-width: $bp-sm) {
   .work-dialog--projects {
-    max-height: calc(100dvh - 7.5rem);
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+  }
+
+  .work-dialog--projects .work-dialog__list {
+    flex: 0 0 auto;
+  }
+
+  .work-dialog--projects .work-dialog__project-description {
+    flex: 0 0 auto;
   }
 
   .work-dialog--projects .work-dialog__scroll-button {
     bottom: 15rem;
   }
 
+  .work-dialog--projects .work-dialog__item {
+    flex: 0 0 min(18rem, 100%);
+    gap: 0.45rem;
+    padding: 0.5rem;
+    height: auto;
+  }
+
+  .work-dialog--projects .work-dialog__preview {
+    aspect-ratio: 2 / 1;
+  }
+
+  .work-dialog--projects .work-dialog__item-link {
+    gap: 0.45rem;
+  }
+
+  .work-dialog--projects .work-dialog__meta {
+    padding-right: 8.25rem;
+    overflow-wrap: anywhere;
+  }
+
   .work-dialog--projects .work-dialog__badges {
-    align-self: stretch;
+    position: absolute;
+    right: 0.5rem;
+    bottom: 0.5rem;
     justify-content: flex-end;
-    width: 100%;
-    min-width: 0;
-    max-width: 100%;
+    max-width: calc(100% - 1rem);
+    margin-top: 0;
   }
 
   .work-dialog--projects .work-dialog__badge {
