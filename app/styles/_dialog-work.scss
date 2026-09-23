@@ -209,6 +209,10 @@
 }
 
 @media (max-width: $bp-sm) {
+  .work-dialog--projects {
+    max-height: calc(100dvh - 7.5rem);
+  }
+
   .work-dialog--projects .work-dialog__scroll-button {
     bottom: 15rem;
   }
