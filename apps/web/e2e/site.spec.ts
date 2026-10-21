@@ -303,6 +303,76 @@ test("service cards are semantic links with complete-card navigation", async ({
   }
 });
 
+test("service cards stay compact with icons aligned to their titles", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 375, height: 844 });
+  await page.goto("/");
+
+  const cards = page.locator(".service-card");
+  const heights = await cards.evaluateAll((items) =>
+    items.map((item) => item.getBoundingClientRect().height),
+  );
+  for (const height of heights) expect(height).toBeLessThanOrEqual(250);
+
+  const firstTitle = await cards.first().locator("h3").boundingBox();
+  const firstIcon = await cards
+    .first()
+    .locator(".content-card__icon")
+    .boundingBox();
+  expect(firstTitle).not.toBeNull();
+  expect(firstIcon).not.toBeNull();
+  const titleCenter = firstTitle!.y + firstTitle!.height / 2;
+  const iconCenter = firstIcon!.y + firstIcon!.height / 2;
+  expect(Math.abs(titleCenter - iconCenter)).toBeLessThanOrEqual(1);
+  expect(firstIcon!.width).toBeLessThanOrEqual(43);
+  await expect(cards.first().locator(".content-card__tags")).toBeHidden();
+});
+
+test("automation cards stay compact with icons aligned to their titles", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 375, height: 844 });
+  await page.goto("/");
+
+  const cards = page.locator(".automation-category-card");
+  await expect(cards).toHaveCount(6);
+  const heights = await cards.evaluateAll((items) =>
+    items.map((item) => item.getBoundingClientRect().height),
+  );
+  for (const height of heights) expect(height).toBeLessThanOrEqual(150);
+
+  const firstTitle = await cards.first().locator("h3").boundingBox();
+  const firstIcon = await cards
+    .first()
+    .locator(".content-card__icon")
+    .boundingBox();
+  expect(firstTitle).not.toBeNull();
+  expect(firstIcon).not.toBeNull();
+  const titleCenter = firstTitle!.y + firstTitle!.height / 2;
+  const iconCenter = firstIcon!.y + firstIcon!.height / 2;
+  expect(Math.abs(titleCenter - iconCenter)).toBeLessThanOrEqual(1);
+  expect(firstIcon!.width).toBeLessThanOrEqual(43);
+});
+
+test("content cards share one component across service and automation pages", async ({
+  page,
+}) => {
+  await page.goto("/");
+  await expect(page.locator(".service-card.content-card")).toHaveCount(3);
+  await expect(
+    page.locator(".automation-category-card.content-card"),
+  ).toHaveCount(6);
+
+  await page.goto("/sluzby/ai-reseni");
+  await expect(page.locator(".service-offering-card.content-card")).toHaveCount(
+    6,
+  );
+
+  await page.goto("/automatizace");
+  await expect(page.locator(".automation-example.content-card")).toHaveCount(9);
+});
+
 test("services navigation groups all service routes in an accessible dropdown", async ({
   page,
 }) => {
@@ -776,7 +846,7 @@ test("technical backgrounds become static with reduced motion", async ({
   const lineBottom = await page
     .locator(".technical-background--services .technical-background__lines")
     .evaluate((element) => Number.parseFloat(getComputedStyle(element).bottom));
-  expect(lineBottom).toBeGreaterThanOrEqual(40);
+  expect(lineBottom).toBeGreaterThan(0);
   await expect(
     page.locator(
       ".technical-background--automation .technical-background__lines path",
@@ -1191,6 +1261,12 @@ test("English case study has localized metadata and language alternate", async (
   );
   await expect(page.locator(".case-detail__closing a")).toHaveCount(3);
   await expect(page.locator('a[href*="portfolio.vantuch.dev"]')).toHaveCount(0);
+  const technologyTags = page.locator(".case-detail__stack-tags .ui-pill");
+  await expect(technologyTags).toHaveCount(3);
+  const tagHeights = await technologyTags.evaluateAll((tags) =>
+    tags.map((tag) => tag.getBoundingClientRect().height),
+  );
+  for (const height of tagHeights) expect(height).toBeLessThanOrEqual(32);
   await expect(
     page.locator('link[rel="alternate"][hreflang="cs"]'),
   ).toHaveAttribute("href", "https://vantuch.dev/work/robe");

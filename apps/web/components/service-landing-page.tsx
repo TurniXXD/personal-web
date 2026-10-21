@@ -18,6 +18,7 @@ import {
 } from "lucide-react";
 import { ActionLink } from "@vantuch/ui";
 import { AiHeroVisual } from "@/components/ai-hero-visual";
+import { ContentCard } from "@/components/content-card";
 import { ProjectGrid } from "@/components/project-grid";
 import { ScrollReveal } from "@/components/scroll-reveal";
 import { ContactBlock, SiteFooter, SiteHeader } from "@/components/site-chrome";
@@ -129,13 +130,15 @@ export const ServiceLandingPage = ({
               {content.offering.items.map((item) => {
                 const Icon = serviceIcons[item.icon];
                 return (
-                  <article className="service-offering-card" key={item.title}>
-                    <span className="service-offering-card__icon">
-                      <Icon size={24} strokeWidth={1.8} aria-hidden="true" />
-                    </span>
-                    <h3>{item.title}</h3>
-                    <p>{item.description}</p>
-                  </article>
+                  <ContentCard
+                    className="service-offering-card"
+                    key={item.title}
+                    title={item.title}
+                    description={item.description}
+                    icon={
+                      <Icon size={20} strokeWidth={1.8} aria-hidden="true" />
+                    }
+                  />
                 );
               })}
             </ScrollReveal>

@@ -416,7 +416,7 @@ export const copy: Record<Locale, SiteCopy> = {
       revizio: {
         category: "Webová aplikace",
         summary:
-          "Aplikace, která soustřeďuje revizní agendu a práci se záznamy do jednoho rozhraní.",
+          "Aplikace, pro správu revizní agendy a práci s normami a šablonami revizí.",
         challenge:
           "Revizní agenda zahrnuje mnoho záznamů a kroků, ve kterých musí firmy i technici rychle a spolehlivě orientovat.",
         role: [

@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { AutomationIcon } from "@/components/automation-icon";
+import { ContentCard } from "@/components/content-card";
 import {
   type AutomationCategoryId,
   type AutomationExample,
@@ -74,18 +75,14 @@ export const AutomationCatalog = ({
 
       <div className="automation-catalog__grid">
         {visibleExamples.map((example) => (
-          <article className="automation-example" key={example.id}>
-            <div className="automation-example__top">
-              <span className="automation-example__icon">
-                <AutomationIcon name={example.icon} size={23} />
-              </span>
-            </div>
-            <span className="automation-example__category">
-              {content.categories[example.category]}
-            </span>
-            <h3>{example.title}</h3>
-            <p>{example.description}</p>
-          </article>
+          <ContentCard
+            className="automation-example"
+            key={example.id}
+            title={example.title}
+            description={example.description}
+            icon={<AutomationIcon name={example.icon} size={20} />}
+            tags={[content.categories[example.category]]}
+          />
         ))}
       </div>
 

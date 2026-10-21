@@ -181,7 +181,7 @@ export default async function ReferralPage({ params }: Props) {
               <p>{t.link.intro}</p>
             </div>
             <div className="referral-link-card">
-              <span className="service-card__icon">
+              <span className="referral-link-card__icon">
                 <Mail size={23} aria-hidden="true" />
               </span>
               <p className="eyebrow">{t.link.cardEyebrow}</p>

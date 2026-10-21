@@ -1,5 +1,4 @@
 import Image from "next/image";
-import Link from "next/link";
 import {
   ArrowUpRight,
   Bot,
@@ -19,6 +18,7 @@ import {
 import { ActionLink } from "@vantuch/ui";
 import { copy, localizedPath, type Locale } from "@/lib/content";
 import { ContactBlock, SiteFooter, SiteHeader } from "@/components/site-chrome";
+import { ContentCard } from "@/components/content-card";
 import { InteractiveHeroArt } from "@/components/interactive-hero-art";
 import { NewsletterSocialSection } from "@/components/newsletter-social-section";
 import { ProjectGrid } from "@/components/project-grid";
@@ -162,29 +162,24 @@ export const MarketingPage = ({ locale }: MarketingPageProps) => {
               {t.services.items.map((service, index) => {
                 const Icon = serviceIcons[index];
                 return (
-                  <Link
+                  <ContentCard
                     className="service-card"
                     href={localizedPath(locale, serviceRoutes[index])}
                     id={`service-${serviceIds[index]}`}
                     key={service.title}
-                  >
-                    <div className="service-card__top">
-                      <span className="service-card__icon">
-                        <Icon size={25} strokeWidth={1.8} aria-hidden="true" />
-                      </span>
-                    </div>
-                    <h3>{service.title}</h3>
-                    <p>{service.description}</p>
-                    <div className="service-card__tags">
-                      {service.tags.map((tag) => (
-                        <span key={tag}>{tag}</span>
-                      ))}
-                    </div>
-                    <span className="service-card__link-label">
-                      {t.services.more}
-                      <ArrowUpRight size={16} aria-hidden="true" />
-                    </span>
-                  </Link>
+                    title={service.title}
+                    description={service.description}
+                    icon={
+                      <Icon size={20} strokeWidth={1.8} aria-hidden="true" />
+                    }
+                    tags={service.tags}
+                    action={
+                      <>
+                        {t.services.more}
+                        <ArrowUpRight size={16} aria-hidden="true" />
+                      </>
+                    }
+                  />
                 );
               })}
             </ScrollReveal>
@@ -207,16 +202,15 @@ export const MarketingPage = ({ locale }: MarketingPageProps) => {
               {t.automation.items.map((item, index) => {
                 const Icon = automationCategoryIcons[index];
                 return (
-                  <article
+                  <ContentCard
                     className="automation-category-card"
                     key={item.title}
-                  >
-                    <span className="automation-category-card__icon">
-                      <Icon size={24} strokeWidth={1.8} aria-hidden="true" />
-                    </span>
-                    <h3>{item.title}</h3>
-                    <p>{item.description}</p>
-                  </article>
+                    title={item.title}
+                    description={item.description}
+                    icon={
+                      <Icon size={20} strokeWidth={1.8} aria-hidden="true" />
+                    }
+                  />
                 );
               })}
             </ScrollReveal>
