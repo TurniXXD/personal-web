@@ -1,0 +1,16 @@
+{
+  "name": "@vantuch/ui",
+  "version": "0.1.0",
+  "private": true,
+  "sideEffects": [
+    "./styles.css"
+  ],
+  "exports": {
+    ".": "./src/index.tsx",
+    "./project-images": "./src/project-images.ts",
+    "./styles.css": "./styles.css"
+  },
+  "peerDependencies": {
+    "react": "^19.2.3"
+  }
+}

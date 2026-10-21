@@ -7,6 +7,7 @@ const eslintConfig = defineConfig([
   ...nextTs,
   {
     rules: {
+      "@next/next/no-html-link-for-pages": "off",
       "react-hooks/static-components": "off",
       "react-hooks/refs": "off",
       "react-hooks/immutability": "off",
@@ -16,7 +17,7 @@ const eslintConfig = defineConfig([
     },
   },
   globalIgnores([
-    ".next/**",
+    "**/.next/**",
     "out/**",
     "build/**",
     "next-env.d.ts",

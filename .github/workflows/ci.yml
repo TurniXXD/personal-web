@@ -17,12 +17,12 @@ jobs:
       - name: Set up pnpm
         uses: pnpm/action-setup@v4
         with:
-          version: 10
+          version: 11.6.0
 
       - name: Set up Node
         uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version: "22"
           cache: pnpm
           cache-dependency-path: pnpm-lock.yaml
 
@@ -32,10 +32,13 @@ jobs:
       - name: Run lint
         run: pnpm lint
 
+      - name: Typecheck both apps
+        run: pnpm typecheck
+
       - name: Run unit tests
         run: pnpm test --runInBand
 
-      - name: Build app
+      - name: Build both apps
         run: pnpm build
 
       - name: Install Playwright browsers
