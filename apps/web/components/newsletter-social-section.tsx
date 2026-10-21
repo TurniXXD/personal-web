@@ -4,6 +4,10 @@ import { useState } from "react";
 import type { FormEvent } from "react";
 import { ArrowUpRight, Github, Instagram, Linkedin, Mail } from "lucide-react";
 import { ScrollReveal } from "@/components/scroll-reveal";
+import {
+  TurnstileWidget,
+  turnstileEnabled,
+} from "@/components/turnstile-widget";
 import type { CommunityCopy, Locale } from "@/lib/content";
 
 type Status = "idle" | "loading" | "success" | "error";
@@ -31,10 +35,13 @@ export function NewsletterSocialSection({
 }) {
   const t = content;
   const [status, setStatus] = useState<Status>("idle");
+  const [turnstileToken, setTurnstileToken] = useState("");
+  const [turnstileResetKey, setTurnstileResetKey] = useState(0);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (!enabled || status === "loading") return;
+    if (turnstileEnabled && !turnstileToken) return;
     setStatus("loading");
     const form = event.currentTarget;
     const data = new FormData(form);
@@ -48,13 +55,18 @@ export function NewsletterSocialSection({
           consent: data.get("consent") === "on",
           company: data.get("company"),
           locale,
+          turnstileToken,
         }),
       });
       if (!response.ok) throw new Error("subscription_failed");
       form.reset();
+      setTurnstileToken("");
       setStatus("success");
     } catch {
       setStatus("error");
+    } finally {
+      setTurnstileToken("");
+      setTurnstileResetKey((key) => key + 1);
     }
   }
 
@@ -81,6 +93,7 @@ export function NewsletterSocialSection({
               <form
                 onSubmit={handleSubmit}
                 aria-describedby="newsletter-status"
+                data-clarity-mask="true"
               >
                 <div className="newsletter-card__field">
                   <label htmlFor={`newsletter-email-${locale}`}>
@@ -98,7 +111,11 @@ export function NewsletterSocialSection({
                     />
                     <button
                       type="submit"
-                      disabled={!enabled || status === "loading"}
+                      disabled={
+                        !enabled ||
+                        status === "loading" ||
+                        (turnstileEnabled && !turnstileToken)
+                      }
                     >
                       {status === "loading" ? t.submitting : t.submit}
                     </button>
@@ -122,6 +139,12 @@ export function NewsletterSocialSection({
                   tabIndex={-1}
                   autoComplete="off"
                   aria-hidden="true"
+                />
+                <TurnstileWidget
+                  locale={locale}
+                  action="newsletter"
+                  onTokenChange={setTurnstileToken}
+                  resetKey={turnstileResetKey}
                 />
               </form>
               <p

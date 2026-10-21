@@ -6,6 +6,7 @@ const webServerCommand =
   (process.env.CI
     ? "pnpm exec next start -p 3001"
     : "pnpm build && pnpm exec next start -p 3001");
+const skipWebServer = process.env.PLAYWRIGHT_SKIP_WEB_SERVER === "true";
 
 export default defineConfig({
   testDir: "./e2e",
@@ -22,11 +23,13 @@ export default defineConfig({
     trace: "on-first-retry",
     screenshot: "only-on-failure",
   },
-  webServer: {
-    command: webServerCommand,
-    url: `${baseURL}/en`,
-    reuseExistingServer: !process.env.CI,
-    timeout: 240_000,
-  },
+  webServer: skipWebServer
+    ? undefined
+    : {
+        command: webServerCommand,
+        url: `${baseURL}/en`,
+        reuseExistingServer: !process.env.CI,
+        timeout: 240_000,
+      },
   projects: [{ name: "chromium", use: { ...devices["Desktop Chrome"] } }],
 });

@@ -52,13 +52,20 @@ export const privacyCopy: Record<Locale, PrivacyCopy> = {
         title: "Referral odkazy a technický provoz",
         paragraphs: [
           "Pokud přijdete na web s parametrem ?ref, uložím do HTTP-only cookie vantuch_referral identifikátor doporučení na nejvýše 30 dní. Díky tomu lze při pozdějším odeslání poptávky přiřadit doporučení bez toho, aby se ve formuláři zobrazovaly údaje doporučujícího. Identifikátor ověřuji na serveru. Zpracování slouží k evidenci doporučení a opírá se o oprávněný zájem (čl. 6 odst. 1 písm. f GDPR).",
-          "Při návštěvě webu může poskytovatel hostingu Vercel zpracovávat technické údaje potřebné pro doručení stránky a zabezpečení provozu, například IP adresu a údaje o požadavku.",
+          "Při návštěvě webu může poskytovatel hostingu Vercel zpracovávat technické údaje potřebné pro doručení stránky a zabezpečení provozu, například IP adresu a údaje o požadavku. Cloudflare Turnstile chrání formuláře před zneužitím a při ověření může zpracovat technické údaje o zařízení a požadavku.",
+        ],
+      },
+      {
+        title: "Cookies, analytika a diagnostika",
+        paragraphs: [
+          "Po vašem souhlasu používám Microsoft Clarity a Cloudflare Web Analytics k pochopení používání webu a jeho zlepšování. Clarity může ukládat analytické cookies a zaznamenávat interakce se stránkou. Souhlas můžete kdykoli změnit přes odkaz Nastavení cookies v patičce.",
+          "Pro diagnostiku chyb používám Sentry s vypnutým výchozím odesíláním osobních údajů. Služba může zpracovat technické informace o chybě, prohlížeči a požadavku, které jsou nutné pro nalezení a opravu problémů.",
         ],
       },
       {
         title: "Komu mohou být údaje zpřístupněny",
         paragraphs: [
-          "Pro provoz webu využívám Vercel, pro zpracování poptávek CRM Twenty a pro doručování zpráv a upozornění Resend. Po aktivaci newsletteru zde doplním také konkrétního poskytovatele jeho rozesílání. Tito poskytovatelé mohou mít přístup jen k údajům potřebným pro příslušnou službu. Na stránce doporučení nesbírám kontakty na třetí osoby. Neprodávám údaje třetím stranám.",
+          "Pro provoz webu využívám Vercel, pro ochranu formulářů a analytiku Cloudflare, pro analytiku Microsoft Clarity, pro diagnostiku Sentry, pro zpracování poptávek CRM Twenty a pro doručování zpráv a upozornění Resend. Po aktivaci newsletteru zde doplním také konkrétního poskytovatele jeho rozesílání. Tito poskytovatelé mohou mít přístup jen k údajům potřebným pro příslušnou službu. Na stránce doporučení nesbírám kontakty na třetí osoby. Neprodávám údaje třetím stranám.",
         ],
       },
       {
@@ -114,13 +121,20 @@ export const privacyCopy: Record<Locale, PrivacyCopy> = {
         title: "Referral links and technical operation",
         paragraphs: [
           "If you arrive with a ?ref URL parameter, I store the referral identifier in an HTTP-only cookie called vantuch_referral for up to 30 days. This lets me attribute a later inquiry without displaying the referrer's details in the form. I verify the identifier on the server. This processing supports referral records and is based on legitimate interests (GDPR Article 6(1)(f)).",
-          "The hosting provider Vercel may process technical details needed to deliver and secure the site, such as an IP address and request data.",
+          "The hosting provider Vercel may process technical details needed to deliver and secure the site, such as an IP address and request data. Cloudflare Turnstile protects forms from abuse and may process technical device and request details during verification.",
+        ],
+      },
+      {
+        title: "Cookies, analytics and diagnostics",
+        paragraphs: [
+          "With your consent, I use Microsoft Clarity and Cloudflare Web Analytics to understand how the website is used and improve it. Clarity may store analytics cookies and record interactions with the page. You can change your choice at any time through Cookie settings in the footer.",
+          "I use Sentry to diagnose errors, with default personal-data transmission disabled. The service may process technical details about an error, browser, and request that are needed to find and fix problems.",
         ],
       },
       {
         title: "Who may receive the data",
         paragraphs: [
-          "I use Vercel to host the website, Twenty CRM for inquiries, and Resend for messages and notifications. When the newsletter is enabled, I will also identify its delivery provider here. These providers may access only the information needed for their respective services. I do not collect third-party contact details on the referral page or sell information to third parties.",
+          "I use Vercel to host the website, Cloudflare for form protection and analytics, Microsoft Clarity for analytics, Sentry for diagnostics, Twenty CRM for inquiries, and Resend for messages and notifications. When the newsletter is enabled, I will also identify its delivery provider here. These providers may access only the information needed for their respective services. I do not collect third-party contact details on the referral page or sell information to third parties.",
         ],
       },
       {

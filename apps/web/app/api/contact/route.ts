@@ -1,10 +1,12 @@
 import { Resend } from "resend";
+import { captureMessage } from "@sentry/nextjs";
 import { randomUUID } from "node:crypto";
 import { cookies } from "next/headers";
 import { validateContactInput } from "@/lib/contact-submission";
 import { referralCookie, verifyReferralToken } from "@/lib/referral-token";
 import { siteConfig } from "@/lib/site-config";
 import { configuredTwenty } from "@/lib/twenty";
+import { verifyTurnstile } from "@/lib/turnstile";
 
 const defaultFrom = "Jakub Vantuch <onboarding@resend.dev>";
 
@@ -41,11 +43,36 @@ export async function POST(request: Request) {
     return Response.json({ ok: false, formErrors: errors }, { status: 400 });
   }
 
+  const turnstile = await verifyTurnstile(
+    body && typeof body === "object" && "turnstileToken" in body
+      ? body.turnstileToken
+      : undefined,
+    "contact",
+  );
+  if (!turnstile.ok) {
+    return Response.json(
+      {
+        ok: false,
+        message:
+          turnstile.reason === "notConfigured"
+            ? "notConfigured"
+            : "turnstileFailed",
+      },
+      { status: turnstile.reason === "notConfigured" ? 503 : 400 },
+    );
+  }
+
   const apiKey = process.env.RESEND_API_KEY;
   const twenty = configuredTwenty();
   if (!apiKey || !twenty) {
+    const missing = [
+      "RESEND_API_KEY",
+      "TWENTY_BASE_URL",
+      "TWENTY_API_KEY",
+    ].filter((name) => !process.env[name]?.trim());
     console.error(
-      "Contact delivery is not configured: RESEND_API_KEY or Twenty configuration is missing.",
+      "Contact delivery is not configured. Missing environment variables:",
+      missing.join(", "),
     );
     return Response.json(
       { ok: false, message: "notConfigured" },
@@ -72,6 +99,7 @@ export async function POST(request: Request) {
       referrer = await twenty.findPersonById(referrerId);
     } catch (error) {
       console.error("Twenty referrer lookup failed:", error);
+      captureMessage("Twenty referrer lookup failed", "error");
       return Response.json(
         { ok: false, message: "sendFailed" },
         { status: 502 },
@@ -99,6 +127,7 @@ export async function POST(request: Request) {
     await twenty.saveContact(input, submissionId, referrer);
   } catch (error) {
     console.error("Twenty contact persistence failed:", error);
+    captureMessage("Twenty contact persistence failed", "error");
     return Response.json({ ok: false, message: "sendFailed" }, { status: 502 });
   }
 
@@ -137,6 +166,7 @@ export async function POST(request: Request) {
     );
     if (error) {
       console.error("Contact email delivery failed:", error);
+      captureMessage("Contact email delivery failed", "error");
       return Response.json(
         { ok: false, message: "sendFailed" },
         { status: 502 },
@@ -144,6 +174,7 @@ export async function POST(request: Request) {
     }
   } catch (error) {
     console.error("Contact email delivery failed:", error);
+    captureMessage("Contact email delivery failed", "error");
     return Response.json({ ok: false, message: "sendFailed" }, { status: 502 });
   }
 

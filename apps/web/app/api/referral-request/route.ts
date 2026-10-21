@@ -1,10 +1,12 @@
 import { randomUUID } from "node:crypto";
 import { Resend } from "resend";
+import { captureMessage } from "@sentry/nextjs";
 import { localizedPath } from "@/lib/content";
 import { createReferralToken } from "@/lib/referral-token";
 import { validateReferralRequest } from "@/lib/referral-request";
 import { siteConfig } from "@/lib/site-config";
 import { configuredTwenty } from "@/lib/twenty";
+import { verifyTurnstile } from "@/lib/turnstile";
 
 const defaultFrom = "Jakub Vantuch <onboarding@resend.dev>";
 
@@ -48,11 +50,36 @@ export async function POST(request: Request) {
     return Response.json({ ok: false, formErrors: errors }, { status: 400 });
   }
 
+  const turnstile = await verifyTurnstile(
+    body && typeof body === "object" && "turnstileToken" in body
+      ? body.turnstileToken
+      : undefined,
+    input.intent === "link" ? "referral_link" : "referral_partner",
+  );
+  if (!turnstile.ok) {
+    return Response.json(
+      {
+        ok: false,
+        message:
+          turnstile.reason === "notConfigured"
+            ? "notConfigured"
+            : "turnstileFailed",
+      },
+      { status: turnstile.reason === "notConfigured" ? 503 : 400 },
+    );
+  }
+
   const apiKey = process.env.RESEND_API_KEY;
   const twenty = configuredTwenty();
   if (!apiKey || !twenty) {
+    const missing = [
+      "RESEND_API_KEY",
+      "TWENTY_BASE_URL",
+      "TWENTY_API_KEY",
+    ].filter((name) => !process.env[name]?.trim());
     console.error(
-      "Referral delivery is not configured: RESEND_API_KEY or Twenty configuration is missing.",
+      "Referral delivery is not configured. Missing environment variables:",
+      missing.join(", "),
     );
     return Response.json(
       { ok: false, message: "notConfigured" },
@@ -82,6 +109,7 @@ export async function POST(request: Request) {
       person = await twenty.ensurePerson(input.name, input.email);
     } catch (error) {
       console.error("Twenty referral requester persistence failed:", error);
+      captureMessage("Twenty referral requester persistence failed", "error");
       return Response.json(
         { ok: false, message: "sendFailed" },
         { status: 502 },
@@ -93,6 +121,7 @@ export async function POST(request: Request) {
       token = createReferralToken(person.id, secret);
     } catch (error) {
       console.error("Referral link generation failed:", error);
+      captureMessage("Referral link generation failed", "error");
       return Response.json(
         { ok: false, message: "sendFailed" },
         { status: 502 },
@@ -128,6 +157,7 @@ export async function POST(request: Request) {
       if (error) throw new Error(error.message);
     } catch (error) {
       console.error("Referral link email delivery failed:", error);
+      captureMessage("Referral link email delivery failed", "error");
       return Response.json(
         { ok: false, message: "sendFailed" },
         { status: 502 },
@@ -155,6 +185,7 @@ export async function POST(request: Request) {
     );
   } catch (error) {
     console.error("Twenty partnership inquiry persistence failed:", error);
+    captureMessage("Twenty partnership inquiry persistence failed", "error");
     return Response.json({ ok: false, message: "sendFailed" }, { status: 502 });
   }
 
@@ -192,6 +223,7 @@ export async function POST(request: Request) {
     if (error) throw new Error(error.message);
   } catch (error) {
     console.error("Partnership email delivery failed:", error);
+    captureMessage("Partnership email delivery failed", "error");
     return Response.json({ ok: false, message: "sendFailed" }, { status: 502 });
   }
 

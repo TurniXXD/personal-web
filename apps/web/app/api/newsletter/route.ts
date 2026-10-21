@@ -1,4 +1,6 @@
 import { NextResponse } from "next/server";
+import { captureMessage } from "@sentry/nextjs";
+import { verifyTurnstile } from "@/lib/turnstile";
 
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -33,20 +35,39 @@ export async function POST(request: Request) {
     );
   }
 
+  const turnstile = await verifyTurnstile(data.turnstileToken, "newsletter");
+  if (!turnstile.ok) {
+    return NextResponse.json(
+      {
+        error:
+          turnstile.reason === "notConfigured"
+            ? "not_configured"
+            : "turnstile_failed",
+      },
+      { status: turnstile.reason === "notConfigured" ? 503 : 400 },
+    );
+  }
+
   const headers: HeadersInit = { "content-type": "application/json" };
   const token = process.env.NEWSLETTER_WEBHOOK_TOKEN?.trim();
   if (token) headers.authorization = `Bearer ${token}`;
 
-  const response = await fetch(webhookUrl, {
-    method: "POST",
-    headers,
-    body: JSON.stringify({ email, locale, source: "vantuch.dev" }),
-    signal: AbortSignal.timeout(8_000),
-  });
+  try {
+    const response = await fetch(webhookUrl, {
+      method: "POST",
+      headers,
+      body: JSON.stringify({ email, locale, source: "vantuch.dev" }),
+      signal: AbortSignal.timeout(8_000),
+    });
 
-  if (!response.ok) {
+    if (!response.ok) {
+      captureMessage("Newsletter delivery failed", "error");
+      return NextResponse.json({ error: "provider_error" }, { status: 502 });
+    }
+
+    return NextResponse.json({ ok: true });
+  } catch {
+    captureMessage("Newsletter provider unavailable", "error");
     return NextResponse.json({ error: "provider_error" }, { status: 502 });
   }
-
-  return NextResponse.json({ ok: true });
 }

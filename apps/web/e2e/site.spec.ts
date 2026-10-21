@@ -1,5 +1,17 @@
 import { expect, test } from "@playwright/test";
 
+test.beforeEach(async ({ context }) => {
+  await context.addInitScript(() => {
+    localStorage.setItem(
+      "vantuch_cookie_consent_v1",
+      JSON.stringify({
+        choice: "rejected",
+        savedAt: Date.now(),
+      }),
+    );
+  });
+});
+
 test("Czech homepage presents the offer and contact", async ({ page }) => {
   await page.goto("/");
 
@@ -837,7 +849,7 @@ test("technical backgrounds become static with reduced motion", async ({
   await page.goto("/");
 
   await expect(page.locator(".technical-background")).toHaveCount(2);
-  await expect(page.locator('[data-scroll-reveal="true"]')).toHaveCount(15);
+  await expect(page.locator('[data-scroll-reveal="true"]')).toHaveCount(16);
   await expect(
     page.locator(
       ".technical-background--services .technical-background__lines path",

@@ -10,6 +10,10 @@ import {
   type ReferralRequestIntent,
 } from "@/lib/referral-request";
 import { referralRequestCopy } from "@/lib/referral-request-content";
+import {
+  TurnstileWidget,
+  turnstileEnabled,
+} from "@/components/turnstile-widget";
 
 type Status = "idle" | "sending" | "success" | "failure" | "configurationError";
 
@@ -26,6 +30,8 @@ export function ReferralRequestForm({
   const t = referralRequestCopy[locale][intent];
   const [errors, setErrors] = useState<ReferralRequestErrors>({});
   const [status, setStatus] = useState<Status>("idle");
+  const [turnstileToken, setTurnstileToken] = useState("");
+  const [turnstileResetKey, setTurnstileResetKey] = useState(0);
   const submissionId = useRef(crypto.randomUUID());
   const prefix = `referral-${intent}`;
   const errorFor = (field: ReferralRequestField) =>
@@ -56,6 +62,8 @@ export function ReferralRequestForm({
       return;
     }
 
+    if (turnstileEnabled && !turnstileToken) return;
+
     setStatus("sending");
     try {
       const response = await fetch("/api/referral-request", {
@@ -65,11 +73,13 @@ export function ReferralRequestForm({
           ...request,
           website: fieldValue(data, "website"),
           submissionId: submissionId.current,
+          turnstileToken,
         }),
       });
       const result = await response.json();
       if (response.ok && result.ok === true) {
         form.reset();
+        setTurnstileToken("");
         submissionId.current = crypto.randomUUID();
         setErrors({});
         setStatus("success");
@@ -91,6 +101,9 @@ export function ReferralRequestForm({
       }
     } catch {
       setStatus("failure");
+    } finally {
+      setTurnstileToken("");
+      setTurnstileResetKey((key) => key + 1);
     }
   }
 
@@ -100,6 +113,7 @@ export function ReferralRequestForm({
       noValidate
       onSubmit={handleSubmit}
       aria-label={t.title}
+      data-clarity-mask="true"
     >
       <div className="referral-request-form__heading">
         <span aria-hidden="true">
@@ -219,7 +233,16 @@ export function ReferralRequestForm({
         {t.privacy}{" "}
         <a href={localizedPath(locale, "/privacy")}>{t.privacyLink}</a>.
       </p>
-      <button type="submit" disabled={status === "sending"}>
+      <TurnstileWidget
+        locale={locale}
+        action={intent === "link" ? "referral_link" : "referral_partner"}
+        onTokenChange={setTurnstileToken}
+        resetKey={turnstileResetKey}
+      />
+      <button
+        type="submit"
+        disabled={status === "sending" || (turnstileEnabled && !turnstileToken)}
+      >
         {status === "sending" ? t.sending : t.submit}
         {intent === "link" ? (
           <Link2 size={18} aria-hidden="true" />

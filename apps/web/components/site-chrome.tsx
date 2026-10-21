@@ -12,6 +12,7 @@ import {
 import { ActionLink } from "@vantuch/ui";
 import { ContactOrbit } from "@/components/contact-orbit";
 import { ContactForm } from "@/components/contact-form";
+import { CookiePreferencesButton } from "@/components/cookie-consent";
 import { ScrollReveal } from "@/components/scroll-reveal";
 import { ServicesDropdown } from "@/components/services-dropdown";
 import { copy, localizedPath, type Locale } from "@/lib/content";
@@ -245,6 +246,7 @@ export const SiteFooter = ({ locale }: SiteFooterProps) => {
           </span>
           <div className="site-footer__secondary">
             <a href={localizedPath(locale, "/privacy")}>{t.privacy}</a>
+            <CookiePreferencesButton locale={locale} />
             <a href={localizedPath(locale, "/doporuceni")}>{t.referral}</a>
             <a href={localizedPath(locale, "#newsletter")}>
               {locale === "cs" ? "Newsletter" : "Newsletter"}

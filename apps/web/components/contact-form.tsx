@@ -6,6 +6,10 @@ import { localizedPath, type Locale } from "@/lib/content";
 import { contactFormCopy } from "@/lib/contact-form-content";
 import { getAutomationExamples } from "@/lib/automation-content";
 import {
+  TurnstileWidget,
+  turnstileEnabled,
+} from "@/components/turnstile-widget";
+import {
   validateContactInput,
   type ContactErrors,
   type ContactField,
@@ -32,6 +36,8 @@ export function ContactForm({ locale }: { locale: Locale }) {
   const [errors, setErrors] = useState<ContactErrors>({});
   const [status, setStatus] = useState<Status>("idle");
   const [referralApplied, setReferralApplied] = useState(false);
+  const [turnstileToken, setTurnstileToken] = useState("");
+  const [turnstileResetKey, setTurnstileResetKey] = useState(0);
   const formRef = useRef<HTMLFormElement>(null);
   const submissionId = useRef(crypto.randomUUID());
   const errorFor = (field: ContactField) =>
@@ -92,6 +98,8 @@ export function ContactForm({ locale }: { locale: Locale }) {
       return;
     }
 
+    if (turnstileEnabled && !turnstileToken) return;
+
     setStatus("sending");
     try {
       const response = await fetch("/api/contact", {
@@ -101,11 +109,13 @@ export function ContactForm({ locale }: { locale: Locale }) {
           ...input,
           fax: fieldValue(data, "fax"),
           submissionId: submissionId.current,
+          turnstileToken,
         }),
       });
       const result = await response.json();
       if (response.ok && result.ok === true) {
         form.reset();
+        setTurnstileToken("");
         submissionId.current = crypto.randomUUID();
         setErrors({});
         setStatus("success");
@@ -126,6 +136,9 @@ export function ContactForm({ locale }: { locale: Locale }) {
       }
     } catch {
       setStatus("failure");
+    } finally {
+      setTurnstileToken("");
+      setTurnstileResetKey((key) => key + 1);
     }
   }
 
@@ -136,6 +149,7 @@ export function ContactForm({ locale }: { locale: Locale }) {
       noValidate
       onSubmit={handleSubmit}
       aria-label={t.title}
+      data-clarity-mask="true"
     >
       <h3>{t.title}</h3>
       {referralApplied && (
@@ -231,10 +245,16 @@ export function ContactForm({ locale }: { locale: Locale }) {
         {t.privacyNotice}{" "}
         <a href={localizedPath(locale, "/privacy")}>{t.privacyLink}</a>.
       </p>
+      <TurnstileWidget
+        locale={locale}
+        action="contact"
+        onTokenChange={setTurnstileToken}
+        resetKey={turnstileResetKey}
+      />
       <button
         className="ui-action ui-action--primary ui-action--icon-send contact-form__submit"
         type="submit"
-        disabled={status === "sending"}
+        disabled={status === "sending" || (turnstileEnabled && !turnstileToken)}
       >
         {status === "sending" ? t.sending : t.submit}{" "}
         <Send size={18} aria-hidden="true" />
