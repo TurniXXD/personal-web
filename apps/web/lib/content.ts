@@ -401,7 +401,7 @@ export const copy: Record<Locale, SiteCopy> = {
       kinedok: {
         category: "Obsahová platforma",
         summary:
-          "Obsahová platforma, která propojuje dokumentární filmy, program a místa promítání.",
+          "Vývoj platformy propojující dokumentární filmy, promítací místa a jejich diváky.",
         challenge:
           "Návštěvníci potřebují snadno najít aktuální program a místo promítání, zatímco tým musí průběžně udržovat rozmanitý obsah.",
         role: [
@@ -431,7 +431,7 @@ export const copy: Record<Locale, SiteCopy> = {
       my213: {
         category: "Klientský portál",
         summary:
-          "Klientský portál, který vede uživatele jednotlivými kroky a sjednocuje práci s daty.",
+          "Vývoj klientského portálu pro přehlednou správu požadavků a práci s daty.",
         challenge:
           "Vícekrokové úkoly a datové vstupy potřebují srozumitelné rozhraní, ve kterém uživatel vždy ví, co má udělat dál.",
         role: [
@@ -446,7 +446,7 @@ export const copy: Record<Locale, SiteCopy> = {
       ondrasek: {
         category: "Prezentační web",
         summary:
-          "Přehledný firemní web pro prezentaci produktů a služeb Ondrášek.",
+          "Tvorba firemního webu s přehlednou prezentací produktů, služeb a společnosti.",
         challenge:
           "Rozsáhlý obsah organizace potřeboval srozumitelnou strukturu a responzivní prezentaci, ve které návštěvníci rychle najdou důležité informace.",
         role: [
