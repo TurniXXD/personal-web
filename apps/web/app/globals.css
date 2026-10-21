@@ -252,7 +252,7 @@ summary:focus-visible {
   font-size: clamp(3rem, 5vw, 4.9rem);
   font-weight: 800;
   line-height: 1.06;
-  letter-spacing: -0.075em;
+  letter-spacing: -0.06em;
 }
 .hero h1 span {
   color: var(--brand);
@@ -970,8 +970,7 @@ summary:focus-visible {
 }
 
 .work-section {
-  min-height: clamp(62rem, 110svh, 76rem);
-  padding-block: clamp(7.5rem, 10vw, 10rem);
+  padding-block: clamp(7.5rem, 10vw, 10rem) clamp(4.5rem, 6vw, 6.5rem);
   background: #f4f6fd;
 }
 .work-section .section-heading {
@@ -1130,43 +1129,6 @@ summary:focus-visible {
 
 .process-section {
   background: #fff;
-}
-.service-rates {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 1rem;
-  margin-top: 3rem;
-}
-.service-rates article {
-  padding: 1.5rem;
-  border: 1px solid #dce2fa;
-  border-radius: 1.25rem;
-  background: #f8f9ff;
-}
-.service-rates h3 {
-  margin: 0;
-  font-size: 1rem;
-}
-.service-rates p {
-  margin: 0.75rem 0 0;
-  color: #596484;
-  font-size: 0.8rem;
-  line-height: 1.65;
-}
-.service-rates .service-rates__price {
-  color: var(--brand);
-  font-size: clamp(1.75rem, 3vw, 2.4rem);
-  font-weight: 800;
-  letter-spacing: -0.045em;
-  line-height: 1.3;
-}
-.service-rates__price span {
-  font-size: 0.85rem;
-  font-weight: 600;
-  letter-spacing: normal;
-}
-.service-rates .service-rates__price--custom {
-  font-size: clamp(1.5rem, 2.5vw, 2rem);
 }
 .process-grid {
   position: relative;
@@ -3824,8 +3786,7 @@ summary:focus-visible {
   max-width: 48rem;
   margin-bottom: clamp(2rem, 4vw, 3rem);
 }
-.service-section-heading h2,
-.service-final-cta h2 {
+.service-section-heading h2 {
   margin: 0;
   font-size: clamp(2.25rem, 4vw, 4rem);
   line-height: 1.08;
@@ -3931,6 +3892,9 @@ summary:focus-visible {
 }
 .service-projects .service-section-heading > p:last-child {
   color: #eef0ff;
+}
+.service-projects .case-card {
+  color: var(--ink);
 }
 .service-projects__grid {
   margin-top: 0;
@@ -4183,35 +4147,6 @@ summary:focus-visible {
 .service-related__links svg {
   flex: 0 0 auto;
   color: var(--brand);
-}
-.service-final-cta {
-  padding-block: clamp(4rem, 7vw, 6rem);
-  background: #eef1ff;
-}
-.service-final-cta__inner {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 3rem;
-  padding: clamp(2rem, 5vw, 3.5rem);
-  border: 1px solid #cfd6f5;
-  border-radius: 1.6rem;
-  background: var(--surface-navy);
-  color: #fff;
-  box-shadow: 0 24px 60px rgba(39, 48, 100, 0.13);
-}
-.service-final-cta__inner > div {
-  max-width: 44rem;
-}
-.service-final-cta__inner > div > p:last-child {
-  max-width: 39rem;
-  margin: 1rem 0 0;
-  color: #c8cee5;
-  font-size: 0.88rem;
-  line-height: 1.7;
-}
-.service-final-cta .ui-action {
-  flex: 0 0 auto;
 }
 @media (max-width: 1000px) {
   .site-header__nav {
@@ -4522,7 +4457,7 @@ summary:focus-visible {
   .hero h1 {
     max-width: 13ch;
     font-size: clamp(2.55rem, 8.5vw, 4rem);
-    letter-spacing: -0.065em;
+    letter-spacing: -0.055em;
   }
   .hero-art {
     display: none;
@@ -4654,10 +4589,6 @@ summary:focus-visible {
   .service-flow--ai .service-flow__step {
     min-height: 5.5rem;
   }
-  .service-final-cta__inner {
-    align-items: flex-start;
-    flex-direction: column;
-  }
   .about-section__grid {
     gap: 2.5rem;
   }
@@ -4722,9 +4653,6 @@ summary:focus-visible {
   }
 }
 @media (max-width: 600px) {
-  .service-rates {
-    grid-template-columns: 1fr;
-  }
   .site-footer__social {
     margin-block: 2rem 1.25rem;
   }
@@ -4968,8 +4896,7 @@ summary:focus-visible {
   .service-hero__actions {
     display: grid;
   }
-  .service-hero__actions .ui-action,
-  .service-final-cta .ui-action {
+  .service-hero__actions .ui-action {
     width: 100%;
   }
   .service-hero-visual--web {

@@ -258,29 +258,6 @@ export const ServiceLandingPage = ({
           </section>
         )}
 
-        {content.finalCta && (
-          <section
-            className="service-final-cta"
-            aria-labelledby="service-final-cta-title"
-          >
-            <div className="site-container">
-              <ScrollReveal className="service-final-cta__inner">
-                <div>
-                  <p className="eyebrow eyebrow--light">
-                    {content.finalCta.eyebrow}
-                  </p>
-                  <h2 id="service-final-cta-title">{content.finalCta.title}</h2>
-                  <p>{content.finalCta.description}</p>
-                </div>
-                <ActionLink href="#contact">
-                  {content.finalCta.action}{" "}
-                  <ArrowRight size={17} aria-hidden="true" />
-                </ActionLink>
-              </ScrollReveal>
-            </div>
-          </section>
-        )}
-
         <ContactBlock locale={locale} title={content.contactTitle} />
       </main>
       <SiteFooter locale={locale} />

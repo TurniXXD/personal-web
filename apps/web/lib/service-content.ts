@@ -74,12 +74,6 @@ export type ServicePageCopy = {
     description: string;
     steps: ProcessStep[];
   };
-  finalCta?: {
-    eyebrow: string;
-    title: string;
-    description: string;
-    action: string;
-  };
   related?: {
     eyebrow: string;
     title: string;
@@ -183,13 +177,6 @@ const csWeb: ServicePageCopy = {
           "Po spuštění mohu řešení spravovat a rozvíjet podle nových potřeb.",
       },
     ],
-  },
-  finalCta: {
-    eyebrow: "POJĎME TO PROBRAT",
-    title: "Máte nápad na web nebo aplikaci?",
-    description:
-      "Rád s vámi proberu možnosti a navrhnu řešení odpovídající vašim potřebám.",
-    action: "Nezávazně poptat projekt",
   },
   related: {
     eyebrow: "SOUVISEJÍCÍ SLUŽBY",
@@ -406,13 +393,6 @@ const enWeb: ServicePageCopy = {
           "After launch, I can maintain and extend the solution as needs change.",
       },
     ],
-  },
-  finalCta: {
-    eyebrow: "LET'S TALK",
-    title: "Have an idea for a website or application?",
-    description:
-      "I will be happy to discuss the options and propose a solution that fits your needs.",
-    action: "Enquire about a project",
   },
   related: {
     eyebrow: "RELATED SERVICES",

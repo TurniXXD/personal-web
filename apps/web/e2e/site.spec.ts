@@ -454,9 +454,6 @@ test("web applications service page presents real work and contact flow", async 
   );
   await expect(page.locator(".service-process-step")).toHaveCount(5);
   await expect(page.locator(".service-related__links a")).toHaveCount(2);
-  await expect(
-    page.getByRole("heading", { name: "Máte nápad na web nebo aplikaci?" }),
-  ).toBeVisible();
   await expect(page.locator("#contact .contact-form")).toBeVisible();
   await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
     "href",
@@ -537,7 +534,6 @@ test("AI service page keeps a concise five-section conversion flow", async ({
   await expect(page.locator(".service-scenarios")).toHaveCount(0);
   await expect(page.locator(".service-approach")).toHaveCount(0);
   await expect(page.locator(".service-related")).toHaveCount(0);
-  await expect(page.locator(".service-final-cta")).toHaveCount(0);
   await expect(page.locator("#projects")).toHaveCount(0);
   await expect(
     page.getByRole("heading", {

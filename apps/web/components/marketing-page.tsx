@@ -266,45 +266,6 @@ export const MarketingPage = ({ locale }: MarketingPageProps) => {
                 </article>
               ))}
             </ScrollReveal>
-            <ScrollReveal className="service-rates" stagger>
-              <article>
-                <h3>{locale === "cs" ? "Vývoj" : "Development"}</h3>
-                <p className="service-rates__price">
-                  500 Kč <span>/ h</span>
-                </p>
-                <p>
-                  {locale === "cs"
-                    ? "Weby, aplikace a automatizace na míru."
-                    : "Custom websites, applications, and automation."}
-                </p>
-              </article>
-              <article>
-                <h3>{locale === "cs" ? "Konzultace" : "Consultation"}</h3>
-                <p className="service-rates__price">
-                  999 Kč <span>/ 60 min</span>
-                </p>
-                <p>
-                  {locale === "cs"
-                    ? "Projdeme vaše zadání, možnosti a další postup."
-                    : "We review your brief, options, and next steps."}
-                </p>
-              </article>
-              <article>
-                <h3>
-                  {locale === "cs"
-                    ? "Správa a podpora"
-                    : "Maintenance and support"}
-                </h3>
-                <p className="service-rates__price service-rates__price--custom">
-                  {locale === "cs" ? "Individuálně" : "By agreement"}
-                </p>
-                <p>
-                  {locale === "cs"
-                    ? "Podle rozsahu údržby, aktualizací a dalšího rozvoje."
-                    : "Based on maintenance, updates, and ongoing development."}
-                </p>
-              </article>
-            </ScrollReveal>
           </div>
         </section>
 
