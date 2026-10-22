@@ -18,7 +18,6 @@ import {
   useEffect,
   useRef,
   useState,
-  type FocusEvent,
   type KeyboardEvent,
   type TouchEvent,
 } from "react";
@@ -34,7 +33,7 @@ type AiUseCaseCarouselProps = {
   locale: Locale;
 };
 
-const AUTO_ROTATION_DELAY = 8_000;
+const AUTO_ROTATION_DELAY = 6_000;
 
 const VisualHeader = ({ slide }: { slide: AiUseCaseSlide }) => (
   <div className="ai-case-visual__header">
@@ -276,8 +275,6 @@ export const AiUseCaseCarousel = ({ locale }: AiUseCaseCarouselProps) => {
   const slides = getAiUseCaseSlides(locale);
   const [activeIndex, setActiveIndex] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
-  const [isHovered, setIsHovered] = useState(false);
-  const [hasFocusWithin, setHasFocusWithin] = useState(false);
   const touchStartX = useRef<number | null>(null);
 
   useEffect(() => {
@@ -295,14 +292,14 @@ export const AiUseCaseCarousel = ({ locale }: AiUseCaseCarouselProps) => {
   }, []);
 
   useEffect(() => {
-    if (!isAutoPlaying || isHovered || hasFocusWithin) return;
+    if (!isAutoPlaying) return;
 
     const timeout = window.setTimeout(() => {
       setActiveIndex((current) => (current + 1) % slides.length);
     }, AUTO_ROTATION_DELAY);
 
     return () => window.clearTimeout(timeout);
-  }, [activeIndex, hasFocusWithin, isAutoPlaying, isHovered, slides.length]);
+  }, [activeIndex, isAutoPlaying, slides.length]);
 
   const showPrevious = () => {
     setActiveIndex((current) => (current - 1 + slides.length) % slides.length);
@@ -338,12 +335,6 @@ export const AiUseCaseCarousel = ({ locale }: AiUseCaseCarouselProps) => {
     else showNext();
   };
 
-  const handleBlur = (event: FocusEvent<HTMLDivElement>) => {
-    if (!event.currentTarget.contains(event.relatedTarget as Node | null)) {
-      setHasFocusWithin(false);
-    }
-  };
-
   return (
     <section className="section ai-use-cases" aria-label={copy.carouselLabel}>
       <ScrollReveal>
@@ -351,10 +342,6 @@ export const AiUseCaseCarousel = ({ locale }: AiUseCaseCarouselProps) => {
           className="ai-use-case-carousel"
           aria-label={copy.carouselLabel}
           aria-roledescription="carousel"
-          onBlur={handleBlur}
-          onFocus={() => setHasFocusWithin(true)}
-          onMouseEnter={() => setIsHovered(true)}
-          onMouseLeave={() => setIsHovered(false)}
           onKeyDown={handleKeyDown}
           onTouchStart={handleTouchStart}
           onTouchEnd={handleTouchEnd}
@@ -401,7 +388,10 @@ export const AiUseCaseCarousel = ({ locale }: AiUseCaseCarouselProps) => {
                   aria-pressed={index === activeIndex}
                   aria-label={copy.slideLabel(index + 1, slide.title)}
                   key={slide.id}
-                  onClick={() => setActiveIndex(index)}
+                  onClick={() => {
+                    setActiveIndex(index);
+                    setIsAutoPlaying(false);
+                  }}
                 >
                   <span>{String(index + 1).padStart(2, "0")}</span>
                 </button>

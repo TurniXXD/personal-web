@@ -899,6 +899,27 @@ test("AI offering cards use a single readable column on mobile", async ({
   }
 });
 
+test("AI use-case carousel keeps only compact text content on mobile", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 375, height: 844 });
+  await page.goto("/sluzby/ai-reseni");
+
+  const activeSlide = page.locator(
+    '.ai-use-case-carousel__slide[data-active="true"]',
+  );
+  const workflowSteps = activeSlide.locator(".ai-use-case__workflow li");
+
+  await expect(activeSlide.locator(".ai-use-case__content")).toBeVisible();
+  await expect(activeSlide.locator(".ai-case-visual")).toBeHidden();
+  await expect(workflowSteps.first()).toHaveCSS("min-height", "28px");
+  expect(
+    await workflowSteps.first().evaluate((step) =>
+      Number.parseFloat(getComputedStyle(step).columnGap),
+    ),
+  ).toBeLessThanOrEqual(7);
+});
+
 test("AI use-case carousel is localized in English", async ({ page }) => {
   await page.goto("/en/sluzby/ai-reseni");
 
@@ -961,23 +982,37 @@ test("AI use-case carousel keeps one height across every slide", async ({
   }
 });
 
-test("AI use-case carousel advances automatically after eight seconds", async ({
+test("AI use-case carousel advances every six seconds until a step is clicked", async ({
   page,
 }) => {
-  const startTime = new Date("2026-10-22T10:00:00Z");
-  await page.clock.install({ time: startTime });
-  await page.clock.pauseAt(startTime);
   await page.goto("/sluzby/ai-reseni");
 
   const carousel = page.locator(".ai-use-case-carousel");
-  const firstSlide = carousel.locator("#ai-use-case-panel-trends");
-  const secondSlide = carousel.locator("#ai-use-case-panel-social-content");
+  const thirdSlide = carousel.locator("#ai-use-case-panel-enquiries");
+  const activeSlide = carousel.locator(
+    '.ai-use-case-carousel__slide[data-active="true"]',
+  );
 
-  await expect(firstSlide).toHaveAttribute("data-active", "true");
-  await page.clock.fastForward(7_999);
-  await expect(firstSlide).toHaveAttribute("data-active", "true");
-  await page.clock.fastForward(1);
-  await expect(secondSlide).toHaveAttribute("data-active", "true");
+  await carousel.hover();
+  const initialSlideId = await activeSlide.getAttribute("id");
+  await expect
+    .poll(() => activeSlide.getAttribute("id"), { timeout: 6_500 })
+    .not.toBe(initialSlideId);
+  const intervalStartSlideId = await activeSlide.getAttribute("id");
+  await page.waitForTimeout(5_000);
+  await expect(activeSlide).toHaveAttribute("id", intervalStartSlideId ?? "");
+  await expect
+    .poll(() => activeSlide.getAttribute("id"), { timeout: 2_000 })
+    .not.toBe(intervalStartSlideId);
+
+  await carousel
+    .getByRole("button", {
+      name: "Příklad 3: Proměňte příchozí poptávky v přehledné obchodní příležitosti",
+    })
+    .click();
+  await expect(thirdSlide).toHaveAttribute("data-active", "true");
+  await page.waitForTimeout(6_500);
+  await expect(thirdSlide).toHaveAttribute("data-active", "true");
 });
 
 test("AI hero diagram stays legible and separates with scroll", async ({

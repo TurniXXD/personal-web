@@ -397,7 +397,7 @@ export const VoucherDemo = ({ locale }: { locale: Locale }) => {
           <Gift size={16} aria-hidden="true" /> {copy.builder}
         </span>
         <label htmlFor={recipientId}>
-          {copy.recipient}
+          <span>{copy.recipient}</span>
           <input
             id={recipientId}
             value={recipient}
@@ -406,7 +406,7 @@ export const VoucherDemo = ({ locale }: { locale: Locale }) => {
           />
         </label>
         <label htmlFor={amountId}>
-          {copy.amount}
+          <span>{copy.amount}</span>
           <select
             id={amountId}
             value={amount}
@@ -418,7 +418,7 @@ export const VoucherDemo = ({ locale }: { locale: Locale }) => {
           </select>
         </label>
         <label htmlFor={messageId}>
-          {copy.message}
+          <span>{copy.message}</span>
           <textarea
             id={messageId}
             value={message}
