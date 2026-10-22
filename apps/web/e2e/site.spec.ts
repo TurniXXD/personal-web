@@ -442,9 +442,21 @@ test("web applications service page presents real work and contact flow", async 
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
     "Digitální řešení, která rostou s vaším podnikáním.",
   );
-  await expect(page.locator(".service-offering-card")).toHaveCount(5);
+  await expect(page.locator(".service-offering-card")).toHaveCount(9);
   await expect(
     page.getByRole("heading", { name: "E-shopy na Shoptetu" }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("heading", { name: "Digitální věrnostní programy" }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("heading", { name: "Webová analytika" }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("heading", { name: "CRM a práce se zákazníky" }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("heading", { name: "E-mailing a automatizace" }),
   ).toBeVisible();
   await expect(page.locator(".service-benefits")).toHaveCount(0);
   await expect(page.locator("#projects .case-card")).toHaveCount(5);
@@ -454,6 +466,11 @@ test("web applications service page presents real work and contact flow", async 
   );
   await expect(page.locator(".service-process-step")).toHaveCount(5);
   await expect(page.locator(".service-related__links a")).toHaveCount(2);
+  await expect(
+    page.getByRole("heading", {
+      name: "Potřebujete pomoci i s marketingem?",
+    }),
+  ).toBeVisible();
   await expect(page.locator("#contact .contact-form")).toBeVisible();
   await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
     "href",
@@ -631,6 +648,27 @@ test("automation page filters non-clickable examples", async ({ page }) => {
   await expect(page.locator(".automation-story-tile__line")).toHaveCount(0);
   await expect(page.getByText("Naplánování dalších kroků")).toHaveCount(0);
   await expect(page.getByText("Podmínky ověřeny")).toHaveCount(0);
+  await expect(
+    page.getByRole("heading", { name: "Vyhodnocení podmínek" }),
+  ).toBeVisible();
+  const relatedProducts = page.locator(".automation-example").filter({
+    hasText: "Automaticky doporučujte související produkty",
+  });
+  await expect(relatedProducts).toBeVisible();
+  await expect(
+    relatedProducts.locator(".content-card__tag").first(),
+  ).toHaveText("E-shop");
+  await expect(
+    relatedProducts.locator(".content-card__tag--accent"),
+  ).toHaveText("AI");
+  await expect(
+    page.getByText("Po doručení objednávky odejde žádost o hodnocení."),
+  ).toBeVisible();
+  await expect(page.locator(".automation-story-tile > p")).toHaveCount(2);
+  await expect(page.locator(".automation-scroll-story__status")).toHaveCount(0);
+  await expect(
+    page.locator(".automation-scroll-story__mobile-steps"),
+  ).toHaveCount(0);
   const cardHeights = await page
     .locator(".automation-example")
     .evaluateAll((cards) =>
@@ -644,8 +682,13 @@ test("automation page filters non-clickable examples", async ({ page }) => {
   await more.click();
   await expect(page.locator(".automation-example")).toHaveCount(23);
 
-  await page.getByRole("button", { name: "AI a dokumenty" }).click();
-  await expect(page.locator(".automation-example")).toHaveCount(3);
+  await page.getByRole("button", { name: "E-shop", exact: true }).click();
+  await expect(page.locator(".automation-example")).toHaveCount(6);
+  await expect(relatedProducts).toBeVisible();
+
+  await page.getByRole("button", { name: "Dokumenty a AI" }).click();
+  await expect(page.locator(".automation-example")).toHaveCount(5);
+  await expect(page.locator(".content-card__tag--accent")).toHaveCount(4);
 
   const first = page.locator(".automation-example").first();
   await expect(first).not.toHaveAttribute("href");
@@ -758,8 +801,8 @@ test("automation story becomes a complete static flow on mobile", async ({
   ).toBeHidden();
   await expect(story.locator(".automation-story-tile")).toHaveCount(5);
   await expect(
-    story.locator(".automation-scroll-story__mobile-steps li"),
-  ).toHaveCount(5);
+    story.locator(".automation-scroll-story__mobile-steps"),
+  ).toHaveCount(0);
   await expect(story.locator(".automation-story-tile").last()).toBeVisible();
 
   const overflow = await page.evaluate(
@@ -802,6 +845,14 @@ test("automation page is localized, indexed and fits mobile width", async ({
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
     "One order. Several automated steps.",
   );
+  await expect(
+    page.getByRole("button", { name: "Documents and AI" }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("heading", {
+      name: "Automatically recommend related products",
+    }),
+  ).toBeVisible();
   const overflow = await page.evaluate(
     () => document.documentElement.scrollWidth - window.innerWidth,
   );

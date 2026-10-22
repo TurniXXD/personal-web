@@ -5,6 +5,7 @@ import {
   Boxes,
   ChartNoAxesCombined,
   Code2,
+  CreditCard,
   FileScan,
   Gauge,
   LayoutDashboard,
@@ -14,6 +15,7 @@ import {
   Plug,
   Settings2,
   Store,
+  UsersRound,
   type LucideIcon,
 } from "lucide-react";
 import { ActionLink } from "@vantuch/ui";
@@ -48,8 +50,10 @@ const serviceIcons: Record<ServiceIconName, LucideIcon> = {
   network: Network,
   gauge: Gauge,
   code: Code2,
+  "credit-card": CreditCard,
   settings: Settings2,
   store: Store,
+  users: UsersRound,
 };
 
 export const ServiceLandingPage = ({
@@ -243,17 +247,25 @@ export const ServiceLandingPage = ({
                 <p className="eyebrow">{content.related.eyebrow}</p>
                 <h2 id="service-related-title">{content.related.title}</h2>
               </ScrollReveal>
-              <ScrollReveal className="service-related__links" stagger>
-                {content.related.items.map((item) => (
-                  <a href={localizedPath(locale, item.href)} key={item.href}>
-                    <span>
-                      <strong>{item.title}</strong>
-                      <small>{item.description}</small>
-                    </span>
-                    <ArrowRight size={18} aria-hidden="true" />
-                  </a>
-                ))}
-              </ScrollReveal>
+              <div className="service-related__content">
+                <ScrollReveal className="service-related__links" stagger>
+                  {content.related.items.map((item) => (
+                    <a href={localizedPath(locale, item.href)} key={item.href}>
+                      <span>
+                        <strong>{item.title}</strong>
+                        <small>{item.description}</small>
+                      </span>
+                      <ArrowRight size={18} aria-hidden="true" />
+                    </a>
+                  ))}
+                </ScrollReveal>
+                {content.related.note && (
+                  <ScrollReveal className="service-related__note">
+                    <h3>{content.related.note.title}</h3>
+                    <p>{content.related.note.description}</p>
+                  </ScrollReveal>
+                )}
+              </div>
             </div>
           </section>
         )}

@@ -42,14 +42,6 @@ export const AiHeroVisual = ({ locale }: AiHeroVisualProps) => {
 
     const applyProgress = (progress: number) => {
       root.style.setProperty("--ai-visual-progress", progress.toFixed(4));
-      root.style.setProperty(
-        "--ai-line-offset",
-        (0.5 - progress * 0.5).toFixed(4),
-      );
-      root.style.setProperty(
-        "--ai-line-opacity",
-        (0.58 + progress * 0.42).toFixed(4),
-      );
       root.dataset.scrollProgress = progress.toFixed(3);
 
       parts.forEach((part) => {
@@ -121,19 +113,6 @@ export const AiHeroVisual = ({ locale }: AiHeroVisualProps) => {
       data-scroll-progress="0.000"
       aria-hidden="true"
     >
-      <svg
-        className="ai-visual__connections"
-        viewBox="0 0 520 400"
-        preserveAspectRatio="none"
-      >
-        <path pathLength="1" d="M118 104H166V200H206" />
-        <path pathLength="1" d="M118 200H206" />
-        <path pathLength="1" d="M118 296H166V200" />
-        <path pathLength="1" d="M314 200H354V82H392" />
-        <path pathLength="1" d="M354 200H392" />
-        <path pathLength="1" d="M354 200V318H392" />
-      </svg>
-
       <div className="ai-pipeline__inputs" data-ai-visual-part data-x="-18">
         <span className="ai-pipeline__label">
           {locale === "cs" ? "Vstupy" : "Inputs"}
@@ -214,9 +193,6 @@ export const AiHeroVisual = ({ locale }: AiHeroVisualProps) => {
           <Check size={14} />
         </div>
       </div>
-
-      <span className="ai-pipeline__packet ai-pipeline__packet--input" />
-      <span className="ai-pipeline__packet ai-pipeline__packet--output" />
     </div>
   );
 };

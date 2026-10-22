@@ -12,8 +12,9 @@ export type AutomationCategoryId =
 export type AutomationExample = {
   id: string;
   number: string;
-  category: AutomationCategoryId;
+  categories: AutomationCategoryId[];
   icon: AutomationIconName;
+  usesAi?: boolean;
   title: string;
   description: string;
   trigger: string;
@@ -35,8 +36,14 @@ type LocalizedExample = Omit<
   | "examples"
   | "note"
 > & {
-  cs: Omit<AutomationExample, "id" | "number" | "category" | "icon">;
-  en: Omit<AutomationExample, "id" | "number" | "category" | "icon">;
+  cs: Omit<
+    AutomationExample,
+    "id" | "number" | "categories" | "icon" | "usesAi"
+  >;
+  en: Omit<
+    AutomationExample,
+    "id" | "number" | "categories" | "icon" | "usesAi"
+  >;
 };
 
 export type AutomationPageCopy = {
@@ -92,7 +99,7 @@ export const automationPageCopy: Record<Locale, AutomationPageCopy> = {
         "email-marketing": "E-mail a marketing",
         ecommerce: "E-shop",
         social: "Sociální sítě",
-        "ai-documents": "AI a dokumenty",
+        "ai-documents": "Dokumenty a AI",
         "business-processes": "Firemní procesy",
         "data-reporting": "Data a reporting",
       },
@@ -155,7 +162,7 @@ export const automationPageCopy: Record<Locale, AutomationPageCopy> = {
         "email-marketing": "Email and marketing",
         ecommerce: "E-commerce",
         social: "Social media",
-        "ai-documents": "AI and documents",
+        "ai-documents": "Documents and AI",
         "business-processes": "Business processes",
         "data-reporting": "Data and reporting",
       },
@@ -197,7 +204,7 @@ const examples: LocalizedExample[] = [
   {
     id: "abandoned-cart",
     number: "01",
-    category: "email-marketing",
+    categories: ["email-marketing", "ecommerce"],
     icon: "shopping-cart",
     cs: {
       title: "Připomeňte zákazníkům nedokončený nákup",
@@ -241,7 +248,7 @@ const examples: LocalizedExample[] = [
   {
     id: "product-review",
     number: "02",
-    category: "email-marketing",
+    categories: ["email-marketing", "ecommerce"],
     icon: "star",
     cs: {
       title: "Získejte více hodnocení od zákazníků",
@@ -276,24 +283,25 @@ const examples: LocalizedExample[] = [
   {
     id: "related-products",
     number: "03",
-    category: "email-marketing",
+    categories: ["ecommerce", "ai-documents"],
     icon: "package-plus",
+    usesAi: true,
     cs: {
-      title: "Nabídněte zákazníkům produkty, které se jim mohou hodit",
+      title: "Automaticky doporučujte související produkty",
       description:
-        "Po nákupu doporučí vhodné příslušenství, doplněk nebo časově relevantní doplnění zásob.",
+        "Analyzujte nákupní chování zákazníků a automaticky doporučujte produkty, které se často kupují společně.",
       trigger: "Zákazník zakoupí vybraný produkt.",
       workflow: [
         "Nákup produktu",
-        "Analýza objednávky",
+        "AI analýza nákupního chování",
         "Výběr souvisejících produktů",
-        "Personalizovaný e-mail",
+        "Personalizované doporučení",
       ],
       benefit:
-        "Relevantní následná komunikace, která může podpořit opakované nákupy.",
+        "Relevantní doporučení, která mohou zvýšit hodnotu objednávky i podpořit další nákup.",
       details: [
-        "Doporučení může vycházet z jednoduchých pravidel i pokročilejšího vyhodnocení.",
-        "Prodleva i nabídka se nastaví podle typu produktu a nákupního cyklu.",
+        "AI vyhodnotí, které produkty zákazníci často nakupují společně.",
+        "Doporučení lze zobrazit v e-shopu nebo využít v následné komunikaci.",
       ],
       examples: [
         "Kávovar → vhodná káva a údržba",
@@ -302,20 +310,21 @@ const examples: LocalizedExample[] = [
       ],
     },
     en: {
-      title: "Recommend products customers may find useful",
+      title: "Automatically recommend related products",
       description:
-        "Suggest suitable accessories, complementary items or timely replenishment after a purchase.",
+        "Analyse customer purchasing behaviour and automatically recommend products that are frequently bought together.",
       trigger: "A customer buys a selected product.",
       workflow: [
         "Product purchase",
-        "Order analysis",
+        "AI purchase behaviour analysis",
         "Related product selection",
-        "Personalised email",
+        "Personalised recommendation",
       ],
-      benefit: "Relevant follow-up that can support repeat purchases.",
+      benefit:
+        "Relevant recommendations that can increase order value and encourage another purchase.",
       details: [
-        "Recommendations may use straightforward rules or more advanced evaluation.",
-        "Timing and products are configured around the purchase cycle.",
+        "AI evaluates which products customers frequently buy together.",
+        "Recommendations can appear in the store or be used in follow-up communication.",
       ],
       examples: [
         "Coffee machine → coffee and maintenance items",
@@ -327,7 +336,7 @@ const examples: LocalizedExample[] = [
   {
     id: "welcome-series",
     number: "04",
-    category: "email-marketing",
+    categories: ["email-marketing"],
     icon: "user-plus",
     cs: {
       title: "Přivítejte nové zákazníky automaticky",
@@ -367,7 +376,7 @@ const examples: LocalizedExample[] = [
   {
     id: "customer-reactivation",
     number: "05",
-    category: "email-marketing",
+    categories: ["email-marketing"],
     icon: "user-search",
     cs: {
       title: "Připomeňte se zákazníkům, kteří dlouho nenakoupili",
@@ -407,7 +416,7 @@ const examples: LocalizedExample[] = [
   {
     id: "sales-follow-up",
     number: "06",
-    category: "email-marketing",
+    categories: ["email-marketing", "business-processes"],
     icon: "mail-check",
     cs: {
       title: "Nezapomínejte na rozpracované obchodní příležitosti",
@@ -447,7 +456,7 @@ const examples: LocalizedExample[] = [
   {
     id: "back-in-stock",
     number: "07",
-    category: "ecommerce",
+    categories: ["ecommerce", "email-marketing"],
     icon: "bell",
     cs: {
       title: "Informujte zákazníky, když je produkt opět skladem",
@@ -487,7 +496,7 @@ const examples: LocalizedExample[] = [
   {
     id: "order-status",
     number: "08",
-    category: "ecommerce",
+    categories: ["ecommerce", "email-marketing"],
     icon: "truck",
     cs: {
       title: "Informujte zákazníky o průběhu objednávky",
@@ -527,7 +536,7 @@ const examples: LocalizedExample[] = [
   {
     id: "risky-orders",
     number: "09",
-    category: "ecommerce",
+    categories: ["ecommerce", "business-processes"],
     icon: "shield-alert",
     cs: {
       title: "Odhalte objednávky, které potřebují pozornost",
@@ -561,7 +570,7 @@ const examples: LocalizedExample[] = [
   {
     id: "trend-monitoring",
     number: "10",
-    category: "social",
+    categories: ["social", "data-reporting"],
     icon: "trending-up",
     cs: {
       title: "Zjistěte, o čem se právě mluví ve vašem oboru",
@@ -605,7 +614,7 @@ const examples: LocalizedExample[] = [
   {
     id: "social-scheduling",
     number: "11",
-    category: "social",
+    categories: ["social"],
     icon: "calendar-clock",
     cs: {
       title: "Připravujte obsah na sociální sítě efektivněji",
@@ -642,7 +651,7 @@ const examples: LocalizedExample[] = [
   {
     id: "brand-mentions",
     number: "12",
-    category: "social",
+    categories: ["social", "data-reporting"],
     icon: "at-sign",
     cs: {
       title: "Mějte přehled o tom, kde se mluví o vaší značce",
@@ -672,7 +681,7 @@ const examples: LocalizedExample[] = [
   {
     id: "content-calendar",
     number: "13",
-    category: "social",
+    categories: ["social"],
     icon: "calendar-days",
     cs: {
       title: "Proměňte nápady v konkrétní obsahový plán",
@@ -712,12 +721,13 @@ const examples: LocalizedExample[] = [
   {
     id: "invoice-processing",
     number: "14",
-    category: "ai-documents",
+    categories: ["ai-documents", "business-processes"],
     icon: "receipt",
+    usesAi: true,
     cs: {
       title: "Přestaňte ručně přepisovat údaje z faktur",
       description:
-        "Vytěží důležité údaje, zkontroluje je a připraví pro účetní systém.",
+        "Údaje z faktur se automaticky přenesou do účetního systému, takže je nemusíte ručně přepisovat.",
       trigger: "Do určené schránky nebo úložiště dorazí faktura.",
       workflow: [
         "Příchozí faktura",
@@ -734,7 +744,7 @@ const examples: LocalizedExample[] = [
     en: {
       title: "Stop retyping invoice data manually",
       description:
-        "Extract important fields, validate them and prepare them for accounting software.",
+        "Invoice details are transferred to your accounting software automatically, so you do not have to retype them.",
       trigger: "An invoice arrives in a selected inbox or storage location.",
       workflow: [
         "Incoming invoice",
@@ -752,12 +762,13 @@ const examples: LocalizedExample[] = [
   {
     id: "incoming-email",
     number: "15",
-    category: "ai-documents",
+    categories: ["ai-documents", "business-processes"],
     icon: "inbox",
+    usesAi: true,
     cs: {
       title: "Roztřiďte příchozí e-maily automaticky",
       description:
-        "Rozpozná typ požadavku, získá důležité informace a předá ho správnému týmu.",
+        "Příchozí e-maily se automaticky roztřídí a dostanou ke správnému člověku, včetně návrhu odpovědi.",
       trigger: "Do firemní schránky dorazí nový e-mail.",
       workflow: [
         "Příchozí e-mail",
@@ -774,7 +785,7 @@ const examples: LocalizedExample[] = [
     en: {
       title: "Sort incoming emails automatically",
       description:
-        "Recognise request type, extract important information and route it to the right team.",
+        "Incoming emails are sorted and sent to the right person automatically, together with a suggested reply.",
       trigger: "A new message arrives in a company inbox.",
       workflow: [
         "Incoming email",
@@ -792,8 +803,9 @@ const examples: LocalizedExample[] = [
   {
     id: "document-assistant",
     number: "16",
-    category: "ai-documents",
+    categories: ["ai-documents"],
     icon: "library",
+    usesAi: true,
     cs: {
       title: "Najděte odpovědi ve firemních dokumentech během chvíle",
       description:
@@ -834,12 +846,12 @@ const examples: LocalizedExample[] = [
   {
     id: "form-to-crm",
     number: "17",
-    category: "business-processes",
+    categories: ["business-processes"],
     icon: "database",
     cs: {
-      title: "Každá poptávka rovnou na správném místě",
+      title: "Mějte každou poptávku rovnou na správném místě",
       description:
-        "Přenese data z formuláře do CRM, přiřadí odpovědnost a upozorní tým.",
+        "Údaje z webového formuláře se automaticky uloží k zákazníkovi a správný kolega dostane upozornění.",
       trigger: "Návštěvník odešle webový formulář.",
       workflow: [
         "Webový formulář",
@@ -854,9 +866,9 @@ const examples: LocalizedExample[] = [
       ],
     },
     en: {
-      title: "Put every enquiry in the right place",
+      title: "Keep every enquiry in the right place",
       description:
-        "Move form data to the CRM, assign ownership and notify the team.",
+        "Details from your website form are saved to the customer automatically and the right colleague is notified.",
       trigger: "A visitor submits a web form.",
       workflow: ["Web form", "CRM", "Sales assignment", "Notification"],
       benefit: "No manual retyping of enquiries.",
@@ -869,12 +881,12 @@ const examples: LocalizedExample[] = [
   {
     id: "system-sync",
     number: "18",
-    category: "business-processes",
+    categories: ["business-processes"],
     icon: "refresh",
     cs: {
-      title: "Propojte aplikace, které dnes fungují odděleně",
+      title: "Mějte stejné a aktuální údaje ve všech aplikacích",
       description:
-        "Synchronizuje vybraná data mezi CRM, e-shopem, ERP a interními nástroji.",
+        "Změna v jednom systému se automaticky propíše do ostatních, takže nic nemusíte přepisovat dvakrát.",
       trigger: "Ve zdrojovém systému se změní sledovaný údaj.",
       workflow: [
         "CRM / E-shop / ERP",
@@ -889,9 +901,9 @@ const examples: LocalizedExample[] = [
       ],
     },
     en: {
-      title: "Connect applications that currently work separately",
+      title: "Keep your data consistent and up to date across applications",
       description:
-        "Synchronise selected data across CRM, e-commerce, ERP and internal tools.",
+        "A change in one system is reflected in the others automatically, so you never have to enter it twice.",
       trigger: "A watched value changes in the source system.",
       workflow: [
         "CRM / E-commerce / ERP",
@@ -909,10 +921,10 @@ const examples: LocalizedExample[] = [
   {
     id: "task-reminders",
     number: "19",
-    category: "business-processes",
+    categories: ["business-processes"],
     icon: "list-todo",
     cs: {
-      title: "Důležité úkoly už nezůstanou zapomenuté",
+      title: "Nenechte důležité úkoly zapadnout",
       description:
         "Pohlídá termíny a připomene úkol správnému člověku ve vhodný čas.",
       trigger: "Úkol se blíží termínu nebo zůstává bez změny stavu.",
@@ -929,7 +941,7 @@ const examples: LocalizedExample[] = [
       ],
     },
     en: {
-      title: "Keep important tasks from being forgotten",
+      title: "Never let an important task slip through",
       description:
         "Watch deadlines and remind the right person at the right time.",
       trigger: "A task approaches its deadline or remains unchanged.",
@@ -944,12 +956,12 @@ const examples: LocalizedExample[] = [
   {
     id: "document-generation",
     number: "20",
-    category: "business-processes",
+    categories: ["business-processes", "ai-documents"],
     icon: "file-stack",
     cs: {
-      title: "Generujte nabídky a dokumenty z připravených dat",
+      title: "Připravujte nabídky a dokumenty bez ručního přepisování",
       description:
-        "Doplní data do schválené šablony a připraví dokument ke kontrole.",
+        "Z údajů, které už máte, vznikne hotová nabídka nebo dokument připravený ke kontrole.",
       trigger: "V CRM nebo formuláři jsou připravené potřebné údaje.",
       workflow: [
         "Data z CRM",
@@ -964,9 +976,9 @@ const examples: LocalizedExample[] = [
       ],
     },
     en: {
-      title: "Generate proposals and documents from prepared data",
+      title: "Prepare proposals and documents without retyping data",
       description:
-        "Fill an approved template and prepare the document for review.",
+        "Turn details you already have into a finished proposal or document ready for review.",
       trigger: "The CRM or form contains all required data.",
       workflow: [
         "CRM data",
@@ -984,12 +996,12 @@ const examples: LocalizedExample[] = [
   {
     id: "business-reports",
     number: "21",
-    category: "data-reporting",
+    categories: ["data-reporting", "business-processes"],
     icon: "chart",
     cs: {
       title: "Dostávejte pravidelný přehled o výsledcích firmy",
       description:
-        "Spojí vybraná data a v dohodnutém intervalu připraví srozumitelný report.",
+        "Pravidelně získáte srozumitelný souhrn výsledků bez ručního spojování tabulek.",
       trigger: "Nastane pravidelný termín reportu.",
       workflow: [
         "Firemní data",
@@ -1006,7 +1018,7 @@ const examples: LocalizedExample[] = [
     en: {
       title: "Receive a regular overview of business results",
       description:
-        "Combine selected data and prepare a clear report on schedule.",
+        "Receive a clear summary of your results regularly without manually combining spreadsheets.",
       trigger: "A scheduled reporting date arrives.",
       workflow: [
         "Business data",
@@ -1024,16 +1036,16 @@ const examples: LocalizedExample[] = [
   {
     id: "change-alerts",
     number: "22",
-    category: "data-reporting",
+    categories: ["data-reporting", "business-processes"],
     icon: "activity",
     cs: {
       title: "Zjistěte včas, když se něco důležitého změní",
       description:
-        "Sleduje vybrané metriky a upozorní na neobvyklou nebo významnou změnu.",
+        "Dostanete upozornění, když se sledované výsledky neobvykle změní nebo překročí důležitou hranici.",
       trigger: "Hodnota překročí nastavenou podmínku nebo se výrazně odchýlí.",
       workflow: [
         "Sledovaná data",
-        "Kontrola podmínek",
+        "Vyhodnocení podmínek",
         "Zjištěná změna",
         "Upozornění",
       ],
@@ -1046,11 +1058,11 @@ const examples: LocalizedExample[] = [
     en: {
       title: "Know when something important changes",
       description:
-        "Monitor selected metrics and flag an unusual or important change.",
+        "Get an alert when tracked results change unexpectedly or cross an important threshold.",
       trigger: "A value crosses a rule or deviates significantly.",
       workflow: [
         "Monitored data",
-        "Condition check",
+        "Condition evaluation",
         "Detected change",
         "Alert",
       ],
@@ -1064,12 +1076,12 @@ const examples: LocalizedExample[] = [
   {
     id: "market-monitoring",
     number: "23",
-    category: "data-reporting",
+    categories: ["data-reporting"],
     icon: "radar",
     cs: {
       title: "Sledujte změny na trhu bez každodenního hledání",
       description:
-        "Kontroluje dostupné veřejné zdroje a připraví souhrn relevantních změn.",
+        "Pravidelně získáte souhrn důležitých změn z vybraných veřejných zdrojů.",
       trigger: "Pravidelná kontrola zdrojů nebo nově publikovaná informace.",
       workflow: ["Veřejné zdroje", "Sledování změn", "Vyhodnocení", "Souhrn"],
       benefit: "Pravidelný přehled o relevantních změnách na trhu.",
@@ -1088,7 +1100,7 @@ const examples: LocalizedExample[] = [
     en: {
       title: "Track market changes without daily searching",
       description:
-        "Check available public sources and prepare a summary of relevant changes.",
+        "Receive a regular summary of important changes from selected public sources.",
       trigger: "A scheduled source check or newly published information.",
       workflow: [
         "Public sources",

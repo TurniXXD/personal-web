@@ -9,7 +9,7 @@ import {
   Workflow,
   type LucideIcon,
 } from "lucide-react";
-import { useEffect, useRef, useState, type CSSProperties } from "react";
+import { useEffect, useRef, type CSSProperties } from "react";
 import type { Locale } from "@/lib/content";
 
 type StoryStage = {
@@ -18,8 +18,7 @@ type StoryStage = {
   icon: LucideIcon;
   title: string;
   status: string;
-  description: string;
-  message: string;
+  description?: string;
 };
 
 type StoryCopy = {
@@ -51,8 +50,6 @@ const storyCopy: Record<Locale, StoryCopy> = {
         icon: ShoppingCart,
         title: "Nová objednávka",
         status: "Přijato",
-        description: "Zákazník dokončí nákup v e-shopu.",
-        message: "Zákazník dokončí objednávku.",
       },
       {
         id: "crm",
@@ -60,18 +57,13 @@ const storyCopy: Record<Locale, StoryCopy> = {
         icon: Users,
         title: "Zákazník aktualizován",
         status: "Synchronizováno",
-        description: "Objednávka a zákaznické údaje se synchronizují s CRM.",
-        message: "Informace se automaticky propíšou do CRM.",
       },
       {
         id: "automation",
         label: "Automatizace",
         icon: Workflow,
-        title: "Kontrola podmínek",
+        title: "Vyhodnocení podmínek",
         status: "Aktivní pravidlo",
-        description:
-          "Systém vyhodnotí stav objednávky a připraví navazující akce.",
-        message: "Systém vyhodnotí podmínky a naplánuje další kroky.",
       },
       {
         id: "email",
@@ -79,9 +71,7 @@ const storyCopy: Record<Locale, StoryCopy> = {
         icon: Mail,
         title: "Jak jste spokojeni s nákupem?",
         status: "Samostatný follow-up",
-        description:
-          "Po doručení a nastavené prodlevě odejde žádost o hodnocení, pokud jsou splněny podmínky odeslání.",
-        message: "Po doručení může zákazník dostat žádost o hodnocení.",
+        description: "Po doručení objednávky odejde žádost o hodnocení.",
       },
       {
         id: "recommendation",
@@ -91,7 +81,6 @@ const storyCopy: Record<Locale, StoryCopy> = {
         status: "Samostatný follow-up",
         description:
           "Zákazník může později dostat relevantní doporučení podle svého nákupu.",
-        message: "Později mu můžete doporučit související produkty.",
       },
     ],
   },
@@ -107,8 +96,6 @@ const storyCopy: Record<Locale, StoryCopy> = {
         icon: ShoppingCart,
         title: "New order",
         status: "Received",
-        description: "The customer completes a purchase in the online store.",
-        message: "The customer completes an order.",
       },
       {
         id: "crm",
@@ -116,18 +103,13 @@ const storyCopy: Record<Locale, StoryCopy> = {
         icon: Users,
         title: "Customer updated",
         status: "Synchronized",
-        description: "The order and customer data are synchronized with CRM.",
-        message: "The information is automatically written to CRM.",
       },
       {
         id: "automation",
         label: "Automation",
         icon: Workflow,
-        title: "Condition check",
+        title: "Condition evaluation",
         status: "Active rule",
-        description:
-          "The system evaluates the order status and prepares follow-up actions.",
-        message: "The system checks conditions and schedules the next steps.",
       },
       {
         id: "email",
@@ -135,9 +117,7 @@ const storyCopy: Record<Locale, StoryCopy> = {
         icon: Mail,
         title: "How happy are you with your purchase?",
         status: "Separate follow-up",
-        description:
-          "After delivery and a configured delay, a review request is sent when its sending conditions are met.",
-        message: "After delivery, the customer may receive a review request.",
+        description: "A review request is sent after the order is delivered.",
       },
       {
         id: "recommendation",
@@ -147,7 +127,6 @@ const storyCopy: Record<Locale, StoryCopy> = {
         status: "Separate follow-up",
         description:
           "Later, the customer can receive a relevant recommendation based on the purchase.",
-        message: "Later, you can recommend related products.",
       },
     ],
   },
@@ -197,7 +176,7 @@ const AutomationTile = ({ stage, index }: AutomationTileProps) => {
         </span>
         <h3>{stage.title}</h3>
       </div>
-      <p>{stage.description}</p>
+      {stage.description && <p>{stage.description}</p>}
     </article>
   );
 };
@@ -208,9 +187,7 @@ export const AutomationScrollStory = ({
   const content = storyCopy[locale];
   const sectionRef = useRef<HTMLElement>(null);
   const frameRef = useRef<HTMLDivElement>(null);
-  const stageRef = useRef(0);
   const completedRef = useRef(false);
-  const [activeStage, setActiveStage] = useState(0);
 
   useEffect(() => {
     const section = sectionRef.current;
@@ -251,10 +228,6 @@ export const AutomationScrollStory = ({
           : segmentProgress(progress, motion.start, motion.end);
         line.style.strokeDashoffset = String(1 - lineProgress);
       });
-      if (stageRef.current !== nextStage) {
-        stageRef.current = nextStage;
-        setActiveStage(nextStage);
-      }
     };
 
     const update = () => {
@@ -352,20 +325,6 @@ export const AutomationScrollStory = ({
                 <AutomationTile stage={stage} index={index} key={stage.id} />
               ))}
             </div>
-
-            <div className="automation-scroll-story__status" aria-live="polite">
-              <span>{String(activeStage + 1).padStart(2, "0")} / 05</span>
-              <p>{content.stages[activeStage].message}</p>
-            </div>
-
-            <ol className="automation-scroll-story__mobile-steps">
-              {content.stages.map((stage, index) => (
-                <li key={stage.id}>
-                  <span>{String(index + 1).padStart(2, "0")}</span>
-                  {stage.message}
-                </li>
-              ))}
-            </ol>
           </div>
         </div>
       </div>

@@ -6,6 +6,7 @@ type ContentCardProps = {
   description: string;
   icon: ReactNode;
   tags?: readonly string[];
+  accentTags?: readonly string[];
   action?: ReactNode;
   href?: string;
   id?: string;
@@ -17,6 +18,7 @@ export const ContentCard = ({
   description,
   icon,
   tags,
+  accentTags,
   action,
   href,
   id,
@@ -37,10 +39,20 @@ export const ContentCard = ({
         <span className="content-card__icon">{icon}</span>
       </div>
       <p className="content-card__description">{description}</p>
-      {tags && tags.length > 0 && (
+      {((tags && tags.length > 0) || (accentTags && accentTags.length > 0)) && (
         <div className="content-card__tags">
-          {tags.map((tag) => (
-            <span key={tag}>{tag}</span>
+          {tags?.map((tag) => (
+            <span className="content-card__tag" key={tag}>
+              {tag}
+            </span>
+          ))}
+          {accentTags?.map((tag) => (
+            <span
+              className="content-card__tag content-card__tag--accent"
+              key={tag}
+            >
+              {tag}
+            </span>
           ))}
         </div>
       )}

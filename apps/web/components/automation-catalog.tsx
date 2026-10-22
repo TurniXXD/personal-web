@@ -33,7 +33,9 @@ export const AutomationCatalog = ({
     () =>
       activeCategory === "all"
         ? examples
-        : examples.filter((example) => example.category === activeCategory),
+        : examples.filter((example) =>
+            example.categories.includes(activeCategory),
+          ),
     [activeCategory, examples],
   );
   const visibleExamples =
@@ -81,7 +83,10 @@ export const AutomationCatalog = ({
             title={example.title}
             description={example.description}
             icon={<AutomationIcon name={example.icon} size={20} />}
-            tags={[content.categories[example.category]]}
+            tags={example.categories.map(
+              (category) => content.categories[category],
+            )}
+            accentTags={example.usesAi ? ["AI"] : undefined}
           />
         ))}
       </div>

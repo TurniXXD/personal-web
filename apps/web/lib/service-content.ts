@@ -15,8 +15,10 @@ export type ServiceIconName =
   | "network"
   | "gauge"
   | "code"
+  | "credit-card"
   | "settings"
-  | "store";
+  | "store"
+  | "users";
 
 type ServiceItem = {
   icon: ServiceIconName;
@@ -77,6 +79,10 @@ export type ServicePageCopy = {
   related?: {
     eyebrow: string;
     title: string;
+    note?: {
+      title: string;
+      description: string;
+    };
     items: RelatedLink[];
   };
   contactTitle: string;
@@ -106,19 +112,19 @@ const csWeb: ServicePageCopy = {
         icon: "browser",
         title: "Firemní weby",
         description:
-          "Moderní responzivní weby s rychlým načítáním, přehlednou strukturou a snadnou správou obsahu.",
+          "Profesionální weby, které pomáhají získávat zákazníky, budují důvěru a díky přehlednému designu usnadňují cestu od návštěvy k poptávce.",
       },
       {
         icon: "layout",
         title: "Webové aplikace",
         description:
-          "Aplikace na míru, interní systémy, dashboardy a klientské portály pro každodenní práci.",
+          "Aplikace a interní systémy, které zjednodušují každodenní práci, šetří čas a pomáhají firmám efektivněji řídit jejich procesy.",
       },
       {
         icon: "store",
         title: "E-shopy na Shoptetu",
         description:
-          "Návrh a realizace Shoptet e-shopů včetně úprav vzhledu, nastavení katalogu a napojení na další služby.",
+          "E-shopy na platformě Shoptet, které spojují atraktivní vzhled, jednoduchý nákup a snadnou správu.",
       },
       {
         icon: "blocks",
@@ -131,6 +137,30 @@ const csWeb: ServicePageCopy = {
         title: "API a integrace",
         description:
           "Propojení webu s externími systémy, databázemi, platebními službami a firemními nástroji.",
+      },
+      {
+        icon: "credit-card",
+        title: "Digitální věrnostní programy",
+        description:
+          "Věrnostní karty, sbírání bodů, zákaznické odměny a podpora opakovaných návštěv.",
+      },
+      {
+        icon: "chart",
+        title: "Webová analytika",
+        description:
+          "Nastavení měření návštěvnosti, poptávek a dalších důležitých akcí na webu.",
+      },
+      {
+        icon: "users",
+        title: "CRM a práce se zákazníky",
+        description:
+          "Evidence kontaktů, poptávek a propojení zákaznických dat mezi systémy.",
+      },
+      {
+        icon: "mail",
+        title: "E-mailing a automatizace",
+        description:
+          "Automatické e-maily, připomínky, formuláře a další nástroje pro komunikaci.",
       },
     ],
   },
@@ -181,6 +211,11 @@ const csWeb: ServicePageCopy = {
   related: {
     eyebrow: "SOUVISEJÍCÍ SLUŽBY",
     title: "Řešení lze propojit i s dalšími oblastmi.",
+    note: {
+      title: "Potřebujete pomoci i s marketingem?",
+      description:
+        "Rád vám doporučím specialisty na SEO, online reklamu nebo obsahový marketing, kteří mohou na technické řešení navázat.",
+    },
     items: [
       {
         title: "Automatizace procesů",
@@ -322,19 +357,19 @@ const enWeb: ServicePageCopy = {
         icon: "browser",
         title: "Company websites",
         description:
-          "Modern responsive websites with fast loading, clear structure and straightforward content management.",
+          "Professional websites that attract customers, build trust and use clear design to guide visitors from their first visit to an enquiry.",
       },
       {
         icon: "layout",
         title: "Web applications",
         description:
-          "Custom applications, internal systems, dashboards and client portals for everyday work.",
+          "Applications and internal systems that simplify everyday work, save time and help companies manage their processes more efficiently.",
       },
       {
         icon: "store",
         title: "Shoptet e-commerce stores",
         description:
-          "Shoptet store design and implementation, including visual customisation, catalogue setup and connections to other services.",
+          "Shoptet e-commerce stores that combine an attractive design, a simple purchasing experience and easy administration.",
       },
       {
         icon: "blocks",
@@ -347,6 +382,30 @@ const enWeb: ServicePageCopy = {
         title: "APIs and integrations",
         description:
           "Connections to external systems, databases, payment providers and business tools.",
+      },
+      {
+        icon: "credit-card",
+        title: "Digital loyalty programmes",
+        description:
+          "Loyalty cards, point collection, customer rewards and support for repeat visits.",
+      },
+      {
+        icon: "chart",
+        title: "Web analytics",
+        description:
+          "Tracking setup for website traffic, enquiries and other important actions.",
+      },
+      {
+        icon: "users",
+        title: "CRM and customer management",
+        description:
+          "Contact and enquiry management with customer data connected across systems.",
+      },
+      {
+        icon: "mail",
+        title: "Email marketing and automation",
+        description:
+          "Automated emails, reminders, forms and other tools for customer communication.",
       },
     ],
   },
@@ -397,6 +456,11 @@ const enWeb: ServicePageCopy = {
   related: {
     eyebrow: "RELATED SERVICES",
     title: "The solution can connect with other areas too.",
+    note: {
+      title: "Do you also need help with marketing?",
+      description:
+        "I will be happy to recommend specialists in SEO, online advertising or content marketing who can build on the technical solution.",
+    },
     items: [
       {
         title: "Process automation",
