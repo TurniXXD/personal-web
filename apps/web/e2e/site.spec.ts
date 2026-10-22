@@ -521,7 +521,7 @@ test("web application charts respect reduced motion", async ({ page }) => {
   );
 });
 
-test("AI service page keeps a concise five-section conversion flow", async ({
+test("AI service page presents an interactive use-case carousel", async ({
   page,
 }) => {
   await page.goto("/sluzby/ai-reseni");
@@ -539,11 +539,40 @@ test("AI service page keeps a concise five-section conversion flow", async ({
   await expect(
     page.getByRole("heading", { name: "Personalizované e-maily" }),
   ).toBeVisible();
-  await expect(page.locator(".service-flow__step")).toHaveCount(4);
-  await expect(page.locator(".service-flow--ai")).toHaveCSS(
+  await expect(page.locator(".service-flow--ai")).toHaveCount(0);
+  await expect(
+    page.getByRole("heading", {
+      name: "Podívejte se, jak může AI pracovat za vás.",
+    }),
+  ).toBeVisible();
+  const carousel = page.locator(".ai-use-case-carousel");
+  await expect(carousel).toBeVisible();
+  await expect(page.locator(".ai-use-cases")).toHaveCSS(
     "background-color",
     "rgb(32, 40, 75)",
   );
+  await expect(
+    carousel.locator(".ai-use-case-carousel__tabs button"),
+  ).toHaveCount(6);
+  await expect(carousel.locator(".ai-use-case__workflow li")).toHaveCount(4);
+  await expect(
+    carousel.getByRole("heading", {
+      name: "Mějte přehled o trendech ve vašem oboru",
+    }),
+  ).toBeVisible();
+  await carousel.getByRole("button", { name: "Další příklad" }).click();
+  await expect(
+    carousel.getByRole("heading", {
+      name: "Připravujte obsah na sociální sítě rychleji",
+    }),
+  ).toBeVisible();
+  await carousel.focus();
+  await carousel.press("ArrowRight");
+  await expect(
+    carousel.getByRole("heading", {
+      name: "Proměňte příchozí poptávky v přehledné obchodní příležitosti",
+    }),
+  ).toBeVisible();
   await expect(page.locator(".service-process-step")).toHaveCount(5);
   await expect(page.locator(".service-hero__actions .ui-action")).toHaveCount(
     1,
@@ -558,6 +587,26 @@ test("AI service page keeps a concise five-section conversion flow", async ({
     }),
   ).toBeVisible();
   await expect(page.locator("#contact .contact-form")).toBeVisible();
+});
+
+test("AI use-case carousel is localized in English", async ({ page }) => {
+  await page.goto("/en/sluzby/ai-reseni");
+
+  await expect(
+    page.getByRole("heading", { name: "See how AI can work for you." }),
+  ).toBeVisible();
+  const carousel = page.locator(".ai-use-case-carousel");
+  await expect(
+    carousel.getByRole("heading", {
+      name: "Stay on top of trends in your industry",
+    }),
+  ).toBeVisible();
+  await carousel.getByRole("button", { name: "Next example" }).click();
+  await expect(
+    carousel.getByRole("heading", {
+      name: "Prepare social media content faster",
+    }),
+  ).toBeVisible();
 });
 
 test("AI hero diagram stays legible and separates with scroll", async ({
@@ -614,6 +663,10 @@ test("service pages remain visible with reduced motion", async ({ page }) => {
     "none",
   );
   await expect(page.locator(".ai-pipeline__input").first()).toHaveCSS(
+    "animation-name",
+    "none",
+  );
+  await expect(page.locator(".ai-use-case-carousel__slide")).toHaveCSS(
     "animation-name",
     "none",
   );

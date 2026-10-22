@@ -1,0 +1,390 @@
+"use client";
+
+import {
+  ArrowLeft,
+  ArrowRight,
+  CalendarDays,
+  Check,
+  FileCheck2,
+  Inbox,
+  Mail,
+  MessageSquareText,
+  PackageCheck,
+  Quote,
+  ShoppingBag,
+  Star,
+  TrendingUp,
+} from "lucide-react";
+import { useRef, useState, type KeyboardEvent, type TouchEvent } from "react";
+import { ScrollReveal } from "@/components/scroll-reveal";
+import {
+  aiUseCaseCarouselCopy,
+  getAiUseCaseSlides,
+  type AiUseCaseSlide,
+} from "@/lib/ai-use-case-content";
+import type { Locale } from "@/lib/content";
+
+type AiUseCaseCarouselProps = {
+  locale: Locale;
+};
+
+const VisualHeader = ({ slide }: { slide: AiUseCaseSlide }) => (
+  <div className="ai-case-visual__header">
+    <span>{slide.visual.eyebrow}</span>
+    <strong>{slide.visual.title}</strong>
+  </div>
+);
+
+const VisualFooter = ({ slide }: { slide: AiUseCaseSlide }) => (
+  <>
+    <div className="ai-case-visual__summary">
+      <Check size={15} strokeWidth={2.4} aria-hidden="true" />
+      <strong>{slide.visual.summary}</strong>
+    </div>
+    {slide.visual.note && (
+      <figcaption className="ai-case-visual__note">
+        {slide.visual.note}
+      </figcaption>
+    )}
+  </>
+);
+
+const AiUseCaseVisualization = ({ slide }: { slide: AiUseCaseSlide }) => {
+  if (slide.id === "trends") {
+    return (
+      <figure className="ai-case-visual ai-case-visual--trends">
+        <VisualHeader slide={slide} />
+        <div className="ai-case-trends__chart" aria-hidden="true">
+          {[38, 54, 46, 72, 65, 88, 82].map((value, index) => (
+            <span key={index} style={{ height: `${value}%` }} />
+          ))}
+          <TrendingUp size={20} />
+        </div>
+        <div className="ai-case-visual__rows">
+          {slide.visual.rows.map((row) => (
+            <div className="ai-case-visual__row" key={row.label}>
+              <span>
+                <strong>{row.label}</strong>
+                <small>{row.meta}</small>
+              </span>
+              <b>{row.value}</b>
+            </div>
+          ))}
+        </div>
+        <VisualFooter slide={slide} />
+      </figure>
+    );
+  }
+
+  if (slide.id === "social-content") {
+    return (
+      <figure className="ai-case-visual ai-case-visual--social">
+        <VisualHeader slide={slide} />
+        <div className="ai-case-social__layout">
+          <div className="ai-case-social__drafts">
+            {slide.visual.rows.map((row, index) => (
+              <article key={row.label}>
+                {index === 0 ? (
+                  <MessageSquareText size={17} aria-hidden="true" />
+                ) : index === 1 ? (
+                  <Star size={17} aria-hidden="true" />
+                ) : (
+                  <FileCheck2 size={17} aria-hidden="true" />
+                )}
+                <span>
+                  <strong>{row.label}</strong>
+                  <small>{row.value}</small>
+                </span>
+                <b>{row.meta}</b>
+              </article>
+            ))}
+          </div>
+          <div className="ai-case-social__calendar" aria-hidden="true">
+            <CalendarDays size={18} />
+            <div>
+              {Array.from({ length: 14 }, (_, index) => (
+                <i key={index} data-filled={[2, 5, 9].includes(index)} />
+              ))}
+            </div>
+          </div>
+        </div>
+        <VisualFooter slide={slide} />
+      </figure>
+    );
+  }
+
+  if (slide.id === "enquiries") {
+    return (
+      <figure className="ai-case-visual ai-case-visual--enquiry">
+        <VisualHeader slide={slide} />
+        <div className="ai-case-enquiry__flow">
+          <article className="ai-case-enquiry__email">
+            <span>
+              <Mail size={17} aria-hidden="true" />
+              <strong>info@lumen-studio.example</strong>
+            </span>
+            <p>{slide.visual.preview}</p>
+          </article>
+          <span className="ai-case-enquiry__connector" aria-hidden="true">
+            <i />
+            <ArrowRight size={18} />
+          </span>
+          <article className="ai-case-enquiry__crm">
+            <span>
+              <Inbox size={17} aria-hidden="true" />
+              CRM
+            </span>
+            <div>
+              {slide.visual.rows.map((row) => (
+                <p key={row.label}>
+                  <small>{row.label}</small>
+                  <strong>{row.value}</strong>
+                </p>
+              ))}
+            </div>
+          </article>
+        </div>
+        <VisualFooter slide={slide} />
+      </figure>
+    );
+  }
+
+  if (slide.id === "quotations") {
+    return (
+      <figure className="ai-case-visual ai-case-visual--quotation">
+        <div className="ai-case-quotation__paper">
+          <VisualHeader slide={slide} />
+          <div className="ai-case-quotation__customer">
+            <span />
+            <span />
+            <span />
+          </div>
+          <div className="ai-case-visual__rows">
+            {slide.visual.rows.map((row) => (
+              <div className="ai-case-visual__row" key={row.label}>
+                <span>
+                  <strong>{row.label}</strong>
+                  <small>{row.meta}</small>
+                </span>
+                <b>{row.value}</b>
+              </div>
+            ))}
+          </div>
+          <div className="ai-case-quotation__total">{slide.visual.summary}</div>
+        </div>
+        {slide.visual.note && (
+          <figcaption className="ai-case-visual__note">
+            {slide.visual.note}
+          </figcaption>
+        )}
+      </figure>
+    );
+  }
+
+  if (slide.id === "reviews") {
+    return (
+      <figure className="ai-case-visual ai-case-visual--reviews">
+        <VisualHeader slide={slide} />
+        <div className="ai-case-reviews__overview">
+          <div className="ai-case-reviews__score">
+            <span>4,6</span>
+            <div aria-hidden="true">
+              {Array.from({ length: 5 }, (_, index) => (
+                <Star key={index} size={13} fill="currentColor" />
+              ))}
+            </div>
+            <small>{slide.visual.auxiliary}</small>
+          </div>
+          <Quote size={31} aria-hidden="true" />
+          <p>„{slide.visual.preview}“</p>
+        </div>
+        <div className="ai-case-reviews__topics">
+          {slide.visual.rows.map((row, index) => (
+            <article key={row.label}>
+              <span>
+                <strong>{row.label}</strong>
+                <small>{row.meta}</small>
+              </span>
+              <div aria-hidden="true">
+                <i style={{ width: `${[92, 84, 48][index]}%` }} />
+              </div>
+              <b>{row.value}</b>
+            </article>
+          ))}
+        </div>
+        <VisualFooter slide={slide} />
+      </figure>
+    );
+  }
+
+  return (
+    <figure className="ai-case-visual ai-case-visual--recommendations">
+      <VisualHeader slide={slide} />
+      <div className="ai-case-products__orders" aria-hidden="true">
+        <span>
+          <ShoppingBag size={15} /> 1048
+        </span>
+        <span>
+          <ShoppingBag size={15} /> 1072
+        </span>
+        <span>
+          <ShoppingBag size={15} /> 1103
+        </span>
+      </div>
+      <div className="ai-case-products__pairs">
+        {slide.visual.rows.map((row) => (
+          <article key={row.label}>
+            <span>
+              <PackageCheck size={19} aria-hidden="true" />
+              {row.label}
+            </span>
+            <ArrowRight size={18} aria-hidden="true" />
+            <span>
+              <PackageCheck size={19} aria-hidden="true" />
+              {row.value}
+            </span>
+            <small>{row.meta}</small>
+          </article>
+        ))}
+      </div>
+      <VisualFooter slide={slide} />
+    </figure>
+  );
+};
+
+const WorkflowSteps = ({ steps }: { steps: string[] }) => (
+  <ol className="ai-use-case__workflow">
+    {steps.map((step, index) => (
+      <li key={step}>
+        <span>{String(index + 1).padStart(2, "0")}</span>
+        <strong>{step}</strong>
+      </li>
+    ))}
+  </ol>
+);
+
+export const AiUseCaseCarousel = ({ locale }: AiUseCaseCarouselProps) => {
+  const copy = aiUseCaseCarouselCopy[locale];
+  const slides = getAiUseCaseSlides(locale);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const touchStartX = useRef<number | null>(null);
+  const activeSlide = slides[activeIndex];
+
+  const showPrevious = () => {
+    setActiveIndex((current) => (current - 1 + slides.length) % slides.length);
+  };
+
+  const showNext = () => {
+    setActiveIndex((current) => (current + 1) % slides.length);
+  };
+
+  const handleKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
+    if (event.key === "ArrowLeft") {
+      event.preventDefault();
+      showPrevious();
+    }
+    if (event.key === "ArrowRight") {
+      event.preventDefault();
+      showNext();
+    }
+  };
+
+  const handleTouchStart = (event: TouchEvent<HTMLDivElement>) => {
+    touchStartX.current = event.touches[0]?.clientX ?? null;
+  };
+
+  const handleTouchEnd = (event: TouchEvent<HTMLDivElement>) => {
+    if (touchStartX.current === null) return;
+    const endX = event.changedTouches[0]?.clientX ?? touchStartX.current;
+    const distance = endX - touchStartX.current;
+    touchStartX.current = null;
+
+    if (Math.abs(distance) < 52) return;
+    if (distance > 0) showPrevious();
+    else showNext();
+  };
+
+  return (
+    <section
+      className="section ai-use-cases"
+      aria-labelledby="ai-use-cases-title"
+    >
+      <div className="site-container">
+        <ScrollReveal className="service-section-heading ai-use-cases__heading">
+          <p className="eyebrow">{copy.eyebrow}</p>
+          <h2 id="ai-use-cases-title">{copy.title}</h2>
+          <p>{copy.description}</p>
+        </ScrollReveal>
+
+        <ScrollReveal>
+          <div
+            className="ai-use-case-carousel"
+            aria-label={copy.carouselLabel}
+            aria-roledescription="carousel"
+            onKeyDown={handleKeyDown}
+            onTouchStart={handleTouchStart}
+            onTouchEnd={handleTouchEnd}
+            tabIndex={0}
+          >
+            <div
+              className="ai-use-case-carousel__slide"
+              id={`ai-use-case-panel-${activeSlide.id}`}
+              key={activeSlide.id}
+              role="group"
+              aria-live="polite"
+              aria-label={copy.slideLabel(activeIndex + 1, activeSlide.title)}
+            >
+              <div className="ai-use-case__content">
+                <p className="ai-use-case__category">{activeSlide.category}</p>
+                <h3>{activeSlide.title}</h3>
+                <p className="ai-use-case__description">
+                  {activeSlide.description}
+                </p>
+                <WorkflowSteps steps={activeSlide.workflow} />
+              </div>
+              <AiUseCaseVisualization slide={activeSlide} />
+            </div>
+
+            <div className="ai-use-case-carousel__footer">
+              <div className="ai-use-case-carousel__controls">
+                <button
+                  type="button"
+                  onClick={showPrevious}
+                  aria-label={copy.previous}
+                >
+                  <ArrowLeft size={18} aria-hidden="true" />
+                </button>
+                <span aria-live="polite">
+                  {String(activeIndex + 1).padStart(2, "0")}
+                  <i>/</i>
+                  {String(slides.length).padStart(2, "0")}
+                </span>
+                <button type="button" onClick={showNext} aria-label={copy.next}>
+                  <ArrowRight size={18} aria-hidden="true" />
+                </button>
+              </div>
+
+              <div
+                className="ai-use-case-carousel__tabs"
+                aria-label={copy.navigationLabel}
+                role="group"
+              >
+                {slides.map((slide, index) => (
+                  <button
+                    type="button"
+                    aria-pressed={index === activeIndex}
+                    aria-label={copy.slideLabel(index + 1, slide.title)}
+                    key={slide.id}
+                    onClick={() => setActiveIndex(index)}
+                  >
+                    <span>{String(index + 1).padStart(2, "0")}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+        </ScrollReveal>
+      </div>
+    </section>
+  );
+};

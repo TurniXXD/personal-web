@@ -20,6 +20,7 @@ import {
 } from "lucide-react";
 import { ActionLink } from "@vantuch/ui";
 import { AiHeroVisual } from "@/components/ai-hero-visual";
+import { AiUseCaseCarousel } from "@/components/ai-use-case-carousel";
 import { ContentCard } from "@/components/content-card";
 import { ProjectGrid } from "@/components/project-grid";
 import { ScrollReveal } from "@/components/scroll-reveal";
@@ -214,6 +215,8 @@ export const ServiceLandingPage = ({
             </div>
           </section>
         )}
+
+        {kind === "ai" && <AiUseCaseCarousel locale={locale} />}
 
         <section
           className={`section service-process${kind === "ai" ? " service-process--ai" : ""}`}

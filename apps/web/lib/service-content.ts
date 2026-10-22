@@ -284,18 +284,6 @@ const csAi: ServicePageCopy = {
       },
     ],
   },
-  flow: {
-    eyebrow: "JAK TO FUNGUJE",
-    title: "Od dat k užitečnému výsledku",
-    description:
-      "AI propojuji s vašimi daty a systémy tak, aby přinášela konkrétní výsledky.",
-    steps: [
-      "Firemní data",
-      "Zpracování AI",
-      "Kontrola výsledku",
-      "Výstup do systému",
-    ],
-  },
   process: {
     eyebrow: "JAK PROBÍHÁ SPOLUPRÁCE",
     title: "Od problému k ověřenému řešení",
@@ -531,18 +519,6 @@ const enAi: ServicePageCopy = {
         title: "AI integrations",
         description: "Connect AI with internal systems and business workflows.",
       },
-    ],
-  },
-  flow: {
-    eyebrow: "HOW IT WORKS",
-    title: "From data to a useful result",
-    description:
-      "I connect AI with your data and systems to produce concrete results.",
-    steps: [
-      "Business data",
-      "AI processing",
-      "Result review",
-      "Output to a system",
     ],
   },
   process: {
