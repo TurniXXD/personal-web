@@ -872,7 +872,7 @@ const cs = {
       eyebrow: "DIGITÁLNÍ VĚRNOSTNÍ PROGRAMY",
       title: "Dejte zákazníkům důvod se vracet.",
       description:
-        "Digitální věrnostní karty, sbírání bodů nebo návštěv a zákaznické odměny. Jednoduchý systém pro vaše zákazníky i obsluhu.",
+        "Podpořte opakované návštěvy pomocí digitální karty, kterou zákazník otevře v mobilu a obsluha snadno spravuje.",
       primary: "Navrhnout věrnostní program",
       secondary: "Jak funguje digitální karta",
     },
@@ -883,22 +883,22 @@ const cs = {
     },
     benefits: {
       eyebrow: "PROČ DIGITÁLNĚ",
-      title: "Pohodlnější pro zákazníka, přehlednější pro provoz.",
+      title: "Více důvodů k návratu, méně ruční evidence.",
       description:
-        "Zákazník může kartu otevřít přímo v mobilu. Obsluha pracuje jen s oprávněným rozhraním a každý pohyb je dohledatelný.",
+        "Zákazník vidí svůj postup k odměně v mobilu. Vy nastavíte pravidla podle svého provozu a máte přehled o každé změně.",
       items: [
         {
-          title: "Bez fyzických kartiček",
+          title: "Snadné pro zákazníka",
           description:
-            "Karta může fungovat jako mobilní web nebo volitelně jako Wallet pass.",
+            "Kartu otevře z odkazu v mobilu bez povinné instalace aplikace nebo plastové kartičky.",
         },
         {
-          title: "Vlastní pravidla",
+          title: "Odměny podle provozu",
           description:
             "Body, razítka, návštěvy nebo úrovně lze navrhnout podle vašeho provozu.",
         },
         {
-          title: "Přehled a kontrola",
+          title: "Přehled o programu",
           description:
             "Historie změn pomáhá chránit odměny před chybným či neoprávněným připsáním.",
         },
@@ -1492,7 +1492,7 @@ const cs = {
     name: "Dárkové poukazy",
     hero: {
       eyebrow: "DÁRKOVÉ POUKAZY",
-      title: "Prodávejte dárkové poukazy online. Bez ručního vyřizování.",
+      title: "Dárkové poukazy bez starostí.",
       description:
         "Zákazník vybere poukaz, zaplatí online a automaticky obdrží PDF e-mailem. Vy máte přehled o prodeji, platnosti i uplatnění.",
       primary: "Chci prodávat dárkové poukazy",
@@ -1505,9 +1505,9 @@ const cs = {
     },
     benefits: {
       eyebrow: "PŘÍNOS PRO PROVOZ",
-      title: "Prodej může fungovat i mimo otevírací dobu.",
+      title: "Prodávejte 24/7 bez ručního vystavování.",
       description:
-        "Automatizace omezuje ruční vystavování, ale zachovává bezpečnou kontrolu platby a uplatnění.",
+        "Od zaplacení přes vytvoření PDF až po uplatnění má zákazník jednoduchou cestu a vy přehled nad každým poukazem.",
       items: [
         {
           title: "Pohodlný nákup",
@@ -1545,11 +1545,6 @@ const cs = {
           title: "Online platba",
           description:
             "Platba proběhne přes vybranou podporovanou platební bránu.",
-        },
-        {
-          title: "Ověření platby",
-          description:
-            "Server zpracuje důvěryhodné potvrzení poskytovatele a ochrání se před duplicitou.",
         },
         {
           title: "Vystavení poukazu",
@@ -2654,7 +2649,7 @@ const en = {
       eyebrow: "DIGITAL LOYALTY PROGRAMMES",
       title: "Give customers a reason to return.",
       description:
-        "Digital loyalty cards, points or visit collection and customer rewards. A straightforward system for customers and staff.",
+        "Encourage repeat visits with a digital card customers open on their phone and staff can manage with ease.",
       primary: "Design a loyalty programme",
       secondary: "How the digital card works",
     },
@@ -2665,22 +2660,22 @@ const en = {
     },
     benefits: {
       eyebrow: "WHY DIGITAL",
-      title: "Convenient for customers and clearer for the business.",
+      title: "More reasons to return, less manual tracking.",
       description:
-        "Customers can open the card on their phone. Staff use an authorised interface and every balance change is traceable.",
+        "Customers see their progress towards a reward on their phone. You set rules around your operation and retain a clear history of every change.",
       items: [
         {
-          title: "No physical cards",
+          title: "Easy for customers",
           description:
-            "The card can run as a mobile web page or optionally a Wallet pass.",
+            "They open the card from a link on their phone without a required app or plastic card.",
         },
         {
-          title: "Custom rules",
+          title: "Rewards that fit your operation",
           description:
             "Points, stamps, visits or tiers can reflect your operation.",
         },
         {
-          title: "Visibility and control",
+          title: "Programme visibility",
           description:
             "History helps protect rewards from incorrect or unauthorised changes.",
         },
@@ -3265,7 +3260,7 @@ const en = {
     name: "Gift vouchers",
     hero: {
       eyebrow: "GIFT VOUCHERS",
-      title: "Sell gift vouchers online without manual handling.",
+      title: "Gift vouchers without the hassle.",
       description:
         "Customers choose a voucher, pay online and automatically receive a PDF by email. You can track sales, validity and redemption.",
       primary: "Sell gift vouchers",
@@ -3278,9 +3273,9 @@ const en = {
     },
     benefits: {
       eyebrow: "OPERATIONAL VALUE",
-      title: "Sales can continue outside opening hours.",
+      title: "Sell 24/7 without manual issuance.",
       description:
-        "Automation reduces manual issuance while keeping payment and redemption under secure control.",
+        "From payment and PDF creation to redemption, customers get a simple journey while you retain visibility over every voucher.",
       items: [
         {
           title: "Convenient purchase",
@@ -3317,11 +3312,6 @@ const en = {
         {
           title: "Online payment",
           description: "Payment is handled by a selected supported provider.",
-        },
-        {
-          title: "Payment verification",
-          description:
-            "The server processes trusted provider confirmation and prevents duplicates.",
         },
         {
           title: "Voucher issuance",

@@ -658,8 +658,11 @@ test("loyalty programme demo updates only after the staff confirmation action", 
     /Rád bych probral službu: Digitální věrnostní programy/,
   );
   await expect(page.locator(".service-detail-faq__items details")).toHaveCount(
-    8,
+    5,
   );
+  await expect(page.locator(".service-detail-section")).toHaveCount(2);
+  await expect(page.locator(".service-detail-workflow article")).toHaveCount(4);
+  await expect(page.locator(".service-detail-final-cta")).toHaveCount(0);
 });
 
 test("gift voucher demo clearly simulates payment, PDF and redemption states", async ({
@@ -669,11 +672,18 @@ test("gift voucher demo clearly simulates payment, PDF and redemption states", a
     waitUntil: "domcontentloaded",
   });
 
-  await expect(
-    page.getByRole("heading", {
-      name: "Prodávejte dárkové poukazy online. Bez ručního vyřizování.",
+  const headline = page.getByRole("heading", {
+    name: "Dárkové poukazy bez starostí.",
+  });
+  await expect(headline).toBeVisible();
+  expect(
+    await headline.evaluate((element) => {
+      const style = getComputedStyle(element);
+      return (
+        Number.parseFloat(style.lineHeight) / Number.parseFloat(style.fontSize)
+      );
     }),
-  ).toBeVisible();
+  ).toBeGreaterThanOrEqual(1.07);
   await page.getByLabel("Jméno příjemce").fill("Jakub Vantuch");
   await expect(page.locator(".voucher-demo__paper")).toContainText(
     "Jakub Vantuch",
@@ -693,8 +703,21 @@ test("gift voucher demo clearly simulates payment, PDF and redemption states", a
     .click();
   await expect(page.getByText("Uplatněno", { exact: true })).toBeVisible();
   await expect(page.locator(".service-detail-faq__items details")).toHaveCount(
-    9,
+    5,
   );
+  await expect(page.locator(".service-detail-section")).toHaveCount(3);
+  await expect(page.locator(".service-detail-workflow article")).toHaveCount(4);
+  await expect(page.locator(".service-detail-use-cases")).toHaveCount(0);
+  await expect(
+    page.getByRole("heading", { name: "Související služby", exact: true }),
+  ).toBeVisible();
+  await expect(
+    page.getByText("SOUVISEJÍCÍ SLUŽBY", { exact: true }),
+  ).toHaveCount(0);
+  await expect(page.getByText("Ověření platby", { exact: true })).toHaveCount(
+    0,
+  );
+  await expect(page.locator(".service-detail-final-cta")).toHaveCount(0);
 });
 
 test("priority service detail pages stay usable without horizontal overflow on mobile", async ({
@@ -2138,7 +2161,7 @@ test("Czech referral page directs referrers to share a link, not contacts", asyn
     "Poptávku pošle klient",
   );
   await expect(page.locator(".referral-hero")).toContainText(
-    "přes váš odkaz nebo vás výslovně zmíní jako doporučitele na úvodním callu",
+    "Doporučte mě firmě, která potřebuje web, aplikaci nebo automatizaci",
   );
   await expect(page.locator("#referral-conditions")).toContainText(
     "Co když klient nepoužije můj odkaz?",
@@ -2149,7 +2172,13 @@ test("Czech referral page directs referrers to share a link, not contacts", asyn
   await expect(
     page.getByText("Mohu poslat kontakt na firmu sám?"),
   ).toBeVisible();
-  await expect(page.locator(".referral-hero__incentive")).toContainText("10 %");
+  await expect(page.locator(".referral-hero__visual")).toContainText("10%");
+  await expect(page.locator(".referral-hero__visual")).toContainText(
+    "Provize za doporučení",
+  );
+  await expect(
+    page.locator(".referral-hero .ui-action--primary"),
+  ).toHaveAttribute("href", "#referral-link");
   await expect(
     page.getByRole("link", { name: /Podmínky doporučení/ }),
   ).toHaveAttribute("href", "#referral-conditions");

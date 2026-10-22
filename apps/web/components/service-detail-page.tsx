@@ -105,22 +105,51 @@ const DetailHeroVisual = ({ locale, slug }: ServiceDetailPageProps) => {
 export const ServiceDetailPage = ({ locale, slug }: ServiceDetailPageProps) => {
   const content = serviceDetailCopy[locale][slug];
   const path = `/sluzby/${slug}`;
+  const sectionPlan =
+    slug === "vernostni-programy"
+      ? [
+          { index: 1, itemLimit: 3 },
+          { index: 2, itemLimit: 4 },
+        ]
+      : slug === "darkove-poukazy"
+        ? [
+            { index: 0, itemLimit: 3 },
+            { index: 2, itemLimit: 4 },
+            { index: 3, itemLimit: 4 },
+          ]
+        : null;
+  const visibleSections = sectionPlan
+    ? sectionPlan.flatMap(({ index, itemLimit }) => {
+        const section = content.sections[index];
+        return section
+          ? [{ ...section, items: section.items.slice(0, itemLimit) }]
+          : [];
+      })
+    : content.sections;
+  const visibleWorkflowSteps =
+    slug === "darkove-poukazy"
+      ? [0, 2, 4, 6].flatMap((index) => {
+          const step = content.workflow.steps[index];
+          return step ? [step] : [];
+        })
+      : content.workflow.steps;
+  const visibleFaqItems = content.demo
+    ? content.faq.items.slice(0, 5)
+    : content.faq.items;
   const labels =
     locale === "cs"
       ? {
           home: "Domů",
           services: "Weby a aplikace",
           breadcrumb: "Drobečková navigace",
-          relatedEyebrow: "SOUVISEJÍCÍ SLUŽBY",
-          relatedTitle: "Řešení, která mohou přirozeně navázat.",
+          relatedTitle: "Související služby",
           relatedAction: "Zjistit více",
         }
       : {
           home: "Home",
           services: "Websites and applications",
           breadcrumb: "Breadcrumb navigation",
-          relatedEyebrow: "RELATED SERVICES",
-          relatedTitle: "Services that can naturally complement this solution.",
+          relatedTitle: "Related services",
           relatedAction: "Learn more",
         };
 
@@ -141,7 +170,7 @@ export const ServiceDetailPage = ({ locale, slug }: ServiceDetailPageProps) => {
       },
       {
         "@type": "FAQPage",
-        mainEntity: content.faq.items.map((item) => ({
+        mainEntity: visibleFaqItems.map((item) => ({
           "@type": "Question",
           name: item.question,
           acceptedAnswer: { "@type": "Answer", text: item.answer },
@@ -219,31 +248,6 @@ export const ServiceDetailPage = ({ locale, slug }: ServiceDetailPageProps) => {
           </div>
         </section>
 
-        <section
-          className="section service-detail-workflow"
-          id="jak-to-funguje"
-          aria-labelledby="detail-workflow-title"
-        >
-          <div className="site-container">
-            <ScrollReveal className="service-detail-heading">
-              <p className="eyebrow">{content.workflow.eyebrow}</p>
-              <h2 id="detail-workflow-title">{content.workflow.title}</h2>
-              <p>{content.workflow.description}</p>
-            </ScrollReveal>
-            <ScrollReveal className="service-detail-workflow__grid" stagger>
-              {content.workflow.steps.map((step, index) => (
-                <article key={step.title}>
-                  <span>{String(index + 1).padStart(2, "0")}</span>
-                  <div>
-                    <h3>{step.title}</h3>
-                    <p>{step.description}</p>
-                  </div>
-                </article>
-              ))}
-            </ScrollReveal>
-          </div>
-        </section>
-
         {content.demo && content.demoCopy && (
           <section
             className="section service-detail-demo"
@@ -268,7 +272,32 @@ export const ServiceDetailPage = ({ locale, slug }: ServiceDetailPageProps) => {
           </section>
         )}
 
-        {content.sections.map((section) => (
+        <section
+          className="section service-detail-workflow"
+          id="jak-to-funguje"
+          aria-labelledby="detail-workflow-title"
+        >
+          <div className="site-container">
+            <ScrollReveal className="service-detail-heading">
+              <p className="eyebrow">{content.workflow.eyebrow}</p>
+              <h2 id="detail-workflow-title">{content.workflow.title}</h2>
+              <p>{content.workflow.description}</p>
+            </ScrollReveal>
+            <ScrollReveal className="service-detail-workflow__grid" stagger>
+              {visibleWorkflowSteps.map((step, index) => (
+                <article key={step.title}>
+                  <span>{String(index + 1).padStart(2, "0")}</span>
+                  <div>
+                    <h3>{step.title}</h3>
+                    <p>{step.description}</p>
+                  </div>
+                </article>
+              ))}
+            </ScrollReveal>
+          </div>
+        </section>
+
+        {visibleSections.map((section) => (
           <section
             className={`section service-detail-section service-detail-section--${section.tone ?? "light"}`}
             id={section.id}
@@ -295,7 +324,7 @@ export const ServiceDetailPage = ({ locale, slug }: ServiceDetailPageProps) => {
                 ))}
               </ScrollReveal>
               {slug === "vernostni-programy" &&
-              section.id === "administrace" ? (
+              ["administrace", "administration"].includes(section.id) ? (
                 <ScrollReveal>
                   <LoyaltyAdminPreview locale={locale} />
                 </ScrollReveal>
@@ -304,29 +333,31 @@ export const ServiceDetailPage = ({ locale, slug }: ServiceDetailPageProps) => {
           </section>
         ))}
 
-        <section
-          className="section service-detail-use-cases"
-          aria-labelledby="detail-cases-title"
-        >
-          <div className="site-container service-detail-use-cases__layout">
-            <ScrollReveal className="service-detail-heading">
-              <p className="eyebrow">{content.useCases.eyebrow}</p>
-              <h2 id="detail-cases-title">{content.useCases.title}</h2>
-              <p>{content.useCases.description}</p>
-            </ScrollReveal>
-            <ScrollReveal className="service-detail-use-cases__list" stagger>
-              {content.useCases.items.map((item, index) => (
-                <article key={item.title}>
-                  <span>{String(index + 1).padStart(2, "0")}</span>
-                  <div>
-                    <h3>{item.title}</h3>
-                    <p>{item.description}</p>
-                  </div>
-                </article>
-              ))}
-            </ScrollReveal>
-          </div>
-        </section>
+        {slug !== "darkove-poukazy" ? (
+          <section
+            className="section service-detail-use-cases"
+            aria-labelledby="detail-cases-title"
+          >
+            <div className="site-container service-detail-use-cases__layout">
+              <ScrollReveal className="service-detail-heading">
+                <p className="eyebrow">{content.useCases.eyebrow}</p>
+                <h2 id="detail-cases-title">{content.useCases.title}</h2>
+                <p>{content.useCases.description}</p>
+              </ScrollReveal>
+              <ScrollReveal className="service-detail-use-cases__list" stagger>
+                {content.useCases.items.map((item, index) => (
+                  <article key={item.title}>
+                    <span>{String(index + 1).padStart(2, "0")}</span>
+                    <div>
+                      <h3>{item.title}</h3>
+                      <p>{item.description}</p>
+                    </div>
+                  </article>
+                ))}
+              </ScrollReveal>
+            </div>
+          </section>
+        ) : null}
 
         <section
           className="section service-detail-faq"
@@ -338,7 +369,7 @@ export const ServiceDetailPage = ({ locale, slug }: ServiceDetailPageProps) => {
               <h2 id="detail-faq-title">{content.faq.title}</h2>
             </ScrollReveal>
             <ScrollReveal className="service-detail-faq__items" stagger>
-              {content.faq.items.map((item) => (
+              {visibleFaqItems.map((item) => (
                 <details key={item.question}>
                   <summary>
                     <span>{item.question}</span>
@@ -357,7 +388,6 @@ export const ServiceDetailPage = ({ locale, slug }: ServiceDetailPageProps) => {
         >
           <div className="site-container">
             <ScrollReveal className="service-detail-heading">
-              <p className="eyebrow">{labels.relatedEyebrow}</p>
               <h2 id="detail-related-title">{labels.relatedTitle}</h2>
             </ScrollReveal>
             <ScrollReveal className="service-detail-related__grid" stagger>
@@ -383,26 +413,28 @@ export const ServiceDetailPage = ({ locale, slug }: ServiceDetailPageProps) => {
           </div>
         </section>
 
-        <section
-          className="service-detail-final-cta"
-          aria-labelledby="detail-cta-title"
-        >
-          <div className="site-container">
-            <ScrollReveal className="service-detail-final-cta__inner">
-              <div>
-                <p className="eyebrow eyebrow--light">
-                  {content.finalCta.eyebrow}
-                </p>
-                <h2 id="detail-cta-title">{content.finalCta.title}</h2>
-                <p>{content.finalCta.description}</p>
-              </div>
-              <ActionLink href="#contact">
-                {content.finalCta.action}{" "}
-                <ArrowRight size={17} aria-hidden="true" />
-              </ActionLink>
-            </ScrollReveal>
-          </div>
-        </section>
+        {!content.demo && (
+          <section
+            className="service-detail-final-cta"
+            aria-labelledby="detail-cta-title"
+          >
+            <div className="site-container">
+              <ScrollReveal className="service-detail-final-cta__inner">
+                <div>
+                  <p className="eyebrow eyebrow--light">
+                    {content.finalCta.eyebrow}
+                  </p>
+                  <h2 id="detail-cta-title">{content.finalCta.title}</h2>
+                  <p>{content.finalCta.description}</p>
+                </div>
+                <ActionLink href="#contact">
+                  {content.finalCta.action}{" "}
+                  <ArrowRight size={17} aria-hidden="true" />
+                </ActionLink>
+              </ScrollReveal>
+            </div>
+          </section>
+        )}
 
         <ContactBlock
           locale={locale}

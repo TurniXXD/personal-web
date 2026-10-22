@@ -1,5 +1,16 @@
 import type { Metadata } from "next";
-import { Check, Link2, ListChecks, Mail, MessageSquare } from "lucide-react";
+import {
+  ArrowRight,
+  BriefcaseBusiness,
+  Check,
+  Handshake,
+  Link2,
+  ListChecks,
+  Mail,
+  MessageSquare,
+  UserRound,
+  WalletCards,
+} from "lucide-react";
 import { hasLocale } from "next-intl";
 import { notFound } from "next/navigation";
 import { ActionLink } from "@vantuch/ui";
@@ -60,30 +71,66 @@ export default async function ReferralPage({ params }: Props) {
           aria-labelledby="referral-title"
         >
           <div className="site-container referral-hero__inner">
-            <p className="eyebrow">
-              <span className="eyebrow__line" />
-              {t.hero.eyebrow}
-            </p>
-            <h1 id="referral-title">{t.hero.title}</h1>
-            <p className="hero__description">{t.hero.description}</p>
-            <p className="referral-hero__incentive">
-              <strong>10 %</strong>
-              <span>{t.hero.rewardLabel}</span>
-            </p>
-            <div className="hero__actions">
-              <ActionLink
-                href="#referral-link"
-                className="ui-action--icon-link"
-              >
-                {t.hero.primary} <Link2 size={18} aria-hidden="true" />
-              </ActionLink>
-              <ActionLink
-                href="#how-it-works"
-                variant="secondary"
-                className="ui-action--icon-list"
-              >
-                {t.hero.secondary} <ListChecks size={18} aria-hidden="true" />
-              </ActionLink>
+            <div className="referral-hero__content">
+              <p className="eyebrow">
+                <span className="eyebrow__line" />
+                {t.hero.eyebrow}
+              </p>
+              <h1 id="referral-title">{t.hero.title}</h1>
+              <p className="hero__description">{t.hero.description}</p>
+              <div className="hero__actions">
+                <ActionLink
+                  href="#referral-link"
+                  className="ui-action--icon-link"
+                >
+                  {t.hero.primary} <Link2 size={18} aria-hidden="true" />
+                </ActionLink>
+                <ActionLink
+                  href="#how-it-works"
+                  variant="secondary"
+                  className="ui-action--icon-list"
+                >
+                  {t.hero.secondary} <ListChecks size={18} aria-hidden="true" />
+                </ActionLink>
+              </div>
+            </div>
+
+            <div
+              className="referral-hero__visual"
+              role="img"
+              aria-label={t.hero.visualLabel}
+            >
+              <div className="referral-hero__reward-card">
+                <div className="referral-hero__reward-heading">
+                  <span className="referral-hero__reward-icon">
+                    <Handshake size={24} aria-hidden="true" />
+                  </span>
+                  <span>{t.hero.rewardTitle}</span>
+                </div>
+                <p className="referral-hero__percentage">
+                  <strong>10</strong>
+                  <span>%</span>
+                </p>
+                <p className="referral-hero__reward-detail">
+                  {t.hero.rewardDetail}
+                </p>
+                <div className="referral-hero__flow" aria-hidden="true">
+                  <span>
+                    <UserRound size={19} />
+                    {t.hero.referrer}
+                  </span>
+                  <ArrowRight size={16} />
+                  <span>
+                    <BriefcaseBusiness size={19} />
+                    {t.hero.project}
+                  </span>
+                  <ArrowRight size={16} />
+                  <span>
+                    <WalletCards size={19} />
+                    {t.hero.commission}
+                  </span>
+                </div>
+              </div>
             </div>
           </div>
         </section>

@@ -11,7 +11,12 @@ type ReferralCopy = {
     description: string;
     primary: string;
     secondary: string;
-    rewardLabel: string;
+    rewardTitle: string;
+    rewardDetail: string;
+    visualLabel: string;
+    referrer: string;
+    project: string;
+    commission: string;
   };
   how: { eyebrow: string; title: string; steps: Step[] };
   reward: {
@@ -54,13 +59,19 @@ export const referralCopy: Record<Locale, ReferralCopy> = {
         "Doporučte mě firmě, která řeší web, automatizaci nebo systém na míru. Odměna platí, pokud klient přijde přes váš osobní odkaz nebo vás zmíní na úvodním callu a vznikne zaplacený projekt.",
     },
     hero: {
-      eyebrow: "DOPORUČENÍ",
+      eyebrow: "PROGRAM DOPORUČENÍ",
       title: "Znáte firmu, které bych mohl pomoct?",
       description:
-        "Pošlete jí svůj doporučovací odkaz. Doporučení se započítá, když klient přijde přes váš odkaz nebo vás výslovně zmíní jako doporučitele na úvodním callu. Pokud vznikne placený projekt, získáte 10 % z přijatých plateb za první projekt.",
-      primary: "Získat doporučovací odkaz",
+        "Doporučte mě firmě, která potřebuje web, aplikaci nebo automatizaci. Pokud z doporučení vznikne placený projekt, získáte 10 % z přijatých plateb za první projekt.",
+      primary: "Doporučit klienta",
       secondary: "Jak to funguje",
-      rewardLabel: "z přijatých plateb za první projekt",
+      rewardTitle: "Provize za doporučení",
+      rewardDetail: "z přijatých plateb za první projekt",
+      visualLabel:
+        "Úspěšné doporučení přináší provizi 10 % z přijatých plateb za první projekt.",
+      referrer: "Doporučení",
+      project: "Placený projekt",
+      commission: "Vaše provize",
     },
     how: {
       eyebrow: "JEDNODUŠE A NAPŘÍMO",
@@ -203,13 +214,19 @@ export const referralCopy: Record<Locale, ReferralCopy> = {
         "Refer a business that needs a website, automation, or a custom system. A reward applies if the client uses your personal link or names you on the introductory call and a paid project follows.",
     },
     hero: {
-      eyebrow: "REFERRALS",
+      eyebrow: "REFERRAL PROGRAM",
       title: "Know a business I could help?",
       description:
-        "Share your personal referral link. The referral counts when the client arrives through your link or explicitly names you as the referrer on the introductory call. If a paid project follows, you receive 10% of the payments I receive for the first project.",
-      primary: "Get a referral link",
+        "Recommend me to a business that needs a website, application, or automation. If the referral leads to a paid project, you receive 10% of the payments received for that first project.",
+      primary: "Refer a client",
       secondary: "How it works",
-      rewardLabel: "of payments received for the first project",
+      rewardTitle: "Referral commission",
+      rewardDetail: "of payments received for the first project",
+      visualLabel:
+        "A successful referral earns a 10% commission on payments received for the first project.",
+      referrer: "Referral",
+      project: "Paid project",
+      commission: "Your commission",
     },
     how: {
       eyebrow: "PERSONAL AND STRAIGHTFORWARD",
