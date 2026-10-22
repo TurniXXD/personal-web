@@ -589,6 +589,32 @@ test("AI service page presents an interactive use-case carousel", async ({
   await expect(page.locator("#contact .contact-form")).toBeVisible();
 });
 
+test("AI offering cards use a single readable column on mobile", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 375, height: 844 });
+  await page.goto("/sluzby/ai-reseni");
+
+  const grid = page.locator(".service-page--ai .service-offering__grid");
+  const cards = grid.locator(".service-offering-card");
+
+  await expect(cards).toHaveCount(6);
+  await expect(grid).toHaveCSS("grid-template-columns", "343px");
+
+  const boxes = await cards.evaluateAll((items) =>
+    items.map((item) => {
+      const box = item.getBoundingClientRect();
+      return { left: box.left, right: box.right, width: box.width };
+    }),
+  );
+
+  for (const box of boxes) {
+    expect(box.width).toBeGreaterThan(300);
+    expect(box.left).toBeGreaterThanOrEqual(0);
+    expect(box.right).toBeLessThanOrEqual(375);
+  }
+});
+
 test("AI use-case carousel is localized in English", async ({ page }) => {
   await page.goto("/en/sluzby/ai-reseni");
 
