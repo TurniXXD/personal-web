@@ -10,3 +10,9 @@
 ## Content localization
 
 - Whenever user-visible copy is changed, update both the Czech and English versions in the same change, even when the request provides wording in only one language.
+
+## Search engine discovery
+
+- Whenever a public page is added, removed, renamed, or changes its canonical route, update `apps/web/app/sitemap.ts` in the same change for both Czech and English URLs.
+- Keep `apps/web/app/robots.ts` aligned with the current public site and ensure it continues to expose the canonical sitemap URL. Update its allow/disallow rules in the same change whenever route visibility or indexing requirements change.
+- Prefer shared route or slug sources for dynamic pages so the page generator and sitemap cannot drift apart.

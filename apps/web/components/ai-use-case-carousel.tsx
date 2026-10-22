@@ -1,7 +1,6 @@
 "use client";
 
 import {
-  ArrowLeft,
   ArrowRight,
   CalendarDays,
   Check,
@@ -15,7 +14,14 @@ import {
   Star,
   TrendingUp,
 } from "lucide-react";
-import { useRef, useState, type KeyboardEvent, type TouchEvent } from "react";
+import {
+  useEffect,
+  useRef,
+  useState,
+  type FocusEvent,
+  type KeyboardEvent,
+  type TouchEvent,
+} from "react";
 import { ScrollReveal } from "@/components/scroll-reveal";
 import {
   aiUseCaseCarouselCopy,
@@ -27,6 +33,8 @@ import type { Locale } from "@/lib/content";
 type AiUseCaseCarouselProps = {
   locale: Locale;
 };
+
+const AUTO_ROTATION_DELAY = 8_000;
 
 const VisualHeader = ({ slide }: { slide: AiUseCaseSlide }) => (
   <div className="ai-case-visual__header">
@@ -267,8 +275,34 @@ export const AiUseCaseCarousel = ({ locale }: AiUseCaseCarouselProps) => {
   const copy = aiUseCaseCarouselCopy[locale];
   const slides = getAiUseCaseSlides(locale);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [isAutoPlaying, setIsAutoPlaying] = useState(true);
+  const [isHovered, setIsHovered] = useState(false);
+  const [hasFocusWithin, setHasFocusWithin] = useState(false);
   const touchStartX = useRef<number | null>(null);
-  const activeSlide = slides[activeIndex];
+
+  useEffect(() => {
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+    if (reducedMotion.matches) setIsAutoPlaying(false);
+
+    const handleReducedMotionChange = (event: MediaQueryListEvent) => {
+      if (event.matches) setIsAutoPlaying(false);
+    };
+
+    reducedMotion.addEventListener("change", handleReducedMotionChange);
+    return () =>
+      reducedMotion.removeEventListener("change", handleReducedMotionChange);
+  }, []);
+
+  useEffect(() => {
+    if (!isAutoPlaying || isHovered || hasFocusWithin) return;
+
+    const timeout = window.setTimeout(() => {
+      setActiveIndex((current) => (current + 1) % slides.length);
+    }, AUTO_ROTATION_DELAY);
+
+    return () => window.clearTimeout(timeout);
+  }, [activeIndex, hasFocusWithin, isAutoPlaying, isHovered, slides.length]);
 
   const showPrevious = () => {
     setActiveIndex((current) => (current - 1 + slides.length) % slides.length);
@@ -304,87 +338,78 @@ export const AiUseCaseCarousel = ({ locale }: AiUseCaseCarouselProps) => {
     else showNext();
   };
 
+  const handleBlur = (event: FocusEvent<HTMLDivElement>) => {
+    if (!event.currentTarget.contains(event.relatedTarget as Node | null)) {
+      setHasFocusWithin(false);
+    }
+  };
+
   return (
-    <section
-      className="section ai-use-cases"
-      aria-labelledby="ai-use-cases-title"
-    >
-      <div className="site-container">
-        <ScrollReveal className="service-section-heading ai-use-cases__heading">
-          <p className="eyebrow">{copy.eyebrow}</p>
-          <h2 id="ai-use-cases-title">{copy.title}</h2>
-          <p>{copy.description}</p>
-        </ScrollReveal>
+    <section className="section ai-use-cases" aria-label={copy.carouselLabel}>
+      <ScrollReveal>
+        <div
+          className="ai-use-case-carousel"
+          aria-label={copy.carouselLabel}
+          aria-roledescription="carousel"
+          onBlur={handleBlur}
+          onFocus={() => setHasFocusWithin(true)}
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
+          onKeyDown={handleKeyDown}
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
+          tabIndex={0}
+        >
+          <div className="ai-use-case-carousel__viewport">
+            {slides.map((slide, index) => {
+              const isActive = index === activeIndex;
 
-        <ScrollReveal>
-          <div
-            className="ai-use-case-carousel"
-            aria-label={copy.carouselLabel}
-            aria-roledescription="carousel"
-            onKeyDown={handleKeyDown}
-            onTouchStart={handleTouchStart}
-            onTouchEnd={handleTouchEnd}
-            tabIndex={0}
-          >
+              return (
+                <div
+                  className="ai-use-case-carousel__slide"
+                  id={`ai-use-case-panel-${slide.id}`}
+                  key={slide.id}
+                  role="group"
+                  aria-hidden={!isActive}
+                  aria-label={copy.slideLabel(index + 1, slide.title)}
+                  aria-live={isActive ? "polite" : undefined}
+                  data-active={isActive}
+                >
+                  <div className="ai-use-case__content">
+                    <p className="ai-use-case__category">{slide.category}</p>
+                    <h3>{slide.title}</h3>
+                    <p className="ai-use-case__description">
+                      {slide.description}
+                    </p>
+                    <WorkflowSteps steps={slide.workflow} />
+                  </div>
+                  <AiUseCaseVisualization slide={slide} />
+                </div>
+              );
+            })}
+          </div>
+
+          <div className="ai-use-case-carousel__footer">
             <div
-              className="ai-use-case-carousel__slide"
-              id={`ai-use-case-panel-${activeSlide.id}`}
-              key={activeSlide.id}
+              className="ai-use-case-carousel__tabs"
+              aria-label={copy.navigationLabel}
               role="group"
-              aria-live="polite"
-              aria-label={copy.slideLabel(activeIndex + 1, activeSlide.title)}
             >
-              <div className="ai-use-case__content">
-                <p className="ai-use-case__category">{activeSlide.category}</p>
-                <h3>{activeSlide.title}</h3>
-                <p className="ai-use-case__description">
-                  {activeSlide.description}
-                </p>
-                <WorkflowSteps steps={activeSlide.workflow} />
-              </div>
-              <AiUseCaseVisualization slide={activeSlide} />
-            </div>
-
-            <div className="ai-use-case-carousel__footer">
-              <div className="ai-use-case-carousel__controls">
+              {slides.map((slide, index) => (
                 <button
                   type="button"
-                  onClick={showPrevious}
-                  aria-label={copy.previous}
+                  aria-pressed={index === activeIndex}
+                  aria-label={copy.slideLabel(index + 1, slide.title)}
+                  key={slide.id}
+                  onClick={() => setActiveIndex(index)}
                 >
-                  <ArrowLeft size={18} aria-hidden="true" />
+                  <span>{String(index + 1).padStart(2, "0")}</span>
                 </button>
-                <span aria-live="polite">
-                  {String(activeIndex + 1).padStart(2, "0")}
-                  <i>/</i>
-                  {String(slides.length).padStart(2, "0")}
-                </span>
-                <button type="button" onClick={showNext} aria-label={copy.next}>
-                  <ArrowRight size={18} aria-hidden="true" />
-                </button>
-              </div>
-
-              <div
-                className="ai-use-case-carousel__tabs"
-                aria-label={copy.navigationLabel}
-                role="group"
-              >
-                {slides.map((slide, index) => (
-                  <button
-                    type="button"
-                    aria-pressed={index === activeIndex}
-                    aria-label={copy.slideLabel(index + 1, slide.title)}
-                    key={slide.id}
-                    onClick={() => setActiveIndex(index)}
-                  >
-                    <span>{String(index + 1).padStart(2, "0")}</span>
-                  </button>
-                ))}
-              </div>
+              ))}
             </div>
           </div>
-        </ScrollReveal>
-      </div>
+        </div>
+      </ScrollReveal>
     </section>
   );
 };

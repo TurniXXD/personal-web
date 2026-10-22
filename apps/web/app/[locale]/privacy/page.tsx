@@ -64,6 +64,13 @@ export default async function PrivacyPage({ params }: Props) {
                 {section.paragraphs.map((paragraph) => (
                   <p key={paragraph}>{paragraph}</p>
                 ))}
+                {section.links?.map((link) => (
+                  <p key={link.href}>
+                    <a href={link.href} target="_blank" rel="noreferrer">
+                      {link.label}
+                    </a>
+                  </p>
+                ))}
               </section>
             ))}
           </div>

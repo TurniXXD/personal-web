@@ -1,4 +1,8 @@
 import { expect, test } from "@playwright/test";
+import {
+  serviceDetailCopy,
+  serviceDetailSlugs,
+} from "../lib/service-detail-content";
 
 test.beforeEach(async ({ context }) => {
   await context.addInitScript(() => {
@@ -415,12 +419,18 @@ test("services navigation groups all service routes in an accessible dropdown", 
   await trigger.focus();
   await trigger.press("Enter");
   await expect(dropdown).toHaveAttribute("open", "");
-  await expect(serviceLinks).toHaveCount(3);
+  await expect(serviceLinks).toHaveCount(5);
   expect(
     await serviceLinks.evaluateAll((elements) =>
       elements.map((element) => element.getAttribute("href")),
     ),
-  ).toEqual(["/sluzby/webove-aplikace", "/automatizace", "/sluzby/ai-reseni"]);
+  ).toEqual([
+    "/sluzby/webove-aplikace",
+    "/automatizace",
+    "/sluzby/ai-reseni",
+    "/sluzby/vernostni-programy",
+    "/sluzby/darkove-poukazy",
+  ]);
 
   await page.setViewportSize({ width: 375, height: 844 });
   await page.goto("/");
@@ -428,7 +438,7 @@ test("services navigation groups all service routes in an accessible dropdown", 
   const mobileServices = page.locator(".site-header__mobile-services");
   await mobileServices.locator("> summary").click();
   await expect(mobileServices).toHaveAttribute("open", "");
-  await expect(mobileServices.locator("a")).toHaveCount(3);
+  await expect(mobileServices.locator("a")).toHaveCount(5);
 });
 
 test("web applications service page presents real work and contact flow", async ({
@@ -440,24 +450,30 @@ test("web applications service page presents real work and contact flow", async 
     "Weby a webové aplikace na míru | Jakub Vantuch",
   );
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
-    "Digitální řešení, která rostou s vaším podnikáním.",
+    "Webové aplikace na míru.",
   );
-  await expect(page.locator(".service-offering-card")).toHaveCount(9);
+  await expect(page.locator(".service-offering-card")).toHaveCount(3);
   await expect(
     page.getByRole("heading", { name: "E-shopy na Shoptetu" }),
   ).toBeVisible();
   await expect(
     page.getByRole("heading", { name: "Digitální věrnostní programy" }),
-  ).toBeVisible();
+  ).toHaveCount(0);
+  await expect(
+    page.getByRole("heading", { name: "Dárkové poukazy" }),
+  ).toHaveCount(0);
+  await expect(
+    page.getByRole("heading", { name: "API a integrace" }),
+  ).toHaveCount(0);
+  await expect(
+    page.getByRole("heading", { name: "CMS a správa obsahu" }),
+  ).toHaveCount(0);
   await expect(
     page.getByRole("heading", { name: "Webová analytika" }),
-  ).toBeVisible();
+  ).toHaveCount(0);
   await expect(
     page.getByRole("heading", { name: "CRM a práce se zákazníky" }),
-  ).toBeVisible();
-  await expect(
-    page.getByRole("heading", { name: "E-mailing a automatizace" }),
-  ).toBeVisible();
+  ).toHaveCount(0);
   await expect(page.locator(".service-benefits")).toHaveCount(0);
   await expect(page.locator("#projects .case-card")).toHaveCount(5);
   await expect(page.locator("#projects")).toHaveCSS(
@@ -476,6 +492,242 @@ test("web applications service page presents real work and contact flow", async 
     "href",
     "https://vantuch.dev/sluzby/webove-aplikace",
   );
+});
+
+test("all web service cards are stable accessible links to valid detail pages", async ({
+  page,
+  request,
+}) => {
+  test.setTimeout(120_000);
+  const expectedPaths = [
+    "/sluzby/firemni-weby",
+    "/sluzby/webove-aplikace-na-miru",
+    "/sluzby/shoptet",
+    "/sluzby/vernostni-programy",
+    "/sluzby/darkove-poukazy",
+  ];
+  expect(serviceDetailSlugs.map((slug) => `/sluzby/${slug}`)).toEqual(
+    expectedPaths,
+  );
+  for (const locale of ["cs", "en"] as const) {
+    for (const slug of serviceDetailSlugs) {
+      const related = serviceDetailCopy[locale][slug].related;
+      expect(related).not.toContain(slug);
+      expect(new Set(related).size).toBe(related.length);
+      related.forEach((relatedSlug) => {
+        expect(serviceDetailSlugs).toContain(relatedSlug);
+      });
+    }
+  }
+
+  await page.goto("/sluzby/webove-aplikace", {
+    waitUntil: "domcontentloaded",
+  });
+  const cards = page.locator(".service-offering-card");
+  await expect(cards).toHaveCount(3);
+  expect(
+    await cards.evaluateAll((items) => items.map((item) => item.tagName)),
+  ).toEqual(Array(3).fill("A"));
+  expect(
+    await cards.evaluateAll((items) =>
+      items.map((item) => item.getAttribute("href")),
+    ),
+  ).toEqual(expectedPaths.slice(0, 3));
+  await expect(
+    page.getByRole("heading", { name: "Dárkové poukazy" }),
+  ).toHaveCount(0);
+  await expect(
+    page.getByRole("heading", { name: "Digitální věrnostní programy" }),
+  ).toHaveCount(0);
+  await expect(
+    page.getByRole("heading", { name: "E-mailing a automatizace" }),
+  ).toHaveCount(0);
+
+  const first = cards.first();
+  await first.scrollIntoViewIfNeeded();
+  await expect(page.locator(".service-offering__grid")).toHaveAttribute(
+    "data-reveal-state",
+    "visible",
+  );
+  await expect
+    .poll(() =>
+      first.evaluate((element) => {
+        const transform = getComputedStyle(element).transform;
+        return transform === "none" ? 0 : new DOMMatrixReadOnly(transform).m42;
+      }),
+    )
+    .toBeCloseTo(0, 1);
+  const measureDocumentBox = () =>
+    first.evaluate((element) => {
+      const rect = element.getBoundingClientRect();
+      return {
+        top: rect.top + window.scrollY,
+        left: rect.left + window.scrollX,
+        width: rect.width,
+        height: rect.height,
+      };
+    });
+  const before = await measureDocumentBox();
+  await expect(first.locator(".content-card__action")).toHaveCSS(
+    "opacity",
+    "0",
+  );
+  await first.hover();
+  await expect(first.locator(".content-card__action")).toHaveCSS(
+    "opacity",
+    "1",
+  );
+  const after = await measureDocumentBox();
+  expect(after.top).toBeCloseTo(before.top, 1);
+  expect(after.left).toBeCloseTo(before.left, 1);
+  expect(after.width).toBeCloseTo(before.width, 1);
+  expect(after.height).toBeCloseTo(before.height, 1);
+  await first.focus();
+  await expect(first).toBeFocused();
+  await expect(first.locator(".content-card__action")).toContainText(
+    "Zjistit více",
+  );
+
+  const localizedPaths = expectedPaths.flatMap((path) => [path, `/en${path}`]);
+  const responses = await Promise.all(
+    localizedPaths.map((path) => request.get(path)),
+  );
+  responses.forEach((response, index) => {
+    expect(
+      response.ok(),
+      `${localizedPaths[index]} should return a successful response`,
+    ).toBe(true);
+  });
+
+  const sitemap = await request.get("/sitemap.xml");
+  expect(sitemap.ok()).toBe(true);
+  const sitemapXml = await sitemap.text();
+  expectedPaths.forEach((path) => {
+    expect(sitemapXml).toContain(`https://vantuch.dev${path}`);
+    expect(sitemapXml).toContain(`https://vantuch.dev/en${path}`);
+  });
+  for (const removedPath of [
+    "/sluzby/cms",
+    "/sluzby/api-integrace",
+    "/sluzby/webova-analytika",
+    "/sluzby/crm",
+  ]) {
+    expect(sitemapXml).not.toContain(`https://vantuch.dev${removedPath}`);
+    expect(sitemapXml).not.toContain(`https://vantuch.dev/en${removedPath}`);
+    expect((await request.get(removedPath)).status()).toBe(404);
+    expect((await request.get(`/en${removedPath}`)).status()).toBe(404);
+  }
+
+  const robots = await request.get("/robots.txt");
+  expect(robots.ok()).toBe(true);
+  expect(await robots.text()).toContain(
+    "Sitemap: https://vantuch.dev/sitemap.xml",
+  );
+});
+
+test("loyalty programme demo updates only after the staff confirmation action", async ({
+  page,
+}) => {
+  await page.goto("/sluzby/vernostni-programy", {
+    waitUntil: "domcontentloaded",
+  });
+
+  await expect(
+    page.getByRole("heading", { name: "Dejte zákazníkům důvod se vracet." }),
+  ).toBeVisible();
+  await expect(page.getByText("7 z 10 návštěv")).toBeVisible();
+  const confirm = page.getByRole("button", {
+    name: "Potvrdit návštěvu obsluhou",
+  });
+  await expect(confirm).toBeEnabled();
+  await confirm.click();
+  await expect(page.getByText("8 z 10 návštěv")).toBeVisible();
+  await confirm.click();
+  await confirm.click();
+  await expect(
+    page.getByText("Odměna je připravena k uplatnění."),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("button", { name: "Obnovit ukázku" }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("heading", { name: "Přehled věrnostního programu" }),
+  ).toBeVisible();
+  await expect(page.getByText("Aktivní zákazníci")).toBeVisible();
+  await expect(page.locator("#contact-message")).toHaveValue(
+    /Rád bych probral službu: Digitální věrnostní programy/,
+  );
+  await expect(page.locator(".service-detail-faq__items details")).toHaveCount(
+    8,
+  );
+});
+
+test("gift voucher demo clearly simulates payment, PDF and redemption states", async ({
+  page,
+}) => {
+  await page.goto("/sluzby/darkove-poukazy", {
+    waitUntil: "domcontentloaded",
+  });
+
+  await expect(
+    page.getByRole("heading", {
+      name: "Prodávejte dárkové poukazy online. Bez ručního vyřizování.",
+    }),
+  ).toBeVisible();
+  await page.getByLabel("Jméno příjemce").fill("Jakub Vantuch");
+  await expect(page.locator(".voucher-demo__paper")).toContainText(
+    "Jakub Vantuch",
+  );
+  const confirmPayment = page.getByRole("button", {
+    name: "Simulovat potvrzenou platbu",
+  });
+  await expect(confirmPayment).toBeEnabled();
+  await confirmPayment.click();
+  await expect(
+    page.getByText("Platba potvrzena", { exact: true }),
+  ).toBeVisible();
+  await page.getByRole("button", { name: "Připravit ukázkové PDF" }).click();
+  await expect(page.getByText("PDF připraveno", { exact: true })).toBeVisible();
+  await page
+    .getByRole("button", { name: "Simulovat uplatnění obsluhou" })
+    .click();
+  await expect(page.getByText("Uplatněno", { exact: true })).toBeVisible();
+  await expect(page.locator(".service-detail-faq__items details")).toHaveCount(
+    9,
+  );
+});
+
+test("priority service detail pages stay usable without horizontal overflow on mobile", async ({
+  page,
+}) => {
+  test.setTimeout(90_000);
+  await page.setViewportSize({ width: 375, height: 844 });
+
+  for (const path of [
+    "/sluzby/vernostni-programy",
+    "/sluzby/darkove-poukazy",
+  ]) {
+    await page.goto(path, { waitUntil: "domcontentloaded" });
+    await expect(page.locator("main.service-detail")).toBeVisible();
+    const overflow = await page.evaluate(
+      () => document.documentElement.scrollWidth - window.innerWidth,
+    );
+    expect(overflow, `${path} should fit the mobile viewport`).toBe(0);
+  }
+
+  await page.goto("/sluzby/vernostni-programy", {
+    waitUntil: "domcontentloaded",
+  });
+  const adminColumns = await page
+    .locator(".loyalty-admin-preview")
+    .evaluate((element) =>
+      getComputedStyle(element).gridTemplateColumns.split(" "),
+    );
+  expect(adminColumns).toHaveLength(1);
+  const firstFaq = page.locator(".service-detail-faq details").first();
+  await firstFaq.locator("summary").focus();
+  await page.keyboard.press("Enter");
+  await expect(firstFaq).toHaveAttribute("open", "");
 });
 
 test("web application hero presents animated analytics charts", async ({
@@ -540,13 +792,14 @@ test("AI service page presents an interactive use-case carousel", async ({
     page.getByRole("heading", { name: "Personalizované e-maily" }),
   ).toBeVisible();
   await expect(page.locator(".service-flow--ai")).toHaveCount(0);
-  await expect(
-    page.getByRole("heading", {
-      name: "Podívejte se, jak může AI pracovat za vás.",
-    }),
-  ).toBeVisible();
   const carousel = page.locator(".ai-use-case-carousel");
   await expect(carousel).toBeVisible();
+  await expect(carousel).toHaveCSS("background-color", "rgba(0, 0, 0, 0)");
+  await expect(carousel).toHaveCSS("border-top-style", "none");
+  await expect(page.locator(".ai-use-cases__heading")).toHaveCount(0);
+  await expect(carousel.locator(".ai-use-case-carousel__controls")).toHaveCount(
+    0,
+  );
   await expect(page.locator(".ai-use-cases")).toHaveCSS(
     "background-color",
     "rgb(32, 40, 75)",
@@ -554,13 +807,21 @@ test("AI service page presents an interactive use-case carousel", async ({
   await expect(
     carousel.locator(".ai-use-case-carousel__tabs button"),
   ).toHaveCount(6);
-  await expect(carousel.locator(".ai-use-case__workflow li")).toHaveCount(4);
+  await expect(
+    carousel.locator(
+      '.ai-use-case-carousel__slide[data-active="true"] .ai-use-case__workflow li',
+    ),
+  ).toHaveCount(4);
   await expect(
     carousel.getByRole("heading", {
       name: "Mějte přehled o trendech ve vašem oboru",
     }),
   ).toBeVisible();
-  await carousel.getByRole("button", { name: "Další příklad" }).click();
+  await carousel
+    .getByRole("button", {
+      name: "Příklad 2: Připravujte obsah na sociální sítě rychleji",
+    })
+    .click();
   await expect(
     carousel.getByRole("heading", {
       name: "Připravujte obsah na sociální sítě rychleji",
@@ -618,21 +879,82 @@ test("AI offering cards use a single readable column on mobile", async ({
 test("AI use-case carousel is localized in English", async ({ page }) => {
   await page.goto("/en/sluzby/ai-reseni");
 
-  await expect(
-    page.getByRole("heading", { name: "See how AI can work for you." }),
-  ).toBeVisible();
   const carousel = page.locator(".ai-use-case-carousel");
   await expect(
     carousel.getByRole("heading", {
       name: "Stay on top of trends in your industry",
     }),
   ).toBeVisible();
-  await carousel.getByRole("button", { name: "Next example" }).click();
+  await carousel
+    .getByRole("button", {
+      name: "Example 2: Prepare social media content faster",
+    })
+    .click();
   await expect(
     carousel.getByRole("heading", {
       name: "Prepare social media content faster",
     }),
   ).toBeVisible();
+});
+
+test("AI use-case carousel keeps one height across every slide", async ({
+  page,
+}) => {
+  for (const viewport of [
+    { width: 1280, height: 900 },
+    { width: 390, height: 844 },
+  ]) {
+    await page.setViewportSize(viewport);
+    await page.goto("/sluzby/ai-reseni");
+
+    const carousel = page.locator(".ai-use-case-carousel");
+    const tabs = carousel.locator(".ai-use-case-carousel__tabs button");
+    const heights: number[] = [];
+
+    for (let index = 0; index < 6; index += 1) {
+      await tabs.nth(index).click();
+      await expect(
+        carousel.locator(
+          `.ai-use-case-carousel__slide[data-active="true"]#ai-use-case-panel-${
+            [
+              "trends",
+              "social-content",
+              "enquiries",
+              "quotations",
+              "reviews",
+              "recommendations",
+            ][index]
+          }`,
+        ),
+      ).toBeVisible();
+      heights.push(
+        await carousel.evaluate((element) =>
+          Math.round(element.getBoundingClientRect().height),
+        ),
+      );
+    }
+
+    expect(new Set(heights).size).toBe(1);
+  }
+});
+
+test("AI use-case carousel advances automatically after eight seconds", async ({
+  page,
+}) => {
+  const startTime = new Date("2026-10-22T10:00:00Z");
+  await page.clock.install({ time: startTime });
+  await page.clock.pauseAt(startTime);
+  await page.goto("/sluzby/ai-reseni");
+
+  const carousel = page.locator(".ai-use-case-carousel");
+  const firstSlide = carousel.locator("#ai-use-case-panel-trends");
+  const secondSlide = carousel.locator("#ai-use-case-panel-social-content");
+
+  await expect(firstSlide).toHaveAttribute("data-active", "true");
+  await page.clock.fastForward(7_999);
+  await expect(firstSlide).toHaveAttribute("data-active", "true");
+  await page.clock.fastForward(1);
+  await expect(secondSlide).toHaveAttribute("data-active", "true");
 });
 
 test("AI hero diagram stays legible and separates with scroll", async ({
@@ -692,10 +1014,9 @@ test("service pages remain visible with reduced motion", async ({ page }) => {
     "animation-name",
     "none",
   );
-  await expect(page.locator(".ai-use-case-carousel__slide")).toHaveCSS(
-    "animation-name",
-    "none",
-  );
+  await expect(
+    page.locator('.ai-use-case-carousel__slide[data-active="true"]'),
+  ).toHaveCSS("animation-name", "none");
 });
 
 test("automation page filters non-clickable examples", async ({ page }) => {
@@ -1442,8 +1763,8 @@ test("contact form validates and sends only contact details", async ({
     "Vyplňte toto pole",
   );
 
-  await form.locator('[name="name"]').fill("Anna Nováková");
-  await form.locator('[name="email"]').fill("anna@example.com");
+  await form.locator('[name="name"]').fill("Jakub Vantuch");
+  await form.locator('[name="email"]').fill("contact@vantuch.dev");
   await form.locator('[name="phone"]').fill("+420 735 023 812");
   await form.locator('[name="message"]').fill("Potřebuji nový firemní web.");
   await expect(
@@ -1453,8 +1774,8 @@ test("contact form validates and sends only contact details", async ({
   await page.route("**/api/contact", async (route) => {
     const payload = route.request().postDataJSON();
     expect(payload).toMatchObject({
-      name: "Anna Nováková",
-      email: "anna@example.com",
+      name: "Jakub Vantuch",
+      email: "contact@vantuch.dev",
       phone: "+420 735 023 812",
       message: "Potřebuji nový firemní web.",
     });
@@ -1607,6 +1928,13 @@ test("privacy page is localized and reflects client-submitted referrals", async 
   await expect(
     page.locator('link[rel="alternate"][hreflang="en"]'),
   ).toHaveAttribute("href", "https://vantuch.dev/en/privacy");
+  const turnstilePrivacy = page.getByRole("link", {
+    name: "Cloudflare Turnstile Privacy Addendum",
+  });
+  await expect(turnstilePrivacy).toHaveAttribute(
+    "href",
+    "https://www.cloudflare.com/en-gb/turnstile-privacy-policy/",
+  );
   await page.goto("/en/privacy");
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
     "Privacy notice",
@@ -1614,6 +1942,14 @@ test("privacy page is localized and reflects client-submitted referrals", async 
   await expect(page.locator(".site-header__lang")).toHaveAttribute(
     "href",
     "/privacy",
+  );
+  await expect(
+    page.getByRole("link", {
+      name: "Cloudflare Turnstile Privacy Addendum",
+    }),
+  ).toHaveAttribute(
+    "href",
+    "https://www.cloudflare.com/en-gb/turnstile-privacy-policy/",
   );
   await page.goto("/doporuceni");
   await expect(page.locator(".referral-form")).toHaveCount(0);

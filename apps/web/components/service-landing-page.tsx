@@ -2,25 +2,21 @@ import {
   ArrowRight,
   AppWindow,
   Bot,
-  Boxes,
   ChartNoAxesCombined,
   Code2,
-  CreditCard,
   FileScan,
   Gauge,
   LayoutDashboard,
   Mail,
   MessagesSquare,
   Network,
-  Plug,
   Settings2,
   Store,
-  UsersRound,
   type LucideIcon,
 } from "lucide-react";
+import dynamic from "next/dynamic";
 import { ActionLink } from "@vantuch/ui";
 import { AiHeroVisual } from "@/components/ai-hero-visual";
-import { AiUseCaseCarousel } from "@/components/ai-use-case-carousel";
 import { ContentCard } from "@/components/content-card";
 import { ProjectGrid } from "@/components/project-grid";
 import { ScrollReveal } from "@/components/scroll-reveal";
@@ -38,11 +34,21 @@ type ServiceLandingPageProps = {
   locale: Locale;
 };
 
+const AiUseCaseCarousel = dynamic(
+  () =>
+    import("@/components/ai-use-case-carousel").then(
+      (module) => module.AiUseCaseCarousel,
+    ),
+  {
+    loading: () => (
+      <div className="ai-use-case-carousel__loading" aria-hidden="true" />
+    ),
+  },
+);
+
 const serviceIcons: Record<ServiceIconName, LucideIcon> = {
   browser: AppWindow,
-  blocks: Boxes,
   layout: LayoutDashboard,
-  plug: Plug,
   bot: Bot,
   message: MessagesSquare,
   mail: Mail,
@@ -51,10 +57,8 @@ const serviceIcons: Record<ServiceIconName, LucideIcon> = {
   network: Network,
   gauge: Gauge,
   code: Code2,
-  "credit-card": CreditCard,
   settings: Settings2,
   store: Store,
-  users: UsersRound,
 };
 
 export const ServiceLandingPage = ({
@@ -140,6 +144,17 @@ export const ServiceLandingPage = ({
                     key={item.title}
                     title={item.title}
                     description={item.description}
+                    href={
+                      item.href ? localizedPath(locale, item.href) : undefined
+                    }
+                    action={
+                      item.href ? (
+                        <>
+                          {locale === "cs" ? "Zjistit více" : "Learn more"}{" "}
+                          <ArrowRight size={15} aria-hidden="true" />
+                        </>
+                      ) : undefined
+                    }
                     icon={
                       <Icon size={20} strokeWidth={1.8} aria-hidden="true" />
                     }

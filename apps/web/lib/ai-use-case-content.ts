@@ -38,11 +38,6 @@ type LocalizedSlide = {
 };
 
 export type AiUseCaseCarouselCopy = {
-  eyebrow: string;
-  title: string;
-  description: string;
-  previous: string;
-  next: string;
   navigationLabel: string;
   carouselLabel: string;
   slideLabel: (index: number, title: string) => string;
@@ -50,23 +45,11 @@ export type AiUseCaseCarouselCopy = {
 
 export const aiUseCaseCarouselCopy: Record<Locale, AiUseCaseCarouselCopy> = {
   cs: {
-    eyebrow: "AI V PRAXI",
-    title: "Podívejte se, jak může AI pracovat za vás.",
-    description:
-      "Od analýzy dat po každodenní firemní procesy. Projděte si konkrétní příklady, kde může AI ušetřit čas a usnadnit práci.",
-    previous: "Předchozí příklad",
-    next: "Další příklad",
     navigationLabel: "Výběr příkladu využití AI",
     carouselLabel: "Praktické příklady využití AI",
     slideLabel: (index, title) => `Příklad ${index}: ${title}`,
   },
   en: {
-    eyebrow: "AI IN PRACTICE",
-    title: "See how AI can work for you.",
-    description:
-      "From data analysis to everyday business processes. Explore practical examples of where AI can save time and make work easier.",
-    previous: "Previous example",
-    next: "Next example",
     navigationLabel: "Choose an AI use case",
     carouselLabel: "Practical AI use cases",
     slideLabel: (index, title) => `Example ${index}: ${title}`,

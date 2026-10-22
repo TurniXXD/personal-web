@@ -9,14 +9,20 @@ import {
   PhoneCall,
   Send,
 } from "lucide-react";
+import dynamic from "next/dynamic";
 import { ActionLink } from "@vantuch/ui";
-import { ContactOrbit } from "@/components/contact-orbit";
-import { ContactForm } from "@/components/contact-form";
 import { CookiePreferencesButton } from "@/components/cookie-consent";
 import { ScrollReveal } from "@/components/scroll-reveal";
 import { ServicesDropdown } from "@/components/services-dropdown";
 import { copy, localizedPath, type Locale } from "@/lib/content";
 import { contactMailto, contactTel, siteConfig } from "@/lib/site-config";
+
+const ContactOrbit = dynamic(() =>
+  import("@/components/contact-orbit").then((module) => module.ContactOrbit),
+);
+const ContactForm = dynamic(() =>
+  import("@/components/contact-form").then((module) => module.ContactForm),
+);
 
 export function SiteHeader({
   locale,
@@ -27,11 +33,8 @@ export function SiteHeader({
 }) {
   const t = copy[locale];
   const otherLocale = locale === "cs" ? "en" : "cs";
-  const servicesActive = [
-    "/sluzby/webove-aplikace",
-    "/automatizace",
-    "/sluzby/ai-reseni",
-  ].includes(path);
+  const servicesActive =
+    path === "/automatizace" || path.startsWith("/sluzby/");
   const serviceLinks = [
     {
       href: "/sluzby/webove-aplikace",
@@ -44,6 +47,17 @@ export function SiteHeader({
     {
       href: "/sluzby/ai-reseni",
       label: locale === "cs" ? "AI řešení" : "AI solutions",
+    },
+    {
+      href: "/sluzby/vernostni-programy",
+      label:
+        locale === "cs"
+          ? "Digitální věrnostní programy"
+          : "Digital loyalty programmes",
+    },
+    {
+      href: "/sluzby/darkove-poukazy",
+      label: locale === "cs" ? "Dárkové poukazy" : "Gift vouchers",
     },
   ];
 
@@ -150,9 +164,11 @@ export function SiteHeader({
 export function ContactBlock({
   locale,
   title,
+  topic,
 }: {
   locale: Locale;
   title?: string;
+  topic?: string;
 }) {
   const t = copy[locale].contact;
 
@@ -170,7 +186,7 @@ export function ContactBlock({
           <p>{t.text}</p>
         </ScrollReveal>
         <ScrollReveal className="contact-section__form-reveal" delay={60}>
-          <ContactForm locale={locale} />
+          <ContactForm locale={locale} initialTopic={topic} />
         </ScrollReveal>
         <ScrollReveal className="contact-section__actions" delay={120}>
           <a href={contactMailto()}>

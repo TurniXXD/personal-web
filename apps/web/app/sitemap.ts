@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { caseStudySlugs } from "@/lib/content";
+import { serviceDetailSlugs } from "@/lib/service-detail-content";
 
 const siteUrl = "https://vantuch.dev";
 
@@ -9,6 +10,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/automatizace",
     "/sluzby/webove-aplikace",
     "/sluzby/ai-reseni",
+    ...serviceDetailSlugs.map((slug) => `/sluzby/${slug}`),
     "/kontakt",
     ...caseStudySlugs.map((slug) => `/work/${slug}`),
     "/doporuceni",

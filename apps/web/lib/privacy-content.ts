@@ -3,7 +3,11 @@ import { siteConfig } from "@/lib/site-config";
 
 const { email, phoneDisplay } = siteConfig.contact;
 
-type PrivacySection = { title: string; paragraphs: string[] };
+type PrivacySection = {
+  title: string;
+  paragraphs: string[];
+  links?: { href: string; label: string }[];
+};
 type PrivacyCopy = {
   title: string;
   description: string;
@@ -53,6 +57,12 @@ export const privacyCopy: Record<Locale, PrivacyCopy> = {
         paragraphs: [
           "Pokud přijdete na web s parametrem ?ref, uložím do HTTP-only cookie vantuch_referral identifikátor doporučení na nejvýše 30 dní. Díky tomu lze při pozdějším odeslání poptávky přiřadit doporučení bez toho, aby se ve formuláři zobrazovaly údaje doporučujícího. Identifikátor ověřuji na serveru. Zpracování slouží k evidenci doporučení a opírá se o oprávněný zájem (čl. 6 odst. 1 písm. f GDPR).",
           "Při návštěvě webu může poskytovatel hostingu Vercel zpracovávat technické údaje potřebné pro doručení stránky a zabezpečení provozu, například IP adresu a údaje o požadavku. Cloudflare Turnstile chrání formuláře před zneužitím a při ověření může zpracovat technické údaje o zařízení a požadavku.",
+        ],
+        links: [
+          {
+            href: "https://www.cloudflare.com/en-gb/turnstile-privacy-policy/",
+            label: "Cloudflare Turnstile Privacy Addendum",
+          },
         ],
       },
       {
@@ -122,6 +132,12 @@ export const privacyCopy: Record<Locale, PrivacyCopy> = {
         paragraphs: [
           "If you arrive with a ?ref URL parameter, I store the referral identifier in an HTTP-only cookie called vantuch_referral for up to 30 days. This lets me attribute a later inquiry without displaying the referrer's details in the form. I verify the identifier on the server. This processing supports referral records and is based on legitimate interests (GDPR Article 6(1)(f)).",
           "The hosting provider Vercel may process technical details needed to deliver and secure the site, such as an IP address and request data. Cloudflare Turnstile protects forms from abuse and may process technical device and request details during verification.",
+        ],
+        links: [
+          {
+            href: "https://www.cloudflare.com/en-gb/turnstile-privacy-policy/",
+            label: "Cloudflare Turnstile Privacy Addendum",
+          },
         ],
       },
       {

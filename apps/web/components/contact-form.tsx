@@ -31,7 +31,13 @@ function readInput(data: FormData): ContactInput {
   };
 }
 
-export function ContactForm({ locale }: { locale: Locale }) {
+export function ContactForm({
+  locale,
+  initialTopic,
+}: {
+  locale: Locale;
+  initialTopic?: string;
+}) {
   const t = contactFormCopy[locale];
   const [errors, setErrors] = useState<ContactErrors>({});
   const [status, setStatus] = useState<Status>("idle");
@@ -64,7 +70,7 @@ export function ContactForm({ locale }: { locale: Locale }) {
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
-    const topic = params.get("tema")?.trim();
+    const topic = params.get("tema")?.trim() || initialTopic?.trim();
     const automation = params.get("automation")?.trim();
     const selectedAutomation = automation
       ? getAutomationExamples(locale).find(
@@ -76,11 +82,14 @@ export function ContactForm({ locale }: { locale: Locale }) {
     const subject = selectedAutomation ?? topic;
     if (!subject || !message || message.value) return;
 
-    message.value =
-      locale === "cs"
+    message.value = selectedAutomation
+      ? locale === "cs"
         ? `Zajímá mě automatizace: ${subject}\n\n`
-        : `I'm interested in automation: ${subject}\n\n`;
-  }, [locale]);
+        : `I'm interested in automation: ${subject}\n\n`
+      : locale === "cs"
+        ? `Rád bych probral službu: ${subject}\n\n`
+        : `I'd like to discuss the service: ${subject}\n\n`;
+  }, [initialTopic, locale]);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
