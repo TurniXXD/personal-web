@@ -43,17 +43,10 @@ const VisualHeader = ({ slide }: { slide: AiUseCaseSlide }) => (
 );
 
 const VisualFooter = ({ slide }: { slide: AiUseCaseSlide }) => (
-  <>
-    <div className="ai-case-visual__summary">
-      <Check size={15} strokeWidth={2.4} aria-hidden="true" />
-      <strong>{slide.visual.summary}</strong>
-    </div>
-    {slide.visual.note && (
-      <figcaption className="ai-case-visual__note">
-        {slide.visual.note}
-      </figcaption>
-    )}
-  </>
+  <div className="ai-case-visual__summary">
+    <Check size={15} strokeWidth={2.4} aria-hidden="true" />
+    <strong>{slide.visual.summary}</strong>
+  </div>
 );
 
 const AiUseCaseVisualization = ({ slide }: { slide: AiUseCaseSlide }) => {
@@ -179,11 +172,6 @@ const AiUseCaseVisualization = ({ slide }: { slide: AiUseCaseSlide }) => {
           </div>
           <div className="ai-case-quotation__total">{slide.visual.summary}</div>
         </div>
-        {slide.visual.note && (
-          <figcaption className="ai-case-visual__note">
-            {slide.visual.note}
-          </figcaption>
-        )}
       </figure>
     );
   }

@@ -1,5 +1,11 @@
 import type { ErrorEvent } from "@sentry/nextjs";
 
+export const getSentryClientDsn = () =>
+  process.env.NEXT_PUBLIC_SENTRY_DSN?.trim();
+
+export const getSentryServerDsn = () =>
+  process.env.SENTRY_DSN?.trim() || getSentryClientDsn();
+
 export function sanitizeSentryEvent(event: ErrorEvent): ErrorEvent {
   // Form contents, referral signatures, and credentials never belong in diagnostics.
   delete event.user;
@@ -19,5 +25,10 @@ export function sanitizeSentryEvent(event: ErrorEvent): ErrorEvent {
 export const sentryOptions = {
   sendDefaultPii: false,
   tracesSampleRate: 0,
+  attachStacktrace: true,
+  environment:
+    process.env.NEXT_PUBLIC_SENTRY_ENVIRONMENT?.trim() ||
+    process.env.NODE_ENV ||
+    "development",
   beforeSend: sanitizeSentryEvent,
 };

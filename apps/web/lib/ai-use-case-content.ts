@@ -25,7 +25,6 @@ export type AiUseCaseSlide = {
     title: string;
     rows: AiUseCaseVisualRow[];
     summary: string;
-    note?: string;
     preview?: string;
     auxiliary?: string;
   };
@@ -79,7 +78,6 @@ const slides: LocalizedSlide[] = [
           { label: "Online samoobsluha", value: "+11 %", meta: "3 zdroje" },
         ],
         summary: "3 témata stojí tento týden za pozornost",
-        note: "Ukázková data z veřejných zdrojů",
       },
     },
     en: {
@@ -102,7 +100,6 @@ const slides: LocalizedSlide[] = [
           { label: "Online self-service", value: "+11%", meta: "3 sources" },
         ],
         summary: "3 topics are worth your attention this week",
-        note: "Illustrative data from public sources",
       },
     },
   },
@@ -128,7 +125,6 @@ const slides: LocalizedSlide[] = [
           { label: "Firemní blog", value: "Rozpracováno", meta: "Pá 08:00" },
         ],
         summary: "Tento týden jsou naplánované 3 výstupy",
-        note: "Před zveřejněním vždy proběhne kontrola člověkem",
       },
     },
     en: {
@@ -151,7 +147,6 @@ const slides: LocalizedSlide[] = [
           { label: "Company blog", value: "In progress", meta: "Fri 08:00" },
         ],
         summary: "3 pieces of content are scheduled this week",
-        note: "A person reviews every item before publication",
       },
     },
   },
@@ -178,7 +173,6 @@ const slides: LocalizedSlide[] = [
           { label: "Termín", value: "3. čtvrtletí" },
         ],
         summary: "Záznam v CRM je připravený ke kontrole",
-        note: "Fiktivní ukázková poptávka",
         preview: "Máme zájem o klientský portál pro naše zákazníky…",
       },
     },
@@ -203,7 +197,6 @@ const slides: LocalizedSlide[] = [
           { label: "Timeline", value: "Q3" },
         ],
         summary: "The CRM record is ready for review",
-        note: "Fictional example enquiry",
         preview: "We are interested in a customer portal for our clients…",
       },
     },
@@ -230,7 +223,6 @@ const slides: LocalizedSlide[] = [
           { label: "Nasazení a školení", value: "9 500 Kč", meta: "1 celek" },
         ],
         summary: "Celkem 105 500 Kč bez DPH",
-        note: "Fiktivní nabídka · návrh čeká na schválení",
       },
     },
     en: {
@@ -265,7 +257,6 @@ const slides: LocalizedSlide[] = [
           },
         ],
         summary: "Total CZK 105,500 excl. VAT",
-        note: "Fictional quotation · draft awaiting approval",
       },
     },
   },
@@ -303,7 +294,6 @@ const slides: LocalizedSlide[] = [
           },
         ],
         summary: "Doporučení: zpřesnit informace o stavu objednávky",
-        note: "Fiktivní recenze a souhrn",
         preview:
           "Rychlé doručení, ale chyběla mi průběžná informace o objednávce.",
         auxiliary: "98 recenzí",
@@ -341,7 +331,6 @@ const slides: LocalizedSlide[] = [
           },
         ],
         summary: "Recommendation: clarify order status updates",
-        note: "Fictional reviews and summary",
         preview: "Fast delivery, but I missed ongoing updates about my order.",
         auxiliary: "98 reviews",
       },
@@ -377,7 +366,6 @@ const slides: LocalizedSlide[] = [
           },
         ],
         summary: "3 doporučení jsou připravená k aktualizaci v e-shopu",
-        note: "Ilustrační příklady, nikoli skutečná analytická data",
       },
     },
     en: {
@@ -408,7 +396,6 @@ const slides: LocalizedSlide[] = [
           },
         ],
         summary: "3 recommendations are ready to update in the store",
-        note: "Illustrative examples, not real analytics data",
       },
     },
   },

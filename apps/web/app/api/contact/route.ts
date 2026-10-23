@@ -1,7 +1,7 @@
 import { Resend } from "resend";
-import { captureMessage } from "@sentry/nextjs";
 import { randomUUID } from "node:crypto";
 import { cookies } from "next/headers";
+import { apiErrorResponse } from "@/lib/api-error-response";
 import { validateContactInput } from "@/lib/contact-submission";
 import { referralCookie, verifyReferralToken } from "@/lib/referral-token";
 import { siteConfig } from "@/lib/site-config";
@@ -9,6 +9,7 @@ import { configuredTwenty } from "@/lib/twenty";
 import { verifyTurnstile } from "@/lib/turnstile";
 
 const defaultFrom = "Jakub Vantuch <onboarding@resend.dev>";
+const endpoint = "contact";
 
 function escapeHtml(value: string): string {
   return value
@@ -24,14 +25,23 @@ export async function POST(request: Request) {
   try {
     const raw = await request.text();
     if (raw.length > 16_000) {
-      return Response.json({ ok: false, message: "tooLarge" }, { status: 413 });
+      return apiErrorResponse({
+        body: { ok: false, message: "tooLarge" },
+        status: 413,
+        code: "too_large",
+        endpoint,
+        message: "Contact request body is too large",
+      });
     }
     body = JSON.parse(raw);
   } catch {
-    return Response.json(
-      { ok: false, message: "invalidBody" },
-      { status: 400 },
-    );
+    return apiErrorResponse({
+      body: { ok: false, message: "invalidBody" },
+      status: 400,
+      code: "invalid_body",
+      endpoint,
+      message: "Contact request body is invalid",
+    });
   }
 
   if (body && typeof body === "object" && "fax" in body && body.fax) {
@@ -40,7 +50,14 @@ export async function POST(request: Request) {
 
   const { input, errors } = validateContactInput(body);
   if (Object.keys(errors).length > 0) {
-    return Response.json({ ok: false, formErrors: errors }, { status: 400 });
+    return apiErrorResponse({
+      body: { ok: false, formErrors: errors },
+      status: 400,
+      code: "validation_failed",
+      endpoint,
+      message: "Contact request validation failed",
+      context: { invalidFields: Object.keys(errors) },
+    });
   }
 
   const turnstile = await verifyTurnstile(
@@ -50,16 +67,18 @@ export async function POST(request: Request) {
     "contact",
   );
   if (!turnstile.ok) {
-    return Response.json(
-      {
+    const notConfigured = turnstile.reason === "notConfigured";
+    return apiErrorResponse({
+      body: {
         ok: false,
-        message:
-          turnstile.reason === "notConfigured"
-            ? "notConfigured"
-            : "turnstileFailed",
+        message: notConfigured ? "notConfigured" : "turnstileFailed",
       },
-      { status: turnstile.reason === "notConfigured" ? 503 : 400 },
-    );
+      status: notConfigured ? 503 : 400,
+      code: notConfigured ? "turnstile_not_configured" : "turnstile_failed",
+      endpoint,
+      message: "Contact Turnstile verification failed",
+      reported: true,
+    });
   }
 
   const apiKey = process.env.RESEND_API_KEY;
@@ -70,14 +89,14 @@ export async function POST(request: Request) {
       "TWENTY_BASE_URL",
       "TWENTY_API_KEY",
     ].filter((name) => !process.env[name]?.trim());
-    console.error(
-      "Contact delivery is not configured. Missing environment variables:",
-      missing.join(", "),
-    );
-    return Response.json(
-      { ok: false, message: "notConfigured" },
-      { status: 503 },
-    );
+    return apiErrorResponse({
+      body: { ok: false, message: "notConfigured" },
+      status: 503,
+      code: "delivery_not_configured",
+      endpoint,
+      message: "Contact delivery is not configured",
+      context: { missingEnvironmentVariables: missing },
+    });
   }
 
   const token = (await cookies()).get(referralCookie)?.value;
@@ -85,31 +104,42 @@ export async function POST(request: Request) {
   if (token) {
     const secret = process.env.TWENTY_REFERRAL_SECRET;
     if (!secret)
-      return Response.json(
-        { ok: false, message: "notConfigured" },
-        { status: 503 },
-      );
+      return apiErrorResponse({
+        body: { ok: false, message: "notConfigured" },
+        status: 503,
+        code: "referral_not_configured",
+        endpoint,
+        message: "Contact referral attribution is not configured",
+      });
     const referrerId = verifyReferralToken(token, secret);
     if (!referrerId)
-      return Response.json(
-        { ok: false, message: "invalidReferral" },
-        { status: 400 },
-      );
+      return apiErrorResponse({
+        body: { ok: false, message: "invalidReferral" },
+        status: 400,
+        code: "invalid_referral",
+        endpoint,
+        message: "Contact referral token is invalid",
+      });
     try {
       referrer = await twenty.findPersonById(referrerId);
     } catch (error) {
-      console.error("Twenty referrer lookup failed:", error);
-      captureMessage("Twenty referrer lookup failed", "error");
-      return Response.json(
-        { ok: false, message: "sendFailed" },
-        { status: 502 },
-      );
+      return apiErrorResponse({
+        body: { ok: false, message: "sendFailed" },
+        status: 502,
+        code: "referrer_lookup_failed",
+        endpoint,
+        message: "Twenty referrer lookup failed",
+        error,
+      });
     }
     if (!referrer?.emails?.primaryEmail)
-      return Response.json(
-        { ok: false, message: "invalidReferral" },
-        { status: 400 },
-      );
+      return apiErrorResponse({
+        body: { ok: false, message: "invalidReferral" },
+        status: 400,
+        code: "referrer_not_found",
+        endpoint,
+        message: "Contact referrer was not found",
+      });
   }
 
   const requestedId =
@@ -126,9 +156,14 @@ export async function POST(request: Request) {
   try {
     await twenty.saveContact(input, submissionId, referrer);
   } catch (error) {
-    console.error("Twenty contact persistence failed:", error);
-    captureMessage("Twenty contact persistence failed", "error");
-    return Response.json({ ok: false, message: "sendFailed" }, { status: 502 });
+    return apiErrorResponse({
+      body: { ok: false, message: "sendFailed" },
+      status: 502,
+      code: "contact_persistence_failed",
+      endpoint,
+      message: "Twenty contact persistence failed",
+      error,
+    });
   }
 
   const entries = [
@@ -165,17 +200,24 @@ export async function POST(request: Request) {
       { idempotencyKey: `web-contact/${submissionId}` },
     );
     if (error) {
-      console.error("Contact email delivery failed:", error);
-      captureMessage("Contact email delivery failed", "error");
-      return Response.json(
-        { ok: false, message: "sendFailed" },
-        { status: 502 },
-      );
+      return apiErrorResponse({
+        body: { ok: false, message: "sendFailed" },
+        status: 502,
+        code: "email_delivery_failed",
+        endpoint,
+        message: "Contact email delivery failed",
+        error: new Error("Resend rejected contact email delivery"),
+      });
     }
   } catch (error) {
-    console.error("Contact email delivery failed:", error);
-    captureMessage("Contact email delivery failed", "error");
-    return Response.json({ ok: false, message: "sendFailed" }, { status: 502 });
+    return apiErrorResponse({
+      body: { ok: false, message: "sendFailed" },
+      status: 502,
+      code: "email_delivery_failed",
+      endpoint,
+      message: "Contact email delivery failed",
+      error,
+    });
   }
 
   return Response.json({ ok: true });

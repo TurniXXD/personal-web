@@ -1,4 +1,5 @@
 import { expect, test } from "@playwright/test";
+import { apiErrorResponse } from "../lib/api-error-response";
 import { verifyTurnstile } from "../lib/turnstile";
 import { sanitizeSentryEvent } from "../lib/sentry-options";
 
@@ -108,9 +109,30 @@ test("Sentry diagnostics strip form bodies, cookies, credentials and referral si
   expect(event.exception?.values?.[0]?.value).toBe("Unexpected error");
 });
 
+test("API error reporting preserves the intended public response", async () => {
+  const response = apiErrorResponse({
+    body: { ok: false, message: "invalidBody" },
+    status: 400,
+    code: "invalid_body",
+    endpoint: "test",
+    message: "Test request body is invalid",
+    context: { invalidFields: ["email"] },
+  });
+
+  expect(response.status).toBe(400);
+  expect(await response.json()).toEqual({
+    ok: false,
+    message: "invalidBody",
+  });
+});
+
 test("cookie choices persist, can be reopened, and block analytics before consent", async ({
   page,
+  request,
 }) => {
+  const initialDocument = await request.get("/");
+  expect(await initialDocument.text()).toContain("Cookies a analytika");
+
   const analytics: string[] = [];
   await page.route(/clarity\.ms|cloudflareinsights\.com/, (route) => {
     analytics.push(route.request().url());
@@ -123,6 +145,9 @@ test("cookie choices persist, can be reopened, and block analytics before consen
   await page.goto("/");
   const banner = page.getByRole("complementary", { name: "Nastavení cookies" });
   await expect(banner).toBeVisible();
+  await expect(
+    banner.getByRole("button", { name: "Povolit analytiku" }),
+  ).toHaveCSS("background-color", "rgb(83, 96, 239)");
   expect(analytics).toEqual([]);
   await banner.getByRole("button", { name: "Pouze nezbytné" }).click();
   await page.reload();

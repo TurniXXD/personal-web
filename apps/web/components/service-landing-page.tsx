@@ -11,6 +11,7 @@ import {
   MessagesSquare,
   Network,
   Settings2,
+  ShieldCheck,
   Store,
   type LucideIcon,
 } from "lucide-react";
@@ -57,6 +58,7 @@ const serviceIcons: Record<ServiceIconName, LucideIcon> = {
   network: Network,
   gauge: Gauge,
   code: Code2,
+  shield: ShieldCheck,
   settings: Settings2,
   store: Store,
 };

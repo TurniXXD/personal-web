@@ -131,8 +131,16 @@ export function TurnstileWidget({
   if (!siteKey) return null;
 
   return (
-    <div className="turnstile-widget">
-      <div ref={containerRef} aria-label="Cloudflare Turnstile" />
+    <div
+      className="turnstile-widget"
+      role="group"
+      aria-label={
+        locale === "cs"
+          ? "Ochrana formuláře Cloudflare Turnstile"
+          : "Cloudflare Turnstile form protection"
+      }
+    >
+      <div ref={containerRef} />
       {failed ? (
         <p role="alert">
           {locale === "cs"

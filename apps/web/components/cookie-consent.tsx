@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import { localizedPath, type Locale } from "@/lib/content";
 
 const storageKey = "vantuch_cookie_consent_v1";
@@ -84,9 +84,12 @@ export function CookieConsent({
   cloudflareAnalyticsToken?: string;
 }) {
   const [consent, setConsent] = useState<Consent | null>(null);
-  const [open, setOpen] = useState(false);
+  // Render the first-visit notice in the initial HTML. Besides avoiding a
+  // layout shift, this keeps the banner from becoming a late LCP candidate
+  // after the client bundle hydrates.
+  const [open, setOpen] = useState(true);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const initial = readConsent();
     setConsent(initial);
     setOpen(initial === null);

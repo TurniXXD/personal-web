@@ -278,6 +278,18 @@ test("contact actions follow the contact form on mobile", async ({ page }) => {
   const actions = page.locator("#contact .contact-section__actions");
   await expect(form).toBeVisible();
   await expect(actions).toBeVisible();
+  await expect(form.getByRole("heading", { level: 3 })).toHaveCSS(
+    "font-size",
+    "18.4px",
+  );
+  await expect(form.locator("#contact-message")).toHaveCSS(
+    "font-size",
+    "14.4px",
+  );
+  await expect(form.locator(".form-privacy-notice")).toHaveCSS(
+    "font-size",
+    "10.88px",
+  );
   const formBox = await form.boundingBox();
   const actionsBox = await actions.boundingBox();
   expect(formBox).not.toBeNull();
@@ -419,7 +431,7 @@ test("services navigation groups all service routes in an accessible dropdown", 
   await trigger.focus();
   await trigger.press("Enter");
   await expect(dropdown).toHaveAttribute("open", "");
-  await expect(serviceLinks).toHaveCount(5);
+  await expect(serviceLinks).toHaveCount(6);
   expect(
     await serviceLinks.evaluateAll((elements) =>
       elements.map((element) => element.getAttribute("href")),
@@ -430,7 +442,12 @@ test("services navigation groups all service routes in an accessible dropdown", 
     "/sluzby/ai-reseni",
     "/sluzby/vernostni-programy",
     "/sluzby/darkove-poukazy",
+    "/sluzby/audit-ai-aplikaci",
   ]);
+  await expect(serviceLinks.last()).toContainText(
+    "Bezpečnost, výkon a dokončení AI aplikací",
+  );
+  await expect(serviceLinks.last().locator("svg")).toHaveCount(1);
 
   await page.setViewportSize({ width: 375, height: 844 });
   await page.goto("/");
@@ -438,7 +455,7 @@ test("services navigation groups all service routes in an accessible dropdown", 
   const mobileServices = page.locator(".site-header__mobile-services");
   await mobileServices.locator("> summary").click();
   await expect(mobileServices).toHaveAttribute("open", "");
-  await expect(mobileServices.locator("a")).toHaveCount(5);
+  await expect(mobileServices.locator("a")).toHaveCount(6);
 });
 
 test("web applications service page presents real work and contact flow", async ({
@@ -452,7 +469,10 @@ test("web applications service page presents real work and contact flow", async 
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
     "Webové aplikace na míru.",
   );
-  await expect(page.locator(".service-offering-card")).toHaveCount(3);
+  await expect(page.locator(".service-offering-card")).toHaveCount(4);
+  await expect(
+    page.getByRole("heading", { name: "Audit vibecoded aplikací" }),
+  ).toBeVisible();
   await expect(
     page.getByRole("heading", { name: "E-shopy na Shoptetu" }),
   ).toBeVisible();
@@ -481,7 +501,7 @@ test("web applications service page presents real work and contact flow", async 
     "rgb(23, 30, 60)",
   );
   await expect(page.locator(".service-process-step")).toHaveCount(5);
-  await expect(page.locator(".service-related__links a")).toHaveCount(2);
+  await expect(page.locator(".service-related__links a")).toHaveCount(3);
   await expect(
     page.getByRole("heading", {
       name: "Potřebujete pomoci i s marketingem?",
@@ -504,7 +524,14 @@ test("all web service cards are stable accessible links to valid detail pages", 
     "/sluzby/webove-aplikace-na-miru",
     "/sluzby/shoptet",
     "/sluzby/vernostni-programy",
+    "/sluzby/audit-ai-aplikaci",
     "/sluzby/darkove-poukazy",
+  ];
+  const expectedOfferingPaths = [
+    "/sluzby/firemni-weby",
+    "/sluzby/webove-aplikace-na-miru",
+    "/sluzby/shoptet",
+    "/sluzby/audit-ai-aplikaci",
   ];
   expect(serviceDetailSlugs.map((slug) => `/sluzby/${slug}`)).toEqual(
     expectedPaths,
@@ -524,15 +551,15 @@ test("all web service cards are stable accessible links to valid detail pages", 
     waitUntil: "domcontentloaded",
   });
   const cards = page.locator(".service-offering-card");
-  await expect(cards).toHaveCount(3);
+  await expect(cards).toHaveCount(4);
   expect(
     await cards.evaluateAll((items) => items.map((item) => item.tagName)),
-  ).toEqual(Array(3).fill("A"));
+  ).toEqual(Array(4).fill("A"));
   expect(
     await cards.evaluateAll((items) =>
       items.map((item) => item.getAttribute("href")),
     ),
-  ).toEqual(expectedPaths.slice(0, 3));
+  ).toEqual(expectedOfferingPaths);
   await expect(
     page.getByRole("heading", { name: "Dárkové poukazy" }),
   ).toHaveCount(0);
@@ -625,6 +652,48 @@ test("all web service cards are stable accessible links to valid detail pages", 
   );
 });
 
+test("AI application audit page is complete, localized and production-oriented", async ({
+  page,
+}) => {
+  await page.goto("/sluzby/audit-ai-aplikaci");
+
+  await expect(page).toHaveTitle(
+    "Audit AI aplikací a vibecoded MVP | Jakub Vantuch",
+  );
+  await expect(page.getByRole("heading", { level: 1 })).toContainText(
+    "Vytvořili jste aplikaci pomocí AI?",
+  );
+  await expect(page.getByRole("heading", { level: 1 })).toContainText(
+    "Připravím ji na reálný provoz.",
+  );
+  await expect(page.locator(".service-detail-workflow article")).toHaveCount(6);
+  await expect(page.locator(".service-detail-section")).toHaveCount(3);
+  await expect(
+    page.locator(".service-detail-use-cases__list article"),
+  ).toHaveCount(3);
+  await expect(page.locator(".service-detail-faq details")).toHaveCount(7);
+  await expect(page.locator("#contact-message")).toHaveValue(
+    /Rád bych probral službu: Audit vibecoded aplikací/,
+  );
+  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
+    "href",
+    "https://vantuch.dev/sluzby/audit-ai-aplikaci",
+  );
+  await expect
+    .poll(() =>
+      page.locator('script[type="application/ld+json"]').textContent(),
+    )
+    .toContain("Audit vibecoded aplikací");
+
+  await page.goto("/en/sluzby/audit-ai-aplikaci");
+  await expect(page).toHaveTitle(
+    "AI application and vibecoded MVP audits | Jakub Vantuch",
+  );
+  await expect(page.getByRole("heading", { level: 1 })).toContainText(
+    "Built an application with AI?",
+  );
+});
+
 test("loyalty programme demo updates only after the staff confirmation action", async ({
   page,
 }) => {
@@ -653,6 +722,9 @@ test("loyalty programme demo updates only after the staff confirmation action", 
   await expect(
     page.getByRole("heading", { name: "Přehled věrnostního programu" }),
   ).toBeVisible();
+  await expect(
+    page.locator(".service-detail-demo + .service-detail-benefits"),
+  ).toHaveCount(1);
   await expect(page.getByText("Aktivní zákazníci")).toBeVisible();
   await expect(page.locator("#contact-message")).toHaveValue(
     /Rád bych probral službu: Digitální věrnostní programy/,
@@ -662,7 +734,14 @@ test("loyalty programme demo updates only after the staff confirmation action", 
   );
   await expect(page.locator(".service-detail-section")).toHaveCount(2);
   await expect(page.locator(".service-detail-workflow article")).toHaveCount(4);
+  await expect(page.locator(".service-detail-use-cases")).toHaveCount(0);
   await expect(page.locator(".service-detail-final-cta")).toHaveCount(0);
+
+  await page.setViewportSize({ width: 390, height: 844 });
+  await expect(page.locator("#administrace .service-detail-card")).toHaveCount(
+    4,
+  );
+  await expect(page.locator(".loyalty-admin-preview")).toBeHidden();
 });
 
 test("gift voucher demo clearly simulates payment, PDF and redemption states", async ({
@@ -729,9 +808,15 @@ test("priority service detail pages stay usable without horizontal overflow on m
   for (const path of [
     "/sluzby/vernostni-programy",
     "/sluzby/darkove-poukazy",
+    "/sluzby/audit-ai-aplikaci",
   ]) {
     await page.goto(path, { waitUntil: "domcontentloaded" });
     await expect(page.locator("main.service-detail")).toBeVisible();
+    if (path === "/sluzby/audit-ai-aplikaci") {
+      await expect(
+        page.locator(".service-detail-hero .service-detail-visual"),
+      ).toBeHidden();
+    }
     const overflow = await page.evaluate(
       () => document.documentElement.scrollWidth - window.innerWidth,
     );
@@ -914,9 +999,9 @@ test("AI use-case carousel keeps only compact text content on mobile", async ({
   await expect(activeSlide.locator(".ai-case-visual")).toBeHidden();
   await expect(workflowSteps.first()).toHaveCSS("min-height", "28px");
   expect(
-    await workflowSteps.first().evaluate((step) =>
-      Number.parseFloat(getComputedStyle(step).columnGap),
-    ),
+    await workflowSteps
+      .first()
+      .evaluate((step) => Number.parseFloat(getComputedStyle(step).columnGap)),
   ).toBeLessThanOrEqual(7);
 });
 

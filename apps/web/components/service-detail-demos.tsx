@@ -44,7 +44,6 @@ export const LoyaltyCardDemo = ({ locale }: { locale: Locale }) => {
   const copy =
     locale === "cs"
       ? {
-          illustrative: "ILUSTRATIVNÍ UKÁZKA",
           card: "Věrnostní karta",
           visits: `${visits} z 10 návštěv`,
           remaining: rewardReady
@@ -55,14 +54,13 @@ export const LoyaltyCardDemo = ({ locale }: { locale: Locale }) => {
           history: "Poslední aktivita",
           activity: "Relaxační masáž · potvrzeno obsluhou",
           confirm: "Potvrdit návštěvu obsluhou",
-          success: "Návštěva byla v ukázce připsána.",
+          success: "Návštěva byla připsána.",
           reset: "Obnovit ukázku",
           qr: "Ilustrativní QR kód zákaznické karty",
           staff: "Rozhraní obsluhy",
-          verified: "Zákazník bezpečně identifikován",
+          verified: "Zákazník identifikován",
         }
       : {
-          illustrative: "ILLUSTRATIVE DEMO",
           card: "Loyalty card",
           visits: `${visits} of 10 visits`,
           remaining: rewardReady
@@ -73,11 +71,11 @@ export const LoyaltyCardDemo = ({ locale }: { locale: Locale }) => {
           history: "Latest activity",
           activity: "Relaxing massage · confirmed by staff",
           confirm: "Confirm a staff-verified visit",
-          success: "The demo visit has been added.",
+          success: "The visit has been added.",
           reset: "Reset demo",
           qr: "Illustrative customer card QR code",
           staff: "Staff interface",
-          verified: "Customer securely identified",
+          verified: "Customer identified",
         };
 
   useEffect(() => setReady(true), []);
@@ -93,7 +91,6 @@ export const LoyaltyCardDemo = ({ locale }: { locale: Locale }) => {
       <article className="loyalty-demo__card">
         <div className="loyalty-demo__card-top">
           <div>
-            <span>{copy.illustrative}</span>
             <strong>{copy.card}</strong>
           </div>
           <Sparkles size={22} aria-hidden="true" />

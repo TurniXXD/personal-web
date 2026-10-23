@@ -39,14 +39,26 @@ export function SiteHeader({
     {
       href: "/sluzby/webove-aplikace",
       label: locale === "cs" ? "Weby a aplikace" : "Websites and apps",
+      description:
+        locale === "cs"
+          ? "Weby, portály a aplikace na míru"
+          : "Custom websites, portals and applications",
     },
     {
       href: "/automatizace",
       label: locale === "cs" ? "Automatizace procesů" : "Process automation",
+      description:
+        locale === "cs"
+          ? "Méně ruční práce a propojené systémy"
+          : "Less manual work and connected systems",
     },
     {
       href: "/sluzby/ai-reseni",
       label: locale === "cs" ? "AI řešení" : "AI solutions",
+      description:
+        locale === "cs"
+          ? "Praktická práce s daty a dokumenty"
+          : "Practical work with data and documents",
     },
     {
       href: "/sluzby/vernostni-programy",
@@ -54,10 +66,30 @@ export function SiteHeader({
         locale === "cs"
           ? "Digitální věrnostní programy"
           : "Digital loyalty programmes",
+      description:
+        locale === "cs"
+          ? "Odměny a návraty zákazníků"
+          : "Rewards and returning customers",
     },
     {
       href: "/sluzby/darkove-poukazy",
       label: locale === "cs" ? "Dárkové poukazy" : "Gift vouchers",
+      description:
+        locale === "cs"
+          ? "Online prodej, PDF a uplatnění"
+          : "Online sales, PDFs and redemption",
+    },
+    {
+      href: "/sluzby/audit-ai-aplikaci",
+      label:
+        locale === "cs"
+          ? "Audit vibecoded aplikací"
+          : "Vibecoded application audit",
+      description:
+        locale === "cs"
+          ? "Bezpečnost, výkon a dokončení AI aplikací"
+          : "Security, performance and AI app completion",
+      icon: "shield" as const,
     },
   ];
 
@@ -133,7 +165,10 @@ export function SiteHeader({
               <div>
                 {serviceLinks.map((item) => (
                   <a href={localizedPath(locale, item.href)} key={item.href}>
-                    {item.label}
+                    <span>
+                      <strong>{item.label}</strong>
+                      <small>{item.description}</small>
+                    </span>
                   </a>
                 ))}
               </div>

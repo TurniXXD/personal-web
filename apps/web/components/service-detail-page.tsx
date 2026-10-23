@@ -82,9 +82,10 @@ const DetailHeroVisual = ({ locale, slug }: ServiceDetailPageProps) => {
           <div className="service-detail-visual__signal">
             <CircleGauge size={20} aria-hidden="true" />
             <span>
-              {locale === "cs"
-                ? "Řešení přizpůsobené vašemu provozu"
-                : "A solution fitted to your operation"}
+              {content.visual.signal ??
+                (locale === "cs"
+                  ? "Řešení přizpůsobené vašemu provozu"
+                  : "A solution fitted to your operation")}
             </span>
             <i />
           </div>
@@ -92,11 +93,12 @@ const DetailHeroVisual = ({ locale, slug }: ServiceDetailPageProps) => {
       </div>
       <div className="service-detail-visual__chip service-detail-visual__chip--top">
         <Sparkles size={16} aria-hidden="true" />
-        {locale === "cs" ? "Na míru" : "Tailored"}
+        {content.visual.topChip ?? (locale === "cs" ? "Na míru" : "Tailored")}
       </div>
       <div className="service-detail-visual__chip service-detail-visual__chip--bottom">
         <Layers3 size={16} aria-hidden="true" />
-        {locale === "cs" ? "Připravené k rozvoji" : "Ready to evolve"}
+        {content.visual.bottomChip ??
+          (locale === "cs" ? "Připravené k rozvoji" : "Ready to evolve")}
       </div>
     </div>
   );
@@ -178,6 +180,30 @@ export const ServiceDetailPage = ({ locale, slug }: ServiceDetailPageProps) => {
       },
     ],
   };
+  const demoSection =
+    content.demo && content.demoCopy ? (
+      <section
+        className="section service-detail-demo"
+        aria-labelledby="service-demo-title"
+      >
+        <div className="site-container">
+          <ScrollReveal className="service-detail-heading">
+            <p className="eyebrow">{content.demoCopy.eyebrow}</p>
+            <h2 id="service-demo-title">{content.demoCopy.title}</h2>
+            {content.demoCopy.description ? (
+              <p>{content.demoCopy.description}</p>
+            ) : null}
+          </ScrollReveal>
+          <ScrollReveal>
+            {content.demo === "loyalty" ? (
+              <LoyaltyCardDemo locale={locale} />
+            ) : (
+              <VoucherDemo locale={locale} />
+            )}
+          </ScrollReveal>
+        </div>
+      </section>
+    ) : null;
 
   return (
     <>
@@ -206,14 +232,22 @@ export const ServiceDetailPage = ({ locale, slug }: ServiceDetailPageProps) => {
             <div className="service-detail-hero__grid">
               <div className="service-detail-hero__content">
                 <p className="eyebrow">{content.hero.eyebrow}</p>
-                <h1 id="service-detail-title">{content.hero.title}</h1>
+                <h1 id="service-detail-title">
+                  {content.hero.title}
+                  {content.hero.highlight ? (
+                    <span>{content.hero.highlight}</span>
+                  ) : null}
+                </h1>
                 <p>{content.hero.description}</p>
                 <div className="service-detail-hero__actions">
                   <ActionLink href="#contact">
                     {content.hero.primary}{" "}
                     <ArrowRight size={17} aria-hidden="true" />
                   </ActionLink>
-                  <ActionLink href="#jak-to-funguje" variant="secondary">
+                  <ActionLink
+                    href={content.hero.secondaryHref ?? "#jak-to-funguje"}
+                    variant="secondary"
+                  >
                     {content.hero.secondary}
                   </ActionLink>
                 </div>
@@ -222,6 +256,8 @@ export const ServiceDetailPage = ({ locale, slug }: ServiceDetailPageProps) => {
             </div>
           </div>
         </section>
+
+        {slug === "vernostni-programy" ? demoSection : null}
 
         <section
           className="section service-detail-benefits"
@@ -248,29 +284,7 @@ export const ServiceDetailPage = ({ locale, slug }: ServiceDetailPageProps) => {
           </div>
         </section>
 
-        {content.demo && content.demoCopy && (
-          <section
-            className="section service-detail-demo"
-            aria-labelledby="service-demo-title"
-          >
-            <div className="site-container">
-              <ScrollReveal className="service-detail-heading">
-                <p className="eyebrow">{content.demoCopy.eyebrow}</p>
-                <h2 id="service-demo-title">{content.demoCopy.title}</h2>
-                {content.demoCopy.description ? (
-                  <p>{content.demoCopy.description}</p>
-                ) : null}
-              </ScrollReveal>
-              <ScrollReveal>
-                {content.demo === "loyalty" ? (
-                  <LoyaltyCardDemo locale={locale} />
-                ) : (
-                  <VoucherDemo locale={locale} />
-                )}
-              </ScrollReveal>
-            </div>
-          </section>
-        )}
+        {slug !== "vernostni-programy" ? demoSection : null}
 
         <section
           className="section service-detail-workflow"
@@ -333,7 +347,7 @@ export const ServiceDetailPage = ({ locale, slug }: ServiceDetailPageProps) => {
           </section>
         ))}
 
-        {slug !== "darkove-poukazy" ? (
+        {slug !== "darkove-poukazy" && slug !== "vernostni-programy" ? (
           <section
             className="section service-detail-use-cases"
             aria-labelledby="detail-cases-title"

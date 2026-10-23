@@ -9,6 +9,7 @@ export const allServiceDetailSlugs = [
   "vernostni-programy",
   "webova-analytika",
   "crm",
+  "audit-ai-aplikaci",
   "darkove-poukazy",
 ] as const;
 
@@ -19,6 +20,7 @@ export const serviceDetailSlugs = [
   "webove-aplikace-na-miru",
   "shoptet",
   "vernostni-programy",
+  "audit-ai-aplikaci",
   "darkove-poukazy",
 ] as const satisfies readonly ServiceDetailSlug[];
 
@@ -46,14 +48,19 @@ export type ServiceDetailCopy = {
   hero: {
     eyebrow: string;
     title: string;
+    highlight?: string;
     description: string;
     primary: string;
     secondary: string;
+    secondaryHref?: string;
   };
   visual: {
     badge: string;
     title: string;
     items: string[];
+    signal?: string;
+    topChip?: string;
+    bottomChip?: string;
   };
   benefits: {
     eyebrow: string;
@@ -92,6 +99,267 @@ export type ServiceDetailCopy = {
     description: string;
     action: string;
   };
+};
+
+const auditCs: ServiceDetailCopy = {
+  meta: {
+    title: "Audit AI aplikací a vibecoded MVP | Jakub Vantuch",
+    description:
+      "Vytvořili jste aplikaci pomocí AI? Nabízím audit bezpečnosti, výkonu a kvality kódu, opravy chyb a dokončení MVP pro reálný provoz.",
+  },
+  name: "Audit vibecoded aplikací",
+  hero: {
+    eyebrow: "AUDIT AI APLIKACÍ",
+    title: "Vytvořili jste aplikaci pomocí AI?",
+    highlight: "Připravím ji na reálný provoz.",
+    description:
+      "Prověřím bezpečnost, výkon a kvalitu kódu vaší aplikace. Odhalím rizika, navrhnu konkrétní řešení a pomůžu s opravami, nasazením i dalším vývojem.",
+    primary: "Nechat zkontrolovat aplikaci",
+    secondary: "Co všechno kontroluji",
+    secondaryHref: "#co-proverim",
+  },
+  visual: {
+    badge: "PŘIPRAVENOST NA PRODUKCI",
+    title: "Kontrola aplikace podle reálných rizik",
+    items: ["Bezpečnost", "Výkon", "Kvalita kódu"],
+    signal: "Ilustrační přehled oblastí technického auditu",
+    topChip: "Priority zjištění",
+    bottomChip: "Plán nápravy",
+  },
+  benefits: {
+    eyebrow: "OD PROTOTYPU K PROVOZU",
+    title: "Fungující aplikace ještě nemusí být připravená na produkci.",
+    description:
+      "AI nástroje dokážou výrazně urychlit vznik prototypu. Funkční rozhraní ale samo nepotvrzuje, že jsou správně vyřešené přístupy, data, provoz a další rozvoj.",
+    items: [
+      {
+        title: "Funguje v demu",
+        description:
+          "Hlavní scénář projde, ale nemusí být prověřené role, chybové stavy, databázové dotazy ani konfigurace nasazení.",
+      },
+      {
+        title: "Funguje bezpečně v reálném provozu",
+        description:
+          "Aplikace počítá s oprávněními, ochranou dat, monitoringem, zálohami a situacemi, které při ukázce běžně nenastanou.",
+      },
+      {
+        title: "Navazuji na to, co už máte",
+        description:
+          "Výchozím cílem není vše přepsat. Zachovám použitelné části a doporučím změny tam, kde mají skutečný přínos.",
+      },
+    ],
+  },
+  workflow: {
+    eyebrow: "ROZSAH AUDITU",
+    title: "Co ve vaší aplikaci prověřím",
+    description:
+      "Rozsah přizpůsobím stavu projektu a tomu, zda řešíte spuštění, konkrétní problém nebo dlouhodobou udržitelnost.",
+    steps: [
+      {
+        title: "Bezpečnost aplikace",
+        description:
+          "Přihlášení, oprávnění, API, databázová pravidla, tajné klíče, závislosti a běžné webové zranitelnosti.",
+      },
+      {
+        title: "Výkon a optimalizace",
+        description:
+          "Načítání, dotazy, cache, zbytečné požadavky, využití zdrojů a možná úzká místa.",
+      },
+      {
+        title: "Kvalita kódu a architektura",
+        description:
+          "Struktura, duplicity, typová bezpečnost, závislosti, práce s chybami a technický dluh.",
+      },
+      {
+        title: "Data a soukromí",
+        description:
+          "Práce s osobními údaji, přístupy, doba uchování, souhlasy a technická opatření pro ochranu soukromí.",
+      },
+      {
+        title: "Nasazení a infrastruktura",
+        description:
+          "Hosting, proměnné prostředí, CI/CD, zálohy, logování, monitoring a spolehlivost nasazení.",
+      },
+      {
+        title: "Testování a spolehlivost",
+        description:
+          "Kritické uživatelské cesty, automatické testy, okrajové situace, selhání a rizika regresí.",
+      },
+    ],
+  },
+  sections: [
+    {
+      id: "moznosti-spoluprace",
+      eyebrow: "NEJEN KONTROLA",
+      title: "Nejen kontrola. Pomůžu vám aplikaci i dokončit.",
+      description:
+        "Můžete si odnést samostatné technické posouzení, nebo na něj rovnou navázat opravami a dalším vývojem.",
+      tone: "navy",
+      items: [
+        {
+          title: "Technický audit",
+          description:
+            "Projdu dohodnutý rozsah aplikace, pojmenuji problémy a rizika, určím priority a připravím praktický plán nápravy.",
+        },
+        {
+          title: "Opravy a optimalizace",
+          description:
+            "Opravím zjištěné chyby a zranitelnosti, zlepším výkon a kvalitu kódu, doplním testy a upravím problematická místa.",
+        },
+        {
+          title: "Dokončení a další vývoj",
+          description:
+            "Převezmu existující MVP, doplním funkce a integrace, připravím nasazení a mohu pokračovat ve správě a rozvoji.",
+        },
+      ],
+    },
+    {
+      id: "jak-probiha-audit",
+      eyebrow: "JAK SPOLUPRÁCE PROBÍHÁ",
+      title: "Srozumitelný postup i pro netechnického zakladatele.",
+      description:
+        "Předem si ujasníme rozsah a přístupy. Během auditu se soustředím na rizika, která jsou pro váš projekt skutečně důležitá.",
+      items: [
+        {
+          title: "01 — Seznámení s projektem",
+          description:
+            "Sdílíte aplikaci, repozitář, použité technologie a to, čeho chcete dosáhnout.",
+        },
+        {
+          title: "02 — Technická analýza",
+          description:
+            "Projdu dohodnutý rozsah kódu a infrastruktury a ověřím možná rizika.",
+        },
+        {
+          title: "03 — Výstup a doporučení",
+          description:
+            "Dostanete jasné shrnutí zjištění, jejich priority a navržené další kroky.",
+        },
+        {
+          title: "04 — Opravy a další rozvoj",
+          description:
+            "Podle dohody změny provedu, pomohu s nasazením nebo převezmu další vývoj.",
+        },
+      ],
+    },
+    {
+      id: "vystupy",
+      eyebrow: "KONKRÉTNÍ VÝSTUP",
+      title: "Co získáte z auditu",
+      description:
+        "Výstup odpovídá dohodnutému rozsahu. Audit není penetrační test, právní certifikace ani záruka, že aplikace neobsahuje žádnou zranitelnost.",
+      tone: "soft",
+      layout: "list",
+      items: [
+        {
+          title: "Přehledné shrnutí",
+          description:
+            "Srozumitelný pohled na stav aplikace a hlavní zjištění.",
+        },
+        {
+          title: "Priority technických rizik",
+          description:
+            "Rozlišení kritických problémů, důležitých úprav a dlouhodobých doporučení.",
+        },
+        {
+          title: "Konkrétní doporučení",
+          description:
+            "Praktické kroky, které lze naplánovat a postupně realizovat.",
+        },
+        {
+          title: "Bezpečnostní zjištění",
+          description:
+            "Identifikace kritických problémů v dohodnutém rozsahu technického auditu.",
+        },
+        {
+          title: "Výkon a udržitelnost",
+          description:
+            "Pozorování k rychlosti, architektuře, kvalitě kódu a dalšímu rozvoji.",
+        },
+        {
+          title: "Návrh dalšího postupu",
+          description:
+            "Doporučené pořadí oprav, stabilizace, nasazení a budoucích funkcí.",
+        },
+        {
+          title: "Volitelná realizace oprav",
+          description: "Na audit mohu navázat implementací dohodnutých změn.",
+        },
+      ],
+    },
+  ],
+  useCases: {
+    eyebrow: "NEMUSÍTE ZAČÍNAT OD NULY",
+    title: "Přijít můžete s nápadem i nasazenou aplikací.",
+    description:
+      "Existující kód a odvedená práce mají hodnotu. Nejdřív ověřím, co lze zachovat a na čem bezpečně stavět dál.",
+    items: [
+      {
+        title: "Mám prototyp vytvořený pomocí AI",
+        description:
+          "Aplikace z Lovable, Boltu, Cursoru, Claude Code, Replitu, v0 nebo jiného AI nástroje funguje, ale nejste si jistí její kvalitou a bezpečností.",
+      },
+      {
+        title: "Mám MVP a chci ho spustit",
+        description:
+          "Potřebujete prověřit kritická rizika a připravit aplikaci pro skutečné uživatele.",
+      },
+      {
+        title: "Aplikaci už používají zákazníci",
+        description:
+          "Chcete odstranit technické problémy, zlepšit výkon nebo pokračovat ve vývoji.",
+      },
+    ],
+  },
+  faq: {
+    eyebrow: "ČASTÉ DOTAZY",
+    title: "Co je dobré vědět před auditem.",
+    items: [
+      {
+        question: "Musím mít zdrojový kód aplikace?",
+        answer:
+          "Přístup k repozitáři umožní důkladnější audit kódu. Bez něj lze po dohodě provést omezené externí posouzení, které ale nemůže pokrýt vnitřní architekturu a konfiguraci.",
+      },
+      {
+        question: "Můžete převzít aplikaci vytvořenou v Lovable nebo Cursoru?",
+        answer:
+          "Ano, pokud dostupný zdrojový kód, závislosti a infrastruktura umožňují bezpečné převzetí. Nejprve ověřím technický stav a reálný rozsah potřebných změn.",
+      },
+      {
+        question: "Budete muset aplikaci vytvořit znovu?",
+        answer:
+          "Ne nutně. Standardně se snažím zachovat funkční části a upravit jen to, co je rizikové, neudržitelné nebo brání dalšímu rozvoji.",
+      },
+      {
+        question: "Kolik audit stojí?",
+        answer:
+          "Cena závisí na velikosti aplikace, složitosti a dohodnutém rozsahu. Nabídku připravím po úvodním posouzení projektu.",
+      },
+      {
+        question: "Jak dlouho audit trvá?",
+        answer:
+          "Záleží na rozsahu, technologiích, dokumentaci a dostupnosti přístupů. Konkrétní harmonogram stanovím až po seznámení s projektem.",
+      },
+      {
+        question: "Pomůžete i s GDPR?",
+        answer:
+          "Pomohu s technickou implementací přístupů k datům, souhlasů, uchování a dalších opatření pro soukromí. Formální právní posouzení musí zajistit kvalifikovaný právník.",
+      },
+      {
+        question: "Je audit určený jen pro aplikace vytvořené pomocí AI?",
+        answer:
+          "Ne. Technický audit může pomoci i tradičně vyvíjeným aplikacím. Tato služba se ale zvlášť zaměřuje na potřeby projektů vzniklých s pomocí AI nástrojů.",
+      },
+    ],
+  },
+  related: ["webove-aplikace-na-miru", "firemni-weby"],
+  finalCta: {
+    eyebrow: "POJĎME TO PROBRAT",
+    title: "Máte aplikaci, ale nejste si jistí, jestli je připravená?",
+    description:
+      "Pošlete mi odkaz na projekt nebo krátký popis toho, co už máte. Společně zjistíme, co funguje, co potřebuje zlepšit a jak pokračovat.",
+    action: "Probrat můj projekt",
+  },
 };
 
 const cs = {
@@ -1483,6 +1751,7 @@ const cs = {
       action: "Nezávazně probrat CRM",
     },
   },
+  "audit-ai-aplikaci": auditCs,
   "darkove-poukazy": {
     meta: {
       title: "Online dárkové poukazy s platbou a PDF | Jakub Vantuch",
@@ -1569,9 +1838,7 @@ const cs = {
     demo: "voucher",
     demoCopy: {
       eyebrow: "INTERAKTIVNÍ UKÁZKA",
-      title: "Sestavte si fiktivní dárkový poukaz.",
-      description:
-        "Ukázka pouze simuluje potvrzenou platbu, vytvoření PDF a uplatnění. Neprovádí platbu, neposílá e-mail ani nevystavuje platný poukaz.",
+      title: "Sestavte si dárkový poukaz.",
     },
     sections: [
       {
@@ -1870,6 +2137,269 @@ const cs = {
     },
   },
 } satisfies Record<ServiceDetailSlug, ServiceDetailCopy>;
+
+const auditEn: ServiceDetailCopy = {
+  meta: {
+    title: "AI application and vibecoded MVP audits | Jakub Vantuch",
+    description:
+      "Built an application with AI? I audit security, performance and code quality, fix issues and help complete MVPs for production.",
+  },
+  name: "Vibecoded application audit",
+  hero: {
+    eyebrow: "AI APPLICATION AUDIT",
+    title: "Built an application with AI?",
+    highlight: "I will help you prepare it for production.",
+    description:
+      "I review your application's security, performance and code quality, identify risks and propose concrete improvements. I can also implement fixes, help with deployment and continue development.",
+    primary: "Request an application review",
+    secondary: "What I review",
+    secondaryHref: "#co-proverim",
+  },
+  visual: {
+    badge: "PRODUCTION READINESS",
+    title: "A review focused on real application risks",
+    items: ["Security", "Performance", "Code quality"],
+    signal: "Illustrative overview of technical audit areas",
+    topChip: "Finding priorities",
+    bottomChip: "Remediation plan",
+  },
+  benefits: {
+    eyebrow: "FROM PROTOTYPE TO PRODUCTION",
+    title: "A working application is not necessarily production-ready.",
+    description:
+      "AI tools can dramatically accelerate prototyping. A functional interface alone does not confirm that access, data, operations and future development are handled correctly.",
+    items: [
+      {
+        title: "It works in a demo",
+        description:
+          "The main journey works, but roles, failure states, database queries and deployment configuration may remain unverified.",
+      },
+      {
+        title: "It works safely in production",
+        description:
+          "The application accounts for permissions, data protection, monitoring, backups and situations that rarely appear during a demo.",
+      },
+      {
+        title: "I build on what you already have",
+        description:
+          "The default goal is not a rewrite. I preserve useful parts and recommend changes where they deliver genuine value.",
+      },
+    ],
+  },
+  workflow: {
+    eyebrow: "AUDIT SCOPE",
+    title: "What I review in your application",
+    description:
+      "I tailor the scope to the project's current state and whether you are preparing a launch, solving a specific problem or improving long-term maintainability.",
+    steps: [
+      {
+        title: "Application security",
+        description:
+          "Authentication, authorisation, APIs, database permissions, exposed secrets, dependencies and common web vulnerabilities.",
+      },
+      {
+        title: "Performance and optimisation",
+        description:
+          "Loading, queries, caching, unnecessary requests, resource usage and likely bottlenecks.",
+      },
+      {
+        title: "Code quality and architecture",
+        description:
+          "Structure, duplication, type safety, dependencies, error handling and technical debt.",
+      },
+      {
+        title: "Data and privacy",
+        description:
+          "Personal data handling, permissions, retention, consent and technical privacy controls.",
+      },
+      {
+        title: "Deployment and infrastructure",
+        description:
+          "Hosting, environment configuration, CI/CD, backups, logging, monitoring and deployment reliability.",
+      },
+      {
+        title: "Testing and reliability",
+        description:
+          "Critical user journeys, automated tests, edge cases, failure handling and regression risks.",
+      },
+    ],
+  },
+  sections: [
+    {
+      id: "collaboration-options",
+      eyebrow: "MORE THAN A REVIEW",
+      title: "More than an audit. I can help you complete the application.",
+      description:
+        "You can choose a standalone technical assessment or continue directly with fixes and further development.",
+      tone: "navy",
+      items: [
+        {
+          title: "Technical audit",
+          description:
+            "I review the agreed scope, identify issues and risks, prioritise findings and prepare a practical remediation plan.",
+        },
+        {
+          title: "Fixes and optimisation",
+          description:
+            "I fix identified vulnerabilities and bugs, improve performance and code quality, add tests and refactor problematic areas.",
+        },
+        {
+          title: "Completion and ongoing development",
+          description:
+            "I take over an existing MVP, complete features and integrations, prepare deployment and can continue maintenance and development.",
+        },
+      ],
+    },
+    {
+      id: "audit-process",
+      eyebrow: "HOW WE WORK TOGETHER",
+      title: "A clear process for non-technical founders too.",
+      description:
+        "We agree the scope and access in advance. During the audit, I focus on the risks that genuinely matter to your project.",
+      items: [
+        {
+          title: "01 — Project introduction",
+          description:
+            "You share the application, repository, technology stack and current goals.",
+        },
+        {
+          title: "02 — Technical analysis",
+          description:
+            "I inspect the agreed code and infrastructure scope and identify potential issues.",
+        },
+        {
+          title: "03 — Findings and recommendations",
+          description:
+            "You receive a clear summary, priorities and suggested next steps.",
+        },
+        {
+          title: "04 — Fixes and further development",
+          description:
+            "If agreed, I implement changes, help with deployment or take over further development.",
+        },
+      ],
+    },
+    {
+      id: "deliverables",
+      eyebrow: "PRACTICAL OUTPUT",
+      title: "What you receive from the audit",
+      description:
+        "Deliverables reflect the agreed scope. The audit is not a penetration test, legal certification or a guarantee that the application contains no vulnerabilities.",
+      tone: "soft",
+      layout: "list",
+      items: [
+        {
+          title: "Clear summary",
+          description:
+            "An understandable overview of the application's state and key findings.",
+        },
+        {
+          title: "Prioritised technical risks",
+          description:
+            "A distinction between critical issues, important improvements and longer-term recommendations.",
+        },
+        {
+          title: "Actionable recommendations",
+          description:
+            "Practical steps that can be planned and implemented progressively.",
+        },
+        {
+          title: "Security findings",
+          description:
+            "Identification of critical issues within the agreed technical audit scope.",
+        },
+        {
+          title: "Performance and maintainability notes",
+          description:
+            "Observations covering speed, architecture, code quality and further development.",
+        },
+        {
+          title: "Suggested roadmap",
+          description:
+            "A recommended sequence for fixes, stabilisation, deployment and future features.",
+        },
+        {
+          title: "Optional implementation",
+          description:
+            "I can follow the audit by implementing the agreed improvements.",
+        },
+      ],
+    },
+  ],
+  useCases: {
+    eyebrow: "YOU DO NOT HAVE TO START OVER",
+    title: "Come with an idea, a prototype or a deployed application.",
+    description:
+      "Existing code and previous work are valuable. I first establish what can be retained and safely developed further.",
+    items: [
+      {
+        title: "I have a prototype built with AI",
+        description:
+          "An application built with Lovable, Bolt, Cursor, Claude Code, Replit, v0 or another AI tool works, but you are unsure about its quality and security.",
+      },
+      {
+        title: "I have an MVP ready to launch",
+        description:
+          "You need to review critical risks and prepare the application for real users.",
+      },
+      {
+        title: "Customers already use the application",
+        description:
+          "You want to resolve technical issues, improve performance or continue development.",
+      },
+    ],
+  },
+  faq: {
+    eyebrow: "FREQUENTLY ASKED QUESTIONS",
+    title: "What to know before an audit.",
+    items: [
+      {
+        question: "Do I need the application's source code?",
+        answer:
+          "Repository access enables a more thorough code audit. Without it, we can agree on a limited external review, but it cannot cover internal architecture and configuration.",
+      },
+      {
+        question:
+          "Can you take over an application built in Lovable or Cursor?",
+        answer:
+          "Yes, provided the available source code, dependencies and infrastructure allow a safe handover. I first assess the technical state and realistic scope of the required changes.",
+      },
+      {
+        question: "Will the application need to be rebuilt?",
+        answer:
+          "Not necessarily. I aim to preserve working parts and change only what is risky, unmaintainable or blocks further development.",
+      },
+      {
+        question: "How much does an audit cost?",
+        answer:
+          "The price depends on application size, complexity and the agreed scope. I prepare a quote after the initial project assessment.",
+      },
+      {
+        question: "How long does an audit take?",
+        answer:
+          "It depends on scope, technologies, documentation and access availability. I set a specific schedule only after learning about the project.",
+      },
+      {
+        question: "Can you help with GDPR?",
+        answer:
+          "I can support technical implementation of data access, consent, retention and other privacy controls. Formal legal advice must come from a qualified legal professional.",
+      },
+      {
+        question: "Is the audit only for applications created with AI?",
+        answer:
+          "No. Traditional codebases can benefit from a technical audit too, although this service specifically addresses the needs of AI-assisted projects.",
+      },
+    ],
+  },
+  related: ["webove-aplikace-na-miru", "firemni-weby"],
+  finalCta: {
+    eyebrow: "LET'S TALK",
+    title: "Have an application but are not sure whether it is ready?",
+    description:
+      "Send me a project link or a short description of what you already have. Together we will identify what works, what needs improvement and how to continue.",
+    action: "Discuss my project",
+  },
+};
 
 const en = {
   "firemni-weby": {
@@ -3250,6 +3780,7 @@ const en = {
       action: "Discuss CRM",
     },
   },
+  "audit-ai-aplikaci": auditEn,
   "darkove-poukazy": {
     ...cs["darkove-poukazy"],
     meta: {
@@ -3336,8 +3867,6 @@ const en = {
     demoCopy: {
       eyebrow: "INTERACTIVE DEMO",
       title: "Build a fictional gift voucher.",
-      description:
-        "The demo only simulates payment confirmation, PDF creation and redemption. It performs no payment, sends no email and issues no valid voucher.",
     },
     sections: [
       {

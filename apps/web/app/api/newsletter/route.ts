@@ -1,24 +1,43 @@
 import { NextResponse } from "next/server";
-import { captureMessage } from "@sentry/nextjs";
+import { apiErrorResponse } from "@/lib/api-error-response";
 import { verifyTurnstile } from "@/lib/turnstile";
 
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const endpoint = "newsletter";
 
 export async function POST(request: Request) {
   const webhookUrl = process.env.NEWSLETTER_WEBHOOK_URL?.trim();
   if (!webhookUrl) {
-    return NextResponse.json({ error: "not_configured" }, { status: 503 });
+    return apiErrorResponse({
+      body: { error: "not_configured" },
+      status: 503,
+      code: "not_configured",
+      endpoint,
+      message: "Newsletter webhook is not configured",
+    });
   }
 
   let payload: unknown;
   try {
     payload = await request.json();
   } catch {
-    return NextResponse.json({ error: "invalid_json" }, { status: 400 });
+    return apiErrorResponse({
+      body: { error: "invalid_json" },
+      status: 400,
+      code: "invalid_json",
+      endpoint,
+      message: "Newsletter request body is invalid JSON",
+    });
   }
 
   if (!payload || typeof payload !== "object") {
-    return NextResponse.json({ error: "invalid_payload" }, { status: 400 });
+    return apiErrorResponse({
+      body: { error: "invalid_payload" },
+      status: 400,
+      code: "invalid_payload",
+      endpoint,
+      message: "Newsletter request payload is invalid",
+    });
   }
 
   const data = payload as Record<string, unknown>;
@@ -29,23 +48,28 @@ export async function POST(request: Request) {
   const email = typeof data.email === "string" ? data.email.trim() : "";
   const locale = data.locale === "en" ? "en" : "cs";
   if (!emailPattern.test(email) || data.consent !== true) {
-    return NextResponse.json(
-      { error: "invalid_subscription" },
-      { status: 400 },
-    );
+    return apiErrorResponse({
+      body: { error: "invalid_subscription" },
+      status: 400,
+      code: "invalid_subscription",
+      endpoint,
+      message: "Newsletter subscription validation failed",
+    });
   }
 
   const turnstile = await verifyTurnstile(data.turnstileToken, "newsletter");
   if (!turnstile.ok) {
-    return NextResponse.json(
-      {
-        error:
-          turnstile.reason === "notConfigured"
-            ? "not_configured"
-            : "turnstile_failed",
+    const notConfigured = turnstile.reason === "notConfigured";
+    return apiErrorResponse({
+      body: {
+        error: notConfigured ? "not_configured" : "turnstile_failed",
       },
-      { status: turnstile.reason === "notConfigured" ? 503 : 400 },
-    );
+      status: notConfigured ? 503 : 400,
+      code: notConfigured ? "turnstile_not_configured" : "turnstile_failed",
+      endpoint,
+      message: "Newsletter Turnstile verification failed",
+      reported: true,
+    });
   }
 
   const headers: HeadersInit = { "content-type": "application/json" };
@@ -61,13 +85,28 @@ export async function POST(request: Request) {
     });
 
     if (!response.ok) {
-      captureMessage("Newsletter delivery failed", "error");
-      return NextResponse.json({ error: "provider_error" }, { status: 502 });
+      return apiErrorResponse({
+        body: { error: "provider_error" },
+        status: 502,
+        code: "provider_error",
+        endpoint,
+        message: "Newsletter delivery failed",
+        context: {
+          providerStatus: response.status,
+          providerStatusText: response.statusText,
+        },
+      });
     }
 
     return NextResponse.json({ ok: true });
-  } catch {
-    captureMessage("Newsletter provider unavailable", "error");
-    return NextResponse.json({ error: "provider_error" }, { status: 502 });
+  } catch (error) {
+    return apiErrorResponse({
+      body: { error: "provider_error" },
+      status: 502,
+      code: "provider_unavailable",
+      endpoint,
+      message: "Newsletter provider is unavailable",
+      error,
+    });
   }
 }

@@ -13,6 +13,7 @@ export type ServiceIconName =
   | "network"
   | "gauge"
   | "code"
+  | "shield"
   | "settings"
   | "store";
 
@@ -126,6 +127,13 @@ const csWeb: ServicePageCopy = {
           "E-shopy na platformě Shoptet, které spojují atraktivní vzhled, jednoduchý nákup a snadnou správu.",
         href: "/sluzby/shoptet",
       },
+      {
+        icon: "shield",
+        title: "Audit vibecoded aplikací",
+        description:
+          "Kontrola bezpečnosti, výkonu a kvality aplikací vytvořených pomocí AI. Pomůžu také s opravami a dokončením MVP.",
+        href: "/sluzby/audit-ai-aplikaci",
+      },
     ],
   },
   projects: {
@@ -190,6 +198,12 @@ const csWeb: ServicePageCopy = {
         title: "AI řešení",
         description: "Praktická práce s dokumenty, daty a interními znalostmi.",
         href: "/sluzby/ai-reseni",
+      },
+      {
+        title: "Audit vibecoded aplikací",
+        description:
+          "Kontrola, opravy a dokončení aplikace vytvořené pomocí AI.",
+        href: "/sluzby/audit-ai-aplikaci",
       },
     ],
   },
@@ -281,6 +295,18 @@ const csAi: ServicePageCopy = {
       },
     ],
   },
+  related: {
+    eyebrow: "SOUVISEJÍCÍ SLUŽBA",
+    title: "Už máte aplikaci vytvořenou pomocí AI?",
+    items: [
+      {
+        title: "Audit AI aplikace",
+        description:
+          "Pomůžu vám ji zkontrolovat, dokončit a připravit na produkci.",
+        href: "/sluzby/audit-ai-aplikaci",
+      },
+    ],
+  },
   contactTitle: "Proberme, zda AI dává smysl právě u vás.",
 };
 
@@ -325,6 +351,13 @@ const enWeb: ServicePageCopy = {
         description:
           "Shoptet e-commerce stores that combine an attractive design, a simple purchasing experience and easy administration.",
         href: "/sluzby/shoptet",
+      },
+      {
+        icon: "shield",
+        title: "Vibecoded application audits",
+        description:
+          "Security, performance and code quality reviews for applications built with AI, including fixes and MVP completion.",
+        href: "/sluzby/audit-ai-aplikaci",
       },
     ],
   },
@@ -392,6 +425,11 @@ const enWeb: ServicePageCopy = {
         description:
           "Practical work with documents, data and internal knowledge.",
         href: "/sluzby/ai-reseni",
+      },
+      {
+        title: "Vibecoded application audits",
+        description: "Review, fix and complete an application created with AI.",
+        href: "/sluzby/audit-ai-aplikaci",
       },
     ],
   },
@@ -482,6 +520,18 @@ const enAi: ServicePageCopy = {
         number: "05",
         title: "Monitoring and improvement",
         description: "We monitor quality and refine the solution.",
+      },
+    ],
+  },
+  related: {
+    eyebrow: "RELATED SERVICE",
+    title: "Have you already built an application with AI?",
+    items: [
+      {
+        title: "AI application audit",
+        description:
+          "I can review it, finish it and prepare it for production.",
+        href: "/sluzby/audit-ai-aplikaci",
       },
     ],
   },

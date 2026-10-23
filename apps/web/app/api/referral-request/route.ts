@@ -1,6 +1,6 @@
 import { randomUUID } from "node:crypto";
 import { Resend } from "resend";
-import { captureMessage } from "@sentry/nextjs";
+import { apiErrorResponse } from "@/lib/api-error-response";
 import { localizedPath } from "@/lib/content";
 import { createReferralToken } from "@/lib/referral-token";
 import { validateReferralRequest } from "@/lib/referral-request";
@@ -9,6 +9,7 @@ import { configuredTwenty } from "@/lib/twenty";
 import { verifyTurnstile } from "@/lib/turnstile";
 
 const defaultFrom = "Jakub Vantuch <onboarding@resend.dev>";
+const endpoint = "referral-request";
 
 const escapeHtml = (value: string) =>
   value
@@ -31,14 +32,23 @@ export async function POST(request: Request) {
   try {
     const raw = await request.text();
     if (raw.length > 16_000) {
-      return Response.json({ ok: false, message: "tooLarge" }, { status: 413 });
+      return apiErrorResponse({
+        body: { ok: false, message: "tooLarge" },
+        status: 413,
+        code: "too_large",
+        endpoint,
+        message: "Referral request body is too large",
+      });
     }
     body = JSON.parse(raw);
   } catch {
-    return Response.json(
-      { ok: false, message: "invalidBody" },
-      { status: 400 },
-    );
+    return apiErrorResponse({
+      body: { ok: false, message: "invalidBody" },
+      status: 400,
+      code: "invalid_body",
+      endpoint,
+      message: "Referral request body is invalid",
+    });
   }
 
   if (body && typeof body === "object" && "website" in body && body.website) {
@@ -47,7 +57,14 @@ export async function POST(request: Request) {
 
   const { input, errors } = validateReferralRequest(body);
   if (Object.keys(errors).length > 0) {
-    return Response.json({ ok: false, formErrors: errors }, { status: 400 });
+    return apiErrorResponse({
+      body: { ok: false, formErrors: errors },
+      status: 400,
+      code: "validation_failed",
+      endpoint,
+      message: "Referral request validation failed",
+      context: { invalidFields: Object.keys(errors) },
+    });
   }
 
   const turnstile = await verifyTurnstile(
@@ -57,16 +74,18 @@ export async function POST(request: Request) {
     input.intent === "link" ? "referral_link" : "referral_partner",
   );
   if (!turnstile.ok) {
-    return Response.json(
-      {
+    const notConfigured = turnstile.reason === "notConfigured";
+    return apiErrorResponse({
+      body: {
         ok: false,
-        message:
-          turnstile.reason === "notConfigured"
-            ? "notConfigured"
-            : "turnstileFailed",
+        message: notConfigured ? "notConfigured" : "turnstileFailed",
       },
-      { status: turnstile.reason === "notConfigured" ? 503 : 400 },
-    );
+      status: notConfigured ? 503 : 400,
+      code: notConfigured ? "turnstile_not_configured" : "turnstile_failed",
+      endpoint,
+      message: "Referral request Turnstile verification failed",
+      reported: true,
+    });
   }
 
   const apiKey = process.env.RESEND_API_KEY;
@@ -77,14 +96,14 @@ export async function POST(request: Request) {
       "TWENTY_BASE_URL",
       "TWENTY_API_KEY",
     ].filter((name) => !process.env[name]?.trim());
-    console.error(
-      "Referral delivery is not configured. Missing environment variables:",
-      missing.join(", "),
-    );
-    return Response.json(
-      { ok: false, message: "notConfigured" },
-      { status: 503 },
-    );
+    return apiErrorResponse({
+      body: { ok: false, message: "notConfigured" },
+      status: 503,
+      code: "delivery_not_configured",
+      endpoint,
+      message: "Referral delivery is not configured",
+      context: { missingEnvironmentVariables: missing },
+    });
   }
 
   const requestedId =
@@ -98,34 +117,41 @@ export async function POST(request: Request) {
   if (input.intent === "link") {
     const secret = process.env.TWENTY_REFERRAL_SECRET;
     if (!secret) {
-      return Response.json(
-        { ok: false, message: "notConfigured" },
-        { status: 503 },
-      );
+      return apiErrorResponse({
+        body: { ok: false, message: "notConfigured" },
+        status: 503,
+        code: "referral_not_configured",
+        endpoint,
+        message: "Referral link generation is not configured",
+      });
     }
 
     let person;
     try {
       person = await twenty.ensurePerson(input.name, input.email);
     } catch (error) {
-      console.error("Twenty referral requester persistence failed:", error);
-      captureMessage("Twenty referral requester persistence failed", "error");
-      return Response.json(
-        { ok: false, message: "sendFailed" },
-        { status: 502 },
-      );
+      return apiErrorResponse({
+        body: { ok: false, message: "sendFailed" },
+        status: 502,
+        code: "requester_persistence_failed",
+        endpoint,
+        message: "Twenty referral requester persistence failed",
+        error,
+      });
     }
 
     let token: string;
     try {
       token = createReferralToken(person.id, secret);
     } catch (error) {
-      console.error("Referral link generation failed:", error);
-      captureMessage("Referral link generation failed", "error");
-      return Response.json(
-        { ok: false, message: "sendFailed" },
-        { status: 502 },
-      );
+      return apiErrorResponse({
+        body: { ok: false, message: "sendFailed" },
+        status: 502,
+        code: "link_generation_failed",
+        endpoint,
+        message: "Referral link generation failed",
+        error,
+      });
     }
 
     const siteUrl = (process.env.SITE_URL ?? "https://vantuch.dev").replace(
@@ -154,14 +180,25 @@ export async function POST(request: Request) {
         },
         { idempotencyKey: `referral-link/${submissionId}` },
       );
-      if (error) throw new Error(error.message);
+      if (error) {
+        return apiErrorResponse({
+          body: { ok: false, message: "sendFailed" },
+          status: 502,
+          code: "link_email_delivery_failed",
+          endpoint,
+          message: "Referral link email delivery failed",
+          error: new Error("Resend rejected referral link email delivery"),
+        });
+      }
     } catch (error) {
-      console.error("Referral link email delivery failed:", error);
-      captureMessage("Referral link email delivery failed", "error");
-      return Response.json(
-        { ok: false, message: "sendFailed" },
-        { status: 502 },
-      );
+      return apiErrorResponse({
+        body: { ok: false, message: "sendFailed" },
+        status: 502,
+        code: "link_email_delivery_failed",
+        endpoint,
+        message: "Referral link email delivery failed",
+        error,
+      });
     }
 
     return Response.json({ ok: true });
@@ -184,9 +221,14 @@ export async function POST(request: Request) {
       submissionId,
     );
   } catch (error) {
-    console.error("Twenty partnership inquiry persistence failed:", error);
-    captureMessage("Twenty partnership inquiry persistence failed", "error");
-    return Response.json({ ok: false, message: "sendFailed" }, { status: 502 });
+    return apiErrorResponse({
+      body: { ok: false, message: "sendFailed" },
+      status: 502,
+      code: "partnership_persistence_failed",
+      endpoint,
+      message: "Twenty partnership inquiry persistence failed",
+      error,
+    });
   }
 
   const entries = [
@@ -220,11 +262,25 @@ export async function POST(request: Request) {
       },
       { idempotencyKey: `partnership/${submissionId}` },
     );
-    if (error) throw new Error(error.message);
+    if (error) {
+      return apiErrorResponse({
+        body: { ok: false, message: "sendFailed" },
+        status: 502,
+        code: "partnership_email_delivery_failed",
+        endpoint,
+        message: "Partnership email delivery failed",
+        error: new Error("Resend rejected partnership email delivery"),
+      });
+    }
   } catch (error) {
-    console.error("Partnership email delivery failed:", error);
-    captureMessage("Partnership email delivery failed", "error");
-    return Response.json({ ok: false, message: "sendFailed" }, { status: 502 });
+    return apiErrorResponse({
+      body: { ok: false, message: "sendFailed" },
+      status: 502,
+      code: "partnership_email_delivery_failed",
+      endpoint,
+      message: "Partnership email delivery failed",
+      error,
+    });
   }
 
   return Response.json({ ok: true });

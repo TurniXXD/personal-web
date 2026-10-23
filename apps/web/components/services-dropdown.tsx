@@ -1,12 +1,17 @@
 "use client";
 
 import { useRef } from "react";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, ShieldCheck } from "lucide-react";
 
 type ServicesDropdownProps = {
   active: boolean;
   label: string;
-  links: Array<{ href: string; label: string }>;
+  links: Array<{
+    href: string;
+    label: string;
+    description: string;
+    icon?: "shield";
+  }>;
 };
 
 export const ServicesDropdown = ({
@@ -67,8 +72,18 @@ export const ServicesDropdown = ({
       <div className="site-header__services-menu">
         {links.map((item, index) => (
           <a href={item.href} key={item.href}>
-            <span>{String(index + 1).padStart(2, "0")}</span>
-            {item.label}
+            <span className="site-header__services-number">
+              {String(index + 1).padStart(2, "0")}
+            </span>
+            <span className="site-header__services-copy">
+              <strong>
+                {item.label}
+                {item.icon === "shield" ? (
+                  <ShieldCheck size={15} aria-hidden="true" />
+                ) : null}
+              </strong>
+              <small>{item.description}</small>
+            </span>
           </a>
         ))}
       </div>
