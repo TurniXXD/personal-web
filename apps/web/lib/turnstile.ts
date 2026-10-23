@@ -7,6 +7,25 @@ type TurnstileResult = {
   "error-codes"?: string[];
 };
 
+const defaultAllowedHostnames = (): string[] => {
+  const canonicalHostname = new URL(
+    process.env.SITE_URL || "https://vantuch.dev",
+  ).hostname.toLowerCase();
+
+  return canonicalHostname.startsWith("www.")
+    ? [canonicalHostname, canonicalHostname.slice(4)]
+    : [canonicalHostname, `www.${canonicalHostname}`];
+};
+
+const allowedHostnames = (): string[] => {
+  const configured =
+    process.env.TURNSTILE_ALLOWED_HOSTNAMES?.split(",")
+      .map((hostname) => hostname.trim().toLowerCase())
+      .filter(Boolean) ?? [];
+
+  return [...new Set([...defaultAllowedHostnames(), ...configured])];
+};
+
 export type TurnstileVerification =
   { ok: true } | { ok: false; reason: "notConfigured" | "failed" };
 
@@ -74,11 +93,9 @@ export async function verifyTurnstile(
     idempotency_key: crypto.randomUUID(),
   };
   // Hostnames come from trusted configuration, never the request Host header.
-  const hostnames = process.env.TURNSTILE_ALLOWED_HOSTNAMES?.split(",")
-    .map((hostname) => hostname.trim().toLowerCase())
-    .filter(Boolean) ?? [
-    new URL(process.env.SITE_URL || "https://vantuch.dev").hostname,
-  ];
+  // The canonical apex and its www alias are both accepted by default because
+  // production redirects may legitimately serve the form from either host.
+  const hostnames = allowedHostnames();
 
   try {
     const response = await fetch(
@@ -101,23 +118,41 @@ export async function verifyTurnstile(
     }
 
     const result = (await response.json()) as TurnstileResult;
-    if (
-      !result.success ||
-      result.action !== expectedAction ||
-      !result.hostname ||
-      !hostnames.includes(result.hostname.toLowerCase())
-    ) {
-      return turnstileFailure(expectedAction, "failed", "validation_rejected", {
+    if (!result.success) {
+      const errorCodes = result["error-codes"] ?? [];
+      return turnstileFailure(
+        expectedAction,
+        "failed",
+        errorCodes[0] ?? "siteverify_rejected",
+        {
+          context: { errorCodes },
+        },
+      );
+    }
+
+    if (result.action !== expectedAction) {
+      return turnstileFailure(expectedAction, "failed", "action_mismatch", {
         context: {
-          errorCodes: result["error-codes"] ?? [],
-          actionMatches: result.action === expectedAction,
-          hostnameAllowed: Boolean(
-            result.hostname &&
-            hostnames.includes(result.hostname.toLowerCase()),
-          ),
+          receivedAction: result.action ?? null,
         },
       });
     }
+
+    const hostname = result.hostname?.toLowerCase();
+    if (!hostname || !hostnames.includes(hostname)) {
+      return turnstileFailure(
+        expectedAction,
+        "failed",
+        "hostname_not_allowed",
+        {
+          context: {
+            receivedHostname: hostname ?? null,
+            allowedHostnames: hostnames,
+          },
+        },
+      );
+    }
+
     return { ok: true };
   } catch (error) {
     return turnstileFailure(

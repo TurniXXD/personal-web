@@ -1,4 +1,7 @@
-import type { ContactInput } from "@/lib/contact-submission";
+import type {
+  ContactInput,
+  ContactRequestContext,
+} from "@/lib/contact-submission";
 
 type RecordData = { id: string; [key: string]: unknown };
 type Person = RecordData & {
@@ -116,6 +119,7 @@ export class TwentyClient {
     input: ContactInput,
     submissionId: string,
     referrer?: Person,
+    requestContext?: ContactRequestContext,
   ): Promise<void> {
     const email = input.email.toLowerCase();
     const person = await this.ensurePerson(input.name, email);
@@ -128,6 +132,9 @@ export class TwentyClient {
         `Email: ${email}`,
         `Phone: ${input.phone || "—"}`,
         `Source: ${referrer ? "Referral link" : "Website contact"}`,
+        `Request type: ${requestContext?.type ?? "general"}`,
+        `Requested service: ${requestContext?.subject || "—"}`,
+        `Source page: ${requestContext?.sourcePath || "—"}`,
         `Referrer email: ${referrer?.emails?.primaryEmail || "—"}`,
         `Referrer Twenty ID: ${referrer?.id || "—"}`,
         "",

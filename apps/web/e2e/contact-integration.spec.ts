@@ -3,7 +3,10 @@ import {
   createReferralToken,
   verifyReferralToken,
 } from "../lib/referral-token";
-import { validateContactInput } from "../lib/contact-submission";
+import {
+  readContactRequestContext,
+  validateContactInput,
+} from "../lib/contact-submission";
 import { validateReferralRequest } from "../lib/referral-request";
 import { TwentyClient } from "../lib/twenty";
 
@@ -28,6 +31,27 @@ test("contact validation ignores manually supplied attribution", () => {
   expect(errors).toEqual({});
   expect(input).not.toHaveProperty("source");
   expect(input).not.toHaveProperty("referrerEmail");
+});
+
+test("contact request context is structured and bounded", () => {
+  expect(
+    readContactRequestContext({
+      request: {
+        type: "service",
+        subject: "Audit AI aplikací\nInjected header",
+        sourcePath: "/sluzby/audit-ai-aplikaci",
+      },
+    }),
+  ).toEqual({
+    type: "service",
+    subject: "Audit AI aplikací Injected header",
+    sourcePath: "/sluzby/audit-ai-aplikaci",
+  });
+  expect(
+    readContactRequestContext({
+      request: { type: "invalid", sourcePath: "https://attacker.example" },
+    }),
+  ).toEqual({ type: "general", subject: "", sourcePath: "" });
 });
 
 test("referral request validation keeps link and partnership purposes separate", () => {
@@ -97,6 +121,11 @@ test("contact is saved to Twenty with person, note and SalesReferral", async () 
       },
       "a8bcc8f8-f7c2-4c74-9709-f85c06a67227",
       { id: "referrer-id", emails: { primaryEmail: "jan@example.com" } },
+      {
+        type: "service",
+        subject: "Websites and applications",
+        sourcePath: "/en/sluzby/webove-aplikace",
+      },
     );
     expect(
       requests
@@ -118,7 +147,9 @@ test("contact is saved to Twenty with person, note and SalesReferral", async () 
       )?.body,
     ).toMatchObject({
       bodyV2: {
-        markdown: expect.stringContaining("Referrer email: jan@example.com"),
+        markdown: expect.stringMatching(
+          /Request type: service[\s\S]*Requested service: Websites and applications[\s\S]*Source page: \/en\/sluzby\/webove-aplikace[\s\S]*Referrer email: jan@example.com/,
+        ),
       },
     });
     expect(

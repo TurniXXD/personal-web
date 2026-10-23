@@ -290,7 +290,20 @@ export const ServiceLandingPage = ({
           </section>
         )}
 
-        <ContactBlock locale={locale} title={content.contactTitle} />
+        <ContactBlock
+          locale={locale}
+          title={content.contactTitle}
+          topic={
+            kind === "web"
+              ? locale === "cs"
+                ? "Weby a aplikace"
+                : "Websites and applications"
+              : locale === "cs"
+                ? "AI řešení"
+                : "AI solutions"
+          }
+          requestType="service"
+        />
       </main>
       <SiteFooter locale={locale} />
     </>

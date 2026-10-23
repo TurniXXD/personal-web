@@ -1767,6 +1767,9 @@ summary:focus-visible {
     padding-top: 0.9rem;
     font-size: 0.9rem;
   }
+  .contact-form .contact-form__field textarea {
+    font-size: 0.84rem;
+  }
   .contact-form .contact-form__grid,
   .referral-request-form .referral-request-form__grid {
     grid-template-columns: 1fr;

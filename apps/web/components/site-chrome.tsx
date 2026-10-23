@@ -15,6 +15,7 @@ import { CookiePreferencesButton } from "@/components/cookie-consent";
 import { ScrollReveal } from "@/components/scroll-reveal";
 import { ServicesDropdown } from "@/components/services-dropdown";
 import { copy, localizedPath, type Locale } from "@/lib/content";
+import type { ContactRequestType } from "@/lib/contact-submission";
 import { contactMailto, contactTel, siteConfig } from "@/lib/site-config";
 
 const ContactOrbit = dynamic(() =>
@@ -200,10 +201,12 @@ export function ContactBlock({
   locale,
   title,
   topic,
+  requestType,
 }: {
   locale: Locale;
   title?: string;
   topic?: string;
+  requestType?: ContactRequestType;
 }) {
   const t = copy[locale].contact;
 
@@ -221,7 +224,11 @@ export function ContactBlock({
           <p>{t.text}</p>
         </ScrollReveal>
         <ScrollReveal className="contact-section__form-reveal" delay={60}>
-          <ContactForm locale={locale} initialTopic={topic} />
+          <ContactForm
+            locale={locale}
+            initialTopic={topic}
+            requestType={requestType}
+          />
         </ScrollReveal>
         <ScrollReveal className="contact-section__actions" delay={120}>
           <a href={contactMailto()}>

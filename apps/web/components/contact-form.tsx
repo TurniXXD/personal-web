@@ -14,6 +14,7 @@ import {
   type ContactErrors,
   type ContactField,
   type ContactInput,
+  type ContactRequestType,
 } from "@/lib/contact-submission";
 
 type Status = "idle" | "sending" | "success" | "failure" | "configurationError";
@@ -34,9 +35,11 @@ function readInput(data: FormData): ContactInput {
 export function ContactForm({
   locale,
   initialTopic,
+  requestType = initialTopic ? "service" : "general",
 }: {
   locale: Locale;
   initialTopic?: string;
+  requestType?: ContactRequestType;
 }) {
   const t = contactFormCopy[locale];
   const [errors, setErrors] = useState<ContactErrors>({});
@@ -44,7 +47,11 @@ export function ContactForm({
   const [referralApplied, setReferralApplied] = useState(false);
   const [turnstileToken, setTurnstileToken] = useState("");
   const [turnstileResetKey, setTurnstileResetKey] = useState(0);
-  const formRef = useRef<HTMLFormElement>(null);
+  const [requestSubject, setRequestSubject] = useState(
+    initialTopic?.trim() ?? "",
+  );
+  const [resolvedRequestType, setResolvedRequestType] =
+    useState<ContactRequestType>(requestType);
   const submissionId = useRef(crypto.randomUUID());
   const errorFor = (field: ContactField) =>
     errors[field] ? t.errors[errors[field]] : undefined;
@@ -77,19 +84,12 @@ export function ContactForm({
           (example) => example.id === automation,
         )?.title
       : null;
-    const message =
-      formRef.current?.querySelector<HTMLTextAreaElement>("#contact-message");
-    const subject = selectedAutomation ?? topic;
-    if (!subject || !message || message.value) return;
-
-    message.value = selectedAutomation
-      ? locale === "cs"
-        ? `Zajímá mě automatizace: ${subject}\n\n`
-        : `I'm interested in automation: ${subject}\n\n`
-      : locale === "cs"
-        ? `Rád bych probral službu: ${subject}\n\n`
-        : `I'd like to discuss the service: ${subject}\n\n`;
-  }, [initialTopic, locale]);
+    const subject = selectedAutomation ?? topic ?? "";
+    setRequestSubject(subject);
+    setResolvedRequestType(
+      selectedAutomation ? "automation" : subject ? requestType : "general",
+    );
+  }, [initialTopic, locale, requestType]);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -119,6 +119,11 @@ export function ContactForm({
           fax: fieldValue(data, "fax"),
           submissionId: submissionId.current,
           turnstileToken,
+          request: {
+            type: resolvedRequestType,
+            subject: requestSubject,
+            sourcePath: window.location.pathname,
+          },
         }),
       });
       const result = await response.json();
@@ -153,7 +158,6 @@ export function ContactForm({
 
   return (
     <form
-      ref={formRef}
       className="contact-form"
       noValidate
       onSubmit={handleSubmit}

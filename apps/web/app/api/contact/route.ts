@@ -2,7 +2,10 @@ import { Resend } from "resend";
 import { randomUUID } from "node:crypto";
 import { cookies } from "next/headers";
 import { apiErrorResponse } from "@/lib/api-error-response";
-import { validateContactInput } from "@/lib/contact-submission";
+import {
+  readContactRequestContext,
+  validateContactInput,
+} from "@/lib/contact-submission";
 import { referralCookie, verifyReferralToken } from "@/lib/referral-token";
 import { siteConfig } from "@/lib/site-config";
 import { configuredTwenty } from "@/lib/twenty";
@@ -49,6 +52,7 @@ export async function POST(request: Request) {
   }
 
   const { input, errors } = validateContactInput(body);
+  const requestContext = readContactRequestContext(body);
   if (Object.keys(errors).length > 0) {
     return apiErrorResponse({
       body: { ok: false, formErrors: errors },
@@ -154,7 +158,7 @@ export async function POST(request: Request) {
       ? requestedId
       : randomUUID();
   try {
-    await twenty.saveContact(input, submissionId, referrer);
+    await twenty.saveContact(input, submissionId, referrer, requestContext);
   } catch (error) {
     return apiErrorResponse({
       body: { ok: false, message: "sendFailed" },
@@ -170,6 +174,9 @@ export async function POST(request: Request) {
     ["Name", input.name],
     ["Email", input.email],
     ["Phone", input.phone],
+    ["Request type", requestContext.type],
+    ["Requested service", requestContext.subject],
+    ["Source page", requestContext.sourcePath],
     ["Referrer's email", referrer?.emails?.primaryEmail ?? ""],
     ["Message", input.message],
   ] as const;

@@ -454,6 +454,7 @@ export const ServiceDetailPage = ({ locale, slug }: ServiceDetailPageProps) => {
           locale={locale}
           title={content.finalCta.title}
           topic={content.name}
+          requestType="service"
         />
       </main>
       <SiteFooter locale={locale} />

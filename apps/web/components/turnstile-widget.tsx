@@ -8,6 +8,9 @@ type TurnstileOptions = {
   action: string;
   theme: "light";
   size: "flexible";
+  retry: "auto";
+  "refresh-expired": "auto";
+  "refresh-timeout": "auto";
   callback: (token: string) => void;
   "expired-callback": () => void;
   "error-callback": () => void;
@@ -96,6 +99,9 @@ export function TurnstileWidget({
           action,
           theme: "light",
           size: "flexible",
+          retry: "auto",
+          "refresh-expired": "auto",
+          "refresh-timeout": "auto",
           callback: (token) => {
             setFailed(false);
             onTokenChangeRef.current(token);

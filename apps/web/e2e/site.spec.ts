@@ -13,6 +13,19 @@ test.beforeEach(async ({ context }) => {
         savedAt: Date.now(),
       }),
     );
+    Object.assign(window, {
+      turnstile: {
+        render: (
+          _container: HTMLElement,
+          options: { callback: (token: string) => void },
+        ) => {
+          queueMicrotask(() => options.callback("test-turnstile-token"));
+          return "test-turnstile-widget";
+        },
+        reset: () => undefined,
+        remove: () => undefined,
+      },
+    });
   });
 });
 
@@ -284,7 +297,7 @@ test("contact actions follow the contact form on mobile", async ({ page }) => {
   );
   await expect(form.locator("#contact-message")).toHaveCSS(
     "font-size",
-    "14.4px",
+    "13.44px",
   );
   await expect(form.locator(".form-privacy-notice")).toHaveCSS(
     "font-size",
@@ -672,8 +685,11 @@ test("AI application audit page is complete, localized and production-oriented",
     page.locator(".service-detail-use-cases__list article"),
   ).toHaveCount(3);
   await expect(page.locator(".service-detail-faq details")).toHaveCount(7);
-  await expect(page.locator("#contact-message")).toHaveValue(
-    /Rád bych probral službu: Audit vibecoded aplikací/,
+  const auditMessage = page.locator("#contact-message");
+  await expect(auditMessage).toHaveValue("");
+  await expect(auditMessage).toHaveAttribute(
+    "placeholder",
+    "Napište mi pár slov o svém projektu nebo nápadu. Více probereme při úvodním hovoru.",
   );
   await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
     "href",
@@ -685,12 +701,44 @@ test("AI application audit page is complete, localized and production-oriented",
     )
     .toContain("Audit vibecoded aplikací");
 
+  let servicePayload: Record<string, unknown> | undefined;
+  await page.route("**/api/contact", async (route) => {
+    servicePayload = route.request().postDataJSON();
+    await route.fulfill({
+      status: 200,
+      contentType: "application/json",
+      body: JSON.stringify({ ok: true }),
+    });
+  });
+  const auditForm = page.locator(".contact-form");
+  await auditForm.locator('[name="name"]').fill("Jakub Vantuch");
+  await auditForm.locator('[name="email"]').fill("contact@vantuch.dev");
+  await auditForm
+    .locator('[name="message"]')
+    .fill("Prosím o kontrolu aplikace.");
+  await auditForm.getByRole("button", { name: "Odeslat zprávu" }).click();
+  await expect
+    .poll(() => servicePayload)
+    .toMatchObject({
+      message: "Prosím o kontrolu aplikace.",
+      request: {
+        type: "service",
+        subject: "Audit vibecoded aplikací",
+        sourcePath: "/sluzby/audit-ai-aplikaci",
+      },
+    });
+
   await page.goto("/en/sluzby/audit-ai-aplikaci");
   await expect(page).toHaveTitle(
     "AI application and vibecoded MVP audits | Jakub Vantuch",
   );
   await expect(page.getByRole("heading", { level: 1 })).toContainText(
     "Built an application with AI?",
+  );
+  await expect(page.locator("#contact-message")).toHaveValue("");
+  await expect(page.locator("#contact-message")).toHaveAttribute(
+    "placeholder",
+    "Tell me a little about your project or idea. We can discuss the details during an introductory call.",
   );
 });
 
@@ -726,8 +774,11 @@ test("loyalty programme demo updates only after the staff confirmation action", 
     page.locator(".service-detail-demo + .service-detail-benefits"),
   ).toHaveCount(1);
   await expect(page.getByText("Aktivní zákazníci")).toBeVisible();
-  await expect(page.locator("#contact-message")).toHaveValue(
-    /Rád bych probral službu: Digitální věrnostní programy/,
+  const loyaltyMessage = page.locator("#contact-message");
+  await expect(loyaltyMessage).toHaveValue("");
+  await expect(loyaltyMessage).toHaveAttribute(
+    "placeholder",
+    "Napište mi pár slov o svém projektu nebo nápadu. Více probereme při úvodním hovoru.",
   );
   await expect(page.locator(".service-detail-faq__items details")).toHaveCount(
     5,
@@ -1921,6 +1972,11 @@ test("contact form validates and sends only contact details", async ({
       email: "contact@vantuch.dev",
       phone: "+420 735 023 812",
       message: "Potřebuji nový firemní web.",
+      request: {
+        type: "general",
+        subject: "",
+        sourcePath: "/",
+      },
     });
     expect(payload).not.toHaveProperty("source");
     expect(payload).not.toHaveProperty("referrerEmail");

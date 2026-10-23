@@ -43,6 +43,16 @@ test("Turnstile rejects forged, expired, cross-form and foreign-host tokens", as
       secret: "test-secret",
       response: "valid-token",
     });
+    delete process.env.TURNSTILE_ALLOWED_HOSTNAMES;
+    result = {
+      success: true,
+      action: "contact",
+      hostname: "www.vantuch.dev",
+    };
+    expect(await verifyTurnstile("valid-www-token", "contact")).toEqual({
+      ok: true,
+    });
+    process.env.TURNSTILE_ALLOWED_HOSTNAMES = "vantuch.dev,www.vantuch.dev";
     result = {
       success: true,
       action: "referral_link",

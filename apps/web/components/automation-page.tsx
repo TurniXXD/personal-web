@@ -85,7 +85,14 @@ export const AutomationPage = ({ locale }: AutomationPageProps) => {
           </div>
         </section>
 
-        <ContactBlock locale={locale} title={content.contactTitle} />
+        <ContactBlock
+          locale={locale}
+          title={content.contactTitle}
+          topic={
+            locale === "cs" ? "Automatizace procesů" : "Process automation"
+          }
+          requestType="automation"
+        />
       </main>
       <SiteFooter locale={locale} />
     </>
