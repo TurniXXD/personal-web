@@ -2,6 +2,10 @@ import Script from "next/script";
 import { getLocale } from "next-intl/server";
 import { AppToaster } from "@/components/app-toaster";
 import type { ChildrenProps } from "@/components/scene/types";
+import "@fontsource-variable/sora";
+import "@fontsource/ibm-plex-mono/400.css";
+import "@fontsource/ibm-plex-mono/600.css";
+import "@fontsource/ibm-plex-mono/700.css";
 import "@vantuch/ui/styles.css";
 import "@/app/globals.scss";
 

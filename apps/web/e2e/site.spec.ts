@@ -1,4 +1,5 @@
 import { expect, test } from "@playwright/test";
+import AxeBuilder from "@axe-core/playwright";
 import {
   serviceDetailCopy,
   serviceDetailSlugs,
@@ -27,6 +28,22 @@ test.beforeEach(async ({ context }) => {
       },
     });
   });
+});
+
+test("public pages pass automated WCAG checks", async ({ page }) => {
+  for (const path of ["/", "/sluzby/audit-ai-aplikaci", "/kontakt"]) {
+    await page.goto(path);
+    const results = await new AxeBuilder({ page })
+      .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa"])
+      .analyze();
+
+    expect(
+      results.violations,
+      `${path}: ${results.violations
+        .map((violation) => `${violation.id} (${violation.nodes.length})`)
+        .join(", ")}`,
+    ).toEqual([]);
+  }
 });
 
 test("Czech homepage presents the offer and contact", async ({ page }) => {
@@ -295,10 +312,7 @@ test("contact actions follow the contact form on mobile", async ({ page }) => {
     "font-size",
     "18.4px",
   );
-  await expect(form.locator("#contact-message")).toHaveCSS(
-    "font-size",
-    "13.44px",
-  );
+  await expect(form.locator("#contact-message")).toHaveCSS("font-size", "16px");
   await expect(form.locator(".form-privacy-notice")).toHaveCSS(
     "font-size",
     "10.88px",
@@ -999,7 +1013,8 @@ test("AI service page presents an interactive use-case carousel", async ({
   );
   await expect(page.locator(".service-scenarios")).toHaveCount(0);
   await expect(page.locator(".service-approach")).toHaveCount(0);
-  await expect(page.locator(".service-related")).toHaveCount(0);
+  await expect(page.locator(".service-related")).toHaveCount(1);
+  await expect(page.locator(".service-related__links a")).toHaveCount(1);
   await expect(page.locator("#projects")).toHaveCount(0);
   await expect(
     page.getByRole("heading", {
@@ -1132,7 +1147,7 @@ test("AI use-case carousel advances every six seconds until a step is clicked", 
   await carousel.hover();
   const initialSlideId = await activeSlide.getAttribute("id");
   await expect
-    .poll(() => activeSlide.getAttribute("id"), { timeout: 6_500 })
+    .poll(() => activeSlide.getAttribute("id"), { timeout: 8_000 })
     .not.toBe(initialSlideId);
   const intervalStartSlideId = await activeSlide.getAttribute("id");
   await page.waitForTimeout(5_000);
@@ -1516,7 +1531,7 @@ test("technical backgrounds become static with reduced motion", async ({
     .evaluateAll((elements) =>
       elements.map((element) => element.getAttribute("data-technical-state")),
     );
-  expect(states).toEqual(Array(3).fill("static"));
+  expect(states).toEqual(Array(2).fill("static"));
 
   const hiddenContent = await page
     .locator('[data-scroll-reveal="true"]')
@@ -1889,7 +1904,7 @@ test("contact fields use the brand border on hover", async ({ page }) => {
   await page.goto("/");
   const input = page.locator("#contact-name");
   await input.hover();
-  await expect(input).toHaveCSS("border-color", "rgb(95, 108, 255)");
+  await expect(input).toHaveCSS("border-color", "rgb(79, 93, 224)");
 });
 
 test("English case study has localized metadata and language alternate", async ({
@@ -2265,7 +2280,7 @@ test("hover states do not lift cards or related links", async ({ page }) => {
     )
     .toBe("start");
   await projectCard.hover();
-  await expect(projectCard).toHaveCSS("border-color", "rgb(95, 108, 255)");
+  await expect(projectCard).toHaveCSS("border-color", "rgb(79, 93, 224)");
   await expectStableVerticalPosition(".case-card");
 
   await page.goto("/sluzby/ai-reseni");

@@ -44,7 +44,8 @@ const t = (key: string, values?: Record<string, string | number>) => {
     "help.clear": "clear",
     "help.exit": "exit",
     "initial.line1": "Terminal ready.",
-    "initial.line2": "Type `cd about`, `cd work`, `cd capabilities`, or `cd contact`.",
+    "initial.line2":
+      "Type `cd about`, `cd work`, `cd capabilities`, or `cd contact`.",
     awaitingInput: "Awaiting input. Type `help` or `list`.",
     closing: "Closing terminal.",
     availableCommands: "Available commands:",
@@ -56,7 +57,8 @@ const t = (key: string, values?: Record<string, string | number>) => {
     unknownCommand: `Unknown command: ${replacements.command ?? ""}`.trim(),
     typeHelp: "Type `help` for supported commands.",
     focusNode: `Focusing ${replacements.section ?? ""} node`.trim(),
-    listLabel: `${replacements.title ?? ""}: node ${replacements.id ?? ""}`.trim(),
+    listLabel:
+      `${replacements.title ?? ""}: node ${replacements.id ?? ""}`.trim(),
     fileLabel: `- ${replacements.id ?? ""}.md`.trim(),
     "pageMarkdown.about.title": "# About",
     "pageMarkdown.about.body": "About body",
@@ -72,10 +74,10 @@ const t = (key: string, values?: Record<string, string | number>) => {
     "pageMarkdown.work.include3": "- My213",
     "pageMarkdown.work.include4": "- Ondrasek",
     "pageMarkdown.work.include5": "- Kinedok",
-    "pageMarkdown.work.include6": "- MycoPod",
     "pageMarkdown.capabilities.title": "# Skills",
     "pageMarkdown.capabilities.section1": "## Software Engineering",
-    "pageMarkdown.capabilities.s1i1": "- React, Next.js, TypeScript, Node.js, Go",
+    "pageMarkdown.capabilities.s1i1":
+      "- React, Next.js, TypeScript, Node.js, Go",
     "pageMarkdown.capabilities.section2": "## Data & Backend",
     "pageMarkdown.capabilities.s2i1":
       "- Python, SQL, visualization, data processing",
@@ -87,13 +89,14 @@ const t = (key: string, values?: Record<string, string | number>) => {
       "- ESP32, sensors, electronics, 3D printing, CAD",
     "pageMarkdown.capabilities.s3i2":
       "- Measurement, data collection, experimental work",
-    "pageMarkdown.capabilities.s3i3":
-      "- Docker, Linux, networking, CI/CD",
+    "pageMarkdown.capabilities.s3i3": "- Docker, Linux, networking, CI/CD",
     "pageMarkdown.contact.title": "# Contact",
     "pageMarkdown.contact.line1": "- Email: contact@vantuch.dev",
-    "pageMarkdown.contact.line2": "- LinkedIn, GitHub, Telegram available on page",
+    "pageMarkdown.contact.line2":
+      "- LinkedIn, GitHub, Telegram available on page",
     "pageMarkdown.contact.formTitle": "## Form",
-    "pageMarkdown.contact.formBody": "Use the contact form to send a project inquiry.",
+    "pageMarkdown.contact.formBody":
+      "Use the contact form to send a project inquiry.",
   };
 
   return map[key] ?? key;
@@ -111,7 +114,11 @@ describe("executeTerminalCommand", () => {
     expect(executeTerminalCommand("help", routeItems, t)).toEqual(
       expect.objectContaining({
         type: "output",
-        output: expect.arrayContaining(["Available commands:", "- help", "- list"]),
+        output: expect.arrayContaining([
+          "Available commands:",
+          "- help",
+          "- list",
+        ]),
       }),
     );
   });
@@ -192,7 +199,10 @@ describe("executeTerminalCommand", () => {
   it("reports unsupported commands", () => {
     expect(executeTerminalCommand("launch work", routeItems, t)).toEqual({
       type: "output",
-      output: ["Unknown command: launch work", "Type `help` for supported commands."],
+      output: [
+        "Unknown command: launch work",
+        "Type `help` for supported commands.",
+      ],
     });
   });
 });

@@ -23,6 +23,7 @@ Each `dev:*` command starts one app. The second command uses port 3001 so both c
 
 ```sh
 pnpm lint
+pnpm format:check
 pnpm typecheck
 pnpm test --runInBand
 pnpm build
@@ -52,9 +53,11 @@ Vercel's [monorepo documentation](https://vercel.com/docs/monorepos) describes t
 
 `apps/web/.env.example` lists all required variables. It contains placeholders only; no provider accounts or live tracking are enabled by this code change.
 
-- **Turnstile:** set `NEXT_PUBLIC_TURNSTILE_SITE_KEY`, server-only `TURNSTILE_SECRET_KEY`, and `TURNSTILE_ALLOWED_HOSTNAMES` (comma-separated hostnames, without scheme or path). Configure the same hostnames on the widget in Cloudflare. Every contact, referral-link, partnership, and retained newsletter form verifies the token, action, and hostname server-side once configured. When both keys are absent, this optional integration is inactive; once either key is set, both are required and incomplete configuration fails closed. Add preview hostnames explicitly when testing preview deployments. Rebuild after changing the public site key.
+- **Turnstile:** set `NEXT_PUBLIC_TURNSTILE_SITE_KEY`, server-only `TURNSTILE_SECRET_KEY`, and `TURNSTILE_ALLOWED_HOSTNAMES` (comma-separated hostnames, without scheme or path). Configure the same hostnames on the widget in Cloudflare. Every contact, referral-link, partnership, and retained newsletter form verifies the token, action, and hostname server-side. Production deployments fail closed when the keys are missing; set `TURNSTILE_REQUIRED=true` to exercise the same behavior outside Vercel production. Add preview hostnames explicitly when testing preview deployments. Rebuild after changing the public site key.
 - **Microsoft Clarity:** set `CLARITY_PROJECT_ID`. Its script loads only after analytics consent; form contents are masked. Do not add another Clarity tag through a tag manager.
 - **Cloudflare Web Analytics:** set `CLOUDFLARE_WEB_ANALYTICS_TOKEN` from the site's JS snippet. Choose manual JS snippet installation in Cloudflare rather than automatic injection, so the cookie controls govern loading and the beacon is not included twice.
 - **Sentry:** set `NEXT_PUBLIC_SENTRY_DSN` for browser errors and optionally `SENTRY_DSN` for server/edge errors (the public DSN is the fallback). Set `NEXT_PUBLIC_SENTRY_ENVIRONMENT` to identify the deployment environment. For source maps, also set `SENTRY_ORG`, `SENTRY_PROJECT`, and server-only `SENTRY_AUTH_TOKEN` during builds. Controlled API failures use the shared Sentry logger and error-response helper. Diagnostics exclude request bodies, headers, cookies, query strings, user data, extras, and breadcrumbs. Session replay and performance sampling are not enabled. Set server-only `DEBUG_ERRORS=true` only when local handled-error diagnostics are needed.
 
 Visitors can allow analytics, use essential features only, or reopen Cookie settings in the footer. Choices expire after 180 days. Withdrawing consent stops analytics on reload and removes Clarity's first-party cookies. Form protection and error reporting are separate from optional analytics. Complete an actual production delivery and error-reporting check after configuring real keys; tests use simulated services and do not send messages to real recipients.
+
+Production builds on Vercel validate the complete form, monitoring, source-map, and analytics configuration before compiling. Run `VALIDATE_PRODUCTION_ENV=true pnpm --filter @vantuch/web validate:production-env` to perform the same check manually. API endpoints also apply a per-instance rate limit as defense in depth; retain Cloudflare or Vercel Firewall rate limiting at the edge so limits are shared across instances.

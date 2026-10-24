@@ -64,8 +64,20 @@ export async function verifyTurnstile(
 ): Promise<TurnstileVerification> {
   const secret = process.env.TURNSTILE_SECRET_KEY?.trim();
   const siteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY?.trim();
-  // Optional until provisioned. Partial configuration must never bypass verification.
-  if (!secret && !siteKey) return { ok: true };
+  const required =
+    process.env.TURNSTILE_REQUIRED === "true" ||
+    process.env.VERCEL_ENV === "production";
+  // Local development and tests may omit Turnstile. Production always fails closed.
+  if (!secret && !siteKey) {
+    return required
+      ? turnstileFailure(
+          expectedAction,
+          "notConfigured",
+          "missing_configuration",
+          { type: "error" },
+        )
+      : { ok: true };
+  }
   if (!secret || !siteKey) {
     return turnstileFailure(
       expectedAction,

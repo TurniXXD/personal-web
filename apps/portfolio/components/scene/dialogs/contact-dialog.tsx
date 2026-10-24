@@ -108,10 +108,7 @@ export const ContactDialog = ({
             <Mail size={16} strokeWidth={2} />
             <span>{t("direct.emailLabel")}</span>
           </a>
-          <a
-            className="contact-dialog__direct-item"
-            href="tel:+420735023812"
-          >
+          <a className="contact-dialog__direct-item" href="tel:+420735023812">
             <Phone size={16} strokeWidth={2} />
             <span>{t("direct.phoneLabel")}</span>
           </a>

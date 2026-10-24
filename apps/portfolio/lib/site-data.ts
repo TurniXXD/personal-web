@@ -133,20 +133,6 @@ export const getProjects = (t: Translator): Project[] => [
     ],
   },
   {
-    name: t("projects.mycopod"),
-    imgUrl: projectImages.mycopod,
-    meta: t("projectMeta.mycopod"),
-    description: t("projectDescriptions.mycopod"),
-    stack: t("projectStacks.mycopod"),
-    workItems: [
-      t("projectWork.mycopod.design"),
-      t("projectWork.mycopod.firmware"),
-      t("projectWork.mycopod.control"),
-      t("projectWork.mycopod.monitoring"),
-    ],
-    imageFit: "contain",
-  },
-  {
     name: t("projects.my213"),
     url: "https://www.my213.cz/",
     imgUrl: projectImages.my213,

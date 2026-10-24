@@ -138,6 +138,12 @@ test("contact is saved to Twenty with person, note and SalesReferral", async () 
       )?.body,
     ).toMatchObject({
       emails: { primaryEmail: "anna@example.com" },
+      phones: {
+        primaryPhoneNumber: "735023812",
+        primaryPhoneCountryCode: "CZ",
+        primaryPhoneCallingCode: "+420",
+        additionalPhones: [],
+      },
       personType: "LEAD",
       leadSource: "WEBSITE_CONTACT",
     });
@@ -166,4 +172,77 @@ test("contact is saved to Twenty with person, note and SalesReferral", async () 
     if (previous === undefined) delete process.env.TWENTY_APP_FIELDS_ENABLED;
     else process.env.TWENTY_APP_FIELDS_ENABLED = previous;
   }
+});
+
+test("contact fills a missing phone on an existing Twenty person", async () => {
+  const requests: {
+    path: string;
+    method: string;
+    body?: Record<string, unknown>;
+  }[] = [];
+  const fetcher = (async (
+    input: string | URL | Request,
+    init?: RequestInit,
+  ) => {
+    const url = new URL(String(input));
+    const path = url.pathname.replace("/rest/", "");
+    const method = init?.method ?? "GET";
+    const body = init?.body ? JSON.parse(String(init.body)) : undefined;
+    requests.push({ path, method, body });
+
+    if (method === "PATCH") return new Response(null, { status: 204 });
+    if (method === "GET" && path === "people")
+      return Response.json({
+        data: {
+          people: [
+            {
+              id: "existing-person-id",
+              emails: { primaryEmail: "contact@vantuch.dev" },
+              phones: { primaryPhoneNumber: "" },
+            },
+          ],
+        },
+      });
+    if (method === "GET") return Response.json({ data: { [path]: [] } });
+
+    const singular = { notes: "note", noteTargets: "noteTarget" }[path];
+    return Response.json({
+      data: { [singular ?? path]: { id: `${path}-id` } },
+    });
+  }) as typeof fetch;
+
+  const client = new TwentyClient(
+    "https://twenty.example",
+    "test-key",
+    fetcher,
+  );
+  await client.saveContact(
+    {
+      name: "Jakub Vantuch",
+      email: "contact@vantuch.dev",
+      phone: "+420735023812",
+      message: "Test",
+    },
+    "53abb452-ce0d-4577-998c-59aeebaaf230",
+  );
+
+  expect(
+    requests.find(
+      (request) =>
+        request.path === "people/existing-person-id" &&
+        request.method === "PATCH",
+    )?.body,
+  ).toEqual({
+    phones: {
+      primaryPhoneNumber: "735023812",
+      primaryPhoneCountryCode: "CZ",
+      primaryPhoneCallingCode: "+420",
+      additionalPhones: [],
+    },
+  });
+  expect(
+    requests.some(
+      (request) => request.path === "people" && request.method === "POST",
+    ),
+  ).toBe(false);
 });

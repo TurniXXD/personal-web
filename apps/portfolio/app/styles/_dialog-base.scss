@@ -23,7 +23,9 @@
 }
 
 @media (min-width: $bp-md) {
-  .work-dialog:not(.work-dialog--form):not(.work-dialog--about):not(.work-dialog--capabilities) {
+  .work-dialog:not(.work-dialog--form):not(.work-dialog--about):not(
+      .work-dialog--capabilities
+    ) {
     width: min(72rem, calc(100vw - 4rem));
   }
 }
@@ -176,8 +178,16 @@
   overflow: hidden;
   border-radius: 0.85rem;
   background:
-    linear-gradient(135deg, rgba(154, 166, 224, 0.22), rgba(120, 92, 255, 0.14)),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(237, 241, 255, 0.96));
+    linear-gradient(
+      135deg,
+      rgba(154, 166, 224, 0.22),
+      rgba(120, 92, 255, 0.14)
+    ),
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.92),
+      rgba(237, 241, 255, 0.96)
+    );
   border: 1px solid rgba(114, 129, 202, 0.14);
 }
 
@@ -193,8 +203,16 @@
   inset: 0;
   pointer-events: none;
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(111, 124, 255, 0.08)),
-    radial-gradient(circle at top right, rgba(149, 118, 255, 0.16), transparent 38%);
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.03),
+      rgba(111, 124, 255, 0.08)
+    ),
+    radial-gradient(
+      circle at top right,
+      rgba(149, 118, 255, 0.16),
+      transparent 38%
+    );
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.26),
     inset 0 -24px 40px rgba(107, 91, 198, 0.08);
@@ -210,23 +228,59 @@
 
 .work-dialog__preview--violet {
   background:
-    radial-gradient(circle at top right, rgba(149, 118, 255, 0.22), transparent 42%),
-    linear-gradient(135deg, rgba(154, 166, 224, 0.22), rgba(120, 92, 255, 0.14)),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(237, 241, 255, 0.96));
+    radial-gradient(
+      circle at top right,
+      rgba(149, 118, 255, 0.22),
+      transparent 42%
+    ),
+    linear-gradient(
+      135deg,
+      rgba(154, 166, 224, 0.22),
+      rgba(120, 92, 255, 0.14)
+    ),
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.92),
+      rgba(237, 241, 255, 0.96)
+    );
 }
 
 .work-dialog__preview--cyan {
   background:
-    radial-gradient(circle at top right, rgba(79, 213, 210, 0.24), transparent 42%),
-    linear-gradient(135deg, rgba(137, 188, 233, 0.22), rgba(93, 188, 205, 0.14)),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(237, 245, 255, 0.96));
+    radial-gradient(
+      circle at top right,
+      rgba(79, 213, 210, 0.24),
+      transparent 42%
+    ),
+    linear-gradient(
+      135deg,
+      rgba(137, 188, 233, 0.22),
+      rgba(93, 188, 205, 0.14)
+    ),
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.92),
+      rgba(237, 245, 255, 0.96)
+    );
 }
 
 .work-dialog__preview--blue {
   background:
-    radial-gradient(circle at top right, rgba(104, 140, 255, 0.2), transparent 42%),
-    linear-gradient(135deg, rgba(154, 166, 224, 0.2), rgba(103, 127, 255, 0.14)),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(238, 242, 255, 0.96));
+    radial-gradient(
+      circle at top right,
+      rgba(104, 140, 255, 0.2),
+      transparent 42%
+    ),
+    linear-gradient(
+      135deg,
+      rgba(154, 166, 224, 0.2),
+      rgba(103, 127, 255, 0.14)
+    ),
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.92),
+      rgba(238, 242, 255, 0.96)
+    );
 }
 
 .work-dialog__browser {

@@ -83,19 +83,14 @@
       "robe": "Robe",
       "kinedok": "Kinedok",
       "revizio": "Revizio",
-      "mycopod": "MycoPod",
       "my213": "My213",
       "ondrasek": "Ondrášek",
       "seedr": "Seedr"
-    },
-    "projectMeta": {
-      "mycopod": "IoT pěstební prototyp"
     },
     "projectDescriptions": {
       "robe": "Produktově zaměřený web pro výrobce profesionální světelné techniky, postavený na přehledném objevování produktů a čisté vizuální prezentaci.",
       "kinedok": "Platforma pro síť dokumentárních filmů, která pomáhá návštěvníkům objevovat program, místa promítání a festivalový obsah napříč regiony.",
       "revizio": "Aplikace pro správu revizních procesů, přehlednější evidenci a hladší každodenní administraci.",
-      "mycopod": "Experimentální automatizovaný systém pro pěstování hub v kontrolovaném prostředí. Propojuje 3D návrh a tisk, elektroniku, senzory řízené přes ESP32 a vlastní software pro monitoring pěstebních dat.",
       "my213": "Digitální portál zaměřený na zjednodušení strukturovaných business procesů, zadávání dat a uživatelské administrace.",
       "ondrasek": "Prezentační web pro Ondrášek se zaměřením na strukturu obsahu, vizuální přehlednost a snadný přístup ke klíčovým informacím."
     },
@@ -106,7 +101,6 @@
       "robe": "Next.js · TypeScript · PostgreSQL",
       "kinedok": "Next.js · TypeScript · CMS",
       "revizio": "React · TypeScript · UX",
-      "mycopod": "ESP32 · Senzory · 3D tisk",
       "my213": "React · TypeScript · Integrace",
       "ondrasek": "Frontend · CMS · SEO"
     },
@@ -128,12 +122,6 @@
         "ux": "UX struktura",
         "views": "Přehledy a workflow",
         "product": "Produktový vývoj"
-      },
-      "mycopod": {
-        "design": "3D návrh a tisk",
-        "firmware": "ESP32 firmware",
-        "control": "Senzory a řízení prostředí",
-        "monitoring": "Monitoring aplikace"
       },
       "my213": {
         "frontend": "Frontend development",
@@ -313,8 +301,7 @@
         "include2": "- Revizio",
         "include3": "- My213",
         "include4": "- Ondrášek",
-        "include5": "- Kinedok",
-        "include6": "- MycoPod"
+        "include5": "- Kinedok"
       },
       "capabilities": {
         "title": "# Dovednosti",

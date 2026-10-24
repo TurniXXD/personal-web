@@ -50,7 +50,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       type: "website",
     },
     twitter: {
-      card: "summary",
+      card: "summary_large_image",
       title: meta.title,
       description: meta.description,
     },
@@ -65,7 +65,7 @@ export default async function ReferralPage({ params }: Props) {
   return (
     <>
       <SiteHeader locale={locale} path="/doporuceni" />
-      <main>
+      <main id="main-content">
         <section
           className="hero referral-hero"
           aria-labelledby="referral-title"

@@ -1,11 +1,18 @@
 import { NextResponse } from "next/server";
 import { apiErrorResponse } from "@/lib/api-error-response";
+import { rateLimit } from "@/lib/rate-limit";
 import { verifyTurnstile } from "@/lib/turnstile";
 
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const endpoint = "newsletter";
 
 export async function POST(request: Request) {
+  const limited = rateLimit(request, endpoint, {
+    limit: 5,
+    windowMs: 60 * 60 * 1_000,
+  });
+  if (limited) return limited;
+
   const webhookUrl = process.env.NEWSLETTER_WEBHOOK_URL?.trim();
   if (!webhookUrl) {
     return apiErrorResponse({

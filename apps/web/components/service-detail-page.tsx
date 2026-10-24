@@ -214,7 +214,10 @@ export const ServiceDetailPage = ({ locale, slug }: ServiceDetailPageProps) => {
           __html: JSON.stringify(structuredData).replace(/</g, "\\u003c"),
         }}
       />
-      <main className={`service-detail service-detail--${slug}`}>
+      <main
+        id="main-content"
+        className={`service-detail service-detail--${slug}`}
+      >
         <section
           className="service-detail-hero"
           aria-labelledby="service-detail-title"
@@ -427,32 +430,11 @@ export const ServiceDetailPage = ({ locale, slug }: ServiceDetailPageProps) => {
           </div>
         </section>
 
-        {!content.demo && (
-          <section
-            className="service-detail-final-cta"
-            aria-labelledby="detail-cta-title"
-          >
-            <div className="site-container">
-              <ScrollReveal className="service-detail-final-cta__inner">
-                <div>
-                  <p className="eyebrow eyebrow--light">
-                    {content.finalCta.eyebrow}
-                  </p>
-                  <h2 id="detail-cta-title">{content.finalCta.title}</h2>
-                  <p>{content.finalCta.description}</p>
-                </div>
-                <ActionLink href="#contact">
-                  {content.finalCta.action}{" "}
-                  <ArrowRight size={17} aria-hidden="true" />
-                </ActionLink>
-              </ScrollReveal>
-            </div>
-          </section>
-        )}
-
         <ContactBlock
           locale={locale}
+          eyebrow={content.finalCta.eyebrow}
           title={content.finalCta.title}
+          description={content.finalCta.description}
           topic={content.name}
           requestType="service"
         />

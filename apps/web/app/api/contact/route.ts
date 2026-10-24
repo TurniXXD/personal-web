@@ -7,6 +7,7 @@ import {
   validateContactInput,
 } from "@/lib/contact-submission";
 import { referralCookie, verifyReferralToken } from "@/lib/referral-token";
+import { rateLimit } from "@/lib/rate-limit";
 import { siteConfig } from "@/lib/site-config";
 import { configuredTwenty } from "@/lib/twenty";
 import { verifyTurnstile } from "@/lib/turnstile";
@@ -24,6 +25,12 @@ function escapeHtml(value: string): string {
 }
 
 export async function POST(request: Request) {
+  const limited = rateLimit(request, endpoint, {
+    limit: 10,
+    windowMs: 10 * 60 * 1_000,
+  });
+  if (limited) return limited;
+
   let body: unknown;
   try {
     const raw = await request.text();

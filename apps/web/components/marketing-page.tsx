@@ -91,7 +91,7 @@ export const MarketingPage = ({ locale }: MarketingPageProps) => {
           __html: JSON.stringify(structuredData).replace(/</g, "\\u003c"),
         }}
       />
-      <main>
+      <main id="main-content">
         <section className="hero" aria-labelledby="hero-title">
           <div className="site-container hero__grid">
             <div className="hero__content">

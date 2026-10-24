@@ -3,6 +3,7 @@ import { Resend } from "resend";
 import { apiErrorResponse } from "@/lib/api-error-response";
 import { localizedPath } from "@/lib/content";
 import { createReferralToken } from "@/lib/referral-token";
+import { rateLimit } from "@/lib/rate-limit";
 import { validateReferralRequest } from "@/lib/referral-request";
 import { siteConfig } from "@/lib/site-config";
 import { configuredTwenty } from "@/lib/twenty";
@@ -28,6 +29,12 @@ const validSubmissionId = (value: unknown) =>
     : randomUUID();
 
 export async function POST(request: Request) {
+  const limited = rateLimit(request, endpoint, {
+    limit: 5,
+    windowMs: 10 * 60 * 1_000,
+  });
+  if (limited) return limited;
+
   let body: unknown;
   try {
     const raw = await request.text();

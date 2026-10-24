@@ -11,11 +11,13 @@
     "build:portfolio": "pnpm --filter @vantuch/portfolio build",
     "typecheck": "pnpm --filter @vantuch/portfolio typecheck && pnpm --filter @vantuch/web typecheck",
     "lint": "eslint apps packages",
+    "format:check": "prettier --check .",
     "test": "pnpm --filter @vantuch/portfolio test",
     "test:e2e": "pnpm --filter @vantuch/portfolio test:e2e && pnpm --filter @vantuch/web test:e2e",
     "prepare": "husky"
   },
   "devDependencies": {
+    "@axe-core/playwright": "4.14.0",
     "@commitlint/cli": "^20.4.1",
     "@commitlint/config-conventional": "^20.4.1",
     "@playwright/test": "^1.58.2",
@@ -25,7 +27,7 @@
     "@types/react-dom": "^19.2.2",
     "@types/three": "^0.183.1",
     "eslint": "^9.38.0",
-    "eslint-config-next": "16.1.6",
+    "eslint-config-next": "16.4.1",
     "husky": "^9.1.7",
     "jest": "^30.2.0",
     "lint-staged": "^16.2.7",

@@ -35,7 +35,8 @@ const customJestConfig = {
   ],
   moduleNameMapper: {
     "^@/(.*)$": "<rootDir>/$1",
-    "^@vantuch/ui/project-images$": "<rootDir>/../../packages/ui/src/project-images.ts",
+    "^@vantuch/ui/project-images$":
+      "<rootDir>/../../packages/ui/src/project-images.ts",
     "\\.(css|less|sass|scss)$": "<rootDir>/test/__mocks__/styleMock.js",
     "\\.(gif|ttf|eot|svg|png|jpg|jpeg|webp|avif)$":
       "<rootDir>/test/__mocks__/fileMock.js",

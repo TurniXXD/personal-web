@@ -178,6 +178,7 @@ type SiteCopy = {
   };
   footer: {
     line: string;
+    community: string;
     referral: string;
     privacy: string;
     copyright: string;
@@ -379,6 +380,7 @@ export const copy: Record<Locale, SiteCopy> = {
     },
     footer: {
       line: "Digital Solutions Consultant",
+      community: "Komunita a sociální sítě",
       referral: "Doporučit klienta",
       privacy: "Zpracování osobních údajů",
       copyright: "Všechna práva vyhrazena.",
@@ -655,6 +657,7 @@ export const copy: Record<Locale, SiteCopy> = {
     },
     footer: {
       line: "Digital Solutions Consultant",
+      community: "Community and social media",
       referral: "Refer a client",
       privacy: "Privacy notice",
       copyright: "All rights reserved.",

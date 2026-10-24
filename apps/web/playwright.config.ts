@@ -31,5 +31,16 @@ export default defineConfig({
         reuseExistingServer: !process.env.CI,
         timeout: 240_000,
       },
-  projects: [{ name: "chromium", use: { ...devices["Desktop Chrome"] } }],
+  projects: [
+    {
+      name: "chromium",
+      testIgnore: /webkit\.spec\.ts/,
+      use: { ...devices["Desktop Chrome"] },
+    },
+    {
+      name: "webkit",
+      testMatch: /webkit\.spec\.ts/,
+      use: { ...devices["iPhone 13"] },
+    },
+  ],
 });

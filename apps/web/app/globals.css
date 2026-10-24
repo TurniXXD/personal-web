@@ -11,6 +11,29 @@ body {
   font-family: var(--sans);
   -webkit-font-smoothing: antialiased;
 }
+.skip-link {
+  position: fixed;
+  top: 0.75rem;
+  left: 0.75rem;
+  z-index: 1000;
+  padding: 0.7rem 1rem;
+  border-radius: 0.65rem;
+  background: var(--navy);
+  color: #fff;
+  font-size: 0.9rem;
+  font-weight: 800;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(-120%);
+  transition:
+    opacity 160ms ease,
+    transform 160ms ease;
+}
+.skip-link:focus-visible {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateX(0);
+}
 main {
   overflow-x: clip;
 }
@@ -1763,12 +1786,13 @@ summary:focus-visible {
   }
   .contact-form .contact-form__field :is(input, select, textarea),
   .referral-request-form .referral-request-form__field :is(input, textarea),
+  .newsletter-card input[type="email"],
   .voucher-demo__form > label :is(input, select, textarea) {
     padding-top: 0.9rem;
-    font-size: 0.9rem;
+    font-size: 1rem;
   }
   .contact-form .contact-form__field textarea {
-    font-size: 0.84rem;
+    font-size: 1rem;
   }
   .contact-form .contact-form__grid,
   .referral-request-form .referral-request-form__grid {
@@ -6523,15 +6547,85 @@ summary:focus-visible {
 
 @supports (content-visibility: auto) {
   .service-detail-section,
-  .service-detail-use-cases,
-  .service-detail-faq,
-  .service-detail-related,
-  .service-process,
-  .service-projects,
-  .service-related {
+  .service-process {
     content-visibility: auto;
     contain-intrinsic-size: auto 48rem;
   }
+  .service-detail-use-cases,
+  .service-projects {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 64rem;
+  }
+  .service-detail-faq {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 40rem;
+  }
+  .service-detail-related,
+  .service-related {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 30rem;
+  }
+  @media (max-width: 700px) {
+    .service-detail-section,
+    .service-detail-use-cases,
+    .service-detail-faq,
+    .service-detail-related,
+    .service-process,
+    .service-projects,
+    .service-related {
+      content-visibility: visible;
+      contain-intrinsic-size: none;
+    }
+  }
+}
+
+.not-found-page,
+.global-error-page {
+  display: grid;
+  min-height: 100svh;
+  place-items: center;
+  padding: 2rem;
+  background:
+    radial-gradient(
+      circle at 20% 10%,
+      rgba(79, 93, 224, 0.16),
+      transparent 32rem
+    ),
+    #fbfcff;
+}
+.not-found-page__card,
+.global-error-page__card {
+  width: min(100%, 42rem);
+  padding: clamp(2rem, 7vw, 4rem);
+  border: 1px solid #dce2f5;
+  border-radius: 1.5rem;
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow: 0 28px 70px rgba(34, 43, 93, 0.12);
+  text-align: center;
+}
+.not-found-page__code,
+.global-error-page__label {
+  margin: 0;
+  color: var(--brand);
+  font: 700 0.76rem/1.4 var(--mono);
+  letter-spacing: 0.14em;
+}
+.not-found-page h1,
+.global-error-page h1 {
+  margin: 0.8rem 0;
+  color: var(--navy);
+  font-size: clamp(2rem, 6vw, 3.5rem);
+  letter-spacing: -0.06em;
+}
+.not-found-page__card > p:not(.not-found-page__code),
+.global-error-page__card > p:not(.global-error-page__label) {
+  margin: 0 auto 1.5rem;
+  color: #59627f;
+  line-height: 1.7;
+}
+.global-error-page button {
+  border: 0;
+  cursor: pointer;
 }
 .service-detail-section--navy {
   background: var(--surface-navy);

@@ -37,9 +37,7 @@ const PipelineVisual = dynamic(
 
 const CommandTerminal = dynamic(
   () =>
-    import("@/components/command-terminal").then(
-      (mod) => mod.CommandTerminal,
-    ),
+    import("@/components/command-terminal").then((mod) => mod.CommandTerminal),
   { ssr: false },
 );
 
@@ -147,7 +145,13 @@ const ShellContent = ({ children }: ChildrenProps) => {
     window.addEventListener("keydown", onKeyDown);
 
     return () => window.removeEventListener("keydown", onKeyDown);
-  }, [activeSection, mobileMenuOpen, openDialogSection, setActiveSection, terminalOpen]);
+  }, [
+    activeSection,
+    mobileMenuOpen,
+    openDialogSection,
+    setActiveSection,
+    terminalOpen,
+  ]);
 
   useEffect(() => {
     if (terminalOpen) {
@@ -204,14 +208,11 @@ const ShellContent = ({ children }: ChildrenProps) => {
     searchParams,
   ]);
 
-  const handleDialogSectionChange = useCallback(
-    (section: SectionId | null) => {
-      setOpenDialogSection((current) =>
-        current === section ? current : section,
-      );
-    },
-    [],
-  );
+  const handleDialogSectionChange = useCallback((section: SectionId | null) => {
+    setOpenDialogSection((current) =>
+      current === section ? current : section,
+    );
+  }, []);
 
   const dialogOpen = openDialogSection !== null;
   const handleOverview = () => {
@@ -232,11 +233,7 @@ const ShellContent = ({ children }: ChildrenProps) => {
   };
 
   return (
-    <div
-      className="app-shell"
-      data-testid="app-shell"
-      data-hydrated="true"
-    >
+    <div className="app-shell" data-testid="app-shell" data-hydrated="true">
       <div
         className={classNames(
           "top-signature",

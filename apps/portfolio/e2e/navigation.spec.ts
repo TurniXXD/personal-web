@@ -16,7 +16,9 @@ test("opens the work dialog from navigation", async ({ page }) => {
   await expect(page.getByRole("link", { name: /Kinedok/i })).toBeVisible();
 });
 
-test("opens the work dialog from the navigation query param and clears it", async ({ page }) => {
+test("opens the work dialog from the navigation query param and clears it", async ({
+  page,
+}) => {
   await page.goto("/en?navigation=work", { waitUntil: "networkidle" });
 
   const workDialog = page.getByTestId("dialog-work");
@@ -42,15 +44,25 @@ test("closes an open dialog with the escape key", async ({ page }) => {
   await expect(workDialog).toHaveAttribute("data-open", "false");
 });
 
-test("opens the skills and contact dialogs from navigation", async ({ page }) => {
+test("opens the skills and contact dialogs from navigation", async ({
+  page,
+}) => {
   await page.goto("/en", { waitUntil: "networkidle" });
   await expect(page.getByTestId("nav-capabilities")).toBeVisible();
 
   await page.getByTestId("nav-capabilities").click();
-  await expect(page.getByTestId("dialog-capabilities")).toHaveAttribute("data-open", "true");
-  await expect(page.getByTestId("dialog-capabilities").getByText("Skills")).toBeVisible();
+  await expect(page.getByTestId("dialog-capabilities")).toHaveAttribute(
+    "data-open",
+    "true",
+  );
+  await expect(
+    page.getByTestId("dialog-capabilities").getByText("Skills"),
+  ).toBeVisible();
 
   await page.getByTestId("nav-contact").click();
-  await expect(page.getByTestId("dialog-contact")).toHaveAttribute("data-open", "true");
+  await expect(page.getByTestId("dialog-contact")).toHaveAttribute(
+    "data-open",
+    "true",
+  );
   await expect(page.getByText("Let's talk about your project")).toBeVisible();
 });

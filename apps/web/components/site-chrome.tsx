@@ -199,12 +199,16 @@ export function SiteHeader({
 
 export function ContactBlock({
   locale,
+  eyebrow,
   title,
+  description,
   topic,
   requestType,
 }: {
   locale: Locale;
+  eyebrow?: string;
   title?: string;
+  description?: string;
   topic?: string;
   requestType?: ContactRequestType;
 }) {
@@ -219,9 +223,9 @@ export function ContactBlock({
       <ContactOrbit />
       <div className="site-container contact-section__inner">
         <ScrollReveal className="contact-section__intro">
-          <p className="eyebrow eyebrow--light">{t.eyebrow}</p>
+          <p className="eyebrow eyebrow--light">{eyebrow ?? t.eyebrow}</p>
           <h2 id="contact-title">{title ?? t.title}</h2>
-          <p>{t.text}</p>
+          <p>{description ?? t.text}</p>
         </ScrollReveal>
         <ScrollReveal className="contact-section__form-reveal" delay={60}>
           <ContactForm
@@ -306,9 +310,7 @@ export const SiteFooter = ({ locale }: SiteFooterProps) => {
             <a href={localizedPath(locale, "/privacy")}>{t.privacy}</a>
             <CookiePreferencesButton locale={locale} />
             <a href={localizedPath(locale, "/doporuceni")}>{t.referral}</a>
-            <a href={localizedPath(locale, "#newsletter")}>
-              {locale === "cs" ? "Newsletter" : "Newsletter"}
-            </a>
+            <a href={localizedPath(locale, "#newsletter")}>{t.community}</a>
           </div>
         </div>
       </div>

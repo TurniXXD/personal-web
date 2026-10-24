@@ -95,7 +95,9 @@ export const CapabilitiesDialog = ({
             <div className="work-dialog__meta">
               <div className="work-dialog__capability-heading">
                 <strong>{capability.title}</strong>
-                <span className="work-dialog__level-badge">{capability.level}</span>
+                <span className="work-dialog__level-badge">
+                  {capability.level}
+                </span>
               </div>
               <small>{capability.summary}</small>
             </div>

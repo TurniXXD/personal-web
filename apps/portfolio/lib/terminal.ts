@@ -6,7 +6,10 @@ export type TerminalResult =
   | { type: "clear"; output: string[] }
   | { type: "close"; output: string[] };
 
-type Translator = (key: string, values?: Record<string, string | number>) => string;
+type Translator = (
+  key: string,
+  values?: Record<string, string | number>,
+) => string;
 
 const baseRouteAliases = new Map([
   ["home", "about"],
@@ -46,7 +49,6 @@ const getPageMarkdown = (t: Translator): Record<SectionId, string[]> => ({
     t("pageMarkdown.work.include3"),
     t("pageMarkdown.work.include4"),
     t("pageMarkdown.work.include5"),
-    t("pageMarkdown.work.include6"),
   ],
   capabilities: [
     t("pageMarkdown.capabilities.title"),
@@ -116,7 +118,10 @@ export const executeTerminalCommand = (
   if (input === "help") {
     return {
       type: "output",
-      output: [t("availableCommands"), ...terminalHelp.map((command) => `- ${command}`)],
+      output: [
+        t("availableCommands"),
+        ...terminalHelp.map((command) => `- ${command}`),
+      ],
     };
   }
 

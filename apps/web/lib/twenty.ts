@@ -2,15 +2,44 @@ import type {
   ContactInput,
   ContactRequestContext,
 } from "@/lib/contact-submission";
+import { parsePhoneNumberFromString } from "libphonenumber-js/min";
 
 type RecordData = { id: string; [key: string]: unknown };
+type Phones = {
+  primaryPhoneNumber: string;
+  primaryPhoneCountryCode: string;
+  primaryPhoneCallingCode: string;
+  additionalPhones: string[];
+};
 type Person = RecordData & {
   name?: { firstName?: string; lastName?: string };
   emails?: { primaryEmail?: string };
+  phones?: Partial<Phones>;
 };
 
 const equals = (field: string, value: string) => `${field}[eq]:${value}`;
 const and = (...filters: string[]) => `and(${filters.join(",")})`;
+
+function toTwentyPhones(value: string): Phones | undefined {
+  const input = value.trim();
+  if (!input) return undefined;
+
+  const parsed = parsePhoneNumberFromString(input, "CZ");
+  if (parsed?.isPossible())
+    return {
+      primaryPhoneNumber: parsed.nationalNumber,
+      primaryPhoneCountryCode: parsed.country ?? "",
+      primaryPhoneCallingCode: `+${parsed.countryCallingCode}`,
+      additionalPhones: [],
+    };
+
+  return {
+    primaryPhoneNumber: input,
+    primaryPhoneCountryCode: "",
+    primaryPhoneCallingCode: "",
+    additionalPhones: [],
+  };
+}
 
 export class TwentyClient {
   constructor(
@@ -89,6 +118,17 @@ export class TwentyClient {
     return candidate as RecordData;
   }
 
+  async update(
+    plural: string,
+    id: string,
+    value: Record<string, unknown>,
+  ): Promise<void> {
+    await this.request(`${plural}/${encodeURIComponent(id)}`, {
+      method: "PATCH",
+      body: JSON.stringify(value),
+    });
+  }
+
   async findPersonById(id: string): Promise<Person | undefined> {
     return this.find("people", equals("id", id)) as Promise<Person | undefined>;
   }
@@ -100,15 +140,23 @@ export class TwentyClient {
     ) as Promise<Person | undefined>;
   }
 
-  async ensurePerson(name: string, email: string): Promise<Person> {
+  async ensurePerson(name: string, email: string, phone = ""): Promise<Person> {
     const normalizedEmail = email.toLowerCase();
+    const phones = toTwentyPhones(phone);
     const existing = await this.findPersonByEmail(normalizedEmail);
-    if (existing) return existing;
+    if (existing) {
+      if (phones && !existing.phones?.primaryPhoneNumber) {
+        await this.update("people", existing.id, { phones });
+        return { ...existing, phones };
+      }
+      return existing;
+    }
 
     const parts = name.trim().split(/\s+/);
     return this.create("people", "person", {
       name: { firstName: parts[0], lastName: parts.slice(1).join(" ") },
       emails: { primaryEmail: normalizedEmail, additionalEmails: [] },
+      ...(phones ? { phones } : {}),
       ...(process.env.TWENTY_APP_FIELDS_ENABLED === "true"
         ? { personType: "LEAD", leadSource: "WEBSITE_CONTACT" }
         : {}),
@@ -122,7 +170,7 @@ export class TwentyClient {
     requestContext?: ContactRequestContext,
   ): Promise<void> {
     const email = input.email.toLowerCase();
-    const person = await this.ensurePerson(input.name, email);
+    const person = await this.ensurePerson(input.name, email, input.phone);
 
     const title = `[web-contact:${submissionId}] ${input.name.replaceAll(/[\r\n]+/g, " ")}`;
     let note = await this.find("notes", equals("title", title));

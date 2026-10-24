@@ -1,4 +1,4 @@
-import * as Sentry from "@sentry/nextjs";
+import * as Sentry from "@sentry/browser";
 import { getSentryClientDsn, sentryOptions } from "@/lib/sentry-options";
 
 const dsn = getSentryClientDsn();
@@ -8,5 +8,3 @@ Sentry.init({
   enabled: Boolean(dsn),
   ...sentryOptions,
 });
-
-export const onRouterTransitionStart = Sentry.captureRouterTransitionStart;

@@ -2,6 +2,7 @@ import { expect, test } from "@playwright/test";
 import { apiErrorResponse } from "../lib/api-error-response";
 import { verifyTurnstile } from "../lib/turnstile";
 import { sanitizeSentryEvent } from "../lib/sentry-options";
+import { rateLimit } from "../lib/rate-limit";
 
 test("Turnstile rejects forged, expired, cross-form and foreign-host tokens", async () => {
   const previousSecret = process.env.TURNSTILE_SECRET_KEY;
@@ -136,6 +137,39 @@ test("API error reporting preserves the intended public response", async () => {
   });
 });
 
+test("form rate limits return retry guidance after the configured allowance", async () => {
+  const request = new Request("https://vantuch.dev/api/contact", {
+    headers: { "x-forwarded-for": "192.0.2.84" },
+  });
+
+  expect(
+    rateLimit(request, "test-contact", { limit: 2, windowMs: 60_000 }),
+  ).toBeNull();
+  expect(
+    rateLimit(request, "test-contact", { limit: 2, windowMs: 60_000 }),
+  ).toBeNull();
+  const response = rateLimit(request, "test-contact", {
+    limit: 2,
+    windowMs: 60_000,
+  });
+
+  expect(response?.status).toBe(429);
+  expect(Number(response?.headers.get("Retry-After"))).toBeGreaterThan(0);
+});
+
+test("public responses carry the configured security headers", async ({
+  request,
+}) => {
+  const response = await request.get("/");
+  const headers = response.headers();
+
+  expect(headers["content-security-policy"]).toContain("default-src 'self'");
+  expect(headers["x-content-type-options"]).toBe("nosniff");
+  expect(headers["referrer-policy"]).toBe("strict-origin-when-cross-origin");
+  expect(headers["permissions-policy"]).toContain("camera=()");
+  expect(headers["x-powered-by"]).toBeUndefined();
+});
+
 test("cookie choices persist, can be reopened, and block analytics before consent", async ({
   page,
   request,
@@ -157,7 +191,7 @@ test("cookie choices persist, can be reopened, and block analytics before consen
   await expect(banner).toBeVisible();
   await expect(
     banner.getByRole("button", { name: "Povolit analytiku" }),
-  ).toHaveCSS("background-color", "rgb(83, 96, 239)");
+  ).toHaveCSS("background-color", "rgb(67, 81, 204)");
   expect(analytics).toEqual([]);
   await banner.getByRole("button", { name: "Pouze nezbytné" }).click();
   await page.reload();

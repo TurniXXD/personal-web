@@ -4,8 +4,12 @@ packages:
 
 verifyDepsBeforeRun: false
 
+overrides:
+  fast-uri: 3.1.9
+  zod: 4.6.6
+
 allowBuilds:
-  '@parcel/watcher': true
-  '@swc/core': true
+  "@parcel/watcher": true
+  "@swc/core": true
   sharp: true
   unrs-resolver: true

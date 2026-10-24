@@ -93,7 +93,7 @@ export const ServiceLandingPage = ({
           __html: JSON.stringify(structuredData).replace(/</g, "\\u003c"),
         }}
       />
-      <main className={`service-page service-page--${kind}`}>
+      <main id="main-content" className={`service-page service-page--${kind}`}>
         <section className="service-hero" aria-labelledby="service-hero-title">
           <div className="site-container service-hero__grid">
             <div className="service-hero__content">

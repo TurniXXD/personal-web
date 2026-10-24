@@ -32,9 +32,7 @@ export const ScrollReveal = ({
 
   useEffect(() => {
     const root = rootRef.current;
-    const reducedMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)",
-    );
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 
     if (!root || reducedMotion.matches) {
       return;

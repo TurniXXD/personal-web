@@ -1,9 +1,17 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { hasLocale } from "next-intl";
+import { setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
+import { CookieConsent } from "@/components/cookie-consent";
 import { routing } from "@/i18n/routing";
 import { copy } from "@/lib/content";
+import "@fontsource-variable/sora";
+import "@fontsource/ibm-plex-mono/400.css";
+import "@fontsource/ibm-plex-mono/600.css";
+import "@fontsource/ibm-plex-mono/700.css";
+import "@vantuch/ui/styles.css";
+import "@/app/globals.css";
 
 const siteUrl = "https://vantuch.dev";
 
@@ -40,7 +48,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       alternateLocale: locale === "cs" ? ["en_US"] : ["cs_CZ"],
     },
     twitter: {
-      card: "summary",
+      card: "summary_large_image",
       title: content.meta.title,
       description: content.meta.description,
     },
@@ -50,5 +58,21 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function LocaleLayout({ children, params }: Props) {
   const { locale } = await params;
   if (!hasLocale(routing.locales, locale)) notFound();
-  return children;
+  setRequestLocale(locale);
+
+  return (
+    <html lang={locale}>
+      <body>
+        <a className="skip-link" href="#main-content">
+          {locale === "cs" ? "Přejít na hlavní obsah" : "Skip to main content"}
+        </a>
+        {children}
+        <CookieConsent
+          locale={locale}
+          clarityProjectId={process.env.CLARITY_PROJECT_ID?.trim()}
+          cloudflareAnalyticsToken={process.env.CLOUDFLARE_WEB_ANALYTICS_TOKEN?.trim()}
+        />
+      </body>
+    </html>
+  );
 }

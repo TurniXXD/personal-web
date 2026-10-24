@@ -40,7 +40,7 @@ export const AutomationPage = ({ locale }: AutomationPageProps) => {
           __html: JSON.stringify(structuredData).replace(/</g, "\\u003c"),
         }}
       />
-      <main>
+      <main id="main-content">
         <AutomationScrollStory locale={locale} />
 
         <section

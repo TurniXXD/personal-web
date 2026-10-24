@@ -1,6 +1,12 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import { ArrowLeft, ArrowRight, Check, ExternalLink, MessageCircle } from "lucide-react";
+import {
+  ArrowLeft,
+  ArrowRight,
+  Check,
+  ExternalLink,
+  MessageCircle,
+} from "lucide-react";
 import { hasLocale } from "next-intl";
 import { notFound } from "next/navigation";
 import { ActionLink, Pill } from "@vantuch/ui";
@@ -62,13 +68,14 @@ export default async function CaseStudyPage({ params }: Props) {
   const t = copy[locale];
   const project = caseStudyProjects[slug];
   const content = t.cases[slug];
-  const nextSlug = caseStudySlugs[(caseStudySlugs.indexOf(slug) + 1) % caseStudySlugs.length];
+  const nextSlug =
+    caseStudySlugs[(caseStudySlugs.indexOf(slug) + 1) % caseStudySlugs.length];
   const nextProject = caseStudyProjects[nextSlug];
 
   return (
     <>
       <SiteHeader locale={locale} path={"/work/" + slug} />
-      <main>
+      <main id="main-content">
         <article className="case-detail">
           <div className="site-container">
             <a
@@ -120,18 +127,24 @@ export default async function CaseStudyPage({ params }: Props) {
                 <h2 id="case-challenge">{t.casePage.challenge}</h2>
                 <p>{content.challenge}</p>
               </section>
-              <section className="case-detail__contribution" aria-labelledby="case-role">
+              <section
+                className="case-detail__contribution"
+                aria-labelledby="case-role"
+              >
                 <h2 id="case-role">{t.casePage.role}</h2>
-                  <ul>
-                    {content.role.map((item) => (
-                      <li key={item}>
-                        <Check size={18} aria-hidden="true" />
-                        {item}
-                      </li>
-                    ))}
-                  </ul>
+                <ul>
+                  {content.role.map((item) => (
+                    <li key={item}>
+                      <Check size={18} aria-hidden="true" />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
               </section>
-              <section className="case-detail__outcome" aria-labelledby="case-result">
+              <section
+                className="case-detail__outcome"
+                aria-labelledby="case-result"
+              >
                 <h2 id="case-result">{t.casePage.result}</h2>
                 <p>{content.result}</p>
               </section>
@@ -157,7 +170,10 @@ export default async function CaseStudyPage({ params }: Props) {
                   <MessageCircle size={17} aria-hidden="true" />
                 </ActionLink>
               </div>
-              <nav className="case-detail__navigation" aria-label={t.casePage.next}>
+              <nav
+                className="case-detail__navigation"
+                aria-label={t.casePage.next}
+              >
                 <a href={localizedPath(locale, "/work/" + nextSlug)}>
                   <span>{t.casePage.next}</span>
                   {nextProject.name} <ArrowRight size={17} aria-hidden="true" />

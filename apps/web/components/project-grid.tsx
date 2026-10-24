@@ -40,7 +40,6 @@ export const ProjectGrid = ({
             <a
               className="case-card__link"
               href={localizedPath(locale, `/work/${slug}`)}
-              aria-label={`${project.name} — ${content.work.viewCase}`}
             >
               <div className="case-card__image">
                 <Image
