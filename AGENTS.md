@@ -1,5 +1,10 @@
 # Project instructions
 
+## Hero composition
+
+- Never place decorative pipeline lines, connector tracks, or square-node dividers in or immediately after a hero section. Keep the hero focused on its headline, supporting copy, actions, and relevant visual.
+- If these motifs are useful, place them between later content sections instead.
+
 ## Hover motion
 
 - Never add hover or focus animations that move an interface element upward. This includes cards, buttons, links, icons, badges, and their nested content.

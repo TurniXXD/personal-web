@@ -294,7 +294,7 @@ export const AutomationScrollStory = ({
           <header className="automation-scroll-story__header">
             <div>
               <p className="eyebrow">{content.eyebrow}</p>
-              <h1 id="automation-story-title">{content.title}</h1>
+              <h2 id="automation-story-title">{content.title}</h2>
             </div>
             <p>{content.description}</p>
           </header>

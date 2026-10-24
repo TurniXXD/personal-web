@@ -1,3 +1,11 @@
+import {
+  ArrowRight,
+  ChartNoAxesCombined,
+  Check,
+  Database,
+  Mail,
+} from "lucide-react";
+import { ActionLink } from "@vantuch/ui";
 import { AutomationCatalog } from "@/components/automation-catalog";
 import { AutomationScrollStory } from "@/components/automation-scroll-story";
 import { ContactBlock, SiteFooter, SiteHeader } from "@/components/site-chrome";
@@ -41,6 +49,57 @@ export const AutomationPage = ({ locale }: AutomationPageProps) => {
         }}
       />
       <main id="main-content">
+        <section
+          className="automation-page-hero"
+          aria-labelledby="automation-page-hero-title"
+        >
+          <div className="site-container automation-page-hero__grid">
+            <div className="automation-page-hero__content">
+              <p className="eyebrow">{content.hero.eyebrow}</p>
+              <h1 id="automation-page-hero-title">
+                {content.hero.title} <span>{content.hero.highlight}</span>
+              </h1>
+              <p className="automation-page-hero__description">
+                {content.hero.description}
+              </p>
+              <div className="automation-page-hero__actions">
+                <ActionLink href="#contact">
+                  {content.hero.primary}{" "}
+                  <ArrowRight size={18} aria-hidden="true" />
+                </ActionLink>
+                <ActionLink href="#examples" variant="secondary">
+                  {content.hero.secondary}
+                </ActionLink>
+              </div>
+            </div>
+            <div className="automation-page-hero__visual">
+              <div className="automation-page-hero__visual-head">
+                <p className="eyebrow">{content.hero.visualEyebrow}</p>
+                <h2>{content.hero.visualTitle}</h2>
+              </div>
+              <ul>
+                {[Database, Mail, ChartNoAxesCombined].map((Icon, index) => (
+                  <li key={content.hero.visualItems[index]}>
+                    <span className="automation-page-hero__visual-icon">
+                      <Icon size={22} strokeWidth={1.8} aria-hidden="true" />
+                    </span>
+                    <span>{content.hero.visualItems[index]}</span>
+                    <span
+                      className="automation-page-hero__visual-check"
+                      aria-hidden="true"
+                    >
+                      <Check size={16} strokeWidth={2.5} />
+                    </span>
+                  </li>
+                ))}
+              </ul>
+              <p className="automation-page-hero__visual-note">
+                {content.hero.visualNote}
+              </p>
+            </div>
+          </div>
+        </section>
+
         <AutomationScrollStory locale={locale} />
 
         <section

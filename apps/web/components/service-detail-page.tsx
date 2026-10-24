@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import { ActionLink } from "@vantuch/ui";
 import { ScrollReveal } from "@/components/scroll-reveal";
+import { ServicePipelineDivider } from "@/components/service-pipeline-divider";
 import {
   AuditHeroVisual,
   LoyaltyHeroVisual,
@@ -134,9 +135,11 @@ export const ServiceDetailPage = ({ locale, slug }: ServiceDetailPageProps) => {
         ? [
             { index: 0, itemLimit: 3 },
             { index: 2, itemLimit: 4 },
-            { index: 3, itemLimit: 4 },
+            { index: 3, itemLimit: 3 },
           ]
-        : null;
+        : slug === "audit-ai-aplikaci"
+          ? [{ index: 0, itemLimit: 3 }]
+          : null;
   const visibleSections = sectionPlan
     ? sectionPlan.flatMap(({ index, itemLimit }) => {
         const section = content.sections[index];
@@ -304,7 +307,7 @@ export const ServiceDetailPage = ({ locale, slug }: ServiceDetailPageProps) => {
 
         <section
           className="section service-detail-workflow"
-          id="jak-to-funguje"
+          id={slug === "audit-ai-aplikaci" ? "co-proverim" : "jak-to-funguje"}
           aria-labelledby="detail-workflow-title"
         >
           <div className="site-container">
@@ -324,8 +327,18 @@ export const ServiceDetailPage = ({ locale, slug }: ServiceDetailPageProps) => {
                 </article>
               ))}
             </ScrollReveal>
+            {slug === "audit-ai-aplikaci" ? (
+              <div className="service-detail-workflow__action">
+                <ActionLink href="#contact">
+                  {content.hero.primary}{" "}
+                  <ArrowRight size={17} aria-hidden="true" />
+                </ActionLink>
+              </div>
+            ) : null}
           </div>
         </section>
+
+        <ServicePipelineDivider />
 
         {visibleSections.map((section) => (
           <section
@@ -363,7 +376,9 @@ export const ServiceDetailPage = ({ locale, slug }: ServiceDetailPageProps) => {
           </section>
         ))}
 
-        {slug !== "darkove-poukazy" && slug !== "vernostni-programy" ? (
+        {content.useCases &&
+        slug !== "darkove-poukazy" &&
+        slug !== "vernostni-programy" ? (
           <section
             className="section service-detail-use-cases"
             aria-labelledby="detail-cases-title"

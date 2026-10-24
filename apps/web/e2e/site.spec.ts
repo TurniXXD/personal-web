@@ -523,6 +523,12 @@ test("web applications service page presents real work and contact flow", async 
   ).toHaveCount(0);
   await expect(page.locator(".service-benefits")).toHaveCount(0);
   await expect(page.locator("#projects .case-card")).toHaveCount(5);
+  await expect(
+    page.locator("#projects + .service-pipeline-divider"),
+  ).toHaveCount(1);
+  await expect(
+    page.locator(".service-hero + .service-pipeline-divider"),
+  ).toHaveCount(0);
   await expect(page.locator("#projects")).toHaveCSS(
     "background-color",
     "rgb(23, 30, 60)",
@@ -694,11 +700,14 @@ test("AI application audit page is complete, localized and production-oriented",
     "Připravím ji na reálný provoz.",
   );
   await expect(page.locator(".service-detail-workflow article")).toHaveCount(6);
-  await expect(page.locator(".service-detail-section")).toHaveCount(3);
+  await expect(page.locator(".service-detail-section")).toHaveCount(1);
   await expect(
     page.locator(".service-detail-use-cases__list article"),
-  ).toHaveCount(3);
-  await expect(page.locator(".service-detail-faq details")).toHaveCount(7);
+  ).toHaveCount(0);
+  await expect(page.locator(".service-detail-faq details")).toHaveCount(4);
+  await expect(page.locator(".service-detail-benefits article")).toHaveCount(3);
+  await expect(page.locator(".service-detail-section article")).toHaveCount(3);
+  await expect(page.locator(".service-pipeline-divider")).toHaveCount(1);
   const auditMessage = page.locator("#contact-message");
   await expect(auditMessage).toHaveValue("");
   await expect(auditMessage).toHaveAttribute(
@@ -724,6 +733,9 @@ test("AI application audit page is complete, localized and production-oriented",
       body: JSON.stringify({ ok: true }),
     });
   });
+  await expect(
+    page.getByRole("complementary", { name: "Nastavení cookies" }),
+  ).toHaveCount(0);
   const auditForm = page.locator(".contact-form");
   await auditForm.locator('[name="name"]').fill("Jakub Vantuch");
   await auditForm.locator('[name="email"]').fill("contact@vantuch.dev");
@@ -746,6 +758,7 @@ test("AI application audit page is complete, localized and production-oriented",
   await expect(page).toHaveTitle(
     "AI application and vibecoded MVP audits | Jakub Vantuch",
   );
+  await expect(page.locator(".service-detail-section article")).toHaveCount(3);
   await expect(page.getByRole("heading", { level: 1 })).toContainText(
     "Built an application with AI?",
   );
@@ -796,6 +809,9 @@ test("loyalty programme page omits the interactive card demo", async ({
   await expect(page.locator("#administrace .service-detail-card")).toHaveCount(
     4,
   );
+  await expect(
+    page.getByRole("heading", { name: "Opravy a audit" }),
+  ).toHaveCount(0);
   await expect(page.locator(".loyalty-admin-preview")).toBeHidden();
 });
 
@@ -840,6 +856,21 @@ test("gift voucher demo clearly simulates payment, PDF and redemption states", a
     5,
   );
   await expect(page.locator(".service-detail-section")).toHaveCount(3);
+  await expect(page.locator("#sprava .service-detail-card")).toHaveCount(3);
+  await expect(
+    page.getByRole("heading", { name: "Opětovné odeslání" }),
+  ).toHaveCount(0);
+  await expect(page.locator("#znacka-a-zazitek")).toHaveClass(
+    /service-detail-section--navy/,
+  );
+  await expect(
+    page.getByRole("heading", {
+      name: "Poukaz, který působí jako přirozená součást vaší značky.",
+    }),
+  ).toBeVisible();
+  await expect(page.getByText("Ověřený webhook", { exact: true })).toHaveCount(
+    0,
+  );
   await expect(page.locator(".service-detail-workflow article")).toHaveCount(4);
   await expect(page.locator(".service-detail-use-cases")).toHaveCount(0);
   await expect(
@@ -1252,8 +1283,15 @@ test("automation page filters non-clickable examples", async ({ page }) => {
     "Automatizace procesů a AI řešení na míru | Jakub Vantuch",
   );
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
-    "Jedna objednávka. Několik automatických kroků.",
+    "Rutinu nechte běžet. Soustřeďte se na růst.",
   );
+  await expect(
+    page.getByRole("heading", {
+      level: 2,
+      name: "Jedna objednávka. Několik automatických kroků.",
+    }),
+  ).toBeVisible();
+  await expect(page.locator(".automation-page-hero__visual li")).toHaveCount(3);
   await expect(page.locator(".automation-closing")).toHaveCount(0);
   await expect(
     page.getByRole("heading", {
@@ -1339,8 +1377,9 @@ test("automation story stays complete after reaching the end", async ({
     ),
   );
   expect(sectionPositions[0]).toBeLessThan(sectionPositions[1]);
-  await expect(page.locator("main > .automation-scroll-story")).toHaveCount(1);
-  await expect(page.locator(".automation-page-hero")).toHaveCount(0);
+  await expect(
+    page.locator("main > .automation-page-hero + .automation-scroll-story"),
+  ).toHaveCount(1);
 
   const scrollStoryTo = async (progress: number) => {
     await story.evaluate((element, targetProgress) => {
@@ -1469,8 +1508,14 @@ test("automation page is localized, indexed and fits mobile width", async ({
   await page.goto("/en/automatizace");
   await expect(page.locator("html")).toHaveAttribute("lang", "en");
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
-    "One order. Several automated steps.",
+    "Let routine work run itself. Focus on growth.",
   );
+  await expect(
+    page.getByRole("heading", {
+      level: 2,
+      name: "One order. Several automated steps.",
+    }),
+  ).toBeVisible();
   await expect(
     page.getByRole("button", { name: "Documents and AI" }),
   ).toBeVisible();

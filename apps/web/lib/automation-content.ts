@@ -51,10 +51,14 @@ export type AutomationPageCopy = {
   hero: {
     eyebrow: string;
     title: string;
+    highlight: string;
     description: string;
     primary: string;
     secondary: string;
-    visualSteps: string[];
+    visualEyebrow: string;
+    visualTitle: string;
+    visualItems: [string, string, string];
+    visualNote: string;
   };
   catalog: {
     eyebrow: string;
@@ -80,13 +84,21 @@ export const automationPageCopy: Record<Locale, AutomationPageCopy> = {
         "Automatizace e-mailů, e-shopů, sociálních sítí a firemních procesů. Propojení systémů, AI řešení a praktické ukázky automatizací.",
     },
     hero: {
-      eyebrow: "AUTOMATIZACE A AI",
-      title: "Méně rutiny. Více času na podnikání.",
+      eyebrow: "AUTOMATIZACE PRO KAŽDODENNÍ PRÁCI",
+      title: "Rutinu nechte běžet.",
+      highlight: "Soustřeďte se na růst.",
       description:
-        "Od automatických e-mailů a péče o zákazníky až po chytré propojení firemních systémů. Podívejte se, co všechno lze automatizovat.",
-      primary: "Probrat možnosti automatizace",
+        "Propojím nástroje, které už používáte, a opakované úkoly proměním ve spolehlivý proces. Bez zbytečného přepisování, čekání a hlídání každého kroku.",
+      primary: "Probrat automatizaci",
       secondary: "Prohlédnout příklady",
-      visualSteps: ["Proces", "Automatizace", "Přehled"],
+      visualEyebrow: "KDYŽ SYSTÉMY SPOLUPRACUJÍ",
+      visualTitle: "Více hotové práce. Méně ručních kroků.",
+      visualItems: [
+        "Data se propisují mezi systémy",
+        "Zprávy odcházejí ve správný čas",
+        "Přehledy se průběžně aktualizují",
+      ],
+      visualNote: "Pravidla i kontrola zůstávají ve vašich rukou.",
     },
     catalog: {
       eyebrow: "PRAKTICKÉ PŘÍKLADY",
@@ -143,13 +155,21 @@ export const automationPageCopy: Record<Locale, AutomationPageCopy> = {
         "Email, e-commerce, social monitoring and business process automation, system integrations, AI solutions and practical examples.",
     },
     hero: {
-      eyebrow: "AUTOMATION AND AI",
-      title: "Less routine. More time for your business.",
+      eyebrow: "AUTOMATION FOR EVERYDAY WORK",
+      title: "Let routine work run itself.",
+      highlight: "Focus on growth.",
       description:
-        "From automated emails and customer care to practical connections between business systems. Explore what your company could automate.",
+        "I connect the tools you already use and turn repetitive tasks into a reliable process. Less copying, waiting, and checking every step by hand.",
       primary: "Discuss automation options",
       secondary: "Explore examples",
-      visualSteps: ["Process", "Automation", "Overview"],
+      visualEyebrow: "WHEN SYSTEMS WORK TOGETHER",
+      visualTitle: "More work completed. Fewer manual steps.",
+      visualItems: [
+        "Data syncs between systems",
+        "Messages go out at the right time",
+        "Reports stay up to date",
+      ],
+      visualNote: "You remain in control of the rules and decisions.",
     },
     catalog: {
       eyebrow: "PRACTICAL EXAMPLES",

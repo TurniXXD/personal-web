@@ -81,7 +81,7 @@ export type ServiceDetailCopy = {
     description?: string;
   };
   sections: ServiceDetailSection[];
-  useCases: {
+  useCases?: {
     eyebrow: string;
     title: string;
     description: string;
@@ -127,25 +127,25 @@ const auditCs: ServiceDetailCopy = {
     bottomChip: "Plán nápravy",
   },
   benefits: {
-    eyebrow: "OD PROTOTYPU K PROVOZU",
-    title: "Fungující aplikace ještě nemusí být připravená na produkci.",
+    eyebrow: "PRO KOHO JE AUDIT",
+    title: "Máte prototyp, MVP nebo aplikaci v provozu?",
     description:
-      "AI nástroje dokážou výrazně urychlit vznik prototypu. Funkční rozhraní ale samo nepotvrzuje, že jsou správně vyřešené přístupy, data, provoz a další rozvoj.",
+      "Prověřím, co už funguje, kde jsou rizika a na čem můžete bezpečně stavět dál.",
     items: [
       {
-        title: "Funguje v demu",
+        title: "Prototyp vytvořený pomocí AI",
         description:
-          "Hlavní scénář projde, ale nemusí být prověřené role, chybové stavy, databázové dotazy ani konfigurace nasazení.",
+          "Aplikace z Lovable, Boltu, Cursoru nebo jiného AI nástroje funguje, ale chcete znát její technický stav.",
       },
       {
-        title: "Funguje bezpečně v reálném provozu",
+        title: "MVP před spuštěním",
         description:
-          "Aplikace počítá s oprávněními, ochranou dat, monitoringem, zálohami a situacemi, které při ukázce běžně nenastanou.",
+          "Potřebujete ověřit kritická rizika, než aplikaci začnou používat skuteční zákazníci.",
       },
       {
-        title: "Navazuji na to, co už máte",
+        title: "Aplikace v provozu",
         description:
-          "Výchozím cílem není vše přepsat. Zachovám použitelné části a doporučím změny tam, kde mají skutečný přínos.",
+          "Řešíte chyby, výkon nebo další rozvoj. Zachovám použitelné části a určím, co je potřeba zlepšit.",
       },
     ],
   },
@@ -189,128 +189,31 @@ const auditCs: ServiceDetailCopy = {
   },
   sections: [
     {
-      id: "moznosti-spoluprace",
-      eyebrow: "NEJEN KONTROLA",
-      title: "Nejen kontrola. Pomůžu vám aplikaci i dokončit.",
-      description:
-        "Můžete si odnést samostatné technické posouzení, nebo na něj rovnou navázat opravami a dalším vývojem.",
-      tone: "navy",
-      items: [
-        {
-          title: "Technický audit",
-          description:
-            "Projdu dohodnutý rozsah aplikace, pojmenuji problémy a rizika, určím priority a připravím praktický plán nápravy.",
-        },
-        {
-          title: "Opravy a optimalizace",
-          description:
-            "Opravím zjištěné chyby a zranitelnosti, zlepším výkon a kvalitu kódu, doplním testy a upravím problematická místa.",
-        },
-        {
-          title: "Dokončení a další vývoj",
-          description:
-            "Převezmu existující MVP, doplním funkce a integrace, připravím nasazení a mohu pokračovat ve správě a rozvoji.",
-        },
-      ],
-    },
-    {
       id: "jak-probiha-audit",
-      eyebrow: "JAK SPOLUPRÁCE PROBÍHÁ",
-      title: "Srozumitelný postup i pro netechnického zakladatele.",
+      eyebrow: "POSTUP A VÝSTUP",
+      title: "Od první kontroly k jasnému plánu oprav.",
       description:
-        "Předem si ujasníme rozsah a přístupy. Během auditu se soustředím na rizika, která jsou pro váš projekt skutečně důležitá.",
-      items: [
-        {
-          title: "01 — Seznámení s projektem",
-          description:
-            "Sdílíte aplikaci, repozitář, použité technologie a to, čeho chcete dosáhnout.",
-        },
-        {
-          title: "02 — Technická analýza",
-          description:
-            "Projdu dohodnutý rozsah kódu a infrastruktury a ověřím možná rizika.",
-        },
-        {
-          title: "03 — Výstup a doporučení",
-          description:
-            "Dostanete jasné shrnutí zjištění, jejich priority a navržené další kroky.",
-        },
-        {
-          title: "04 — Opravy a další rozvoj",
-          description:
-            "Podle dohody změny provedu, pomohu s nasazením nebo převezmu další vývoj.",
-        },
-      ],
-    },
-    {
-      id: "vystupy",
-      eyebrow: "KONKRÉTNÍ VÝSTUP",
-      title: "Co získáte z auditu",
-      description:
-        "Výstup odpovídá dohodnutému rozsahu. Audit není penetrační test, právní certifikace ani záruka, že aplikace neobsahuje žádnou zranitelnost.",
+        "Rozsah si předem dohodneme. Výsledkem je technické posouzení, nikoli penetrační test nebo právní certifikace.",
       tone: "soft",
-      layout: "list",
       items: [
         {
-          title: "Přehledné shrnutí",
+          title: "01 — Domluvíme rozsah",
           description:
-            "Srozumitelný pohled na stav aplikace a hlavní zjištění.",
+            "Ukážete aplikaci, repozitář a cíle. Určíme priority i potřebné přístupy.",
         },
         {
-          title: "Priority technických rizik",
+          title: "02 — Prověřím aplikaci",
           description:
-            "Rozlišení kritických problémů, důležitých úprav a dlouhodobých doporučení.",
+            "Projdu dohodnutý rozsah kódu a provozu, ověřím kritické cesty a rizika.",
         },
         {
-          title: "Konkrétní doporučení",
+          title: "03 — Dostanete konkrétní výstup",
           description:
-            "Praktické kroky, které lze naplánovat a postupně realizovat.",
-        },
-        {
-          title: "Bezpečnostní zjištění",
-          description:
-            "Identifikace kritických problémů v dohodnutém rozsahu technického auditu.",
-        },
-        {
-          title: "Výkon a udržitelnost",
-          description:
-            "Pozorování k rychlosti, architektuře, kvalitě kódu a dalšímu rozvoji.",
-        },
-        {
-          title: "Návrh dalšího postupu",
-          description:
-            "Doporučené pořadí oprav, stabilizace, nasazení a budoucích funkcí.",
-        },
-        {
-          title: "Volitelná realizace oprav",
-          description: "Na audit mohu navázat implementací dohodnutých změn.",
+            "Předám srozumitelné shrnutí, priority rizik a doporučené pořadí oprav.",
         },
       ],
     },
   ],
-  useCases: {
-    eyebrow: "NEMUSÍTE ZAČÍNAT OD NULY",
-    title: "Přijít můžete s nápadem i nasazenou aplikací.",
-    description:
-      "Existující kód a odvedená práce mají hodnotu. Nejdřív ověřím, co lze zachovat a na čem bezpečně stavět dál.",
-    items: [
-      {
-        title: "Mám prototyp vytvořený pomocí AI",
-        description:
-          "Aplikace z Lovable, Boltu, Cursoru, Claude Code, Replitu, v0 nebo jiného AI nástroje funguje, ale nejste si jistí její kvalitou a bezpečností.",
-      },
-      {
-        title: "Mám MVP a chci ho spustit",
-        description:
-          "Potřebujete prověřit kritická rizika a připravit aplikaci pro skutečné uživatele.",
-      },
-      {
-        title: "Aplikaci už používají zákazníci",
-        description:
-          "Chcete odstranit technické problémy, zlepšit výkon nebo pokračovat ve vývoji.",
-      },
-    ],
-  },
   faq: {
     eyebrow: "ČASTÉ DOTAZY",
     title: "Co je dobré vědět před auditem.",
@@ -319,11 +222,6 @@ const auditCs: ServiceDetailCopy = {
         question: "Musím mít zdrojový kód aplikace?",
         answer:
           "Přístup k repozitáři umožní důkladnější audit kódu. Bez něj lze po dohodě provést omezené externí posouzení, které ale nemůže pokrýt vnitřní architekturu a konfiguraci.",
-      },
-      {
-        question: "Můžete převzít aplikaci vytvořenou v Lovable nebo Cursoru?",
-        answer:
-          "Ano, pokud dostupný zdrojový kód, závislosti a infrastruktura umožňují bezpečné převzetí. Nejprve ověřím technický stav a reálný rozsah potřebných změn.",
       },
       {
         question: "Budete muset aplikaci vytvořit znovu?",
@@ -336,19 +234,9 @@ const auditCs: ServiceDetailCopy = {
           "Cena závisí na velikosti aplikace, složitosti a dohodnutém rozsahu. Nabídku připravím po úvodním posouzení projektu.",
       },
       {
-        question: "Jak dlouho audit trvá?",
-        answer:
-          "Záleží na rozsahu, technologiích, dokumentaci a dostupnosti přístupů. Konkrétní harmonogram stanovím až po seznámení s projektem.",
-      },
-      {
         question: "Pomůžete i s GDPR?",
         answer:
           "Pomohu s technickou implementací přístupů k datům, souhlasů, uchování a dalších opatření pro soukromí. Formální právní posouzení musí zajistit kvalifikovaný právník.",
-      },
-      {
-        question: "Je audit určený jen pro aplikace vytvořené pomocí AI?",
-        answer:
-          "Ne. Technický audit může pomoci i tradičně vyvíjeným aplikacím. Tato služba se ale zvlášť zaměřuje na potřeby projektů vzniklých s pomocí AI nástrojů.",
       },
     ],
   },
@@ -1289,11 +1177,6 @@ const cs = {
               "Každý pracovník má oprávnění odpovídající své činnosti.",
           },
           {
-            title: "Opravy a audit",
-            description:
-              "Ruční korekce vyžaduje oprávnění a zanechá dohledatelný záznam.",
-          },
-          {
             title: "Základní reporty",
             description:
               "Přehled aktivity programu bez slibování konkrétního obchodního výsledku.",
@@ -1908,33 +1791,33 @@ const cs = {
         ],
       },
       {
-        id: "platby",
-        eyebrow: "PLATBY A SPOLEHLIVOST",
-        title: "Poukaz se vystaví až po důvěryhodném potvrzení platby.",
+        id: "znacka-a-zazitek",
+        eyebrow: "ZNAČKA A ZÁŽITEK",
+        title: "Poukaz, který působí jako přirozená součást vaší značky.",
         tone: "navy",
         layout: "list",
         description:
-          "GoPay, Comgate a Stripe jsou příklady poskytovatelů. Volba závisí na poplatcích, metodách, požadavcích a vhodnosti pro konkrétní projekt.",
+          "Od nákupu po předání dárku může každý detail navazovat na váš vizuální styl i způsob, jakým komunikujete se zákazníky.",
         items: [
           {
-            title: "Ověřený webhook",
+            title: "Vzhled podle vaší značky",
             description:
-              "Systém zpracuje serverové potvrzení a tam, kde je to možné, ověří jeho podpis.",
+              "Barvy, logo a typografie navazují na web i prostředí provozovny.",
           },
           {
-            title: "Ochrana proti duplicitám",
+            title: "Osobní věnování",
             description:
-              "Opakované doručení stejné události nevystaví další poukaz.",
+              "Zákazník může doplnit příjemce, odesílatele a vlastní zprávu.",
           },
           {
-            title: "Jasné stavy",
+            title: "Jasné informace",
             description:
-              "Objednávka rozlišuje čekající, zaplacenou, neúspěšnou, zrušenou či refundovanou platbu podle možností poskytovatele.",
+              "Hodnota, platnost i postup rezervace jsou srozumitelné na první pohled.",
           },
           {
-            title: "Bezpečné výjimky",
+            title: "V mobilu i k vytištění",
             description:
-              "Návrh počítá s přerušenou platbou, vrácením peněz i chargebackem.",
+              "Poukaz se dobře předává digitálně a zároveň vypadá reprezentativně na papíře.",
           },
         ],
       },
@@ -2159,25 +2042,25 @@ const auditEn: ServiceDetailCopy = {
     bottomChip: "Remediation plan",
   },
   benefits: {
-    eyebrow: "FROM PROTOTYPE TO PRODUCTION",
-    title: "A working application is not necessarily production-ready.",
+    eyebrow: "WHO THE AUDIT IS FOR",
+    title: "Have a prototype, MVP or live application?",
     description:
-      "AI tools can dramatically accelerate prototyping. A functional interface alone does not confirm that access, data, operations and future development are handled correctly.",
+      "I review what already works, where the risks lie and what you can safely build on.",
     items: [
       {
-        title: "It works in a demo",
+        title: "An AI-built prototype",
         description:
-          "The main journey works, but roles, failure states, database queries and deployment configuration may remain unverified.",
+          "Your app from Lovable, Bolt, Cursor or another AI tool works, and you want to understand its technical state.",
       },
       {
-        title: "It works safely in production",
+        title: "An MVP before launch",
         description:
-          "The application accounts for permissions, data protection, monitoring, backups and situations that rarely appear during a demo.",
+          "You need to check critical risks before real customers start using the application.",
       },
       {
-        title: "I build on what you already have",
+        title: "An application already in use",
         description:
-          "The default goal is not a rewrite. I preserve useful parts and recommend changes where they deliver genuine value.",
+          "You are tackling bugs, performance or further development. I keep useful parts and identify what needs improving.",
       },
     ],
   },
@@ -2221,129 +2104,31 @@ const auditEn: ServiceDetailCopy = {
   },
   sections: [
     {
-      id: "collaboration-options",
-      eyebrow: "MORE THAN A REVIEW",
-      title: "More than an audit. I can help you complete the application.",
-      description:
-        "You can choose a standalone technical assessment or continue directly with fixes and further development.",
-      tone: "navy",
-      items: [
-        {
-          title: "Technical audit",
-          description:
-            "I review the agreed scope, identify issues and risks, prioritise findings and prepare a practical remediation plan.",
-        },
-        {
-          title: "Fixes and optimisation",
-          description:
-            "I fix identified vulnerabilities and bugs, improve performance and code quality, add tests and refactor problematic areas.",
-        },
-        {
-          title: "Completion and ongoing development",
-          description:
-            "I take over an existing MVP, complete features and integrations, prepare deployment and can continue maintenance and development.",
-        },
-      ],
-    },
-    {
       id: "audit-process",
-      eyebrow: "HOW WE WORK TOGETHER",
-      title: "A clear process for non-technical founders too.",
+      eyebrow: "PROCESS AND DELIVERABLES",
+      title: "From the first review to a clear plan of action.",
       description:
-        "We agree the scope and access in advance. During the audit, I focus on the risks that genuinely matter to your project.",
-      items: [
-        {
-          title: "01 — Project introduction",
-          description:
-            "You share the application, repository, technology stack and current goals.",
-        },
-        {
-          title: "02 — Technical analysis",
-          description:
-            "I inspect the agreed code and infrastructure scope and identify potential issues.",
-        },
-        {
-          title: "03 — Findings and recommendations",
-          description:
-            "You receive a clear summary, priorities and suggested next steps.",
-        },
-        {
-          title: "04 — Fixes and further development",
-          description:
-            "If agreed, I implement changes, help with deployment or take over further development.",
-        },
-      ],
-    },
-    {
-      id: "deliverables",
-      eyebrow: "PRACTICAL OUTPUT",
-      title: "What you receive from the audit",
-      description:
-        "Deliverables reflect the agreed scope. The audit is not a penetration test, legal certification or a guarantee that the application contains no vulnerabilities.",
+        "We agree the scope in advance. The result is a technical assessment, not a penetration test or legal certification.",
       tone: "soft",
-      layout: "list",
       items: [
         {
-          title: "Clear summary",
+          title: "01 — Agree the scope",
           description:
-            "An understandable overview of the application's state and key findings.",
+            "Show me the application, repository and goals. We set priorities and access needs.",
         },
         {
-          title: "Prioritised technical risks",
+          title: "02 — Review the application",
           description:
-            "A distinction between critical issues, important improvements and longer-term recommendations.",
+            "I inspect the agreed code and operations, then check critical journeys and risks.",
         },
         {
-          title: "Actionable recommendations",
+          title: "03 — Receive clear findings",
           description:
-            "Practical steps that can be planned and implemented progressively.",
-        },
-        {
-          title: "Security findings",
-          description:
-            "Identification of critical issues within the agreed technical audit scope.",
-        },
-        {
-          title: "Performance and maintainability notes",
-          description:
-            "Observations covering speed, architecture, code quality and further development.",
-        },
-        {
-          title: "Suggested roadmap",
-          description:
-            "A recommended sequence for fixes, stabilisation, deployment and future features.",
-        },
-        {
-          title: "Optional implementation",
-          description:
-            "I can follow the audit by implementing the agreed improvements.",
+            "I deliver an understandable summary, risk priorities and a recommended order of fixes.",
         },
       ],
     },
   ],
-  useCases: {
-    eyebrow: "YOU DO NOT HAVE TO START OVER",
-    title: "Come with an idea, a prototype or a deployed application.",
-    description:
-      "Existing code and previous work are valuable. I first establish what can be retained and safely developed further.",
-    items: [
-      {
-        title: "I have a prototype built with AI",
-        description:
-          "An application built with Lovable, Bolt, Cursor, Claude Code, Replit, v0 or another AI tool works, but you are unsure about its quality and security.",
-      },
-      {
-        title: "I have an MVP ready to launch",
-        description:
-          "You need to review critical risks and prepare the application for real users.",
-      },
-      {
-        title: "Customers already use the application",
-        description:
-          "You want to resolve technical issues, improve performance or continue development.",
-      },
-    ],
-  },
   faq: {
     eyebrow: "FREQUENTLY ASKED QUESTIONS",
     title: "What to know before an audit.",
@@ -2352,12 +2137,6 @@ const auditEn: ServiceDetailCopy = {
         question: "Do I need the application's source code?",
         answer:
           "Repository access enables a more thorough code audit. Without it, we can agree on a limited external review, but it cannot cover internal architecture and configuration.",
-      },
-      {
-        question:
-          "Can you take over an application built in Lovable or Cursor?",
-        answer:
-          "Yes, provided the available source code, dependencies and infrastructure allow a safe handover. I first assess the technical state and realistic scope of the required changes.",
       },
       {
         question: "Will the application need to be rebuilt?",
@@ -2370,19 +2149,9 @@ const auditEn: ServiceDetailCopy = {
           "The price depends on application size, complexity and the agreed scope. I prepare a quote after the initial project assessment.",
       },
       {
-        question: "How long does an audit take?",
-        answer:
-          "It depends on scope, technologies, documentation and access availability. I set a specific schedule only after learning about the project.",
-      },
-      {
         question: "Can you help with GDPR?",
         answer:
           "I can support technical implementation of data access, consent, retention and other privacy controls. Formal legal advice must come from a qualified legal professional.",
-      },
-      {
-        question: "Is the audit only for applications created with AI?",
-        answer:
-          "No. Traditional codebases can benefit from a technical audit too, although this service specifically addresses the needs of AI-assisted projects.",
       },
     ],
   },
@@ -3319,11 +3088,6 @@ const en = {
               "Each employee receives permissions appropriate to their work.",
           },
           {
-            title: "Corrections and audit",
-            description:
-              "Manual corrections require permission and leave a traceable record.",
-          },
-          {
             title: "Basic reporting",
             description:
               "Programme activity without promising a specific commercial outcome.",
@@ -3932,33 +3696,33 @@ const en = {
         ],
       },
       {
-        id: "payments",
-        eyebrow: "PAYMENTS AND RELIABILITY",
-        title: "Issue only after trusted payment confirmation.",
+        id: "brand-and-experience",
+        eyebrow: "BRAND AND EXPERIENCE",
+        title: "A voucher that feels like a natural part of your brand.",
         tone: "navy",
         layout: "list",
         description:
-          "GoPay, Comgate and Stripe are examples. Selection depends on fees, methods, requirements and project fit.",
+          "From purchase to gifting, every detail can reflect your visual identity and the way you communicate with customers.",
         items: [
           {
-            title: "Verified webhook",
+            title: "Designed for your brand",
             description:
-              "The server processes provider confirmation and verifies signatures where supported.",
+              "Colours, logo and typography connect naturally with your website and venue.",
           },
           {
-            title: "Duplicate protection",
+            title: "Personal message",
             description:
-              "Repeated delivery of the same event does not issue another voucher.",
+              "Customers can add a recipient, sender and their own greeting.",
           },
           {
-            title: "Clear statuses",
+            title: "Clear information",
             description:
-              "Orders distinguish pending, paid, failed, cancelled or refunded states where supported.",
+              "Value, validity and booking instructions are easy to understand at a glance.",
           },
           {
-            title: "Safe exceptions",
+            title: "Mobile and print ready",
             description:
-              "The design accounts for interrupted payments, refunds and chargebacks.",
+              "The voucher is easy to share digitally and still looks polished on paper.",
           },
         ],
       },

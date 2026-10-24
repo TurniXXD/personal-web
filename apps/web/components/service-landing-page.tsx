@@ -21,6 +21,7 @@ import { AiHeroVisual } from "@/components/ai-hero-visual";
 import { ContentCard } from "@/components/content-card";
 import { ProjectGrid } from "@/components/project-grid";
 import { ScrollReveal } from "@/components/scroll-reveal";
+import { ServicePipelineDivider } from "@/components/service-pipeline-divider";
 import { ContactBlock, SiteFooter, SiteHeader } from "@/components/site-chrome";
 import { WebApplicationHeroVisual } from "@/components/web-application-hero-visual";
 import { localizedPath, type Locale } from "@/lib/content";
@@ -191,20 +192,26 @@ export const ServiceLandingPage = ({
         )}
 
         {content.projects && (
-          <section
-            className="section service-projects"
-            id="projects"
-            aria-labelledby="service-projects-title"
-          >
-            <div className="site-container">
-              <ScrollReveal className="service-section-heading">
-                <p className="eyebrow">{content.projects.eyebrow}</p>
-                <h2 id="service-projects-title">{content.projects.title}</h2>
-                <p>{content.projects.description}</p>
-              </ScrollReveal>
-              <ProjectGrid locale={locale} className="service-projects__grid" />
-            </div>
-          </section>
+          <>
+            <section
+              className="section service-projects"
+              id="projects"
+              aria-labelledby="service-projects-title"
+            >
+              <div className="site-container">
+                <ScrollReveal className="service-section-heading">
+                  <p className="eyebrow">{content.projects.eyebrow}</p>
+                  <h2 id="service-projects-title">{content.projects.title}</h2>
+                  <p>{content.projects.description}</p>
+                </ScrollReveal>
+                <ProjectGrid
+                  locale={locale}
+                  className="service-projects__grid"
+                />
+              </div>
+            </section>
+            {kind === "web" ? <ServicePipelineDivider /> : null}
+          </>
         )}
 
         {content.flow && (
