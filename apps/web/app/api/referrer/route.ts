@@ -1,7 +1,7 @@
 import { cookies } from "next/headers";
 import { apiErrorResponse } from "@/lib/api-error-response";
 import { referralCookie, verifyReferralToken } from "@/lib/referral-token";
-import { configuredTwenty } from "@/lib/twenty";
+import { configuredTwenty, twentyErrorContext } from "@/lib/twenty";
 
 const endpoint = "referrer";
 
@@ -67,6 +67,7 @@ export async function GET() {
       endpoint,
       message: "Twenty referrer lookup failed",
       error,
+      context: twentyErrorContext(error),
       headers,
     });
   }

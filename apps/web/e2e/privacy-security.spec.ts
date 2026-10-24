@@ -164,6 +164,7 @@ test("public responses carry the configured security headers", async ({
   const headers = response.headers();
 
   expect(headers["content-security-policy"]).toContain("default-src 'self'");
+  expect(headers["content-security-policy"]).not.toContain("'unsafe-eval'");
   expect(headers["x-content-type-options"]).toBe("nosniff");
   expect(headers["referrer-policy"]).toBe("strict-origin-when-cross-origin");
   expect(headers["permissions-policy"]).toContain("camera=()");

@@ -756,7 +756,7 @@ test("AI application audit page is complete, localized and production-oriented",
   );
 });
 
-test("loyalty programme demo updates only after the staff confirmation action", async ({
+test("loyalty programme page omits the interactive card demo", async ({
   page,
 }) => {
   await page.goto("/sluzby/vernostni-programy", {
@@ -767,25 +767,15 @@ test("loyalty programme demo updates only after the staff confirmation action", 
     page.getByRole("heading", { name: "Dejte zákazníkům důvod se vracet." }),
   ).toBeVisible();
   await expect(page.getByText("7 z 10 návštěv")).toBeVisible();
-  const confirm = page.getByRole("button", {
-    name: "Potvrdit návštěvu obsluhou",
-  });
-  await expect(confirm).toBeEnabled();
-  await confirm.click();
-  await expect(page.getByText("8 z 10 návštěv")).toBeVisible();
-  await confirm.click();
-  await confirm.click();
+  await expect(page.locator(".service-detail-demo")).toHaveCount(0);
   await expect(
-    page.getByText("Odměna je připravena k uplatnění."),
-  ).toBeVisible();
-  await expect(
-    page.getByRole("button", { name: "Obnovit ukázku" }),
-  ).toBeVisible();
+    page.getByRole("button", { name: "Potvrdit návštěvu obsluhou" }),
+  ).toHaveCount(0);
   await expect(
     page.getByRole("heading", { name: "Přehled věrnostního programu" }),
   ).toBeVisible();
   await expect(
-    page.locator(".service-detail-demo + .service-detail-benefits"),
+    page.locator(".service-detail-hero + .service-detail-benefits"),
   ).toHaveCount(1);
   await expect(page.getByText("Aktivní zákazníci")).toBeVisible();
   const loyaltyMessage = page.locator("#contact-message");
@@ -877,11 +867,9 @@ test("priority service detail pages stay usable without horizontal overflow on m
   ]) {
     await page.goto(path, { waitUntil: "domcontentloaded" });
     await expect(page.locator("main.service-detail")).toBeVisible();
-    if (path === "/sluzby/audit-ai-aplikaci") {
-      await expect(
-        page.locator(".service-detail-hero .service-detail-visual"),
-      ).toBeHidden();
-    }
+    await expect(
+      page.locator(".service-detail-hero .service-detail-visual"),
+    ).toBeHidden();
     const overflow = await page.evaluate(
       () => document.documentElement.scrollWidth - window.innerWidth,
     );
@@ -901,6 +889,35 @@ test("priority service detail pages stay usable without horizontal overflow on m
   await firstFaq.locator("summary").focus();
   await page.keyboard.press("Enter");
   await expect(firstFaq).toHaveAttribute("open", "");
+});
+
+test("priority services use distinct localized hero visuals", async ({
+  page,
+}) => {
+  const serviceHeroes = [
+    ["/sluzby/vernostni-programy", ".service-custom-hero--loyalty"],
+    ["/sluzby/darkove-poukazy", ".service-custom-hero--voucher"],
+    ["/sluzby/audit-ai-aplikaci", ".service-custom-hero--audit"],
+  ] as const;
+
+  for (const [path, selector] of serviceHeroes) {
+    await page.goto(path, { waitUntil: "domcontentloaded" });
+    await expect(page.locator(selector)).toBeVisible();
+    await expect(page.locator(".service-detail-visual__window")).toHaveCount(0);
+  }
+
+  await page.goto("/en/sluzby/vernostni-programy");
+  await expect(page.locator(".service-custom-hero--loyalty")).toContainText(
+    "My loyalty card",
+  );
+  await page.goto("/en/sluzby/darkove-poukazy");
+  await expect(page.locator(".service-custom-hero--voucher")).toContainText(
+    "Voucher issued",
+  );
+  await page.goto("/en/sluzby/audit-ai-aplikaci");
+  await expect(page.locator(".service-custom-hero--audit")).toContainText(
+    "Technical review",
+  );
 });
 
 test("web application hero presents animated analytics charts", async ({

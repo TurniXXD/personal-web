@@ -11,6 +11,11 @@ import {
 } from "lucide-react";
 import { ActionLink } from "@vantuch/ui";
 import { ScrollReveal } from "@/components/scroll-reveal";
+import {
+  AuditHeroVisual,
+  LoyaltyHeroVisual,
+  VoucherHeroVisual,
+} from "@/components/service-detail-hero-visuals";
 import { ContactBlock, SiteFooter, SiteHeader } from "@/components/site-chrome";
 import { localizedPath, type Locale } from "@/lib/content";
 import {
@@ -27,13 +32,6 @@ const DemoLoading = () => (
   <div className="service-detail-demo__loading" aria-hidden="true" />
 );
 
-const LoyaltyCardDemo = dynamic(
-  () =>
-    import("@/components/service-detail-demos").then(
-      (module) => module.LoyaltyCardDemo,
-    ),
-  { loading: DemoLoading },
-);
 const LoyaltyAdminPreview = dynamic(
   () =>
     import("@/components/service-detail-demos").then(
@@ -51,6 +49,25 @@ const VoucherDemo = dynamic(
 
 const DetailHeroVisual = ({ locale, slug }: ServiceDetailPageProps) => {
   const content = serviceDetailCopy[locale][slug];
+  const customVisualProps = {
+    locale,
+    ariaLabel: content.visual.title,
+    badge: content.visual.badge,
+    items: content.visual.items,
+  };
+
+  if (slug === "vernostni-programy") {
+    return <LoyaltyHeroVisual {...customVisualProps} />;
+  }
+
+  if (slug === "darkove-poukazy") {
+    return <VoucherHeroVisual {...customVisualProps} />;
+  }
+
+  if (slug === "audit-ai-aplikaci") {
+    return <AuditHeroVisual {...customVisualProps} />;
+  }
+
   return (
     <div className="service-detail-visual" aria-label={content.visual.title}>
       <div className="service-detail-visual__window">
@@ -135,7 +152,9 @@ export const ServiceDetailPage = ({ locale, slug }: ServiceDetailPageProps) => {
           return step ? [step] : [];
         })
       : content.workflow.steps;
-  const visibleFaqItems = content.demo
+  const visibleFaqItems = ["vernostni-programy", "darkove-poukazy"].includes(
+    slug,
+  )
     ? content.faq.items.slice(0, 5)
     : content.faq.items;
   const labels =
@@ -181,7 +200,7 @@ export const ServiceDetailPage = ({ locale, slug }: ServiceDetailPageProps) => {
     ],
   };
   const demoSection =
-    content.demo && content.demoCopy ? (
+    content.demo === "voucher" && content.demoCopy ? (
       <section
         className="section service-detail-demo"
         aria-labelledby="service-demo-title"
@@ -195,11 +214,7 @@ export const ServiceDetailPage = ({ locale, slug }: ServiceDetailPageProps) => {
             ) : null}
           </ScrollReveal>
           <ScrollReveal>
-            {content.demo === "loyalty" ? (
-              <LoyaltyCardDemo locale={locale} />
-            ) : (
-              <VoucherDemo locale={locale} />
-            )}
+            <VoucherDemo locale={locale} />
           </ScrollReveal>
         </div>
       </section>
@@ -260,8 +275,6 @@ export const ServiceDetailPage = ({ locale, slug }: ServiceDetailPageProps) => {
           </div>
         </section>
 
-        {slug === "vernostni-programy" ? demoSection : null}
-
         <section
           className="section service-detail-benefits"
           aria-labelledby="detail-benefits-title"
@@ -287,7 +300,7 @@ export const ServiceDetailPage = ({ locale, slug }: ServiceDetailPageProps) => {
           </div>
         </section>
 
-        {slug !== "vernostni-programy" ? demoSection : null}
+        {demoSection}
 
         <section
           className="section service-detail-workflow"

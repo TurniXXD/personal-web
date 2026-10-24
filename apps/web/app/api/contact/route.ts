@@ -9,7 +9,7 @@ import {
 import { referralCookie, verifyReferralToken } from "@/lib/referral-token";
 import { rateLimit } from "@/lib/rate-limit";
 import { siteConfig } from "@/lib/site-config";
-import { configuredTwenty } from "@/lib/twenty";
+import { configuredTwenty, twentyErrorContext } from "@/lib/twenty";
 import { verifyTurnstile } from "@/lib/turnstile";
 
 const defaultFrom = "Jakub Vantuch <onboarding@resend.dev>";
@@ -141,6 +141,7 @@ export async function POST(request: Request) {
         endpoint,
         message: "Twenty referrer lookup failed",
         error,
+        context: twentyErrorContext(error),
       });
     }
     if (!referrer?.emails?.primaryEmail)
@@ -174,6 +175,7 @@ export async function POST(request: Request) {
       endpoint,
       message: "Twenty contact persistence failed",
       error,
+      context: twentyErrorContext(error),
     });
   }
 

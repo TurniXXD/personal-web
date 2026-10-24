@@ -1200,11 +1200,6 @@ const cs = {
         },
       ],
     },
-    demo: "loyalty",
-    demoCopy: {
-      eyebrow: "INTERAKTIVNÍ UKÁZKA",
-      title: "Vyzkoušejte si digitální věrnostní kartu.",
-    },
     sections: [
       {
         id: "zpusoby-pouziti",
@@ -3238,10 +3233,6 @@ const en = {
             "The customer sees progress and can redeem an eligible reward with staff.",
         },
       ],
-    },
-    demoCopy: {
-      eyebrow: "INTERACTIVE DEMO",
-      title: "Try an illustrative digital loyalty card.",
     },
     sections: [
       {

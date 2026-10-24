@@ -8,7 +8,11 @@ import {
   validateContactInput,
 } from "../lib/contact-submission";
 import { validateReferralRequest } from "../lib/referral-request";
-import { TwentyClient } from "../lib/twenty";
+import {
+  TwentyClient,
+  TwentyRequestError,
+  twentyErrorContext,
+} from "../lib/twenty";
 
 test("referral links reject changed person IDs and signatures", () => {
   const id = "e191876c-7043-4e42-b644-234dbd43f43d";
@@ -245,4 +249,67 @@ test("contact fills a missing phone on an existing Twenty person", async () => {
       (request) => request.path === "people" && request.method === "POST",
     ),
   ).toBe(false);
+});
+
+test("Twenty failures expose useful diagnostics without contact data or credentials", async () => {
+  const apiKey = "super-secret-key";
+  const fetcher = (async () =>
+    new Response(
+      JSON.stringify({
+        statusCode: 403,
+        message:
+          "Forbidden for private@example.com, +420 735 023 812 and Bearer leaked-token",
+        echoedCredential: apiKey,
+      }),
+      {
+        status: 403,
+        statusText: "Forbidden",
+        headers: {
+          "content-type": "application/json",
+          "x-request-id": "req-123",
+          "cf-ray": "ray-456",
+        },
+      },
+    )) as typeof fetch;
+  const client = new TwentyClient(
+    "https://twenty.example/api-path",
+    apiKey,
+    fetcher,
+  );
+
+  let failure: unknown;
+  try {
+    await client.findPersonByEmail("private@example.com");
+  } catch (error) {
+    failure = error;
+  }
+
+  expect(failure).toBeInstanceOf(TwentyRequestError);
+  expect(twentyErrorContext(failure)).toMatchObject({
+    twenty: {
+      method: "GET",
+      resource: "people",
+      baseOrigin: "https://twenty.example",
+      requestPath: "/api-path/rest/people",
+      responseOrigin: "",
+      responsePath: "",
+      status: 403,
+      statusText: "Forbidden",
+      responseHeaders: {
+        "content-type": "application/json",
+        "x-request-id": "req-123",
+        "cf-ray": "ray-456",
+      },
+      apiKeyFingerprint: expect.stringMatching(/^[a-f0-9]{12}$/),
+      apiKeyLength: apiKey.length,
+    },
+  });
+
+  const serialized = JSON.stringify(twentyErrorContext(failure));
+  expect(serialized).toContain("[redacted-email]");
+  expect(serialized).toContain("[redacted-phone]");
+  expect(serialized).not.toContain(apiKey);
+  expect(serialized).not.toContain("private@example.com");
+  expect(serialized).not.toContain("+420");
+  expect(serialized).not.toContain("leaked-token");
 });

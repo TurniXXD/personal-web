@@ -6,7 +6,7 @@ import { createReferralToken } from "@/lib/referral-token";
 import { rateLimit } from "@/lib/rate-limit";
 import { validateReferralRequest } from "@/lib/referral-request";
 import { siteConfig } from "@/lib/site-config";
-import { configuredTwenty } from "@/lib/twenty";
+import { configuredTwenty, twentyErrorContext } from "@/lib/twenty";
 import { verifyTurnstile } from "@/lib/turnstile";
 
 const defaultFrom = "Jakub Vantuch <onboarding@resend.dev>";
@@ -144,6 +144,7 @@ export async function POST(request: Request) {
         endpoint,
         message: "Twenty referral requester persistence failed",
         error,
+        context: twentyErrorContext(error),
       });
     }
 
@@ -235,6 +236,7 @@ export async function POST(request: Request) {
       endpoint,
       message: "Twenty partnership inquiry persistence failed",
       error,
+      context: twentyErrorContext(error),
     });
   }
 

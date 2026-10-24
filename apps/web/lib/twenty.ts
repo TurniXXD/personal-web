@@ -3,6 +3,7 @@ import type {
   ContactRequestContext,
 } from "@/lib/contact-submission";
 import { parsePhoneNumberFromString } from "libphonenumber-js/min";
+import { createHash } from "node:crypto";
 
 type RecordData = { id: string; [key: string]: unknown };
 type Phones = {
@@ -17,8 +18,76 @@ type Person = RecordData & {
   phones?: Partial<Phones>;
 };
 
+export type TwentyRequestDiagnostic = {
+  method: string;
+  resource: string;
+  baseOrigin: string;
+  requestPath: string;
+  responseOrigin: string;
+  responsePath: string;
+  status: number;
+  statusText: string;
+  responseBody: string;
+  responseHeaders: Record<string, string>;
+  apiKeyFingerprint: string;
+  apiKeyLength: number;
+};
+
+export class TwentyRequestError extends Error {
+  constructor(
+    message: string,
+    readonly diagnostic: TwentyRequestDiagnostic,
+  ) {
+    super(message);
+    this.name = "TwentyRequestError";
+  }
+}
+
+export function twentyErrorContext(
+  error: unknown,
+): Record<string, unknown> | undefined {
+  return error instanceof TwentyRequestError
+    ? { twenty: error.diagnostic }
+    : undefined;
+}
+
 const equals = (field: string, value: string) => `${field}[eq]:${value}`;
 const and = (...filters: string[]) => `and(${filters.join(",")})`;
+
+const redactDiagnosticText = (value: string, secrets: string[] = []): string =>
+  secrets
+    .filter(Boolean)
+    .reduce((result, secret) => result.replaceAll(secret, "[redacted]"), value)
+    .replaceAll(/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/gi, "[redacted-email]")
+    .replaceAll(/\+?\d[\d\s().-]{5,}\d/g, "[redacted-phone]")
+    .replaceAll(/(bearer\s+)[^\s"',}]+/gi, "$1[redacted]")
+    .slice(0, 2_000);
+
+const diagnosticHeaders = (
+  headers: Headers,
+  secrets: string[],
+): Record<string, string> =>
+  Object.fromEntries(
+    [
+      "content-type",
+      "cf-ray",
+      "server",
+      "x-request-id",
+      "x-correlation-id",
+      "traceparent",
+      "www-authenticate",
+    ]
+      .map(
+        (name) =>
+          [
+            name,
+            headers.get(name)
+              ? redactDiagnosticText(headers.get(name)!, secrets)
+              : null,
+          ] as const,
+      )
+      .filter((entry): entry is readonly [string, string] => Boolean(entry[1])),
+  );
 
 function toTwentyPhones(value: string): Phones | undefined {
   const input = value.trim();
@@ -52,23 +121,52 @@ export class TwentyClient {
     path: string,
     init: RequestInit = {},
   ): Promise<unknown> {
-    const response = await this.fetcher(
-      `${this.baseUrl.replace(/\/$/, "")}/rest/${path}`,
-      {
-        ...init,
-        headers: {
-          accept: "application/json",
-          authorization: `Bearer ${this.apiKey}`,
-          ...(init.body ? { "content-type": "application/json" } : {}),
-        },
-        signal: init.signal ?? AbortSignal.timeout(20_000),
-        cache: "no-store",
+    const method = init.method ?? "GET";
+    const resource = path.split("?")[0];
+    const requestUrl = `${this.baseUrl.replace(/\/$/, "")}/rest/${path}`;
+    const response = await this.fetcher(requestUrl, {
+      ...init,
+      headers: {
+        accept: "application/json",
+        authorization: `Bearer ${this.apiKey}`,
+        ...(init.body ? { "content-type": "application/json" } : {}),
       },
-    );
-    if (!response.ok)
-      throw new Error(
-        `Twenty REST ${init.method ?? "GET"} ${path.split("?")[0]} returned HTTP ${response.status}`,
+      signal: init.signal ?? AbortSignal.timeout(20_000),
+      cache: "no-store",
+    });
+    if (!response.ok) {
+      const parsedRequestUrl = new URL(requestUrl);
+      const parsedResponseUrl = response.url ? new URL(response.url) : null;
+      let responseBody = "";
+      try {
+        responseBody = redactDiagnosticText(await response.text(), [
+          this.apiKey,
+        ]);
+      } catch {
+        responseBody = "[unavailable]";
+      }
+
+      throw new TwentyRequestError(
+        `Twenty REST ${method} ${resource} returned HTTP ${response.status}`,
+        {
+          method,
+          resource,
+          baseOrigin: parsedRequestUrl.origin,
+          requestPath: parsedRequestUrl.pathname,
+          responseOrigin: parsedResponseUrl?.origin ?? "",
+          responsePath: parsedResponseUrl?.pathname ?? "",
+          status: response.status,
+          statusText: response.statusText,
+          responseBody,
+          responseHeaders: diagnosticHeaders(response.headers, [this.apiKey]),
+          apiKeyFingerprint: createHash("sha256")
+            .update(this.apiKey)
+            .digest("hex")
+            .slice(0, 12),
+          apiKeyLength: this.apiKey.length,
+        },
       );
+    }
     return response.status === 204 ? {} : response.json();
   }
 
@@ -227,8 +325,8 @@ export class TwentyClient {
 }
 
 export function configuredTwenty(): TwentyClient | null {
-  const baseUrl = process.env.TWENTY_BASE_URL;
-  const apiKey = process.env.TWENTY_API_KEY;
+  const baseUrl = process.env.TWENTY_BASE_URL?.trim();
+  const apiKey = process.env.TWENTY_API_KEY?.trim();
   return baseUrl && apiKey ? new TwentyClient(baseUrl, apiKey) : null;
 }
 

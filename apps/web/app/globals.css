@@ -6396,6 +6396,619 @@ summary:focus-visible {
   left: 0;
 }
 
+/* Custom service hero visuals */
+.service-custom-hero {
+  isolation: isolate;
+  display: grid;
+  min-height: 32rem;
+  padding: 2rem;
+  place-items: center;
+}
+
+.service-custom-hero--loyalty {
+  border-radius: 3rem;
+  background:
+    radial-gradient(
+      circle at 76% 20%,
+      rgba(255, 204, 116, 0.34),
+      transparent 25%
+    ),
+    radial-gradient(
+      circle at 22% 72%,
+      rgba(75, 191, 155, 0.22),
+      transparent 30%
+    ),
+    linear-gradient(145deg, #f3f5ff 0%, #fbf8f0 100%);
+}
+.loyalty-hero__glow {
+  position: absolute;
+  width: 19rem;
+  height: 19rem;
+  border: 1px solid rgba(79, 93, 224, 0.12);
+  border-radius: 50%;
+  box-shadow:
+    0 0 0 3rem rgba(79, 93, 224, 0.035),
+    0 0 0 7rem rgba(79, 93, 224, 0.025);
+}
+.loyalty-hero__phone {
+  position: relative;
+  z-index: 1;
+  width: min(18.5rem, 76%);
+  padding: 0.45rem;
+  border: 1px solid rgba(39, 50, 82, 0.24);
+  border-radius: 2.35rem;
+  background: #202943;
+  box-shadow: 0 2rem 4rem rgba(38, 48, 91, 0.22);
+  transform: rotate(-3deg);
+}
+.loyalty-hero__speaker {
+  position: absolute;
+  top: 0.75rem;
+  left: 50%;
+  z-index: 2;
+  width: 4.2rem;
+  height: 1.05rem;
+  border-radius: 1rem;
+  background: #202943;
+  transform: translateX(-50%);
+}
+.loyalty-hero__screen {
+  overflow: hidden;
+  min-height: 27rem;
+  padding: 2.1rem 1rem 1rem;
+  border-radius: 1.95rem;
+  background:
+    linear-gradient(rgba(255, 255, 255, 0.96), rgba(255, 255, 255, 0.96)),
+    linear-gradient(135deg, #e4e9ff, #fff7e2);
+}
+.loyalty-hero__screen header,
+.loyalty-hero__brand,
+.loyalty-hero__identity,
+.loyalty-hero__reward,
+.loyalty-hero__scan-card {
+  display: flex;
+  align-items: center;
+}
+.loyalty-hero__screen header {
+  justify-content: space-between;
+  color: #4f5de0;
+}
+.loyalty-hero__brand {
+  gap: 0.6rem;
+}
+.loyalty-hero__brand > span {
+  display: grid;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 0.65rem;
+  background: #4f5de0;
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 850;
+  place-items: center;
+}
+.loyalty-hero__brand > div,
+.loyalty-hero__reward > div,
+.loyalty-hero__scan-card > div {
+  display: grid;
+  gap: 0.16rem;
+}
+.loyalty-hero__brand strong {
+  color: #273152;
+  font-size: 0.72rem;
+}
+.loyalty-hero__brand small,
+.loyalty-hero__identity small,
+.loyalty-hero__reward small,
+.loyalty-hero__scan-card small {
+  color: #7d87a5;
+  font-size: 0.55rem;
+}
+.loyalty-hero__identity {
+  gap: 0.75rem;
+  margin-top: 1.7rem;
+  padding: 1rem;
+  border: 1px solid #e1e5f8;
+  border-radius: 1.1rem;
+  background: linear-gradient(135deg, #fafbff, #f2f4ff);
+}
+.loyalty-hero__identity > span {
+  display: grid;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  background: #273152;
+  color: #fff;
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  place-items: center;
+}
+.loyalty-hero__identity > div {
+  display: grid;
+  gap: 0.25rem;
+}
+.loyalty-hero__identity small {
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+.loyalty-hero__identity strong {
+  color: #283252;
+  font-size: 0.83rem;
+}
+.loyalty-hero__stamps {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0.48rem;
+  margin-top: 1rem;
+}
+.loyalty-hero__stamps i {
+  display: grid;
+  aspect-ratio: 1;
+  border: 1px dashed #cbd2ed;
+  border-radius: 50%;
+  color: #9ba4c0;
+  font-family: var(--mono);
+  font-size: 0.52rem;
+  font-style: normal;
+  place-items: center;
+}
+.loyalty-hero__stamps i.is-active {
+  border-color: #4bbf9b;
+  background: #4bbf9b;
+  color: #fff;
+  box-shadow: 0 0.4rem 0.9rem rgba(75, 191, 155, 0.2);
+}
+.loyalty-hero__reward {
+  gap: 0.65rem;
+  margin-top: 1rem;
+  padding: 0.8rem;
+  border-radius: 1rem;
+  background: #fff6dc;
+  color: #9a681c;
+}
+.loyalty-hero__reward > div {
+  flex: 1;
+}
+.loyalty-hero__reward strong {
+  color: #5f461c;
+  font-size: 0.72rem;
+}
+.loyalty-hero__reward > span {
+  display: grid;
+  width: 1.65rem;
+  height: 1.65rem;
+  border-radius: 50%;
+  background: #f2c96c;
+  color: #594017;
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  place-items: center;
+}
+.loyalty-hero__scan-card {
+  position: absolute;
+  right: 0.25rem;
+  bottom: 3.6rem;
+  z-index: 2;
+  gap: 0.65rem;
+  width: 13.5rem;
+  padding: 0.8rem 0.9rem;
+  border: 1px solid #dce2f7;
+  border-radius: 1rem;
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 1rem 2.5rem rgba(35, 47, 96, 0.16);
+}
+.loyalty-hero__scan-card > span {
+  display: grid;
+  width: 2.2rem;
+  height: 2.2rem;
+  border-radius: 0.75rem;
+  background: #eef0ff;
+  color: #4f5de0;
+  place-items: center;
+}
+.loyalty-hero__scan-card strong {
+  color: #293353;
+  font-size: 0.63rem;
+}
+.loyalty-hero__scan-card > i {
+  width: 0.45rem;
+  height: 0.45rem;
+  margin-left: auto;
+  border-radius: 50%;
+  background: #4bbf9b;
+  box-shadow: 0 0 0 0.3rem rgba(75, 191, 155, 0.14);
+}
+
+.service-custom-hero--voucher {
+  border-radius: 3rem;
+  background:
+    linear-gradient(rgba(79, 93, 224, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(79, 93, 224, 0.06) 1px, transparent 1px),
+    linear-gradient(145deg, #f4f1ff, #fff8f1);
+  background-size:
+    2.8rem 2.8rem,
+    2.8rem 2.8rem,
+    auto;
+}
+.voucher-hero__backdrop {
+  position: absolute;
+  top: 2rem;
+  right: 1.5rem;
+  display: grid;
+  width: 9rem;
+  height: 9rem;
+  border-radius: 50%;
+  background: rgba(238, 181, 127, 0.2);
+  color: rgba(167, 101, 50, 0.3);
+  transform: rotate(10deg);
+  place-items: center;
+}
+.voucher-hero__ticket {
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+  width: min(27rem, 88%);
+  border: 1px solid rgba(79, 93, 224, 0.18);
+  border-radius: 1.4rem;
+  background: #fff;
+  box-shadow: 0 2rem 4.5rem rgba(52, 47, 105, 0.18);
+  transform: rotate(2.5deg);
+}
+.voucher-hero__ticket::before,
+.voucher-hero__ticket::after {
+  position: absolute;
+  top: 70%;
+  z-index: 2;
+  width: 1.5rem;
+  height: 1.5rem;
+  border: 1px solid rgba(79, 93, 224, 0.14);
+  border-radius: 50%;
+  background: #f5f3fb;
+  content: "";
+  transform: translateY(-50%);
+}
+.voucher-hero__ticket::before {
+  left: -0.82rem;
+}
+.voucher-hero__ticket::after {
+  right: -0.82rem;
+}
+.voucher-hero__ticket header,
+.voucher-hero__ticket footer,
+.voucher-hero__ticket header > div,
+.voucher-hero__status {
+  display: flex;
+  align-items: center;
+}
+.voucher-hero__ticket header {
+  justify-content: space-between;
+  padding: 1.15rem 1.25rem;
+  border-bottom: 1px solid #eeeaf8;
+  background: #fbfaff;
+}
+.voucher-hero__ticket header > div {
+  gap: 0.5rem;
+  color: #4f5de0;
+}
+.voucher-hero__ticket header strong {
+  color: #2d3556;
+  font-size: 0.75rem;
+}
+.voucher-hero__ticket header > span {
+  padding: 0.35rem 0.55rem;
+  border-radius: 2rem;
+  background: #e8f7ef;
+  color: #277c60;
+  font-family: var(--mono);
+  font-size: 0.48rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.voucher-hero__main {
+  min-height: 13rem;
+  padding: 2.4rem 1.5rem 1.7rem;
+  background:
+    radial-gradient(
+      circle at 82% 14%,
+      rgba(238, 181, 127, 0.2),
+      transparent 28%
+    ),
+    linear-gradient(135deg, #fff, #fbf9ff);
+  text-align: center;
+}
+.voucher-hero__main small {
+  color: #8b7194;
+  font-family: var(--mono);
+  font-size: 0.58rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+.voucher-hero__main > strong {
+  display: block;
+  margin-top: 0.65rem;
+  color: #2a3253;
+  font-size: clamp(2.3rem, 5vw, 3.6rem);
+  line-height: 1;
+  letter-spacing: -0.07em;
+}
+.voucher-hero__main p {
+  margin: 0.8rem 0 0;
+  color: #727c9b;
+  font-size: 0.7rem;
+}
+.voucher-hero__ticket footer {
+  gap: 0.9rem;
+  padding: 1rem 1.25rem;
+  border-top: 1px dashed #d9dced;
+}
+.voucher-hero__qr {
+  display: grid;
+  width: 4rem;
+  height: 4rem;
+  border: 1px solid #e0e3f2;
+  border-radius: 0.55rem;
+  color: #283152;
+  place-items: center;
+}
+.voucher-hero__ticket footer > div:last-child {
+  display: grid;
+  gap: 0.35rem;
+}
+.voucher-hero__ticket footer small {
+  color: #8a94b1;
+  font-family: var(--mono);
+  font-size: 0.55rem;
+}
+.voucher-hero__ticket footer strong {
+  color: #4f5de0;
+  font-size: 0.62rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.voucher-hero__status {
+  position: absolute;
+  bottom: 2.5rem;
+  left: 0.25rem;
+  z-index: 2;
+  gap: 0.65rem;
+  min-width: 13.5rem;
+  padding: 0.75rem 0.85rem;
+  border: 1px solid #d9e4df;
+  border-radius: 1rem;
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 1rem 2.4rem rgba(52, 47, 105, 0.15);
+  color: #3d8f71;
+}
+.voucher-hero__status > span {
+  display: grid;
+  width: 1.8rem;
+  height: 1.8rem;
+  border-radius: 50%;
+  background: #e6f7ef;
+  place-items: center;
+}
+.voucher-hero__status > div {
+  display: grid;
+  flex: 1;
+  gap: 0.15rem;
+}
+.voucher-hero__status strong {
+  color: #285c4a;
+  font-size: 0.63rem;
+}
+.voucher-hero__status small {
+  color: #799486;
+  font-size: 0.53rem;
+}
+
+.service-custom-hero--audit {
+  border-radius: 3rem;
+  background:
+    radial-gradient(circle at 80% 8%, rgba(95, 108, 255, 0.3), transparent 32%),
+    linear-gradient(145deg, #17213b, #0d1427);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+}
+.service-custom-hero--audit::before {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background-image: radial-gradient(
+    rgba(255, 255, 255, 0.12) 0.7px,
+    transparent 0.7px
+  );
+  background-size: 1.5rem 1.5rem;
+  content: "";
+  mask-image: linear-gradient(to bottom right, #000, transparent 72%);
+}
+.audit-hero__panel {
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+  width: min(33rem, 100%);
+  border: 1px solid rgba(168, 178, 255, 0.2);
+  border-radius: 1.35rem;
+  background: rgba(14, 22, 42, 0.94);
+  box-shadow: 0 2rem 5rem rgba(3, 7, 19, 0.42);
+  color: #eef0ff;
+}
+.audit-hero__panel > header,
+.audit-hero__panel > header > div,
+.audit-hero__panel > footer,
+.audit-hero__code-heading,
+.audit-hero__findings > div {
+  display: flex;
+  align-items: center;
+}
+.audit-hero__panel > header {
+  justify-content: space-between;
+  min-height: 4rem;
+  padding: 0.8rem 1rem;
+  border-bottom: 1px solid rgba(168, 178, 255, 0.14);
+  background: rgba(255, 255, 255, 0.035);
+}
+.audit-hero__panel > header > div {
+  gap: 0.65rem;
+}
+.audit-hero__panel > header > div > span,
+.audit-hero__panel > footer > span {
+  display: grid;
+  width: 2.1rem;
+  height: 2.1rem;
+  border-radius: 0.65rem;
+  background: rgba(95, 108, 255, 0.18);
+  color: #aeb7ff;
+  place-items: center;
+}
+.audit-hero__panel > header > div > div,
+.audit-hero__panel > footer > div {
+  display: grid;
+  gap: 0.16rem;
+}
+.audit-hero__panel > header strong,
+.audit-hero__panel > footer strong {
+  font-size: 0.68rem;
+}
+.audit-hero__panel > header small,
+.audit-hero__panel > footer small {
+  color: #8490b1;
+  font-family: var(--mono);
+  font-size: 0.5rem;
+}
+.audit-hero__panel > header > i {
+  padding: 0.35rem 0.55rem;
+  border: 1px solid rgba(96, 212, 168, 0.2);
+  border-radius: 2rem;
+  background: rgba(96, 212, 168, 0.08);
+  color: #6dd6af;
+  font-family: var(--mono);
+  font-size: 0.48rem;
+  font-style: normal;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.audit-hero__workspace {
+  display: grid;
+  grid-template-columns: minmax(0, 1.55fr) minmax(8rem, 0.75fr);
+  min-height: 16.5rem;
+}
+.audit-hero__code {
+  min-width: 0;
+  padding: 0.9rem;
+  border-right: 1px solid rgba(168, 178, 255, 0.12);
+}
+.audit-hero__code-heading {
+  gap: 0.45rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid rgba(168, 178, 255, 0.1);
+  color: #7f8caf;
+  font-family: var(--mono);
+  font-size: 0.5rem;
+}
+.audit-hero__code-heading > i {
+  width: 0.4rem;
+  height: 0.4rem;
+  margin-left: auto;
+  border-radius: 50%;
+  background: #6dd6af;
+  box-shadow: 0 0 0 0.25rem rgba(109, 214, 175, 0.1);
+}
+.audit-hero__code ol {
+  margin: 1rem 0 0;
+  padding-left: 2.2rem;
+  color: #7783a2;
+  font-family: var(--mono);
+  font-size: 0.55rem;
+  line-height: 2.45;
+}
+.audit-hero__code li {
+  padding-left: 0.4rem;
+  color: #c6cceb;
+  white-space: nowrap;
+}
+.audit-hero__code li::marker {
+  color: #56617f;
+}
+.audit-hero__code li.is-marked {
+  border-radius: 0.25rem;
+  background: rgba(239, 164, 90, 0.1);
+  box-shadow: inset 0.14rem 0 #efa45a;
+}
+.audit-hero__code li span {
+  color: #9ba6ff;
+}
+.audit-hero__code li em {
+  color: #75d2b0;
+  font-style: normal;
+}
+.audit-hero__findings {
+  display: grid;
+  align-content: start;
+  gap: 0.6rem;
+  padding: 1rem 0.8rem;
+}
+.audit-hero__findings > strong {
+  margin-bottom: 0.25rem;
+  color: #8c98ba;
+  font-size: 0.55rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+.audit-hero__findings > div {
+  display: grid;
+  grid-template-columns: auto auto 1fr;
+  gap: 0.4rem;
+  padding: 0.6rem;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 0.65rem;
+  background: rgba(255, 255, 255, 0.035);
+}
+.audit-hero__findings > div span {
+  font-family: var(--mono);
+  font-size: 0.58rem;
+  font-weight: 800;
+}
+.audit-hero__findings > div small {
+  overflow: hidden;
+  color: #8490af;
+  font-size: 0.48rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.audit-hero__findings .is-critical {
+  color: #f18484;
+}
+.audit-hero__findings .is-warning {
+  color: #efb066;
+}
+.audit-hero__findings .is-passed {
+  color: #6dd6af;
+}
+.audit-hero__panel > footer {
+  gap: 0.65rem;
+  padding: 0.85rem 1rem;
+  border-top: 1px solid rgba(168, 178, 255, 0.12);
+  background: rgba(255, 255, 255, 0.025);
+}
+.audit-hero__panel > footer > div {
+  flex: 1;
+}
+.audit-hero__panel > footer > i {
+  width: 4.5rem;
+  height: 0.35rem;
+  overflow: hidden;
+  border-radius: 1rem;
+  background: rgba(255, 255, 255, 0.08);
+}
+.audit-hero__panel > footer > i::after {
+  display: block;
+  width: 82%;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #5f6cff, #6dd6af);
+  content: "";
+}
+
 .service-detail-heading {
   max-width: 49rem;
   margin-bottom: clamp(2rem, 4vw, 3.2rem);

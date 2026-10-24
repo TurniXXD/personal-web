@@ -3,13 +3,16 @@ import type { NextConfig } from "next";
 import createNextIntlPlugin from "next-intl/plugin";
 import { withSentryConfig } from "@sentry/nextjs/config";
 
+const developmentScriptPolicy =
+  process.env.NODE_ENV === "development" ? " 'unsafe-eval'" : "";
+
 const contentSecurityPolicy = [
   "default-src 'self'",
   "base-uri 'self'",
   "form-action 'self'",
   "frame-ancestors 'none'",
   "object-src 'none'",
-  "script-src 'self' 'unsafe-inline' https://challenges.cloudflare.com https://static.cloudflareinsights.com https://www.clarity.ms https://scripts.clarity.ms",
+  `script-src 'self' 'unsafe-inline'${developmentScriptPolicy} https://challenges.cloudflare.com https://static.cloudflareinsights.com https://www.clarity.ms https://scripts.clarity.ms`,
   "style-src 'self' 'unsafe-inline'",
   "font-src 'self' data:",
   "img-src 'self' data: blob: https://www.clarity.ms https://*.clarity.ms",
