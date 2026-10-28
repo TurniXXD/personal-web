@@ -23,8 +23,11 @@ import { ScrollReveal } from "@/components/scroll-reveal";
 import { ServicePipelineDivider } from "@/components/service-pipeline-divider";
 import {
   AuditHeroVisual,
+  CompanyWebsiteHeroVisual,
   LoyaltyHeroVisual,
+  ShoptetHeroVisual,
   VoucherHeroVisual,
+  WebApplicationDetailHeroVisual,
 } from "@/components/service-detail-hero-visuals";
 import { ContactBlock, SiteFooter, SiteHeader } from "@/components/site-chrome";
 import { localizedPath, type Locale } from "@/lib/content";
@@ -81,6 +84,18 @@ const DetailHeroVisual = ({ locale, slug }: ServiceDetailPageProps) => {
 
   if (slug === "vernostni-programy") {
     return <LoyaltyHeroVisual {...customVisualProps} />;
+  }
+
+  if (slug === "firemni-weby") {
+    return <CompanyWebsiteHeroVisual {...customVisualProps} />;
+  }
+
+  if (slug === "webove-aplikace-na-miru") {
+    return <WebApplicationDetailHeroVisual {...customVisualProps} />;
+  }
+
+  if (slug === "shoptet") {
+    return <ShoptetHeroVisual {...customVisualProps} />;
   }
 
   if (slug === "darkove-poukazy") {

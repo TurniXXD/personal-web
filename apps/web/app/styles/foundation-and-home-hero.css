@@ -4,6 +4,7 @@
 }
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 5.5rem;
 }
 body {
   margin: 0;
@@ -47,6 +48,18 @@ summary:focus-visible {
 .site-container {
   width: min(100% - 3rem, 1160px);
   margin-inline: auto;
+}
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  transform: translateY(0);
+  transition: transform 180ms cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+}
+.site-header[data-scroll-state="hidden"] {
+  pointer-events: none;
+  transform: translateY(calc(-100% - 1px));
 }
 .site-header__mobile {
   display: none;

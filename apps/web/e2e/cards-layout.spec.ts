@@ -146,6 +146,25 @@ test("project cards update foreground instantly without a fallback watermark", a
   );
 });
 
+test("related service cards switch every hover layer instantly", async ({
+  page,
+}) => {
+  await page.goto("/sluzby/webove-aplikace-na-miru");
+
+  const card = page.locator(".service-detail-related__card").first();
+  for (const part of [
+    card,
+    card.locator(".service-detail-related__watermark"),
+    card.locator("h3"),
+    card.locator("p"),
+    card.locator("strong"),
+    card.locator("strong svg"),
+  ]) {
+    await expect(part).toHaveCSS("transition-duration", "0s");
+    await expect(part).toHaveCSS("transition-delay", "0s");
+  }
+});
+
 test("content cards share one component across service and automation pages", async ({
   page,
 }) => {

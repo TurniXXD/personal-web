@@ -108,10 +108,13 @@ test("priority service detail pages stay usable without horizontal overflow on m
   await expect(firstFaq).toHaveAttribute("open", "");
 });
 
-test("priority services use distinct localized hero visuals", async ({
+test("service detail pages use distinct localized hero visuals", async ({
   page,
 }) => {
   const serviceHeroes = [
+    ["/sluzby/firemni-weby", ".service-core-hero--company"],
+    ["/sluzby/webove-aplikace-na-miru", ".service-core-hero--web-app"],
+    ["/sluzby/shoptet", ".service-core-hero--shoptet"],
     ["/sluzby/vernostni-programy", ".service-custom-hero--loyalty"],
     ["/sluzby/darkove-poukazy", ".service-custom-hero--voucher"],
     ["/sluzby/audit-ai-aplikaci", ".service-custom-hero--audit"],
@@ -123,6 +126,18 @@ test("priority services use distinct localized hero visuals", async ({
     await expect(page.locator(".service-detail-visual__window")).toHaveCount(0);
   }
 
+  await page.goto("/en/sluzby/firemni-weby");
+  await expect(page.locator(".service-core-hero--company")).toContainText(
+    "Start an enquiry",
+  );
+  await page.goto("/en/sluzby/webove-aplikace-na-miru");
+  await expect(page.locator(".service-core-hero--web-app")).toContainText(
+    "Operations overview",
+  );
+  await page.goto("/en/sluzby/shoptet");
+  await expect(page.locator(".service-core-hero--shoptet")).toContainText(
+    "Add to basket",
+  );
   await page.goto("/en/sluzby/vernostni-programy");
   await expect(page.locator(".service-custom-hero--loyalty")).toContainText(
     "My loyalty card",

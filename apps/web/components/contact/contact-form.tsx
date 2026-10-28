@@ -8,7 +8,7 @@ import { getAutomationExamples } from "@/lib/automation-content";
 import {
   TurnstileWidget,
   turnstileEnabled,
-} from "@/components/turnstile-widget";
+} from "@/components/contact/turnstile-widget";
 import {
   validateContactInput,
   type ContactErrors,

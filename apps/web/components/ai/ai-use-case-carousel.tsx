@@ -21,7 +21,7 @@ import {
   type KeyboardEvent,
   type TouchEvent,
 } from "react";
-import { ScrollReveal } from "@/components/scroll-reveal";
+import { ScrollReveal } from "@/components/shared/scroll-reveal";
 import {
   aiUseCaseCarouselCopy,
   getAiUseCaseSlides,

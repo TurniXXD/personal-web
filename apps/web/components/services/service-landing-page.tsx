@@ -17,13 +17,13 @@ import {
 } from "lucide-react";
 import dynamic from "next/dynamic";
 import { ActionLink } from "@vantuch/ui";
-import { AiHeroVisual } from "@/components/ai-hero-visual";
-import { ContentCard } from "@/components/content-card";
-import { ProjectGrid } from "@/components/project-grid";
-import { ScrollReveal } from "@/components/scroll-reveal";
-import { ServicePipelineDivider } from "@/components/service-pipeline-divider";
-import { ContactBlock, SiteFooter, SiteHeader } from "@/components/site-chrome";
-import { WebApplicationHeroVisual } from "@/components/web-application-hero-visual";
+import { AiHeroVisual } from "@/components/ai/ai-hero-visual";
+import { ProjectGrid } from "@/components/home/project-grid";
+import { ContactBlock, SiteFooter, SiteHeader } from "@/components/layout/site-chrome";
+import { ContentCard } from "@/components/shared/content-card";
+import { ScrollReveal } from "@/components/shared/scroll-reveal";
+import { ServicePipelineDivider } from "@/components/services/service-pipeline-divider";
+import { WebApplicationHeroVisual } from "@/components/services/heroes/web-application-hero-visual";
 import { localizedPath, type Locale } from "@/lib/content";
 import {
   servicePageCopy,
@@ -38,7 +38,7 @@ type ServiceLandingPageProps = {
 
 const AiUseCaseCarousel = dynamic(
   () =>
-    import("@/components/ai-use-case-carousel").then(
+    import("@/components/ai/ai-use-case-carousel").then(
       (module) => module.AiUseCaseCarousel,
     ),
   {

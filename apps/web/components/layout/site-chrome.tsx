@@ -9,20 +9,19 @@ import {
 } from "lucide-react";
 import dynamic from "next/dynamic";
 import { ActionLink } from "@vantuch/ui";
-import { CookiePreferencesButton } from "@/components/cookie-consent";
-import { MobileNavigation } from "@/components/mobile-navigation";
-import { ScrollReveal } from "@/components/scroll-reveal";
-import { ServicesDropdown } from "@/components/services-dropdown";
+import { ContactForm } from "@/components/contact/contact-form";
+import { ContactOrbit } from "@/components/contact/contact-orbit";
+import { CookiePreferencesButton } from "@/components/layout/cookie-consent";
+import { MobileNavigation } from "@/components/layout/mobile-navigation";
+import { ScrollAwareHeader } from "@/components/layout/scroll-aware-header";
+import { ServicesDropdown } from "@/components/layout/services-dropdown";
+import { ScrollReveal } from "@/components/shared/scroll-reveal";
 import { copy, localizedPath, type Locale } from "@/lib/content";
 import type { ContactRequestType } from "@/lib/contact-submission";
 import { contactMailto, contactTel, siteConfig } from "@/lib/site-config";
 
-const ContactOrbit = dynamic(() =>
-  import("@/components/contact-orbit").then((module) => module.ContactOrbit),
-);
-const ContactForm = dynamic(() =>
-  import("@/components/contact-form").then((module) => module.ContactForm),
-);
+const LazyContactOrbit = dynamic(() => Promise.resolve({ default: ContactOrbit }));
+const LazyContactForm = dynamic(() => Promise.resolve({ default: ContactForm }));
 
 export function SiteHeader({
   locale,
@@ -98,7 +97,7 @@ export function SiteHeader({
   ];
 
   return (
-    <header className="site-header relative z-20 border-b border-[rgba(114,129,202,0.13)] bg-white/87 backdrop-blur-[18px]">
+    <ScrollAwareHeader>
       <div className="site-container site-header__inner flex min-h-[5.6rem] items-center justify-between gap-8">
         <a
           className="site-logo inline-flex shrink-0 items-center gap-[0.72rem] text-base font-extrabold tracking-[-0.04em]"
@@ -190,7 +189,7 @@ export function SiteHeader({
           />
         </div>
       </div>
-    </header>
+    </ScrollAwareHeader>
   );
 }
 

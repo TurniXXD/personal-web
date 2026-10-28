@@ -167,6 +167,11 @@ test("Czech homepage presents the offer and contact", async ({ page }) => {
     return action && arrow
       ? {
           actionText: action.textContent?.trim(),
+          actionBottom: actionBounds?.bottom ?? null,
+          descriptionBottom:
+            card
+              .querySelector(".social-platform-card__description")
+              ?.getBoundingClientRect().bottom ?? null,
           arrowIsRight:
             arrow.getBoundingClientRect().left >
             action.getBoundingClientRect().left,
@@ -177,6 +182,12 @@ test("Czech homepage presents the offer and contact", async ({ page }) => {
       : null;
   });
   expect(socialCardAlignment?.arrowIsRight).toBe(true);
+  expect(
+    Math.abs(
+      (socialCardAlignment?.actionBottom ?? 0) -
+        (socialCardAlignment?.descriptionBottom ?? 0),
+    ),
+  ).toBeLessThanOrEqual(1);
   expect(socialCardAlignment?.actionRightGap).toBeLessThanOrEqual(40);
   expect(socialCardAlignment?.actionText).toContain("Zjistit více");
   const sectionOrder = await page

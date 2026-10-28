@@ -11,7 +11,7 @@ export default {
   name: "Company websites",
   hero: {
     eyebrow: "COMPANY WEBSITES",
-    title: "A website that clearly shows why customers should choose you.",
+    title: "A website that tells people what you do.",
     description:
       "For companies and service businesses that want to look professional, generate relevant enquiries and stay in control of their content.",
     primary: "Discuss a new website",

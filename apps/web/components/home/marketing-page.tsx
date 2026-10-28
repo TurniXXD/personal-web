@@ -17,14 +17,14 @@ import {
 } from "lucide-react";
 import { ActionLink } from "@vantuch/ui";
 import { copy, localizedPath, type Locale } from "@/lib/content";
-import { ContactBlock, SiteFooter, SiteHeader } from "@/components/site-chrome";
-import { ContentCard } from "@/components/content-card";
-import { InteractiveHeroArt } from "@/components/interactive-hero-art";
-import { NewsletterSocialSection } from "@/components/newsletter-social-section";
-import { ProjectGrid } from "@/components/project-grid";
-import { ScrollReveal } from "@/components/scroll-reveal";
-import { TechnicalBackground } from "@/components/technical-background";
-import { TestimonialsSection } from "@/components/testimonials-section";
+import { InteractiveHeroArt } from "@/components/home/interactive-hero-art";
+import { NewsletterSocialSection } from "@/components/home/newsletter-social-section";
+import { ProjectGrid } from "@/components/home/project-grid";
+import { TechnicalBackground } from "@/components/home/technical-background";
+import { TestimonialsSection } from "@/components/home/testimonials-section";
+import { ContactBlock, SiteFooter, SiteHeader } from "@/components/layout/site-chrome";
+import { ContentCard } from "@/components/shared/content-card";
+import { ScrollReveal } from "@/components/shared/scroll-reveal";
 import { siteConfig } from "@/lib/site-config";
 
 const serviceIcons = [Code2, Workflow, Bot] as const;

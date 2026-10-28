@@ -171,6 +171,25 @@ test("mobile header and hero use the compact presentation", async ({
   expect(titleSize).toBeLessThan(47);
 });
 
+test("sticky navigation hides while scrolling down and returns on scroll up", async ({
+  page,
+}) => {
+  await page.goto("/");
+
+  const header = page.locator(".site-header");
+  await expect(header).toHaveCSS("position", "sticky");
+  await expect(header).toHaveAttribute("data-scroll-state", "visible");
+
+  await page.evaluate(() => window.scrollTo(0, 1200));
+  await expect(header).toHaveAttribute("data-scroll-state", "hidden");
+
+  await page.evaluate(() => window.scrollBy(0, -80));
+  await expect(header).toHaveAttribute("data-scroll-state", "visible");
+
+  await page.evaluate(() => window.scrollTo(0, 0));
+  await expect(header).toHaveAttribute("data-scroll-state", "visible");
+});
+
 test("mobile heroes show copy only and hide right-side visuals", async ({
   page,
 }) => {

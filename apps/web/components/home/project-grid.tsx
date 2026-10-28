@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { ArrowUpRight } from "lucide-react";
-import { ScrollReveal } from "@/components/scroll-reveal";
-import styles from "@/components/project-grid.module.css";
+import { ScrollReveal } from "@/components/shared/scroll-reveal";
+import styles from "./project-grid.module.css";
 import {
   caseStudyProjects,
   caseStudySlugs,

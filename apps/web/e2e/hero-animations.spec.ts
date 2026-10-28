@@ -167,9 +167,21 @@ test("service details and referral visuals animate real states", async ({
   const samples = [
     [
       "/sluzby/firemni-weby",
-      ".service-detail-visual__flow > div",
-      "boxShadow",
-      0.27,
+      '[data-core-hero-animation="website-cursor"]',
+      "transform",
+      0.5,
+    ],
+    [
+      "/sluzby/webove-aplikace-na-miru",
+      '[data-core-hero-animation="app-case"]',
+      "borderColor",
+      0.18,
+    ],
+    [
+      "/sluzby/shoptet",
+      '[data-core-hero-animation="cart-toast"]',
+      "opacity",
+      0.65,
     ],
     [
       "/sluzby/vernostni-programy",

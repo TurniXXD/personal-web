@@ -3,11 +3,11 @@
 import { useState } from "react";
 import type { FormEvent } from "react";
 import { ArrowUpRight, Github, Instagram, Linkedin, Mail } from "lucide-react";
-import { ScrollReveal } from "@/components/scroll-reveal";
+import { ScrollReveal } from "@/components/shared/scroll-reveal";
 import {
   TurnstileWidget,
   turnstileEnabled,
-} from "@/components/turnstile-widget";
+} from "@/components/contact/turnstile-widget";
 import type { CommunityCopy, Locale } from "@/lib/content";
 
 type Status = "idle" | "loading" | "success" | "error";

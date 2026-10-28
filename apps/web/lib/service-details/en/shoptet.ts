@@ -11,7 +11,7 @@ export default {
   name: "Shoptet stores",
   hero: {
     eyebrow: "SHOPTET STORES",
-    title: "A store where customers can decide and buy with confidence.",
+    title: "A Shoptet store that's easy to navigate.",
     description:
       "For new and established stores that need a clearer design, smoother purchasing journey and useful integrations.",
     primary: "Discuss the store",

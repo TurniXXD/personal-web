@@ -9,7 +9,7 @@ export default {
   name: "E-shopy na Shoptetu",
   hero: {
     eyebrow: "E-SHOPY NA SHOPTETU",
-    title: "E-shop, ve kterém se zákazník snadno rozhodne a nakoupí.",
+    title: "Shoptet, kde se zákazník neztratí.",
     description:
       "Pro nové i zavedené obchody, které chtějí přehlednější vzhled, lepší nákupní cestu a smysluplná napojení.",
     primary: "Probrat e-shop",
