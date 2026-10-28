@@ -1,0 +1,199 @@
+.voucher-hero__backdrop {
+  position: absolute;
+  top: 2rem;
+  right: 1.5rem;
+  display: grid;
+  width: 9rem;
+  height: 9rem;
+  border-radius: 50%;
+  background: rgba(238, 181, 127, 0.2);
+  color: rgba(167, 101, 50, 0.3);
+  transform: translate3d(
+      var(--service-hero-secondary-x, 0),
+      var(--service-hero-secondary-y, 0),
+      0
+    )
+    rotate(10deg);
+  will-change: transform;
+  place-items: center;
+}
+.voucher-hero__ticket {
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+  width: min(27rem, 88%);
+  border: 1px solid rgba(79, 93, 224, 0.18);
+  border-radius: 1.4rem;
+  background: #fff;
+  box-shadow: 0 2rem 4.5rem rgba(52, 47, 105, 0.18);
+  transform: translate3d(
+      var(--service-hero-primary-x, 0),
+      var(--service-hero-primary-y, 0),
+      0
+    )
+    rotateX(var(--service-hero-rotate-x, 0deg))
+    rotateY(var(--service-hero-rotate-y, 0deg)) rotate(2.5deg);
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+.voucher-hero__ticket::before,
+.voucher-hero__ticket::after {
+  position: absolute;
+  top: 70%;
+  z-index: 2;
+  width: 1.5rem;
+  height: 1.5rem;
+  border: 1px solid rgba(79, 93, 224, 0.14);
+  border-radius: 50%;
+  background: #f5f3fb;
+  content: "";
+  transform: translateY(-50%);
+}
+.voucher-hero__ticket::before {
+  left: -0.82rem;
+}
+.voucher-hero__ticket::after {
+  right: -0.82rem;
+}
+.voucher-hero__ticket header,
+.voucher-hero__ticket footer,
+.voucher-hero__ticket header > div,
+.voucher-hero__status {
+  display: flex;
+  align-items: center;
+}
+.voucher-hero__ticket header {
+  justify-content: space-between;
+  padding: 1.15rem 1.25rem;
+  border-bottom: 1px solid #eeeaf8;
+  background: #fbfaff;
+}
+.voucher-hero__ticket header > div {
+  gap: 0.5rem;
+  color: #4f5de0;
+}
+.voucher-hero__ticket header strong {
+  color: #2d3556;
+  font-size: 0.75rem;
+}
+.voucher-hero__ticket header > span {
+  padding: 0.35rem 0.55rem;
+  border-radius: 2rem;
+  background: #e8f7ef;
+  color: #277c60;
+  font-family: var(--mono);
+  font-size: 0.48rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.voucher-hero__main {
+  min-height: 13rem;
+  padding: 2.4rem 1.5rem 1.7rem;
+  background:
+    radial-gradient(
+      circle at 82% 14%,
+      rgba(238, 181, 127, 0.2),
+      transparent 28%
+    ),
+    linear-gradient(135deg, #fff, #fbf9ff);
+  text-align: center;
+}
+.voucher-hero__main small {
+  color: #8b7194;
+  font-family: var(--mono);
+  font-size: 0.58rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+.voucher-hero__main > strong {
+  display: block;
+  margin-top: 0.65rem;
+  color: #2a3253;
+  font-size: clamp(2.3rem, 5vw, 3.6rem);
+  line-height: 1;
+  letter-spacing: -0.07em;
+}
+.voucher-hero__main p {
+  margin: 0.8rem 0 0;
+  color: #727c9b;
+  font-size: 0.7rem;
+}
+.voucher-hero__ticket footer {
+  gap: 0.9rem;
+  padding: 1rem 1.25rem;
+  border-top: 1px dashed #d9dced;
+}
+.voucher-hero__qr {
+  display: grid;
+  width: 4rem;
+  height: 4rem;
+  border: 1px solid #e0e3f2;
+  border-radius: 0.55rem;
+  color: #283152;
+  place-items: center;
+}
+.voucher-hero__ticket footer > div:last-child {
+  display: grid;
+  gap: 0.35rem;
+}
+.voucher-hero__ticket footer small {
+  color: #8a94b1;
+  font-family: var(--mono);
+  font-size: 0.55rem;
+}
+.voucher-hero__ticket footer strong {
+  color: #4f5de0;
+  font-size: 0.62rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.voucher-hero__status {
+  position: absolute;
+  bottom: 2.5rem;
+  left: 0.25rem;
+  z-index: 2;
+  gap: 0.65rem;
+  min-width: 13.5rem;
+  padding: 0.75rem 0.85rem;
+  border: 1px solid #d9e4df;
+  border-radius: 1rem;
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 1rem 2.4rem rgba(52, 47, 105, 0.15);
+  color: #3d8f71;
+  transform: translate3d(
+    var(--service-hero-accent-x, 0),
+    var(--service-hero-accent-y, 0),
+    0
+  );
+  will-change: transform;
+}
+.voucher-hero__status > span {
+  display: grid;
+  width: 1.8rem;
+  height: 1.8rem;
+  border-radius: 50%;
+  background: #e6f7ef;
+  place-items: center;
+}
+.voucher-hero__status > div {
+  display: grid;
+  flex: 1;
+  gap: 0.15rem;
+}
+.voucher-hero__status strong {
+  color: #285c4a;
+  font-size: 0.63rem;
+}
+.voucher-hero__status small {
+  color: #799486;
+  font-size: 0.53rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .voucher-hero__backdrop,
+  .voucher-hero__ticket,
+  .voucher-hero__status {
+    will-change: auto;
+  }
+}

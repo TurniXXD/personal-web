@@ -6,6 +6,15 @@ import { routing } from "@/i18n/routing";
 const intlMiddleware = createMiddleware(routing);
 
 export default function proxy(request: NextRequest) {
+  // Public pages have no Server Actions. Forms submit to /api/*, which the
+  // matcher excludes; unexpected page POSTs should not reach the RSC handler.
+  if (request.method === "POST") {
+    return new NextResponse(null, {
+      status: 405,
+      headers: { Allow: "GET, HEAD" },
+    });
+  }
+
   const token = request.nextUrl.searchParams.get("ref");
   let response: NextResponse;
   if (request.nextUrl.pathname === "/") {

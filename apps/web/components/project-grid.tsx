@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { ArrowUpRight } from "lucide-react";
 import { ScrollReveal } from "@/components/scroll-reveal";
 import {
   caseStudyProjects,
@@ -53,6 +54,10 @@ export const ProjectGrid = ({
               <div className="case-card__body">
                 <h3>{project.name}</h3>
                 <p className="case-card__description">{projectCopy.summary}</p>
+                <span className="case-card__action">
+                  {locale === "cs" ? "Zjistit více" : "Learn more"}
+                  <ArrowUpRight size={15} aria-hidden="true" />
+                </span>
               </div>
             </a>
           </article>

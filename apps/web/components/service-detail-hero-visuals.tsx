@@ -1,3 +1,7 @@
+import auditHeroStyles from "./audit-hero.module.css";
+import voucherHeroStyles from "./voucher-hero.module.css";
+import loyaltyHeroStyles from "./loyalty-hero.module.css";
+import { PointerReactiveHeroVisual } from "./pointer-reactive-hero-visual";
 import {
   Check,
   CircleAlert,
@@ -86,17 +90,28 @@ export const LoyaltyHeroVisual = ({
   const copy = customHeroCopy[locale].loyalty;
 
   return (
-    <div
+    <PointerReactiveHeroVisual
       className="service-detail-visual service-custom-hero service-custom-hero--loyalty"
-      role="img"
-      aria-label={ariaLabel}
+      ariaLabel={ariaLabel}
     >
-      <div className="loyalty-hero__glow" aria-hidden="true" />
-      <div className="loyalty-hero__phone" aria-hidden="true">
-        <div className="loyalty-hero__speaker" />
-        <div className="loyalty-hero__screen">
+      <div
+        className={`loyalty-hero__glow ${loyaltyHeroStyles["loyalty-hero__glow"]}`}
+        aria-hidden="true"
+      />
+      <div
+        className={`loyalty-hero__phone ${loyaltyHeroStyles["loyalty-hero__phone"]}`}
+        aria-hidden="true"
+      >
+        <div
+          className={`loyalty-hero__speaker ${loyaltyHeroStyles["loyalty-hero__speaker"]}`}
+        />
+        <div
+          className={`loyalty-hero__screen ${loyaltyHeroStyles["loyalty-hero__screen"]}`}
+        >
           <header>
-            <div className="loyalty-hero__brand">
+            <div
+              className={`loyalty-hero__brand ${loyaltyHeroStyles["loyalty-hero__brand"]}`}
+            >
               <span>V</span>
               <div>
                 <strong>{copy.card}</strong>
@@ -105,21 +120,27 @@ export const LoyaltyHeroVisual = ({
             </div>
             <Sparkles size={17} />
           </header>
-          <div className="loyalty-hero__identity">
+          <div
+            className={`loyalty-hero__identity ${loyaltyHeroStyles["loyalty-hero__identity"]}`}
+          >
             <span>JV</span>
             <div>
               <small>{badge}</small>
               <strong>{copy.progress}</strong>
             </div>
           </div>
-          <div className="loyalty-hero__stamps">
+          <div
+            className={`loyalty-hero__stamps ${loyaltyHeroStyles["loyalty-hero__stamps"]}`}
+          >
             {Array.from({ length: 10 }, (_, index) => (
               <i className={index < 7 ? "is-active" : ""} key={index}>
                 {index < 7 ? <Check size={13} /> : index + 1}
               </i>
             ))}
           </div>
-          <div className="loyalty-hero__reward">
+          <div
+            className={`loyalty-hero__reward ${loyaltyHeroStyles["loyalty-hero__reward"]}`}
+          >
             <Gift size={20} />
             <div>
               <small>{copy.reward}</small>
@@ -129,7 +150,10 @@ export const LoyaltyHeroVisual = ({
           </div>
         </div>
       </div>
-      <div className="loyalty-hero__scan-card" aria-hidden="true">
+      <div
+        className={`loyalty-hero__scan-card ${loyaltyHeroStyles["loyalty-hero__scan-card"]}`}
+        aria-hidden="true"
+      >
         <span>
           <ScanLine size={18} />
         </span>
@@ -139,7 +163,7 @@ export const LoyaltyHeroVisual = ({
         </div>
         <i />
       </div>
-    </div>
+    </PointerReactiveHeroVisual>
   );
 };
 
@@ -152,15 +176,20 @@ export const VoucherHeroVisual = ({
   const copy = customHeroCopy[locale].voucher;
 
   return (
-    <div
+    <PointerReactiveHeroVisual
       className="service-detail-visual service-custom-hero service-custom-hero--voucher"
-      role="img"
-      aria-label={ariaLabel}
+      ariaLabel={ariaLabel}
     >
-      <div className="voucher-hero__backdrop" aria-hidden="true">
+      <div
+        className={`voucher-hero__backdrop ${voucherHeroStyles["voucher-hero__backdrop"]}`}
+        aria-hidden="true"
+      >
         <Gift size={74} />
       </div>
-      <article className="voucher-hero__ticket" aria-hidden="true">
+      <article
+        className={`voucher-hero__ticket ${voucherHeroStyles["voucher-hero__ticket"]}`}
+        aria-hidden="true"
+      >
         <header>
           <div>
             <Gift size={17} />
@@ -168,13 +197,17 @@ export const VoucherHeroVisual = ({
           </div>
           <span>{copy.issued}</span>
         </header>
-        <div className="voucher-hero__main">
+        <div
+          className={`voucher-hero__main ${voucherHeroStyles["voucher-hero__main"]}`}
+        >
           <small>{copy.recipient}</small>
           <strong>{copy.value}</strong>
           <p>{items[1]}</p>
         </div>
         <footer>
-          <div className="voucher-hero__qr">
+          <div
+            className={`voucher-hero__qr ${voucherHeroStyles["voucher-hero__qr"]}`}
+          >
             <QrCode size={54} strokeWidth={1.65} />
           </div>
           <div>
@@ -183,7 +216,10 @@ export const VoucherHeroVisual = ({
           </div>
         </footer>
       </article>
-      <div className="voucher-hero__status" aria-hidden="true">
+      <div
+        className={`voucher-hero__status ${voucherHeroStyles["voucher-hero__status"]}`}
+        aria-hidden="true"
+      >
         <span>
           <Check size={14} />
         </span>
@@ -193,7 +229,7 @@ export const VoucherHeroVisual = ({
         </div>
         <TicketCheck size={22} />
       </div>
-    </div>
+    </PointerReactiveHeroVisual>
   );
 };
 
@@ -211,7 +247,10 @@ export const AuditHeroVisual = ({
       role="img"
       aria-label={ariaLabel}
     >
-      <div className="audit-hero__panel" aria-hidden="true">
+      <div
+        className={`audit-hero__panel ${auditHeroStyles["audit-hero__panel"]}`}
+        aria-hidden="true"
+      >
         <header>
           <div>
             <span>
@@ -224,21 +263,27 @@ export const AuditHeroVisual = ({
           </div>
           <i>{badge}</i>
         </header>
-        <div className="audit-hero__workspace">
-          <div className="audit-hero__code">
-            <div className="audit-hero__code-heading">
+        <div
+          className={`audit-hero__workspace ${auditHeroStyles["audit-hero__workspace"]}`}
+        >
+          <div
+            className={`audit-hero__code ${auditHeroStyles["audit-hero__code"]}`}
+          >
+            <div
+              className={`audit-hero__code-heading ${auditHeroStyles["audit-hero__code-heading"]}`}
+            >
               <Code2 size={15} />
               <span>api/auth/route.ts</span>
               <i />
             </div>
-            <ol>
+            <ol data-audit-code-scan>
               <li>
                 <span>const</span> session = <em>await</em> auth();
               </li>
               <li>
                 <span>if</span> (!session) return denied();
               </li>
-              <li className="is-marked">
+              <li>
                 data = <em>await</em> request.json();
               </li>
               <li>validate(data, schema);</li>
@@ -247,19 +292,21 @@ export const AuditHeroVisual = ({
               </li>
             </ol>
           </div>
-          <aside className="audit-hero__findings">
+          <aside
+            className={`audit-hero__findings ${auditHeroStyles["audit-hero__findings"]}`}
+          >
             <strong>{copy.findings}</strong>
-            <div className="is-critical">
+            <div className="is-critical" data-audit-finding="critical">
               <CircleAlert size={15} />
               <span>02</span>
               <small>{copy.critical}</small>
             </div>
-            <div className="is-warning">
+            <div className="is-warning" data-audit-finding="warning">
               <ScanLine size={15} />
               <span>05</span>
               <small>{copy.warning}</small>
             </div>
-            <div className="is-passed">
+            <div className="is-passed" data-audit-finding="passed">
               <Check size={15} />
               <span>18</span>
               <small>{copy.passed}</small>

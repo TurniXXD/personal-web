@@ -1,5 +1,7 @@
 "use client";
 
+import styles from "./interactive-hero-art.module.css";
+
 import { useEffect, useRef } from "react";
 import { Blocks, Code2, Workflow } from "lucide-react";
 
@@ -153,45 +155,73 @@ export function InteractiveHeroArt() {
   }, []);
 
   return (
-    <div className="hero-art" aria-hidden="true" ref={artRef}>
-      <div className="hero-art__orbit-layer hero-art__orbit-layer--one">
-        <div className="hero-art__orbit hero-art__orbit--one">
-          <span className="hero-art__planet" />
+    <div
+      className={`hero-art ${styles["hero-art"]}`}
+      aria-hidden="true"
+      ref={artRef}
+    >
+      <div
+        className={`hero-art__orbit-layer hero-art__orbit-layer--one ${styles["hero-art__orbit-layer"]} ${styles["hero-art__orbit-layer--one"]}`}
+      >
+        <div
+          className={`hero-art__orbit hero-art__orbit--one ${styles["hero-art__orbit"]} ${styles["hero-art__orbit--one"]}`}
+        >
+          <span className={`hero-art__planet ${styles["hero-art__planet"]}`} />
         </div>
       </div>
-      <div className="hero-art__orbit-layer hero-art__orbit-layer--two">
-        <div className="hero-art__orbit hero-art__orbit--two">
-          <span className="hero-art__planet" />
+      <div
+        className={`hero-art__orbit-layer hero-art__orbit-layer--two ${styles["hero-art__orbit-layer"]} ${styles["hero-art__orbit-layer--two"]}`}
+      >
+        <div
+          className={`hero-art__orbit hero-art__orbit--two ${styles["hero-art__orbit"]} ${styles["hero-art__orbit--two"]}`}
+        >
+          <span className={`hero-art__planet ${styles["hero-art__planet"]}`} />
         </div>
       </div>
-      <div className="hero-art__window-layer">
-        <div className="hero-art__window">
-          <div className="hero-art__window-bar">
+      <div
+        className={`hero-art__window-layer ${styles["hero-art__window-layer"]}`}
+      >
+        <div className={`hero-art__window ${styles["hero-art__window"]}`}>
+          <div
+            className={`hero-art__window-bar ${styles["hero-art__window-bar"]}`}
+          >
             <span />
             <span />
             <span />
             <i>vantuch.dev</i>
           </div>
-          <div className="hero-art__window-body">
-            <span className="hero-art__mini-label">BUILD / CONNECT / GROW</span>
-            <div className="hero-art__headline">
+          <div
+            className={`hero-art__window-body ${styles["hero-art__window-body"]}`}
+          >
+            <span
+              className={`hero-art__mini-label ${styles["hero-art__mini-label"]}`}
+            >
+              BUILD / CONNECT / GROW
+            </span>
+            <div
+              className={`hero-art__headline ${styles["hero-art__headline"]}`}
+            >
               <span />
               <span />
             </div>
-            <div className="hero-art__diagram">
+            <div className={`hero-art__diagram ${styles["hero-art__diagram"]}`}>
               <div>
                 <Code2 size={21} />
               </div>
-              <span className="hero-art__connection" />
+              <span
+                className={`hero-art__connection ${styles["hero-art__connection"]}`}
+              />
               <div>
                 <Workflow size={21} />
               </div>
-              <span className="hero-art__connection" />
+              <span
+                className={`hero-art__connection ${styles["hero-art__connection"]}`}
+              />
               <div>
                 <Blocks size={21} />
               </div>
             </div>
-            <div className="hero-art__bars">
+            <div className={`hero-art__bars ${styles["hero-art__bars"]}`}>
               <span />
               <span />
               <span />
@@ -199,13 +229,19 @@ export function InteractiveHeroArt() {
           </div>
         </div>
       </div>
-      <div className="hero-art__floating hero-art__floating--top">
+      <div
+        className={`hero-art__floating hero-art__floating--top ${styles["hero-art__floating"]} ${styles["hero-art__floating--top"]}`}
+      >
         01 <span>WEB</span>
       </div>
-      <div className="hero-art__floating hero-art__floating--middle">
+      <div
+        className={`hero-art__floating hero-art__floating--middle ${styles["hero-art__floating"]} ${styles["hero-art__floating--middle"]}`}
+      >
         02 <span>AUTOMATION</span>
       </div>
-      <div className="hero-art__floating hero-art__floating--bottom">
+      <div
+        className={`hero-art__floating hero-art__floating--bottom ${styles["hero-art__floating"]} ${styles["hero-art__floating--bottom"]}`}
+      >
         03 <span>SYSTEMS</span>
       </div>
     </div>

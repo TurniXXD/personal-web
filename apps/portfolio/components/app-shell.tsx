@@ -23,6 +23,7 @@ import {
   type SectionId,
 } from "@/lib/site-data";
 import { AppShellSceneContext } from "@/components/app-shell-scene-context";
+import { AppShellMobileMenu } from "@/components/app-shell-mobile-menu";
 import { FocusProvider, useFocus } from "@/components/focus-context";
 import type {
   ChildrenProps,
@@ -431,91 +432,15 @@ const ShellContent = ({ children }: ChildrenProps) => {
             ) : null}
           </div>
 
-          <div
-            className={classNames(
-              "mobile-menu",
-              mobileMenuOpen && "mobile-menu--open",
-            )}
-          >
-            <div className="mobile-menu__group mobile-menu__group--controls">
-              <button
-                type="button"
-                className="mobile-menu__action terminal-toggle terminal-toggle--secondary"
-                aria-label={tShell("overviewAria")}
-                onClick={handleOverview}
-              >
-                <SearchSlash size={18} />
-              </button>
-
-              <button
-                type="button"
-                className="mobile-menu__action terminal-toggle terminal-toggle--secondary"
-                aria-label={
-                  nextLocale === "en"
-                    ? tShell("switchToEnglishAria")
-                    : tShell("switchToCzechAria")
-                }
-                onClick={handleLocaleSwitch}
-              >
-                {nextLocale === "en" ? tShell("localeEn") : tShell("localeCs")}
-              </button>
-
-              <button
-                type="button"
-                className="mobile-menu__action terminal-toggle"
-                aria-label={
-                  terminalOpen
-                    ? tShell("terminalCloseAria")
-                    : tShell("terminalOpenAria")
-                }
-                aria-expanded={terminalOpen}
-                onClick={handleTerminalToggle}
-              >
-                {terminalOpen ? <X size={18} /> : <TerminalSquare size={18} />}
-              </button>
-            </div>
-
-            <div
-              className="mobile-menu__group mobile-menu__group--socials contact-dialog__socials"
-              aria-label={tContact("socials.label")}
-            >
-              <a
-                className="mobile-menu__action contact-dialog__social-icon"
-                href="https://github.com/TurniXXD"
-                target="_blank"
-                rel="noreferrer"
-                onClick={() => setMobileMenuOpen(false)}
-                aria-label={tContact("socials.github")}
-                title={tContact("socials.github")}
-              >
-                <Github size={18} strokeWidth={2} />
-              </a>
-
-              <a
-                className="mobile-menu__action contact-dialog__social-icon"
-                href="https://www.linkedin.com/in/jakub-vantuch-552514197/"
-                target="_blank"
-                rel="noreferrer"
-                onClick={() => setMobileMenuOpen(false)}
-                aria-label={tContact("socials.linkedin")}
-                title={tContact("socials.linkedin")}
-              >
-                <Linkedin size={18} strokeWidth={2} />
-              </a>
-
-              <a
-                className="mobile-menu__action contact-dialog__social-icon"
-                href="https://t.me/turnix"
-                target="_blank"
-                rel="noreferrer"
-                onClick={() => setMobileMenuOpen(false)}
-                aria-label={tContact("socials.telegram")}
-                title={tContact("socials.telegram")}
-              >
-                <Send size={18} strokeWidth={2} />
-              </a>
-            </div>
-          </div>
+          <AppShellMobileMenu
+            open={mobileMenuOpen}
+            terminalOpen={terminalOpen}
+            nextLocale={nextLocale}
+            onOverview={handleOverview}
+            onLocaleSwitch={handleLocaleSwitch}
+            onTerminalToggle={handleTerminalToggle}
+            onClose={() => setMobileMenuOpen(false)}
+          />
         </>
       ) : null}
 

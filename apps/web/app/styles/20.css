@@ -1,0 +1,693 @@
+@media (max-width: 1000px) {
+  .service-detail-hero__grid {
+    grid-template-columns: minmax(0, 0.95fr) minmax(24rem, 1.05fr);
+    gap: 2rem;
+  }
+  .service-detail-card-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .service-detail-card-grid--three,
+  .service-detail-related__grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .service-detail-workflow__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .service-detail--audit-ai-aplikaci .service-detail-workflow__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .service-detail-workflow__grid article {
+    min-height: 12rem;
+  }
+}
+
+@media (max-width: 900px) {
+  .service-detail-hero__grid,
+  .service-detail-use-cases__layout,
+  .service-detail-faq__layout {
+    grid-template-columns: 1fr;
+  }
+  .service-detail-visual {
+    width: min(100%, 40rem);
+    margin-inline: auto;
+  }
+  .service-detail-related__grid,
+  .service-detail-card-grid--three {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .service-detail-final-cta__inner {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 600px) {
+  .service-pipeline-divider {
+    height: 3.25rem;
+  }
+  .service-pipeline-divider svg {
+    width: 170%;
+    max-width: none;
+    transform: translateX(-14%);
+  }
+  .service-detail-hero {
+    padding-top: 0.6rem;
+  }
+  .service-detail--audit-ai-aplikaci
+    .service-detail-hero
+    .service-detail-visual,
+  .service-detail--darkove-poukazy .service-detail-hero .service-detail-visual,
+  .service-detail--vernostni-programy
+    .service-detail-hero
+    .service-detail-visual {
+    display: none;
+  }
+  .service-breadcrumbs {
+    margin-bottom: 2.5rem;
+  }
+  .service-detail-hero__content h1 {
+    font-size: clamp(2.6rem, 13vw, 4rem);
+  }
+  .service-detail-hero__actions,
+  .service-detail-hero__actions .ui-action {
+    width: 100%;
+  }
+  .service-detail-visual {
+    padding: 1.5rem 0;
+  }
+  .service-detail-visual__window {
+    border-radius: 1.25rem;
+    transform: none;
+  }
+  .service-detail-visual__chip {
+    display: none;
+  }
+  .service-detail-visual__bar i {
+    overflow: hidden;
+    max-width: 13rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .service-detail-visual__flow {
+    grid-template-columns: 1fr;
+  }
+  .service-detail-visual__flow > div {
+    min-height: 4.5rem;
+  }
+  .service-detail-visual__flow svg {
+    display: none;
+  }
+  .service-detail-card-grid,
+  .service-detail-card-grid--three,
+  .service-detail-card-grid--list,
+  .service-detail-related__grid,
+  .service-detail-workflow__grid {
+    grid-template-columns: 1fr;
+  }
+  .service-detail--audit-ai-aplikaci .service-detail-workflow__grid {
+    grid-template-columns: 1fr;
+  }
+  .service-detail-card-grid--list .service-detail-card {
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+  .service-detail-workflow__grid article {
+    min-height: 0;
+    padding: 1.2rem;
+  }
+  .service-detail--audit-ai-aplikaci .service-detail-workflow__grid article {
+    min-height: 0;
+  }
+  .service-detail-workflow__grid article > div {
+    margin-top: 1rem;
+  }
+  .service-detail-use-cases__layout,
+  .service-detail-faq__layout {
+    gap: 0;
+  }
+  .service-detail-related__card {
+    min-height: 12rem;
+  }
+  .service-detail-final-cta__inner {
+    border-radius: 1.35rem;
+  }
+  .service-detail-final-cta .ui-action {
+    width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .service-detail-demo__loading {
+    animation: none !important;
+  }
+}
+
+.automation-filters button,
+[data-slot="dropdown-menu-item"]:not([data-disabled]) {
+  cursor: pointer;
+}
+/* Consistent, restrained motion for page heroes that do not have a dedicated visual animation. */
+.automation-page-hero__content > *,
+.service-detail-hero__content > *,
+.referral-hero__content > .eyebrow,
+.referral-hero__content > h1,
+.contact-page__intro > .eyebrow,
+.contact-page__intro > h1,
+.contact-page__lead,
+.privacy-page__inner > .eyebrow,
+.privacy-page__inner > h1,
+.privacy-page__lead,
+.case-detail__intro {
+  animation: hero-content-enter 650ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.automation-page-hero__content > :nth-child(2),
+.service-detail-hero__content > :nth-child(2),
+.referral-hero__content > h1,
+.contact-page__intro > h1,
+.privacy-page__inner > h1 {
+  animation-delay: 70ms;
+}
+.automation-page-hero__content > :nth-child(3),
+.service-detail-hero__content > :nth-child(3),
+.contact-page__lead,
+.privacy-page__lead {
+  animation-delay: 140ms;
+}
+.automation-page-hero__content > :nth-child(4),
+.service-detail-hero__content > :nth-child(4) {
+  animation-delay: 210ms;
+}
+.automation-page-hero__visual,
+.service-detail-hero .service-detail-visual,
+.contact-page__form,
+.case-detail__image {
+  animation: hero-content-enter 750ms cubic-bezier(0.22, 1, 0.36, 1) 180ms both;
+}
+.automation-page-hero__visual-check,
+.service-detail-visual__signal i,
+.audit-hero__code-heading > i {
+  animation: hero-accent-glow 3s ease-in-out infinite;
+}
+.automation-page-hero__visual
+  li:nth-child(2)
+  .automation-page-hero__visual-check {
+  animation-delay: -1s;
+}
+.automation-page-hero__visual
+  li:nth-child(3)
+  .automation-page-hero__visual-check {
+  animation-delay: -2s;
+}
+.loyalty-hero__glow,
+.voucher-hero__backdrop {
+  animation: hero-backdrop-breathe 7s ease-in-out infinite;
+}
+.service-detail-hero .service-detail-visual__flow > div {
+  animation: hero-detail-step 5.4s ease-in-out infinite;
+}
+.service-detail-hero .service-detail-visual__flow > div:nth-child(2) {
+  animation-delay: -3.6s;
+}
+.service-detail-hero .service-detail-visual__flow > div:nth-child(3) {
+  animation-delay: -1.8s;
+}
+.service-detail-hero .loyalty-hero__stamps i.is-active {
+  animation: hero-loyalty-stamp 4.2s ease-in-out infinite;
+}
+.service-detail-hero .loyalty-hero__stamps i.is-active:nth-child(2) {
+  animation-delay: -3.95s;
+}
+.service-detail-hero .loyalty-hero__stamps i.is-active:nth-child(3) {
+  animation-delay: -3.7s;
+}
+.service-detail-hero .loyalty-hero__stamps i.is-active:nth-child(4) {
+  animation-delay: -3.45s;
+}
+.service-detail-hero .loyalty-hero__stamps i.is-active:nth-child(5) {
+  animation-delay: -3.2s;
+}
+.service-detail-hero .loyalty-hero__stamps i.is-active:nth-child(6) {
+  animation-delay: -2.95s;
+}
+.service-detail-hero .loyalty-hero__stamps i.is-active:nth-child(7) {
+  animation-delay: -2.7s;
+}
+.service-detail-hero .voucher-hero__status > span {
+  animation: hero-voucher-confirmed 2.8s ease-in-out infinite;
+}
+.service-detail-hero .audit-hero__code ol::before {
+  animation: hero-audit-code-scan 6s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+}
+.service-detail-hero .audit-hero__findings > div {
+  animation: hero-audit-finding 6s ease-in-out infinite;
+}
+.service-detail-hero .audit-hero__findings > div:nth-of-type(2) {
+  animation-delay: -4s;
+}
+.service-detail-hero .audit-hero__findings > div:nth-of-type(3) {
+  animation-delay: -2s;
+}
+.referral-hero__percentage strong {
+  animation: hero-referral-reward 4s ease-in-out infinite;
+}
+.referral-hero__flow > svg {
+  animation: hero-referral-progress 3.6s ease-in-out infinite;
+}
+.referral-hero__flow > svg:nth-of-type(2) {
+  animation-delay: -1.8s;
+}
+@keyframes hero-accent-glow {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(95, 108, 255, 0);
+  }
+  50% {
+    box-shadow: 0 0 0 0.38rem rgba(95, 108, 255, 0.1);
+  }
+}
+@keyframes hero-backdrop-breathe {
+  0%,
+  100% {
+    opacity: 0.7;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+@keyframes hero-detail-step {
+  0%,
+  12%,
+  42%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(95, 108, 255, 0);
+  }
+  27% {
+    box-shadow: 0 0 0 0.35rem rgba(95, 108, 255, 0.13);
+  }
+}
+@keyframes hero-loyalty-stamp {
+  0%,
+  12%,
+  42%,
+  100% {
+    scale: 1;
+  }
+  27% {
+    scale: 1.13;
+  }
+}
+@keyframes hero-voucher-confirmed {
+  0%,
+  100% {
+    scale: 1;
+    box-shadow: 0 0 0 0 rgba(75, 191, 155, 0);
+  }
+  50% {
+    scale: 1.08;
+    box-shadow: 0 0 0 0.38rem rgba(75, 191, 155, 0.14);
+  }
+}
+@keyframes hero-audit-finding {
+  0%,
+  5%,
+  30%,
+  100% {
+    border-color: rgba(255, 255, 255, 0.07);
+    background: rgba(255, 255, 255, 0.035);
+    box-shadow: 0 0 0 rgba(var(--audit-finding-rgb), 0);
+  }
+  9%,
+  25% {
+    border-color: rgba(var(--audit-finding-rgb), 0.54);
+    background: rgba(var(--audit-finding-rgb), 0.11);
+    box-shadow: 0 0 1rem rgba(var(--audit-finding-rgb), 0.08);
+  }
+}
+@keyframes hero-audit-code-scan {
+  0%,
+  26% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  32%,
+  59% {
+    opacity: 1;
+    transform: translateY(100%);
+  }
+  65%,
+  92% {
+    opacity: 1;
+    transform: translateY(200%);
+  }
+  97%,
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes hero-referral-reward {
+  0%,
+  100% {
+    color: var(--brand);
+  }
+  50% {
+    color: #747dff;
+  }
+}
+@keyframes hero-referral-progress {
+  0%,
+  100% {
+    opacity: 0.55;
+    translate: 0 0;
+  }
+  50% {
+    opacity: 1;
+    translate: 0.25rem 0;
+  }
+}
+
+/* Shared interaction for every card whose whole surface is a link. */
+.content-card--interactive,
+.case-card,
+.social-platform-card,
+.service-detail-related__card,
+.service-related__links a {
+  isolation: isolate;
+  overflow: hidden;
+  transition:
+    border-color 620ms cubic-bezier(0.16, 1, 0.3, 1),
+    background-color 620ms cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 620ms cubic-bezier(0.16, 1, 0.3, 1),
+    color 520ms ease;
+}
+.content-card--interactive > :not(.content-card__watermark),
+.case-card__body > :not(.case-card__watermark),
+.social-platform-card > :not(.social-platform-card__watermark),
+.service-detail-related__card > :not(.service-detail-related__watermark),
+.service-related__links a > :not(.service-related__watermark) {
+  position: relative;
+  z-index: 1;
+}
+.content-card__watermark,
+.case-card__watermark,
+.social-platform-card__watermark,
+.service-detail-related__watermark,
+.service-related__watermark {
+  position: absolute;
+  z-index: 0;
+  top: 50%;
+  left: 50%;
+  width: 215%;
+  height: 215%;
+  color: #938cec;
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, -50%) scale(0.82) rotate(-7deg);
+  transform-origin: center;
+  transition:
+    opacity 560ms ease,
+    transform 780ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.content-card__watermark svg {
+  width: 100%;
+  height: 100%;
+  stroke-width: 1;
+}
+.content-card h3,
+.case-card h3,
+.newsletter-card h3,
+.social-platform-card > strong,
+.service-benefits__list p,
+.service-flow__step strong,
+.service-scenario-card h3,
+.service-process-step h3,
+.process-step h3,
+.ai-use-case__workflow strong,
+.service-detail-card h3,
+.service-detail-workflow__grid h3,
+.service-detail-use-cases__list h3,
+.service-detail-related__card h3,
+.service-related__links strong,
+.referral-hero__reward-heading,
+.referral-link-card h3 {
+  font-weight: 400;
+}
+.content-card--interactive .content-card__description,
+.content-card--interactive .content-card__icon,
+.content-card--interactive .content-card__tag,
+.content-card--interactive .content-card__action,
+.case-card :is(.case-card__description, .case-card__action),
+.social-platform-card
+  :is(.social-platform-card__description, .social-platform-card__action),
+.service-detail-related__card :is(span, p, strong),
+.service-related__links a :is(small, .service-related__action) {
+  transition:
+    color 520ms ease,
+    background-color 520ms ease,
+    opacity 460ms ease;
+}
+.content-card--interactive h3,
+.case-card h3,
+.social-platform-card > strong,
+.service-detail-related__card h3,
+.service-related__links strong {
+  transition: color 0s;
+}
+.content-card--interactive .content-card__description,
+.content-card--interactive .content-card__icon,
+.content-card--interactive .content-card__tag {
+  transition: none;
+}
+.content-card--interactive .content-card__action,
+.case-card__action,
+.social-platform-card__action,
+.service-detail-related__card strong,
+.service-related__action {
+  visibility: hidden;
+  opacity: 0;
+  transition:
+    color 520ms ease,
+    opacity 460ms ease,
+    visibility 0s linear 460ms;
+}
+.content-card--interactive .content-card__action {
+  transition: none;
+}
+.content-card__action svg,
+.case-card__action svg,
+.social-platform-card__action svg,
+.service-detail-related__card strong svg,
+.service-related__action svg {
+  transition: transform 480ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.content-card--interactive .content-card__action svg {
+  transition: none;
+}
+.case-card :is(.case-card__description, .case-card__action),
+.case-card .case-card__action svg {
+  transition: none;
+}
+@media (min-width: 1025px) and (hover: hover) and (pointer: fine) {
+  .content-card--interactive:is(:hover, :focus-visible),
+  .case-card:is(:hover, :focus-within),
+  .social-platform-card:is(:hover, :focus-visible),
+  .service-detail-related__card:is(:hover, :focus-visible),
+  .service-related__links a:is(:hover, :focus-visible) {
+    border-color: var(--brand);
+    background-color: #625bdf;
+    box-shadow: 0 1.4rem 3.4rem rgba(66, 58, 164, 0.24);
+    color: #fff;
+  }
+  .content-card--interactive:is(:hover, :focus-visible)
+    .content-card__watermark,
+  .case-card:is(:hover, :focus-within) .case-card__watermark,
+  .social-platform-card:is(:hover, :focus-visible)
+    .social-platform-card__watermark,
+  .service-detail-related__card:is(:hover, :focus-visible)
+    .service-detail-related__watermark,
+  .service-related__links
+    a:is(:hover, :focus-visible)
+    .service-related__watermark {
+    opacity: 0.18;
+    transform: translate(-50%, -50%) scale(1) rotate(-7deg);
+  }
+  .content-card--interactive:is(:hover, :focus-visible)
+    :is(h3, .content-card__description, .content-card__action),
+  .case-card:is(:hover, :focus-within)
+    :is(h3, .case-card__description, .case-card__action),
+  .social-platform-card:is(:hover, :focus-visible)
+    :is(
+      strong,
+      .social-platform-card__description,
+      .social-platform-card__action
+    ),
+  .service-detail-related__card:is(:hover, :focus-visible)
+    :is(span, h3, p, strong),
+  .service-related__links
+    a:is(:hover, :focus-visible)
+    :is(strong, small, .service-related__action) {
+    color: #fff;
+  }
+  .content-card--interactive:is(:hover, :focus-visible) .content-card__icon,
+  .content-card--interactive:is(:hover, :focus-visible) .content-card__tag {
+    background: rgba(255, 255, 255, 0.16);
+    color: #fff;
+  }
+  .content-card--interactive:is(:hover, :focus-visible) .content-card__icon {
+    transform: rotate(-2deg);
+  }
+  .content-card--interactive:is(:hover, :focus-visible)
+    .content-card__tag--accent {
+    border-color: rgba(255, 255, 255, 0.36);
+  }
+  .content-card--interactive:is(:hover, :focus-visible) .content-card__action,
+  .case-card:is(:hover, :focus-within) .case-card__action,
+  .social-platform-card:is(:hover, :focus-visible)
+    .social-platform-card__action,
+  .service-detail-related__card:is(:hover, :focus-visible) strong,
+  .service-related__links
+    a:is(:hover, :focus-visible)
+    .service-related__action {
+    visibility: visible;
+    opacity: 1;
+    transition-delay: 0s;
+  }
+  .content-card--interactive:is(:hover, :focus-visible)
+    .content-card__action
+    svg,
+  .case-card:is(:hover, :focus-within) .case-card__action svg,
+  .social-platform-card:is(:hover, :focus-visible)
+    .social-platform-card__action
+    svg,
+  .service-detail-related__card:is(:hover, :focus-visible) strong svg,
+  .service-related__links
+    a:is(:hover, :focus-visible)
+    .service-related__action
+    svg {
+    transform: translateX(0.2rem);
+  }
+}
+
+.case-card__body {
+  position: relative;
+}
+.case-card__action,
+.social-platform-card__action,
+.service-related__action {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  color: var(--brand);
+  font-size: 0.72rem;
+  font-style: normal;
+  font-weight: 800;
+}
+.case-card__action {
+  margin-top: 0.8rem;
+}
+.social-platform-card {
+  position: relative;
+  grid-template-rows: auto auto 1fr auto;
+}
+.social-platform-card__description,
+.social-platform-card__action {
+  grid-column: 1 / -1;
+}
+.social-platform-card__action {
+  align-self: end;
+  justify-self: end;
+  margin-top: 0.8rem;
+}
+.service-detail-related__card,
+.service-related__links a {
+  position: relative;
+}
+.service-related__link-content {
+  display: grid;
+  gap: 0.3rem;
+}
+.service-related__links .service-related__action {
+  margin-top: 0.55rem;
+  display: inline-flex;
+}
+
+@media (max-width: 1024px), (hover: none), (pointer: coarse) {
+  .content-card--interactive .content-card__action,
+  .case-card__action,
+  .social-platform-card__action,
+  .service-detail-related__card strong,
+  .service-related__action {
+    visibility: visible;
+    opacity: 1;
+    transition-delay: 0s;
+  }
+}
+
+@media (max-width: 600px) {
+  .social-platform-card {
+    grid-template-rows: auto auto auto;
+    padding: 0.7rem 1rem;
+  }
+  .social-platform-card__action {
+    grid-column: 2 / -1;
+    grid-row: 3;
+    justify-self: start;
+    margin-top: 0.15rem;
+    margin-left: 1rem;
+    font-size: 0.65rem;
+    line-height: 1;
+  }
+  .social-platform-card__action svg {
+    width: 0.85rem;
+    height: 0.85rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .automation-page-hero__content > *,
+  .service-detail-hero__content > *,
+  .referral-hero__content > .eyebrow,
+  .referral-hero__content > h1,
+  .contact-page__intro > .eyebrow,
+  .contact-page__intro > h1,
+  .contact-page__lead,
+  .privacy-page__inner > .eyebrow,
+  .privacy-page__inner > h1,
+  .privacy-page__lead,
+  .case-detail__intro,
+  .automation-page-hero__visual,
+  .service-detail-hero .service-detail-visual,
+  .contact-page__form,
+  .case-detail__image,
+  .automation-page-hero__visual-check,
+  .service-detail-visual__signal i,
+  .audit-hero__code-heading > i,
+  .loyalty-hero__glow,
+  .voucher-hero__backdrop,
+  .service-detail-hero .service-detail-visual__flow > div,
+  .service-detail-hero .loyalty-hero__stamps i.is-active,
+  .service-detail-hero .voucher-hero__status > span,
+  .service-detail-hero .audit-hero__code ol::before,
+  .service-detail-hero .audit-hero__findings > div,
+  .referral-hero__percentage strong,
+  .referral-hero__flow > svg,
+  .referral-hero__orbit-dot-track {
+    animation: none;
+  }
+  .content-card--interactive,
+  .case-card,
+  .social-platform-card,
+  .service-detail-related__card,
+  .service-related__links a,
+  .content-card__watermark,
+  .case-card__watermark,
+  .social-platform-card__watermark,
+  .service-detail-related__watermark,
+  .service-related__watermark {
+    transition: none;
+  }
+  .service-detail-hero .audit-hero__findings > div:nth-of-type(2) {
+    border-color: rgba(239, 176, 102, 0.54);
+    background: rgba(239, 176, 102, 0.11);
+    box-shadow: 0 0 1rem rgba(239, 176, 102, 0.08);
+  }
+}

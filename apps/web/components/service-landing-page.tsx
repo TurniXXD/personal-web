@@ -192,26 +192,20 @@ export const ServiceLandingPage = ({
         )}
 
         {content.projects && (
-          <>
-            <section
-              className="section service-projects"
-              id="projects"
-              aria-labelledby="service-projects-title"
-            >
-              <div className="site-container">
-                <ScrollReveal className="service-section-heading">
-                  <p className="eyebrow">{content.projects.eyebrow}</p>
-                  <h2 id="service-projects-title">{content.projects.title}</h2>
-                  <p>{content.projects.description}</p>
-                </ScrollReveal>
-                <ProjectGrid
-                  locale={locale}
-                  className="service-projects__grid"
-                />
-              </div>
-            </section>
-            {kind === "web" ? <ServicePipelineDivider /> : null}
-          </>
+          <section
+            className="section service-projects"
+            id="projects"
+            aria-labelledby="service-projects-title"
+          >
+            <div className="site-container">
+              <ScrollReveal className="service-section-heading">
+                <p className="eyebrow">{content.projects.eyebrow}</p>
+                <h2 id="service-projects-title">{content.projects.title}</h2>
+                <p>{content.projects.description}</p>
+              </ScrollReveal>
+              <ProjectGrid locale={locale} className="service-projects__grid" />
+            </div>
+          </section>
         )}
 
         {content.flow && (
@@ -266,7 +260,7 @@ export const ServiceLandingPage = ({
 
         {content.related && (
           <section
-            className="section service-related"
+            className={`section service-related${kind === "web" ? " service-related--with-divider" : ""}`}
             aria-labelledby="service-related-title"
           >
             <div className="site-container service-related__layout">
@@ -278,11 +272,20 @@ export const ServiceLandingPage = ({
                 <ScrollReveal className="service-related__links" stagger>
                   {content.related.items.map((item) => (
                     <a href={localizedPath(locale, item.href)} key={item.href}>
-                      <span>
+                      <ArrowRight
+                        className="service-related__watermark"
+                        size={140}
+                        strokeWidth={1.1}
+                        aria-hidden="true"
+                      />
+                      <span className="service-related__link-content">
                         <strong>{item.title}</strong>
                         <small>{item.description}</small>
+                        <span className="service-related__action">
+                          {locale === "cs" ? "Zjistit více" : "Learn more"}
+                          <ArrowRight size={15} aria-hidden="true" />
+                        </span>
                       </span>
-                      <ArrowRight size={18} aria-hidden="true" />
                     </a>
                   ))}
                 </ScrollReveal>
@@ -294,6 +297,7 @@ export const ServiceLandingPage = ({
                 )}
               </div>
             </div>
+            {kind === "web" ? <ServicePipelineDivider /> : null}
           </section>
         )}
 

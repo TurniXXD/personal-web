@@ -1,0 +1,15 @@
+.trigger {
+  color: inherit;
+  font-size: 0.78rem;
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+.trigger:is(:hover, :focus-visible, [data-active="true"], [data-state="open"]) {
+  color: var(--brand);
+}
+
+.trigger:focus-visible,
+.item:is(:focus, :focus-visible, [data-highlighted]) {
+  outline: none;
+}

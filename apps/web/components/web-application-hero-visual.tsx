@@ -1,3 +1,4 @@
+import styles from "./web-application-hero-visual.module.css";
 import type { Locale } from "@/lib/content";
 
 type WebApplicationHeroVisualProps = {
@@ -12,23 +13,23 @@ export const WebApplicationHeroVisual = ({
     data-web-visual="animated-charts"
     aria-hidden="true"
   >
-    <div className="web-visual__browser">
-      <div className="web-visual__bar">
+    <div className={styles["web-visual__browser"]}>
+      <div className={styles["web-visual__bar"]}>
         <span />
         <span />
         <span />
         <div />
       </div>
-      <div className="web-visual__body">
-        <div className="web-visual__sidebar">
+      <div className={styles["web-visual__body"]}>
+        <div className={styles["web-visual__sidebar"]}>
           <b />
           <span />
           <span />
           <span />
           <span />
         </div>
-        <div className="web-visual__workspace">
-          <div className="web-visual__heading">
+        <div className={styles["web-visual__workspace"]}>
+          <div className={styles["web-visual__heading"]}>
             <div>
               <small>
                 {locale === "cs" ? "ANALYTICKÝ PŘEHLED" : "ANALYTICS OVERVIEW"}
@@ -39,13 +40,16 @@ export const WebApplicationHeroVisual = ({
                   : "Real-time performance"}
               </strong>
             </div>
-            <span className="web-visual__live">
+            <span className={styles["web-visual__live"]}>
               <i /> LIVE
             </span>
           </div>
 
-          <div className="web-visual__metrics">
-            <div className="web-visual__metric">
+          <div className={styles["web-visual__metrics"]}>
+            <div
+              className={styles["web-visual__metric"]}
+              data-web-visual-part="metric"
+            >
               <span>{locale === "cs" ? "Návštěvy" : "Visits"}</span>
               <strong>24 680</strong>
               <small>+18,4 %</small>
@@ -56,7 +60,10 @@ export const WebApplicationHeroVisual = ({
                 />
               </svg>
             </div>
-            <div className="web-visual__metric">
+            <div
+              className={styles["web-visual__metric"]}
+              data-web-visual-part="metric"
+            >
               <span>{locale === "cs" ? "Konverze" : "Conversions"}</span>
               <strong>7,8 %</strong>
               <small>+2,1 %</small>
@@ -69,9 +76,12 @@ export const WebApplicationHeroVisual = ({
             </div>
           </div>
 
-          <div className="web-visual__charts">
-            <div className="web-visual__line-chart">
-              <div className="web-visual__chart-heading">
+          <div className={styles["web-visual__charts"]}>
+            <div
+              className={styles["web-visual__line-chart"]}
+              data-web-visual-part="line-chart"
+            >
+              <div className={styles["web-visual__chart-heading"]}>
                 <span>
                   {locale === "cs" ? "Aktivita uživatelů" : "User activity"}
                 </span>
@@ -90,22 +100,23 @@ export const WebApplicationHeroVisual = ({
                     <stop offset="1" stopColor="#6977ff" stopOpacity="0" />
                   </linearGradient>
                 </defs>
-                <g className="web-visual__chart-grid">
+                <g className={styles["web-visual__chart-grid"]}>
                   <path d="M0 22H320" />
                   <path d="M0 54H320" />
                   <path d="M0 86H320" />
                   <path d="M0 118H320" />
                 </g>
                 <path
-                  className="web-visual__chart-area"
+                  className={styles["web-visual__chart-area"]}
                   d="M0 112C25 106 42 96 64 99S101 75 126 78s43-28 67-20 37 20 62 1 42-33 65-41v114H0Z"
                 />
                 <path
-                  className="web-visual__chart-line"
+                  className={styles["web-visual__chart-line"]}
+                  data-web-visual-part="chart-line"
                   pathLength="1"
                   d="M0 112C25 106 42 96 64 99S101 75 126 78s43-28 67-20 37 20 62 1 42-33 65-41"
                 />
-                <g className="web-visual__chart-points">
+                <g className={styles["web-visual__chart-points"]}>
                   <circle cx="64" cy="99" r="3" />
                   <circle cx="126" cy="78" r="3" />
                   <circle cx="193" cy="58" r="3" />
@@ -115,12 +126,15 @@ export const WebApplicationHeroVisual = ({
               </svg>
             </div>
 
-            <div className="web-visual__chart-stack">
-              <div className="web-visual__donut-card">
+            <div className={styles["web-visual__chart-stack"]}>
+              <div
+                className={styles["web-visual__donut-card"]}
+                data-web-visual-part="donut-card"
+              >
                 <svg viewBox="0 0 42 42">
                   <circle cx="21" cy="21" r="16" pathLength="100" />
                   <circle
-                    className="web-visual__donut-value"
+                    className={styles["web-visual__donut-value"]}
                     cx="21"
                     cy="21"
                     r="16"
@@ -132,7 +146,10 @@ export const WebApplicationHeroVisual = ({
                   <small>{locale === "cs" ? "splněno" : "complete"}</small>
                 </span>
               </div>
-              <div className="web-visual__bars">
+              <div
+                className={styles["web-visual__bars"]}
+                data-web-visual-part="bars"
+              >
                 <span />
                 <span />
                 <span />

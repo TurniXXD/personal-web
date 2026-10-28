@@ -1,6 +1,14 @@
 "use client";
 
 import { useEffect, useRef, useState, type CSSProperties } from "react";
+import styles from "./technical-background.module.css";
+
+const technicalClass = (className: string) =>
+  `${className} ${className
+    .split(" ")
+    .map((token) => styles[token] ?? "")
+    .filter(Boolean)
+    .join(" ")}`;
 
 export type TechnicalBackgroundVariant = "services" | "automation";
 
@@ -106,15 +114,17 @@ export const TechnicalBackground = ({ variant }: TechnicalBackgroundProps) => {
   return (
     <div
       ref={rootRef}
-      className={`technical-background technical-background--${variant}`}
+      className={technicalClass(
+        `technical-background technical-background--${variant}`,
+      )}
       data-technical-state={state}
       data-shape-state={shapeState}
       aria-hidden="true"
     >
-      <div className="technical-background__shapes">
+      <div className={technicalClass("technical-background__shapes")}>
         {composition.shapes.map((shape, index) => (
           <span
-            className="technical-background__shape"
+            className={technicalClass("technical-background__shape")}
             key={`${variant}-shape-${index}`}
             data-side={shape.x < 50 ? "left" : "right"}
             style={
@@ -132,7 +142,7 @@ export const TechnicalBackground = ({ variant }: TechnicalBackgroundProps) => {
         ))}
       </div>
       <svg
-        className="technical-background__lines"
+        className={technicalClass("technical-background__lines")}
         viewBox="0 0 1200 500"
         preserveAspectRatio="none"
         focusable="false"
@@ -151,10 +161,10 @@ export const TechnicalBackground = ({ variant }: TechnicalBackgroundProps) => {
           />
         ))}
       </svg>
-      <div className="technical-background__nodes">
+      <div className={technicalClass("technical-background__nodes")}>
         {composition.nodes.map((node, index) => (
           <span
-            className="technical-background__node"
+            className={technicalClass("technical-background__node")}
             key={`${variant}-node-${index}`}
             style={
               {

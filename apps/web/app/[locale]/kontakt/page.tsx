@@ -63,9 +63,17 @@ export default async function ContactPage({ params }: Props) {
             <p className="eyebrow">{t.eyebrow}</p>
             <h1 id="contact-page-title">{t.title}</h1>
             <p className="contact-page__lead">{t.intro}</p>
+          </section>
 
+          <section className="contact-page__form" aria-label={t.title}>
+            <ContactForm locale={locale} />
+          </section>
+
+          <section
+            className="contact-page__details"
+            aria-label={t.directContact}
+          >
             <div className="contact-page__group">
-              <h2>{t.directContact}</h2>
               <div className="contact-page__direct">
                 <a href={contactMailto()}>
                   <Mail size={19} aria-hidden="true" />
@@ -111,10 +119,6 @@ export default async function ContactPage({ params }: Props) {
                 </div>
               </dl>
             </div>
-          </section>
-
-          <section className="contact-page__form" aria-label={t.title}>
-            <ContactForm locale={locale} />
           </section>
         </div>
       </main>

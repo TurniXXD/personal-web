@@ -1,0 +1,226 @@
+.loyalty-hero__glow {
+  position: absolute;
+  width: 19rem;
+  height: 19rem;
+  border: 1px solid rgba(79, 93, 224, 0.12);
+  border-radius: 50%;
+  box-shadow:
+    0 0 0 3rem rgba(79, 93, 224, 0.035),
+    0 0 0 7rem rgba(79, 93, 224, 0.025);
+  transform: translate3d(
+    var(--service-hero-secondary-x, 0),
+    var(--service-hero-secondary-y, 0),
+    0
+  );
+  will-change: transform;
+}
+.loyalty-hero__phone {
+  position: relative;
+  z-index: 1;
+  width: min(18.5rem, 76%);
+  padding: 0.45rem;
+  border: 1px solid rgba(39, 50, 82, 0.24);
+  border-radius: 2.35rem;
+  background: #202943;
+  box-shadow: 0 2rem 4rem rgba(38, 48, 91, 0.22);
+  transform: translate3d(
+      var(--service-hero-primary-x, 0),
+      var(--service-hero-primary-y, 0),
+      0
+    )
+    rotateX(var(--service-hero-rotate-x, 0deg))
+    rotateY(var(--service-hero-rotate-y, 0deg)) rotate(-3deg);
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+.loyalty-hero__speaker {
+  position: absolute;
+  top: 0.75rem;
+  left: 50%;
+  z-index: 2;
+  width: 4.2rem;
+  height: 1.05rem;
+  border-radius: 1rem;
+  background: #202943;
+  transform: translateX(-50%);
+}
+.loyalty-hero__screen {
+  overflow: hidden;
+  min-height: 27rem;
+  padding: 2.1rem 1rem 1rem;
+  border-radius: 1.95rem;
+  background:
+    linear-gradient(rgba(255, 255, 255, 0.96), rgba(255, 255, 255, 0.96)),
+    linear-gradient(135deg, #e4e9ff, #fff7e2);
+}
+.loyalty-hero__screen header,
+.loyalty-hero__brand,
+.loyalty-hero__identity,
+.loyalty-hero__reward,
+.loyalty-hero__scan-card {
+  display: flex;
+  align-items: center;
+}
+.loyalty-hero__screen header {
+  justify-content: space-between;
+  color: #4f5de0;
+}
+.loyalty-hero__brand {
+  gap: 0.6rem;
+}
+.loyalty-hero__brand > span {
+  display: grid;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 0.65rem;
+  background: #4f5de0;
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 850;
+  place-items: center;
+}
+.loyalty-hero__brand > div,
+.loyalty-hero__reward > div,
+.loyalty-hero__scan-card > div {
+  display: grid;
+  gap: 0.16rem;
+}
+.loyalty-hero__brand strong {
+  color: #273152;
+  font-size: 0.72rem;
+}
+.loyalty-hero__brand small,
+.loyalty-hero__identity small,
+.loyalty-hero__reward small,
+.loyalty-hero__scan-card small {
+  color: #7d87a5;
+  font-size: 0.55rem;
+}
+.loyalty-hero__identity {
+  gap: 0.75rem;
+  margin-top: 1.7rem;
+  padding: 1rem;
+  border: 1px solid #e1e5f8;
+  border-radius: 1.1rem;
+  background: linear-gradient(135deg, #fafbff, #f2f4ff);
+}
+.loyalty-hero__identity > span {
+  display: grid;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  background: #273152;
+  color: #fff;
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  place-items: center;
+}
+.loyalty-hero__identity > div {
+  display: grid;
+  gap: 0.25rem;
+}
+.loyalty-hero__identity small {
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+.loyalty-hero__identity strong {
+  color: #283252;
+  font-size: 0.83rem;
+}
+.loyalty-hero__stamps {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0.48rem;
+  margin-top: 1rem;
+}
+.loyalty-hero__stamps i {
+  display: grid;
+  aspect-ratio: 1;
+  border: 1px dashed #cbd2ed;
+  border-radius: 50%;
+  color: #9ba4c0;
+  font-family: var(--mono);
+  font-size: 0.52rem;
+  font-style: normal;
+  place-items: center;
+}
+.loyalty-hero__stamps i:global(.is-active) {
+  border-color: #4bbf9b;
+  background: #4bbf9b;
+  color: #fff;
+  box-shadow: 0 0.4rem 0.9rem rgba(75, 191, 155, 0.2);
+}
+.loyalty-hero__reward {
+  gap: 0.65rem;
+  margin-top: 1rem;
+  padding: 0.8rem;
+  border-radius: 1rem;
+  background: #fff6dc;
+  color: #9a681c;
+}
+.loyalty-hero__reward > div {
+  flex: 1;
+}
+.loyalty-hero__reward strong {
+  color: #5f461c;
+  font-size: 0.72rem;
+}
+.loyalty-hero__reward > span {
+  display: grid;
+  width: 1.65rem;
+  height: 1.65rem;
+  border-radius: 50%;
+  background: #f2c96c;
+  color: #594017;
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  place-items: center;
+}
+.loyalty-hero__scan-card {
+  position: absolute;
+  right: 0.25rem;
+  bottom: 3.6rem;
+  z-index: 2;
+  gap: 0.65rem;
+  width: 13.5rem;
+  padding: 0.8rem 0.9rem;
+  border: 1px solid #dce2f7;
+  border-radius: 1rem;
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 1rem 2.5rem rgba(35, 47, 96, 0.16);
+  transform: translate3d(
+    var(--service-hero-accent-x, 0),
+    var(--service-hero-accent-y, 0),
+    0
+  );
+  will-change: transform;
+}
+.loyalty-hero__scan-card > span {
+  display: grid;
+  width: 2.2rem;
+  height: 2.2rem;
+  border-radius: 0.75rem;
+  background: #eef0ff;
+  color: #4f5de0;
+  place-items: center;
+}
+.loyalty-hero__scan-card strong {
+  color: #293353;
+  font-size: 0.63rem;
+}
+.loyalty-hero__scan-card > i {
+  width: 0.45rem;
+  height: 0.45rem;
+  margin-left: auto;
+  border-radius: 50%;
+  background: #4bbf9b;
+  box-shadow: 0 0 0 0.3rem rgba(75, 191, 155, 0.14);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .loyalty-hero__glow,
+  .loyalty-hero__phone,
+  .loyalty-hero__scan-card {
+    will-change: auto;
+  }
+}

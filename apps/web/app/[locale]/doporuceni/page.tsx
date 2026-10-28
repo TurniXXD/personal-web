@@ -100,6 +100,18 @@ export default async function ReferralPage({ params }: Props) {
               role="img"
               aria-label={t.hero.visualLabel}
             >
+              <span
+                className="referral-hero__orbit-dot-track referral-hero__orbit-dot-track--outer"
+                aria-hidden="true"
+              >
+                <i />
+              </span>
+              <span
+                className="referral-hero__orbit-dot-track referral-hero__orbit-dot-track--inner"
+                aria-hidden="true"
+              >
+                <i />
+              </span>
               <div className="referral-hero__reward-card">
                 <div className="referral-hero__reward-heading">
                   <span className="referral-hero__reward-icon">

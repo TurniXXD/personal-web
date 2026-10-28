@@ -1,5 +1,7 @@
 "use client";
 
+import styles from "./ai-hero-visual.module.css";
+
 import { useEffect, useRef } from "react";
 import {
   BookOpenCheck,
@@ -113,21 +115,31 @@ export const AiHeroVisual = ({ locale }: AiHeroVisualProps) => {
       data-scroll-progress="0.000"
       aria-hidden="true"
     >
-      <div className="ai-pipeline__inputs" data-ai-visual-part data-x="-18">
-        <span className="ai-pipeline__label">
+      <div
+        className={`ai-pipeline__inputs ${styles["ai-pipeline__inputs"]}`}
+        data-ai-visual-part
+        data-x="-18"
+      >
+        <span className={`ai-pipeline__label ${styles["ai-pipeline__label"]}`}>
           {locale === "cs" ? "Vstupy" : "Inputs"}
         </span>
-        <div className="ai-pipeline__input ai-pipeline__input--invoice">
+        <div
+          className={`ai-pipeline__input ai-pipeline__input--invoice ${styles["ai-pipeline__input"]} ${styles["ai-pipeline__input--invoice"]}`}
+        >
           <ReceiptText size={19} />
           <span>{locale === "cs" ? "Faktury" : "Invoices"}</span>
           <small>PDF</small>
         </div>
-        <div className="ai-pipeline__input ai-pipeline__input--contract">
+        <div
+          className={`ai-pipeline__input ai-pipeline__input--contract ${styles["ai-pipeline__input"]} ${styles["ai-pipeline__input--contract"]}`}
+        >
           <ScrollText size={19} />
           <span>{locale === "cs" ? "Smlouvy" : "Contracts"}</span>
           <small>DOCX</small>
         </div>
-        <div className="ai-pipeline__input ai-pipeline__input--data">
+        <div
+          className={`ai-pipeline__input ai-pipeline__input--data ${styles["ai-pipeline__input"]} ${styles["ai-pipeline__input--data"]}`}
+        >
           <FileSpreadsheet size={19} />
           <span>{locale === "cs" ? "Firemní data" : "Business data"}</span>
           <small>XLSX</small>
@@ -135,12 +147,14 @@ export const AiHeroVisual = ({ locale }: AiHeroVisualProps) => {
       </div>
 
       <div
-        className="ai-pipeline__core"
+        className={`ai-pipeline__core ${styles["ai-pipeline__core"]}`}
         data-ai-visual-part
         data-y="-4"
         data-scale="0.035"
       >
-        <span className="ai-pipeline__core-icon">
+        <span
+          className={`ai-pipeline__core-icon ${styles["ai-pipeline__core-icon"]}`}
+        >
           <Bot size={28} />
         </span>
         <strong>AI pipeline</strong>
@@ -149,18 +163,26 @@ export const AiHeroVisual = ({ locale }: AiHeroVisualProps) => {
             ? "čtení · extrakce · kontrola"
             : "read · extract · review"}
         </span>
-        <div className="ai-pipeline__core-status">
+        <div
+          className={`ai-pipeline__core-status ${styles["ai-pipeline__core-status"]}`}
+        >
           <i />
           <i />
           <i />
         </div>
       </div>
 
-      <div className="ai-pipeline__outputs" data-ai-visual-part data-x="20">
-        <span className="ai-pipeline__label">
+      <div
+        className={`ai-pipeline__outputs ${styles["ai-pipeline__outputs"]}`}
+        data-ai-visual-part
+        data-x="20"
+      >
+        <span className={`ai-pipeline__label ${styles["ai-pipeline__label"]}`}>
           {locale === "cs" ? "Zpracované výstupy" : "Processed outputs"}
         </span>
-        <div className="ai-pipeline__output ai-pipeline__output--invoice">
+        <div
+          className={`ai-pipeline__output ai-pipeline__output--invoice ${styles["ai-pipeline__output"]} ${styles["ai-pipeline__output--invoice"]}`}
+        >
           <ReceiptText size={17} />
           <span>
             <strong>{locale === "cs" ? "Faktura" : "Invoice"}</strong>
@@ -168,7 +190,9 @@ export const AiHeroVisual = ({ locale }: AiHeroVisualProps) => {
           </span>
           <Check size={14} />
         </div>
-        <div className="ai-pipeline__output ai-pipeline__output--contract">
+        <div
+          className={`ai-pipeline__output ai-pipeline__output--contract ${styles["ai-pipeline__output"]} ${styles["ai-pipeline__output--contract"]}`}
+        >
           <ScrollText size={17} />
           <span>
             <strong>{locale === "cs" ? "Smlouva" : "Contract"}</strong>
@@ -176,7 +200,9 @@ export const AiHeroVisual = ({ locale }: AiHeroVisualProps) => {
           </span>
           <Check size={14} />
         </div>
-        <div className="ai-pipeline__output ai-pipeline__output--analysis">
+        <div
+          className={`ai-pipeline__output ai-pipeline__output--analysis ${styles["ai-pipeline__output"]} ${styles["ai-pipeline__output--analysis"]}`}
+        >
           <ChartNoAxesCombined size={17} />
           <span>
             <strong>{locale === "cs" ? "Analýza" : "Analysis"}</strong>
@@ -184,7 +210,9 @@ export const AiHeroVisual = ({ locale }: AiHeroVisualProps) => {
           </span>
           <Check size={14} />
         </div>
-        <div className="ai-pipeline__output ai-pipeline__output--docs">
+        <div
+          className={`ai-pipeline__output ai-pipeline__output--docs ${styles["ai-pipeline__output"]} ${styles["ai-pipeline__output--docs"]}`}
+        >
           <BookOpenCheck size={17} />
           <span>
             <strong>{locale === "cs" ? "Dokumentace" : "Documentation"}</strong>

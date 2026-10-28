@@ -1,0 +1,372 @@
+@media (max-width: 900px) {
+  .contact-section__orbit {
+    display: none;
+  }
+  html {
+    scroll-padding-top: 5.5rem;
+  }
+  .site-header {
+    position: sticky;
+    top: 0;
+  }
+  .ai-use-case-carousel__slide {
+    grid-template-columns: 1fr;
+    min-height: 0;
+  }
+  .ai-use-case__content {
+    justify-content: start;
+  }
+  .ai-use-case__content h3 {
+    max-width: 38rem;
+  }
+  .ai-use-case__description {
+    max-width: 42rem;
+  }
+  .ai-use-case__workflow {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 1rem;
+  }
+  .ai-use-case__workflow li:nth-child(3) {
+    border-bottom: 1px solid rgba(188, 196, 255, 0.14);
+  }
+  .work-section {
+    min-height: 0;
+  }
+  [data-scroll-reveal="true"] {
+    --reveal-distance: 0.75rem;
+    --reveal-duration: 480ms;
+  }
+  .site-container {
+    width: min(100% - 2rem, 1160px);
+  }
+  .site-header__inner {
+    min-height: 4.65rem;
+    gap: 1rem;
+  }
+  .site-header__nav,
+  .site-header__actions {
+    display: none;
+  }
+  .site-header__mobile-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+  }
+  .site-header__mobile-controls .site-header__language-toggle {
+    width: 2.75rem;
+    height: 2.75rem;
+  }
+  .site-header__mobile {
+    display: block;
+    position: relative;
+  }
+  .site-header__mobile > summary {
+    cursor: pointer;
+    list-style: none;
+    display: grid;
+    place-items: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    padding: 0;
+    border: 1px solid #e0e5f8;
+    border-radius: 50%;
+    background: #fff;
+    color: #4b5579;
+  }
+  .site-header__mobile[open] > summary {
+    border-color: #cbd2ff;
+    background: #f3f4ff;
+    color: var(--brand);
+  }
+  .site-header__mobile > summary::-webkit-details-marker {
+    display: none;
+  }
+  .site-header__mobile nav {
+    position: absolute;
+    right: 0;
+    top: calc(100% + 0.65rem);
+    z-index: 10;
+    display: grid;
+    gap: 0.1rem;
+    width: min(calc(100vw - 1.5rem), 24rem);
+    min-width: 0;
+    max-height: calc(100dvh - 5.5rem);
+    overflow-y: auto;
+    overscroll-behavior-y: contain;
+    padding: 0.55rem;
+    border: 1px solid #e0e5f8;
+    border-radius: 1rem;
+    background: #fff;
+    box-shadow: 0 18px 45px rgba(47, 59, 125, 0.12);
+  }
+  .site-header__mobile nav a {
+    padding: 0.65rem;
+    border-radius: 0.55rem;
+    color: #434d70;
+    font-size: 0.82rem;
+    font-weight: 700;
+  }
+  .site-header__mobile nav a:hover {
+    background: #f4f5ff;
+    color: var(--brand);
+  }
+  .site-header__mobile-services {
+    display: grid;
+    width: 100%;
+    min-width: 0;
+  }
+  .site-header__mobile-services > summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 2.6rem;
+    padding: 0.65rem;
+    border-radius: 0.55rem;
+    color: #434d70;
+    cursor: pointer;
+    font-size: 0.82rem;
+    font-weight: 700;
+    list-style: none;
+  }
+  .site-header__mobile-services > summary::-webkit-details-marker {
+    display: none;
+  }
+  .site-header__mobile-services > summary svg {
+    color: #8993bb;
+    transition: transform 180ms ease;
+  }
+  .site-header__mobile-services[open] > summary {
+    background: #f4f5ff;
+    color: var(--brand);
+  }
+  .site-header__mobile-services[open] > summary svg {
+    transform: rotate(180deg);
+  }
+  .site-header__mobile-services > div {
+    display: grid;
+    gap: 0.1rem;
+    width: 100%;
+    padding: 0.15rem 0 0.3rem;
+  }
+  .site-header__mobile nav .site-header__mobile-services a {
+    width: 100%;
+    padding-block: 0.55rem;
+    padding-inline: 1.35rem 0.65rem;
+    color: #697393;
+    font-size: 0.76rem;
+  }
+  .site-header__mobile nav .site-header__mobile-services a > span {
+    display: grid;
+    gap: 0.15rem;
+  }
+  .site-header__mobile nav .site-header__mobile-services a strong {
+    font-size: 0.76rem;
+  }
+  .site-header__mobile nav .site-header__mobile-services a small {
+    display: none;
+  }
+  .hero-art,
+  .service-hero-visual,
+  .automation-page-hero__visual,
+  .service-detail-hero .service-detail-visual,
+  .referral-hero__visual {
+    display: none;
+  }
+  .hero__grid {
+    grid-template-columns: 1fr;
+    min-height: 0;
+    padding-block: 5rem 4rem;
+  }
+  .service-hero__grid {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+    min-height: 0;
+    padding-block: 4.5rem;
+  }
+  .service-hero h1 {
+    max-width: 15ch;
+    font-size: clamp(2.55rem, 8vw, 4rem);
+  }
+  .service-hero-visual {
+    width: min(100%, 35rem);
+    margin-inline: auto;
+  }
+  .hero h1 {
+    max-width: 13ch;
+    font-size: clamp(2.55rem, 8.5vw, 4rem);
+    letter-spacing: -0.055em;
+  }
+  .hero__proof {
+    display: none;
+  }
+  .hero__scroll {
+    display: none;
+  }
+  .section-heading,
+  .about-section__grid,
+  .community-grid,
+  .contact-section__inner,
+  .contact-page__layout,
+  .case-detail__content,
+  .service-benefits__layout,
+  .service-approach__layout,
+  .service-related__layout {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.3rem;
+  }
+  .section-heading {
+    margin-bottom: 2rem;
+  }
+  .service-grid {
+    grid-template-columns: 1fr;
+  }
+  .automation-section__intro {
+    grid-template-columns: 1fr;
+  }
+  .automation-section__intro > p:last-child {
+    grid-column: 1;
+    grid-row: auto;
+  }
+  .case-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .testimonials-grid {
+    grid-template-columns: 1fr;
+  }
+  .social-platform-grid {
+    grid-template-columns: 1fr;
+  }
+  .social-platform-card {
+    min-height: 9.5rem;
+  }
+  .case-card p {
+    min-height: 0;
+  }
+  .process-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.2rem;
+    border-top: 0;
+  }
+  .process-grid::before {
+    display: none;
+  }
+  .process-step {
+    padding: 1.2rem 0;
+    border-top: 1px solid #dee3f6;
+  }
+  .process-step::after {
+    display: none;
+  }
+  .process-step h3 {
+    margin-top: 1.4rem;
+  }
+  .service-benefits__layout,
+  .service-approach__layout,
+  .service-related__layout {
+    gap: 2rem;
+  }
+  .service-flow__diagram {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .service-flow__diagram::before {
+    display: none;
+  }
+  .service-flow__step > svg {
+    display: none;
+  }
+  .service-flow--ai .service-flow__diagram {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+  .service-flow--ai .service-flow__diagram::before {
+    top: 1.2rem;
+    right: auto;
+    bottom: 1.2rem;
+    left: 0.52rem;
+    display: block;
+    width: 1px;
+    height: auto;
+    transform: scaleY(1);
+    transform-origin: top;
+  }
+  .service-flow--ai
+    .service-flow__diagram[data-reveal-state="pending"]::before {
+    transform: scaleY(0);
+  }
+  .service-flow--ai
+    .service-flow__diagram[data-reveal-state="visible"]::before {
+    transform: scaleY(1);
+  }
+  .service-flow--ai .service-flow__step {
+    min-height: 5.5rem;
+  }
+  .about-section__grid {
+    gap: 2.5rem;
+  }
+  .about-section__portrait {
+    width: min(100%, 24rem);
+  }
+  .community-grid {
+    gap: 1rem;
+  }
+  .contact-section__inner {
+    grid-template-areas:
+      "intro"
+      "form"
+      "actions";
+    padding-block: 5rem;
+  }
+  .contact-section__actions {
+    margin-top: 0.7rem;
+  }
+  .contact-page__layout {
+    grid-template-areas:
+      "intro"
+      "form"
+      "details";
+    gap: 2.5rem;
+    padding-block: 4.5rem;
+  }
+  .contact-page__form {
+    position: static;
+  }
+  .case-detail {
+    padding-block: 2.4rem 5rem;
+  }
+  .case-detail__heading {
+    display: grid;
+    gap: 1rem;
+  }
+  .case-detail__image {
+    aspect-ratio: 4 / 3;
+    border-width: 0.4rem;
+  }
+  .case-detail__content {
+    padding-top: 2.5rem;
+  }
+  .case-detail__closing {
+    grid-template-columns: 1fr;
+  }
+  .referral-reward__grid,
+  .referral-fit__grid,
+  .referral-link-section__grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  .referral-hero__inner {
+    min-height: 0;
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+  .referral-hero__visual {
+    justify-items: start;
+  }
+  .referral-faq__list {
+    grid-template-columns: 1fr;
+  }
+  .referral-partner__inner {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+}

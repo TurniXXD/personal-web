@@ -63,9 +63,6 @@ export default async function LocaleLayout({ children, params }: Props) {
   return (
     <html lang={locale}>
       <body>
-        <a className="skip-link" href="#main-content">
-          {locale === "cs" ? "Přejít na hlavní obsah" : "Skip to main content"}
-        </a>
         {children}
         <CookieConsent
           locale={locale}

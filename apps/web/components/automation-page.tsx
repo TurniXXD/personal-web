@@ -7,7 +7,6 @@ import {
 } from "lucide-react";
 import { ActionLink } from "@vantuch/ui";
 import { AutomationCatalog } from "@/components/automation-catalog";
-import { AutomationScrollStory } from "@/components/automation-scroll-story";
 import { ContactBlock, SiteFooter, SiteHeader } from "@/components/site-chrome";
 import {
   automationPageCopy,
@@ -99,8 +98,6 @@ export const AutomationPage = ({ locale }: AutomationPageProps) => {
             </div>
           </div>
         </section>
-
-        <AutomationScrollStory locale={locale} />
 
         <section
           className="section automation-catalog"

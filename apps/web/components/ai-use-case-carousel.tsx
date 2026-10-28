@@ -28,6 +28,18 @@ import {
   type AiUseCaseSlide,
 } from "@/lib/ai-use-case-content";
 import type { Locale } from "@/lib/content";
+import baseVisualStyles from "./ai-case-visual-base.module.css";
+import variantVisualStyles from "./ai-case-visual-variants.module.css";
+
+const visualClass = (classes: string) =>
+  `${classes} ${classes
+    .split(" ")
+    .flatMap((className) => [
+      baseVisualStyles[className],
+      variantVisualStyles[className],
+    ])
+    .filter(Boolean)
+    .join(" ")}`;
 
 type AiUseCaseCarouselProps = {
   locale: Locale;
@@ -36,14 +48,14 @@ type AiUseCaseCarouselProps = {
 const AUTO_ROTATION_DELAY = 6_000;
 
 const VisualHeader = ({ slide }: { slide: AiUseCaseSlide }) => (
-  <div className="ai-case-visual__header">
+  <div className={visualClass("ai-case-visual__header")}>
     <span>{slide.visual.eyebrow}</span>
     <strong>{slide.visual.title}</strong>
   </div>
 );
 
 const VisualFooter = ({ slide }: { slide: AiUseCaseSlide }) => (
-  <div className="ai-case-visual__summary">
+  <div className={visualClass("ai-case-visual__summary")}>
     <Check size={15} strokeWidth={2.4} aria-hidden="true" />
     <strong>{slide.visual.summary}</strong>
   </div>
@@ -52,17 +64,20 @@ const VisualFooter = ({ slide }: { slide: AiUseCaseSlide }) => (
 const AiUseCaseVisualization = ({ slide }: { slide: AiUseCaseSlide }) => {
   if (slide.id === "trends") {
     return (
-      <figure className="ai-case-visual ai-case-visual--trends">
+      <figure className={visualClass("ai-case-visual ai-case-visual--trends")}>
         <VisualHeader slide={slide} />
-        <div className="ai-case-trends__chart" aria-hidden="true">
+        <div
+          className={visualClass("ai-case-trends__chart")}
+          aria-hidden="true"
+        >
           {[38, 54, 46, 72, 65, 88, 82].map((value, index) => (
             <span key={index} style={{ height: `${value}%` }} />
           ))}
           <TrendingUp size={20} />
         </div>
-        <div className="ai-case-visual__rows">
+        <div className={visualClass("ai-case-visual__rows")}>
           {slide.visual.rows.map((row) => (
-            <div className="ai-case-visual__row" key={row.label}>
+            <div className={visualClass("ai-case-visual__row")} key={row.label}>
               <span>
                 <strong>{row.label}</strong>
                 <small>{row.meta}</small>
@@ -78,10 +93,10 @@ const AiUseCaseVisualization = ({ slide }: { slide: AiUseCaseSlide }) => {
 
   if (slide.id === "social-content") {
     return (
-      <figure className="ai-case-visual ai-case-visual--social">
+      <figure className={visualClass("ai-case-visual ai-case-visual--social")}>
         <VisualHeader slide={slide} />
-        <div className="ai-case-social__layout">
-          <div className="ai-case-social__drafts">
+        <div className={visualClass("ai-case-social__layout")}>
+          <div className={visualClass("ai-case-social__drafts")}>
             {slide.visual.rows.map((row, index) => (
               <article key={row.label}>
                 {index === 0 ? (
@@ -99,7 +114,10 @@ const AiUseCaseVisualization = ({ slide }: { slide: AiUseCaseSlide }) => {
               </article>
             ))}
           </div>
-          <div className="ai-case-social__calendar" aria-hidden="true">
+          <div
+            className={visualClass("ai-case-social__calendar")}
+            aria-hidden="true"
+          >
             <CalendarDays size={18} />
             <div>
               {Array.from({ length: 14 }, (_, index) => (
@@ -115,21 +133,24 @@ const AiUseCaseVisualization = ({ slide }: { slide: AiUseCaseSlide }) => {
 
   if (slide.id === "enquiries") {
     return (
-      <figure className="ai-case-visual ai-case-visual--enquiry">
+      <figure className={visualClass("ai-case-visual ai-case-visual--enquiry")}>
         <VisualHeader slide={slide} />
-        <div className="ai-case-enquiry__flow">
-          <article className="ai-case-enquiry__email">
+        <div className={visualClass("ai-case-enquiry__flow")}>
+          <article className={visualClass("ai-case-enquiry__email")}>
             <span>
               <Mail size={17} aria-hidden="true" />
               <strong>info@lumen-studio.example</strong>
             </span>
             <p>{slide.visual.preview}</p>
           </article>
-          <span className="ai-case-enquiry__connector" aria-hidden="true">
+          <span
+            className={visualClass("ai-case-enquiry__connector")}
+            aria-hidden="true"
+          >
             <i />
             <ArrowRight size={18} />
           </span>
-          <article className="ai-case-enquiry__crm">
+          <article className={visualClass("ai-case-enquiry__crm")}>
             <span>
               <Inbox size={17} aria-hidden="true" />
               CRM
@@ -151,17 +172,22 @@ const AiUseCaseVisualization = ({ slide }: { slide: AiUseCaseSlide }) => {
 
   if (slide.id === "quotations") {
     return (
-      <figure className="ai-case-visual ai-case-visual--quotation">
-        <div className="ai-case-quotation__paper">
+      <figure
+        className={visualClass("ai-case-visual ai-case-visual--quotation")}
+      >
+        <div className={visualClass("ai-case-quotation__paper")}>
           <VisualHeader slide={slide} />
-          <div className="ai-case-quotation__customer">
+          <div className={visualClass("ai-case-quotation__customer")}>
             <span />
             <span />
             <span />
           </div>
-          <div className="ai-case-visual__rows">
+          <div className={visualClass("ai-case-visual__rows")}>
             {slide.visual.rows.map((row) => (
-              <div className="ai-case-visual__row" key={row.label}>
+              <div
+                className={visualClass("ai-case-visual__row")}
+                key={row.label}
+              >
                 <span>
                   <strong>{row.label}</strong>
                   <small>{row.meta}</small>
@@ -170,7 +196,9 @@ const AiUseCaseVisualization = ({ slide }: { slide: AiUseCaseSlide }) => {
               </div>
             ))}
           </div>
-          <div className="ai-case-quotation__total">{slide.visual.summary}</div>
+          <div className={visualClass("ai-case-quotation__total")}>
+            {slide.visual.summary}
+          </div>
         </div>
       </figure>
     );
@@ -178,10 +206,10 @@ const AiUseCaseVisualization = ({ slide }: { slide: AiUseCaseSlide }) => {
 
   if (slide.id === "reviews") {
     return (
-      <figure className="ai-case-visual ai-case-visual--reviews">
+      <figure className={visualClass("ai-case-visual ai-case-visual--reviews")}>
         <VisualHeader slide={slide} />
-        <div className="ai-case-reviews__overview">
-          <div className="ai-case-reviews__score">
+        <div className={visualClass("ai-case-reviews__overview")}>
+          <div className={visualClass("ai-case-reviews__score")}>
             <span>4,6</span>
             <div aria-hidden="true">
               {Array.from({ length: 5 }, (_, index) => (
@@ -193,7 +221,7 @@ const AiUseCaseVisualization = ({ slide }: { slide: AiUseCaseSlide }) => {
           <Quote size={31} aria-hidden="true" />
           <p>„{slide.visual.preview}“</p>
         </div>
-        <div className="ai-case-reviews__topics">
+        <div className={visualClass("ai-case-reviews__topics")}>
           {slide.visual.rows.map((row, index) => (
             <article key={row.label}>
               <span>
@@ -213,9 +241,14 @@ const AiUseCaseVisualization = ({ slide }: { slide: AiUseCaseSlide }) => {
   }
 
   return (
-    <figure className="ai-case-visual ai-case-visual--recommendations">
+    <figure
+      className={visualClass("ai-case-visual ai-case-visual--recommendations")}
+    >
       <VisualHeader slide={slide} />
-      <div className="ai-case-products__orders" aria-hidden="true">
+      <div
+        className={visualClass("ai-case-products__orders")}
+        aria-hidden="true"
+      >
         <span>
           <ShoppingBag size={15} /> 1048
         </span>
@@ -226,7 +259,7 @@ const AiUseCaseVisualization = ({ slide }: { slide: AiUseCaseSlide }) => {
           <ShoppingBag size={15} /> 1103
         </span>
       </div>
-      <div className="ai-case-products__pairs">
+      <div className={visualClass("ai-case-products__pairs")}>
         {slide.visual.rows.map((row) => (
           <article key={row.label}>
             <span>
@@ -327,7 +360,7 @@ export const AiUseCaseCarousel = ({ locale }: AiUseCaseCarouselProps) => {
     <section className="section ai-use-cases" aria-label={copy.carouselLabel}>
       <ScrollReveal>
         <div
-          className="ai-use-case-carousel"
+          className="ai-use-case-carousel w-full border-none bg-transparent [touch-action:pan-y]"
           aria-label={copy.carouselLabel}
           aria-roledescription="carousel"
           onKeyDown={handleKeyDown}

@@ -2,12 +2,21 @@ import Link from "next/link";
 import dynamic from "next/dynamic";
 import {
   ArrowRight,
+  BadgePercent,
+  ChartNoAxesCombined,
   Check,
   ChevronDown,
   CircleGauge,
+  Code2,
+  FileText,
+  Gift,
   Layers3,
+  Network,
   ShieldCheck,
+  ShoppingCart,
   Sparkles,
+  UsersRound,
+  type LucideIcon,
 } from "lucide-react";
 import { ActionLink } from "@vantuch/ui";
 import { ScrollReveal } from "@/components/scroll-reveal";
@@ -27,6 +36,19 @@ import {
 type ServiceDetailPageProps = {
   locale: Locale;
   slug: ServiceDetailSlug;
+};
+
+const relatedServiceIcons: Record<ServiceDetailSlug, LucideIcon> = {
+  "firemni-weby": Layers3,
+  "webove-aplikace-na-miru": Code2,
+  shoptet: ShoppingCart,
+  cms: FileText,
+  "api-integrace": Network,
+  "vernostni-programy": BadgePercent,
+  "webova-analytika": ChartNoAxesCombined,
+  crm: UsersRound,
+  "audit-ai-aplikaci": ShieldCheck,
+  "darkove-poukazy": Gift,
 };
 
 const DemoLoading = () => (
@@ -438,12 +460,19 @@ export const ServiceDetailPage = ({ locale, slug }: ServiceDetailPageProps) => {
             <ScrollReveal className="service-detail-related__grid" stagger>
               {content.related.map((relatedSlug) => {
                 const related = serviceDetailCopy[locale][relatedSlug];
+                const RelatedIcon = relatedServiceIcons[relatedSlug];
                 return (
                   <Link
                     className="service-detail-related__card"
                     href={localizedPath(locale, `/sluzby/${relatedSlug}`)}
                     key={relatedSlug}
                   >
+                    <RelatedIcon
+                      className="service-detail-related__watermark"
+                      size={160}
+                      strokeWidth={1.1}
+                      aria-hidden="true"
+                    />
                     <span>{related.hero.eyebrow}</span>
                     <h3>{related.name}</h3>
                     <p>{related.meta.description}</p>

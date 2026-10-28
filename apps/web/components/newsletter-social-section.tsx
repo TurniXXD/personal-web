@@ -192,13 +192,24 @@ export function NewsletterSocialSection({
               rel="noopener noreferrer"
             >
               <Icon size={25} strokeWidth={1.8} aria-hidden="true" />
-              <strong>{label}</strong>
-              <span>{description}</span>
-              <ArrowUpRight
-                className="social-platform-card__arrow"
-                size={18}
+              <Icon
+                className="social-platform-card__watermark"
+                size={150}
+                strokeWidth={1.1}
                 aria-hidden="true"
               />
+              <strong>{label}</strong>
+              <span className="social-platform-card__description">
+                {description}
+              </span>
+              <em className="social-platform-card__action">
+                {locale === "cs" ? "Zjistit více" : "Learn more"}
+                <ArrowUpRight
+                  className="social-platform-card__arrow"
+                  size={18}
+                  aria-hidden="true"
+                />
+              </em>
             </a>
           ))}
         </ScrollReveal>

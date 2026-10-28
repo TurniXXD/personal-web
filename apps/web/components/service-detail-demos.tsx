@@ -1,5 +1,7 @@
 "use client";
 
+import { demoClass } from "./service-demo-classnames";
+import { ServiceDemoQrPattern } from "./service-demo-qr-pattern";
 import { useEffect, useId, useState } from "react";
 import {
   Award,
@@ -15,25 +17,6 @@ import {
   Users,
 } from "lucide-react";
 import type { Locale } from "@/lib/content";
-
-const QrPattern = ({ label }: { label: string }) => (
-  <div className="service-demo__qr" role="img" aria-label={label}>
-    {Array.from({ length: 49 }, (_, index) => (
-      <i
-        aria-hidden="true"
-        className={
-          [
-            0, 1, 2, 7, 9, 10, 14, 15, 16, 18, 20, 22, 24, 27, 28, 30, 32, 34,
-            36, 38, 40, 42, 43, 44, 46, 47, 48,
-          ].includes(index)
-            ? "is-filled"
-            : undefined
-        }
-        key={index}
-      />
-    ))}
-  </div>
-);
 
 export const LoyaltyCardDemo = ({ locale }: { locale: Locale }) => {
   const [ready, setReady] = useState(false);
@@ -87,15 +70,15 @@ export const LoyaltyCardDemo = ({ locale }: { locale: Locale }) => {
   };
 
   return (
-    <div className="loyalty-demo">
-      <article className="loyalty-demo__card">
-        <div className="loyalty-demo__card-top">
+    <div className={demoClass("loyalty-demo")}>
+      <article className={demoClass("loyalty-demo__card")}>
+        <div className={demoClass("loyalty-demo__card-top")}>
           <div>
             <strong>{copy.card}</strong>
           </div>
           <Sparkles size={22} aria-hidden="true" />
         </div>
-        <div className="loyalty-demo__identity">
+        <div className={demoClass("loyalty-demo__identity")}>
           <div>
             <span>JV</span>
             <div>
@@ -103,14 +86,14 @@ export const LoyaltyCardDemo = ({ locale }: { locale: Locale }) => {
               <small>JV–10482</small>
             </div>
           </div>
-          <QrPattern label={copy.qr} />
+          <ServiceDemoQrPattern label={copy.qr} />
         </div>
-        <div className="loyalty-demo__progress-copy">
+        <div className={demoClass("loyalty-demo__progress-copy")}>
           <strong>{copy.visits}</strong>
           <span>{copy.remaining}</span>
         </div>
         <div
-          className="loyalty-demo__progress"
+          className={demoClass("loyalty-demo__progress")}
           role="progressbar"
           aria-valuemin={0}
           aria-valuemax={10}
@@ -118,7 +101,7 @@ export const LoyaltyCardDemo = ({ locale }: { locale: Locale }) => {
         >
           <span style={{ width: `${visits * 10}%` }} />
         </div>
-        <div className="loyalty-demo__stamps" aria-hidden="true">
+        <div className={demoClass("loyalty-demo__stamps")} aria-hidden="true">
           {Array.from({ length: 10 }, (_, index) => (
             <i className={index < visits ? "is-active" : undefined} key={index}>
               {index < visits ? <Check size={13} /> : index + 1}
@@ -126,7 +109,7 @@ export const LoyaltyCardDemo = ({ locale }: { locale: Locale }) => {
           ))}
         </div>
         <div
-          className={`loyalty-demo__reward${rewardReady ? " is-ready" : ""}`}
+          className={`${demoClass("loyalty-demo__reward")}${rewardReady ? " is-ready" : ""}`}
         >
           <Gift size={21} aria-hidden="true" />
           <span>
@@ -136,18 +119,18 @@ export const LoyaltyCardDemo = ({ locale }: { locale: Locale }) => {
         </div>
       </article>
 
-      <aside className="loyalty-demo__staff">
+      <aside className={demoClass("loyalty-demo__staff")}>
         <span className="service-demo__label">
           <ScanLine size={16} aria-hidden="true" /> {copy.staff}
         </span>
-        <div className="loyalty-demo__verified">
+        <div className={demoClass("loyalty-demo__verified")}>
           <ShieldCheck size={27} aria-hidden="true" />
           <div>
             <strong>{copy.verified}</strong>
             <span>Jakub Vantuch · JV–10482</span>
           </div>
         </div>
-        <div className="loyalty-demo__history">
+        <div className={demoClass("loyalty-demo__history")}>
           <span>{copy.history}</span>
           <strong>{copy.activity}</strong>
         </div>
@@ -229,8 +212,8 @@ export const LoyaltyAdminPreview = ({ locale }: { locale: Locale }) => {
   const navIcons = [Users, Award, History, ShieldCheck];
 
   return (
-    <div className="loyalty-admin-preview">
-      <aside className="loyalty-admin-preview__sidebar">
+    <div className={demoClass("loyalty-admin-preview")}>
+      <aside className={demoClass("loyalty-admin-preview__sidebar")}>
         <span className="service-demo__label">{copy.label}</span>
         <strong>LOYALTY</strong>
         <nav aria-label={copy.title}>
@@ -247,7 +230,7 @@ export const LoyaltyAdminPreview = ({ locale }: { locale: Locale }) => {
           })}
         </nav>
       </aside>
-      <div className="loyalty-admin-preview__main">
+      <div className={demoClass("loyalty-admin-preview__main")}>
         <header>
           <div>
             <span>{copy.label}</span>
@@ -255,7 +238,7 @@ export const LoyaltyAdminPreview = ({ locale }: { locale: Locale }) => {
           </div>
           <span>{copy.period}</span>
         </header>
-        <div className="loyalty-admin-preview__metrics">
+        <div className={demoClass("loyalty-admin-preview__metrics")}>
           {copy.metrics.map(([label, value], index) => (
             <div key={label}>
               <span>{label}</span>
@@ -264,10 +247,13 @@ export const LoyaltyAdminPreview = ({ locale }: { locale: Locale }) => {
             </div>
           ))}
         </div>
-        <div className="loyalty-admin-preview__content">
+        <div className={demoClass("loyalty-admin-preview__content")}>
           <section aria-labelledby="loyalty-admin-customers">
             <h4 id="loyalty-admin-customers">{copy.customers}</h4>
-            <div className="loyalty-admin-preview__table" role="table">
+            <div
+              className={demoClass("loyalty-admin-preview__table")}
+              role="table"
+            >
               <div role="row">
                 {copy.columns.map((column) => (
                   <span role="columnheader" key={column}>
@@ -290,14 +276,17 @@ export const LoyaltyAdminPreview = ({ locale }: { locale: Locale }) => {
             </p>
           </section>
           <section aria-labelledby="loyalty-admin-report">
-            <div className="loyalty-admin-preview__report-heading">
+            <div className={demoClass("loyalty-admin-preview__report-heading")}>
               <div>
                 <h4 id="loyalty-admin-report">{copy.report}</h4>
                 <p>{copy.reportNote}</p>
               </div>
               <BarChart3 size={20} aria-hidden="true" />
             </div>
-            <div className="loyalty-admin-preview__chart" aria-hidden="true">
+            <div
+              className={demoClass("loyalty-admin-preview__chart")}
+              aria-hidden="true"
+            >
               {[42, 55, 48, 69, 61, 82, 76, 91].map((height, index) => (
                 <i
                   style={{ height: `${height}%` }}
@@ -385,9 +374,9 @@ export const VoucherDemo = ({ locale }: { locale: Locale }) => {
   useEffect(() => setReady(true), []);
 
   return (
-    <div className="voucher-demo">
+    <div className={demoClass("voucher-demo")}>
       <form
-        className="voucher-demo__form"
+        className={demoClass("voucher-demo__form")}
         onSubmit={(event) => event.preventDefault()}
       >
         <span className="service-demo__label">
@@ -453,18 +442,21 @@ export const VoucherDemo = ({ locale }: { locale: Locale }) => {
       </form>
 
       <article
-        className={`voucher-demo__preview voucher-demo__preview--stage-${stage}`}
+        className={demoClass(
+          "voucher-demo__preview",
+          `voucher-demo__preview--stage-${stage}`,
+        )}
       >
-        <div className="voucher-demo__status" aria-live="polite">
+        <div className={demoClass("voucher-demo__status")} aria-live="polite">
           <span>{copy.illustrative}</span>
           <strong>{copy.states[stage]}</strong>
         </div>
-        <div className="voucher-demo__paper">
+        <div className={demoClass("voucher-demo__paper")}>
           <header>
             <span>JV Wellness</span>
             <Gift size={25} aria-hidden="true" />
           </header>
-          <div className="voucher-demo__paper-main">
+          <div className={demoClass("voucher-demo__paper-main")}>
             <span>{copy.gift}</span>
             <strong>{amount}</strong>
             <small>
@@ -473,14 +465,14 @@ export const VoucherDemo = ({ locale }: { locale: Locale }) => {
             <p>{message || "\u00a0"}</p>
           </div>
           <footer>
-            <QrPattern label={copy.qr} />
+            <ServiceDemoQrPattern label={copy.qr} />
             <div>
               <strong>{copy.code}</strong>
               <span>{copy.validity}</span>
             </div>
           </footer>
         </div>
-        <div className="voucher-demo__preview-footer">
+        <div className={demoClass("voucher-demo__preview-footer")}>
           <span>{copy.preview}</span>
           <span className={stage >= 2 ? "is-ready" : undefined}>
             <Download size={15} aria-hidden="true" /> {copy.download}

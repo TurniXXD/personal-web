@@ -171,6 +171,25 @@ test("public responses carry the configured security headers", async ({
   expect(headers["x-powered-by"]).toBeUndefined();
 });
 
+test("unexpected RSC page POSTs are rejected before rendering", async ({
+  request,
+}) => {
+  for (const pathname of ["/", "/en", "/sluzby/webove-aplikace"]) {
+    const response = await request.post(pathname, {
+      headers: { RSC: "1", Accept: "text/x-component" },
+      maxRedirects: 0,
+    });
+    expect(response.status(), pathname).toBe(405);
+    expect(response.headers()["allow"]).toBe("GET, HEAD");
+  }
+
+  const apiResponse = await request.post("/api/contact", {
+    data: {},
+    maxRedirects: 0,
+  });
+  expect(apiResponse.status()).toBe(400);
+});
+
 test("cookie choices persist, can be reopened, and block analytics before consent", async ({
   page,
   request,

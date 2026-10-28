@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import { AutomationIcon } from "@/components/automation-icon";
 import { ContentCard } from "@/components/content-card";
+import { Button } from "@/components/ui/button";
 import {
   type AutomationCategoryId,
   type AutomationExample,
@@ -51,27 +52,31 @@ export const AutomationCatalog = ({
   return (
     <>
       <div
-        className="automation-filters"
+        className="automation-filters mt-10 flex flex-wrap gap-[0.55rem]"
         aria-label={
           locale === "cs" ? "Kategorie automatizací" : "Automation categories"
         }
       >
-        <button
+        <Button
           type="button"
+          variant="outline"
+          className="h-auto rounded-full border-[#dce2fa] bg-white px-[0.85rem] py-[0.65rem] text-[0.76rem] font-bold text-[#4c5879] shadow-none transition-colors hover:border-primary hover:bg-[#f2f3ff] hover:text-primary aria-pressed:border-primary aria-pressed:bg-[#f2f3ff] aria-pressed:text-primary"
           aria-pressed={activeCategory === "all"}
           onClick={() => selectCategory("all")}
         >
           {content.all}
-        </button>
+        </Button>
         {categoryIds.map((category) => (
-          <button
+          <Button
             type="button"
+            variant="outline"
+            className="h-auto rounded-full border-[#dce2fa] bg-white px-[0.85rem] py-[0.65rem] text-[0.76rem] font-bold text-[#4c5879] shadow-none transition-colors hover:border-primary hover:bg-[#f2f3ff] hover:text-primary aria-pressed:border-primary aria-pressed:bg-[#f2f3ff] aria-pressed:text-primary"
             key={category}
             aria-pressed={activeCategory === category}
             onClick={() => selectCategory(category)}
           >
             {content.categories[category]}
-          </button>
+          </Button>
         ))}
       </div>
 
@@ -92,13 +97,14 @@ export const AutomationCatalog = ({
       </div>
 
       {activeCategory === "all" && visibleCount < filteredExamples.length && (
-        <button
-          className="automation-catalog__more"
+        <Button
+          variant="outline"
+          className="automation-catalog__more mx-auto mt-6 block h-auto rounded-full border-[#dce2fa] bg-white px-4 py-[0.8rem] text-[0.76rem] font-bold text-[#4c5879] shadow-none transition-colors hover:border-primary hover:bg-[#f2f3ff] hover:text-primary"
           type="button"
           onClick={() => setVisibleCount((count) => count + 6)}
         >
           {content.showMore}
-        </button>
+        </Button>
       )}
     </>
   );
