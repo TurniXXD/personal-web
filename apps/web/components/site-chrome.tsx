@@ -36,7 +36,7 @@ export function SiteHeader({
   const languageHref = localizedPath(otherLocale, path);
   const languageShortLabel = locale === "cs" ? "EN" : "CZ";
   const languageAriaLabel =
-    locale === "cs" ? "Přepnout do angličtiny" : "Switch to Czech";
+    locale === "cs" ? "EN – Přepnout do angličtiny" : "CZ – Switch to Czech";
   const servicesActive =
     path === "/automatizace" || path.startsWith("/sluzby/");
   const serviceLinks = [

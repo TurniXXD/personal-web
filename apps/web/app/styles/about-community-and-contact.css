@@ -1,3 +1,4 @@
+/* About, community, testimonials, and contact section layouts. */
 .about-section__portrait-reveal[data-reveal-state="visible"]
   .about-section__portrait::before {
   opacity: 1;

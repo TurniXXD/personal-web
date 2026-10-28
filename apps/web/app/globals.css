@@ -1,25 +1,26 @@
 @import "tailwindcss";
 
-/* Keep these legacy imports ordered until their components are migrated. */
-@import "./styles/01.css";
-@import "./styles/02.css";
-@import "./styles/03.css";
-@import "./styles/04.css";
-@import "./styles/05.css";
-@import "./styles/06.css";
-@import "./styles/07.css";
-@import "./styles/08.css";
-@import "./styles/10.css";
-@import "./styles/11.css";
-@import "./styles/12.css";
-@import "./styles/13.css";
-@import "./styles/14.css";
-@import "./styles/15.css";
-@import "./styles/16.css";
-@import "./styles/17.css";
-@import "./styles/18.css";
-@import "./styles/19.css";
-@import "./styles/20.css";
+/* Semantic style layers. Keep the order explicit because later interaction
+   and responsive layers intentionally refine section-level rules. */
+@import "./styles/foundation-and-home-hero.css";
+@import "./styles/section-layout-and-motion.css";
+@import "./styles/homepage-services-and-projects.css";
+@import "./styles/about-community-and-contact.css";
+@import "./styles/forms-and-contact-page.css";
+@import "./styles/privacy-and-case-study.css";
+@import "./styles/referral-page.css";
+@import "./styles/automation-and-service-heroes.css";
+@import "./styles/service-sections-and-ai-cases.css";
+@import "./styles/ai-use-case-animation.css";
+@import "./styles/service-flow-and-related.css";
+@import "./styles/tablet-responsive.css";
+@import "./styles/mobile-responsive.css";
+@import "./styles/compact-responsive-and-service-detail.css";
+@import "./styles/service-detail-visuals.css";
+@import "./styles/service-detail-cards.css";
+@import "./styles/service-detail-content-and-errors.css";
+@import "./styles/service-demo-controls.css";
+@import "./styles/interactions-and-motion.css";
 
 @theme inline {
   --color-background: #fbfcff;

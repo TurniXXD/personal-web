@@ -12,7 +12,7 @@ test("services navigation groups all service routes in an accessible dropdown", 
   await expect(desktopLanguageToggle).toHaveText("EN");
   await expect(desktopLanguageToggle).toHaveAttribute("href", "/en");
   await expect(desktopLanguageToggle).toHaveAccessibleName(
-    "Přepnout do angličtiny",
+    "EN – Přepnout do angličtiny",
   );
 
   const dropdown = page.locator(".site-header__services");
@@ -137,7 +137,9 @@ test("services navigation groups all service routes in an accessible dropdown", 
   );
   await expect(englishLanguageToggle).toHaveText("CZ");
   await expect(englishLanguageToggle).toHaveAttribute("href", "/");
-  await expect(englishLanguageToggle).toHaveAccessibleName("Switch to Czech");
+  await expect(englishLanguageToggle).toHaveAccessibleName(
+    "CZ – Switch to Czech",
+  );
 });
 
 test("mobile header and hero use the compact presentation", async ({

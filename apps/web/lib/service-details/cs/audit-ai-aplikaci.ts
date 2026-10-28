@@ -9,8 +9,8 @@ export default {
   name: "Audit vibecoded aplikací",
   hero: {
     eyebrow: "AUDIT AI APLIKACÍ",
-    title: "Vytvořili jste aplikaci pomocí AI?",
-    highlight: "Připravím ji na reálný provoz.",
+    title: "Vibe coded?",
+    highlight: "Nechte to prověřit.",
     description:
       "Prověřím bezpečnost, výkon a kvalitu kódu vaší aplikace. Odhalím rizika, navrhnu konkrétní řešení a pomůžu s opravami, nasazením i dalším vývojem.",
     primary: "Nechat zkontrolovat aplikaci",

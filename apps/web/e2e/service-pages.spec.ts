@@ -269,10 +269,10 @@ test("AI application audit page is complete, localized and production-oriented",
     "Audit AI aplikací a vibecoded MVP | Jakub Vantuch",
   );
   await expect(page.getByRole("heading", { level: 1 })).toContainText(
-    "Vytvořili jste aplikaci pomocí AI?",
+    "Vibe coded?",
   );
   await expect(page.getByRole("heading", { level: 1 })).toContainText(
-    "Připravím ji na reálný provoz.",
+    "Nechte to prověřit.",
   );
   await expect(page.locator(".service-detail-workflow article")).toHaveCount(6);
   await expect(page.locator(".service-detail-section")).toHaveCount(1);

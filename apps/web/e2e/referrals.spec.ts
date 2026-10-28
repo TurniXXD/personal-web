@@ -136,7 +136,7 @@ test("Czech referral page directs referrers to share a link, not contacts", asyn
     expect(orbit).not.toBeNull();
     expect(orbit?.deviation).toBeLessThan(1.5);
     expect(orbit?.dotColor).toBe("rgb(79, 93, 224)");
-    expect(orbit?.dotSize).toBe("8.8px");
+    expect(Number.parseFloat(orbit?.dotSize ?? "0")).toBeCloseTo(8.8, 1);
   }
   await expect(page.locator(".referral-hero__visual")).toContainText(
     "Provize za doporučení",

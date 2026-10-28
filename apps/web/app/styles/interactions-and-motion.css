@@ -1,3 +1,4 @@
+/* Cross-section interaction, card hover, and motion polish. */
 @media (max-width: 1000px) {
   .service-detail-hero__grid {
     grid-template-columns: minmax(0, 0.95fr) minmax(24rem, 1.05fr);

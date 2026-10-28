@@ -1,3 +1,4 @@
+/* Shared section layout and entrance motion. */
 @keyframes orbit-spin {
   to {
     transform: rotate(1turn);

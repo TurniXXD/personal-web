@@ -1,3 +1,4 @@
+/* Small-screen overrides and service-detail foundations. */
 @media (max-width: 460px) {
   .contact-form__grid {
     grid-template-columns: 1fr;
