@@ -91,7 +91,7 @@ const t = (key: string, values?: Record<string, string | number>) => {
       "- Measurement, data collection, experimental work",
     "pageMarkdown.capabilities.s3i3": "- Docker, Linux, networking, CI/CD",
     "pageMarkdown.contact.title": "# Contact",
-    "pageMarkdown.contact.line1": "- Email: contact@vantuch.dev",
+    "pageMarkdown.contact.line1": "- Email: hello@vantuch.dev",
     "pageMarkdown.contact.line2":
       "- LinkedIn, GitHub, Telegram available on page",
     "pageMarkdown.contact.formTitle": "## Form",

@@ -103,7 +103,7 @@ export const ContactDialog = ({
         <div className="contact-dialog__direct-items">
           <a
             className="contact-dialog__direct-item"
-            href="mailto:contact@vantuch.dev"
+            href="mailto:hello@vantuch.dev"
           >
             <Mail size={16} strokeWidth={2} />
             <span>{t("direct.emailLabel")}</span>

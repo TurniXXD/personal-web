@@ -5,7 +5,7 @@ const phoneDisplay = fromEnv("SITE_CONTACT_PHONE_DISPLAY", "+420 735 023 812");
 
 export const siteConfig = {
   contact: {
-    email: fromEnv("SITE_CONTACT_EMAIL", "contact@vantuch.dev"),
+    email: fromEnv("SITE_CONTACT_EMAIL", "hello@vantuch.dev"),
     phoneDisplay,
     phoneHref: fromEnv(
       "SITE_CONTACT_PHONE_HREF",

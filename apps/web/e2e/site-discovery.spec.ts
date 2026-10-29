@@ -15,7 +15,7 @@ test("compact footer keeps core destinations and referrals understated", async (
     "/kontakt",
     "/doporuceni",
     "/privacy",
-    "mailto:contact@vantuch.dev",
+    "mailto:hello@vantuch.dev",
     "https://github.com/TurniXXD",
     "https://www.linkedin.com/in/jakub-vantuch-552514197/",
     "https://www.instagram.com/vantuch.dev/",
@@ -25,7 +25,7 @@ test("compact footer keeps core destinations and referrals understated", async (
   await expect(footer.locator(".site-footer__nav a")).toHaveCount(5);
   const footerEmail = footer.locator(".site-footer__email");
   await expect(footerEmail).toBeVisible();
-  await expect(footerEmail).toHaveText("contact@vantuch.dev");
+  await expect(footerEmail).toHaveText("hello@vantuch.dev");
   await expect(footerEmail).toHaveCSS("color", "rgb(255, 255, 255)");
   await expect(
     footer.getByText("Digital Solutions Consultant", { exact: true }),

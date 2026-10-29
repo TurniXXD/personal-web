@@ -240,7 +240,7 @@
     "submitSubmitting": "Sending...",
     "consultCta": "Book a consultation",
     "direct": {
-      "emailLabel": "contact@vantuch.dev",
+      "emailLabel": "hello@vantuch.dev",
       "phoneLabel": "735 023 812"
     },
     "status": {
@@ -317,7 +317,7 @@
       },
       "contact": {
         "title": "# Contact",
-        "line1": "- Email: contact@vantuch.dev",
+        "line1": "- Email: hello@vantuch.dev",
         "line2": "- LinkedIn, GitHub, Telegram available on page",
         "formTitle": "## Form",
         "formBody": "Use the contact form to send a project inquiry."

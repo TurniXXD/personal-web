@@ -201,7 +201,7 @@ test("contact fills a missing phone on an existing Twenty person", async () => {
           people: [
             {
               id: "existing-person-id",
-              emails: { primaryEmail: "contact@vantuch.dev" },
+              emails: { primaryEmail: "hello@vantuch.dev" },
               phones: { primaryPhoneNumber: "" },
             },
           ],
@@ -223,7 +223,7 @@ test("contact fills a missing phone on an existing Twenty person", async () => {
   await client.saveContact(
     {
       name: "Jakub Vantuch",
-      email: "contact@vantuch.dev",
+      email: "hello@vantuch.dev",
       phone: "+420735023812",
       message: "Test",
     },

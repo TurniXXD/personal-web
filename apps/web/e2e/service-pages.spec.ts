@@ -313,7 +313,7 @@ test("AI application audit page is complete, localized and production-oriented",
   ).toHaveCount(0);
   const auditForm = page.locator(".contact-form");
   await auditForm.locator('[name="name"]').fill("Jakub Vantuch");
-  await auditForm.locator('[name="email"]').fill("contact@vantuch.dev");
+  await auditForm.locator('[name="email"]').fill("hello@vantuch.dev");
   await auditForm
     .locator('[name="message"]')
     .fill("Prosím o kontrolu aplikace.");

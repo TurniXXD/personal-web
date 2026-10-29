@@ -240,7 +240,7 @@
     "submitSubmitting": "Odesílám...",
     "consultCta": "Rezervovat konzultaci",
     "direct": {
-      "emailLabel": "contact@vantuch.dev",
+      "emailLabel": "hello@vantuch.dev",
       "phoneLabel": "735 023 812"
     },
     "status": {
@@ -317,7 +317,7 @@
       },
       "contact": {
         "title": "# Kontakt",
-        "line1": "- Email: contact@vantuch.dev",
+        "line1": "- Email: hello@vantuch.dev",
         "line2": "- LinkedIn, GitHub, Telegram dostupné na stránce",
         "formTitle": "## Formulář",
         "formBody": "Použijte kontaktní formulář k odeslání poptávky projektu."

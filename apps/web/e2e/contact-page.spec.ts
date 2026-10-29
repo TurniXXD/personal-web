@@ -59,7 +59,7 @@ test("contact form validates and sends only contact details", async ({
   );
 
   await form.locator('[name="name"]').fill("Jakub Vantuch");
-  await form.locator('[name="email"]').fill("contact@vantuch.dev");
+  await form.locator('[name="email"]').fill("hello@vantuch.dev");
   await form.locator('[name="phone"]').fill("+420 735 023 812");
   await form.locator('[name="message"]').fill("Potřebuji nový firemní web.");
   await expect(
@@ -70,7 +70,7 @@ test("contact form validates and sends only contact details", async ({
     const payload = route.request().postDataJSON();
     expect(payload).toMatchObject({
       name: "Jakub Vantuch",
-      email: "contact@vantuch.dev",
+      email: "hello@vantuch.dev",
       phone: "+420 735 023 812",
       message: "Potřebuji nový firemní web.",
       request: {

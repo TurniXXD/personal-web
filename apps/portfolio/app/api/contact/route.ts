@@ -4,7 +4,7 @@ import { Resend } from "resend";
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const PHONE_REGEX = /^[+]?\d{7,15}$/;
 const DEFAULT_FROM_EMAIL = "Jakub Vantuch <onboarding@resend.dev>";
-const DEFAULT_TO_EMAIL = "contact@vantuch.dev";
+const DEFAULT_TO_EMAIL = "hello@vantuch.dev";
 
 type ContactRequestBody = {
   name?: unknown;

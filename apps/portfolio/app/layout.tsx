@@ -19,7 +19,7 @@ const personStructuredData = {
   jobTitle: "Software Developer",
   description:
     "Software developer with 5+ years of experience building web applications and systems. Exploring data analysis, IoT and physical prototyping.",
-  email: "mailto:contact@vantuch.dev",
+  email: "mailto:hello@vantuch.dev",
   telephone: "+420735023812",
   knowsLanguage: ["cs", "en"],
   knowsAbout: [
