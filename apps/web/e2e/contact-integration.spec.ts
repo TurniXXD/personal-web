@@ -251,8 +251,40 @@ test("contact fills a missing phone on an existing Twenty person", async () => {
   ).toBe(false);
 });
 
+test("Twenty authenticates through the protected Cloudflare Access hostname", async () => {
+  const requestHeaders = new Headers();
+  const fetcher = (async (
+    _input: string | URL | Request,
+    init?: RequestInit,
+  ) => {
+    new Headers(init?.headers).forEach((value, name) => {
+      requestHeaders.set(name, value);
+    });
+    return Response.json({ data: { people: [] } });
+  }) as typeof fetch;
+  const client = new TwentyClient(
+    "https://twenty.example",
+    "twenty-api-key",
+    fetcher,
+    {
+      clientId: "access-client-id",
+      clientSecret: "access-client-secret",
+    },
+  );
+
+  await client.findPersonByEmail("contact@example.com");
+
+  expect(requestHeaders.get("authorization")).toBe("Bearer twenty-api-key");
+  expect(requestHeaders.get("cf-access-client-id")).toBe("access-client-id");
+  expect(requestHeaders.get("cf-access-client-secret")).toBe(
+    "access-client-secret",
+  );
+});
+
 test("Twenty failures expose useful diagnostics without contact data or credentials", async () => {
   const apiKey = "super-secret-key";
+  const accessClientId = "access-client-id";
+  const accessClientSecret = "access-client-secret";
   const fetcher = (async () =>
     new Response(
       JSON.stringify({
@@ -260,6 +292,8 @@ test("Twenty failures expose useful diagnostics without contact data or credenti
         message:
           "Forbidden for private@example.com, +420 735 023 812 and Bearer leaked-token",
         echoedCredential: apiKey,
+        echoedAccessClientId: accessClientId,
+        echoedAccessClientSecret: accessClientSecret,
       }),
       {
         status: 403,
@@ -275,6 +309,7 @@ test("Twenty failures expose useful diagnostics without contact data or credenti
     "https://twenty.example/api-path",
     apiKey,
     fetcher,
+    { clientId: accessClientId, clientSecret: accessClientSecret },
   );
 
   let failure: unknown;
@@ -309,6 +344,8 @@ test("Twenty failures expose useful diagnostics without contact data or credenti
   expect(serialized).toContain("[redacted-email]");
   expect(serialized).toContain("[redacted-phone]");
   expect(serialized).not.toContain(apiKey);
+  expect(serialized).not.toContain(accessClientId);
+  expect(serialized).not.toContain(accessClientSecret);
   expect(serialized).not.toContain("private@example.com");
   expect(serialized).not.toContain("+420");
   expect(serialized).not.toContain("leaked-token");

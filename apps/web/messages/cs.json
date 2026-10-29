@@ -146,6 +146,12 @@
     "mainNavigationLabel": "Hlavní navigace",
     "mobileMenuButtonLabel": "Otevřít menu",
     "mobileNavigationLabel": "Mobilní navigace",
+    "socialLabels": {
+      "github": "GitHub",
+      "linkedin": "LinkedIn",
+      "instagram": "Instagram",
+      "telegram": "Telegram"
+    },
     "serviceLinks": [
       {
         "label": "Weby a aplikace",

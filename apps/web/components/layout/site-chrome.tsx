@@ -273,21 +273,32 @@ export const SiteFooter = ({ locale }: SiteFooterProps) => {
               target="_blank"
               rel="noopener noreferrer"
             >
-              <Github size={16} aria-hidden="true" /> GitHub
+              <Github size={16} aria-hidden="true" />
+              {chrome("socialLabels.github")}
             </a>
             <a
               href={siteConfig.social.linkedin}
               target="_blank"
               rel="noopener noreferrer"
             >
-              <Linkedin size={16} aria-hidden="true" /> LinkedIn
+              <Linkedin size={16} aria-hidden="true" />
+              {chrome("socialLabels.linkedin")}
             </a>
             <a
               href={siteConfig.social.instagram}
               target="_blank"
               rel="noopener noreferrer"
             >
-              <Instagram size={16} aria-hidden="true" /> Instagram
+              <Instagram size={16} aria-hidden="true" />
+              {chrome("socialLabels.instagram")}
+            </a>
+            <a
+              href={siteConfig.social.telegram}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Send size={16} aria-hidden="true" />
+              {chrome("socialLabels.telegram")}
             </a>
           </div>
         </div>

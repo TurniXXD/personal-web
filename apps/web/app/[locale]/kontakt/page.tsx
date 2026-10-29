@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Building2, Clock3, Mail, MapPin, PhoneCall } from "lucide-react";
+import { Building2, Clock3, Mail, MapPin, PhoneCall, Send } from "lucide-react";
 import { hasLocale } from "next-intl";
 import { setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
@@ -86,6 +86,14 @@ export default async function ContactPage({ params }: ContactPageProps) {
                 <a href={contactTel()}>
                   <PhoneCall size={19} aria-hidden="true" />
                   <span>{siteConfig.contact.phoneDisplay}</span>
+                </a>
+                <a
+                  href={siteConfig.social.telegram}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <Send size={19} aria-hidden="true" />
+                  <span>{t.telegramContact}</span>
                 </a>
                 <p>
                   <Clock3 size={19} aria-hidden="true" />

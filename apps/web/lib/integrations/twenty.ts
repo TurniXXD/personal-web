@@ -17,6 +17,10 @@ type Person = RecordData & {
   emails?: { primaryEmail?: string };
   phones?: Partial<Phones>;
 };
+type CloudflareAccessCredentials = {
+  clientId: string;
+  clientSecret: string;
+};
 
 export type TwentyRequestDiagnostic = {
   method: string;
@@ -115,6 +119,7 @@ export class TwentyClient {
     private readonly baseUrl: string,
     private readonly apiKey: string,
     private readonly fetcher: typeof fetch = fetch,
+    private readonly cloudflareAccess?: CloudflareAccessCredentials,
   ) {}
 
   private async request(
@@ -129,6 +134,12 @@ export class TwentyClient {
       headers: {
         accept: "application/json",
         authorization: `Bearer ${this.apiKey}`,
+        ...(this.cloudflareAccess
+          ? {
+              "CF-Access-Client-Id": this.cloudflareAccess.clientId,
+              "CF-Access-Client-Secret": this.cloudflareAccess.clientSecret,
+            }
+          : {}),
         ...(init.body ? { "content-type": "application/json" } : {}),
       },
       signal: init.signal ?? AbortSignal.timeout(20_000),
@@ -138,10 +149,13 @@ export class TwentyClient {
       const parsedRequestUrl = new URL(requestUrl);
       const parsedResponseUrl = response.url ? new URL(response.url) : null;
       let responseBody = "";
+      const secrets = [
+        this.apiKey,
+        this.cloudflareAccess?.clientId ?? "",
+        this.cloudflareAccess?.clientSecret ?? "",
+      ];
       try {
-        responseBody = redactDiagnosticText(await response.text(), [
-          this.apiKey,
-        ]);
+        responseBody = redactDiagnosticText(await response.text(), secrets);
       } catch {
         responseBody = "[unavailable]";
       }
@@ -158,7 +172,7 @@ export class TwentyClient {
           status: response.status,
           statusText: response.statusText,
           responseBody,
-          responseHeaders: diagnosticHeaders(response.headers, [this.apiKey]),
+          responseHeaders: diagnosticHeaders(response.headers, secrets),
           apiKeyFingerprint: createHash("sha256")
             .update(this.apiKey)
             .digest("hex")
@@ -327,7 +341,11 @@ export class TwentyClient {
 export function configuredTwenty(): TwentyClient | null {
   const baseUrl = process.env.TWENTY_BASE_URL?.trim();
   const apiKey = process.env.TWENTY_API_KEY?.trim();
-  return baseUrl && apiKey ? new TwentyClient(baseUrl, apiKey) : null;
+  const clientId = process.env.TWENTY_CF_ACCESS_CLIENT_ID?.trim();
+  const clientSecret = process.env.TWENTY_CF_ACCESS_CLIENT_SECRET?.trim();
+  return baseUrl && apiKey && clientId && clientSecret
+    ? new TwentyClient(baseUrl, apiKey, fetch, { clientId, clientSecret })
+    : null;
 }
 
 export type TwentyPerson = Person;

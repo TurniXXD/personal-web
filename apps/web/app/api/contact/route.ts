@@ -102,6 +102,8 @@ export async function POST(request: Request) {
       "RESEND_API_KEY",
       "TWENTY_BASE_URL",
       "TWENTY_API_KEY",
+      "TWENTY_CF_ACCESS_CLIENT_ID",
+      "TWENTY_CF_ACCESS_CLIENT_SECRET",
     ].filter((name) => !process.env[name]?.trim());
     return apiErrorResponse({
       body: { ok: false, message: "notConfigured" },

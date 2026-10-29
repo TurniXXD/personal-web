@@ -28,6 +28,7 @@ export const siteConfig = {
       "SITE_INSTAGRAM_URL",
       "https://www.instagram.com/vantuch.dev/",
     ),
+    telegram: fromEnv("SITE_TELEGRAM_URL", "https://t.me/turnix"),
   },
 } as const;
 

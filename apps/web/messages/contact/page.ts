@@ -12,6 +12,7 @@ export const contactPageCopy = {
     intro:
       "Napište mi, co chcete vytvořit nebo zlepšit. Ozvu se vám a společně projdeme cíle, možnosti řešení i další postup.",
     directContact: "Přímý kontakt",
+    telegramContact: "Telegram · @turnix",
     phoneAvailability:
       "Na mobilu jsem dostupný v pracovní dny od 8:00 do 18:00.",
     businessDetails: "Fakturační údaje",
@@ -32,6 +33,7 @@ export const contactPageCopy = {
     intro:
       "Tell me what you want to build or improve. I will get back to you so we can discuss your goals, possible solutions, and next steps.",
     directContact: "Direct contact",
+    telegramContact: "Telegram · @turnix",
     phoneAvailability:
       "I am available by phone from 8:00 to 18:00 on business days.",
     businessDetails: "Business details",

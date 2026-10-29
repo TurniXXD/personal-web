@@ -146,6 +146,12 @@
     "mainNavigationLabel": "Main navigation",
     "mobileMenuButtonLabel": "Open menu",
     "mobileNavigationLabel": "Mobile navigation",
+    "socialLabels": {
+      "github": "GitHub",
+      "linkedin": "LinkedIn",
+      "instagram": "Instagram",
+      "telegram": "Telegram"
+    },
     "serviceLinks": [
       {
         "label": "Websites and apps",
