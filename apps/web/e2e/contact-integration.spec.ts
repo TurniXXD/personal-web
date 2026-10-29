@@ -300,6 +300,8 @@ test("Twenty failures expose useful diagnostics without contact data or credenti
         statusText: "Forbidden",
         headers: {
           "content-type": "application/json",
+          "cf-cache-status": "DYNAMIC",
+          "cf-mitigated": "challenge",
           "x-request-id": "req-123",
           "cf-ray": "ray-456",
         },
@@ -332,11 +334,18 @@ test("Twenty failures expose useful diagnostics without contact data or credenti
       statusText: "Forbidden",
       responseHeaders: {
         "content-type": "application/json",
+        "cf-cache-status": "DYNAMIC",
+        "cf-mitigated": "challenge",
         "x-request-id": "req-123",
         "cf-ray": "ray-456",
       },
       apiKeyFingerprint: expect.stringMatching(/^[a-f0-9]{12}$/),
       apiKeyLength: apiKey.length,
+      cloudflareAccessHeadersSent: true,
+      cloudflareAccessClientIdFingerprint:
+        expect.stringMatching(/^[a-f0-9]{12}$/),
+      cloudflareAccessClientIdLength: accessClientId.length,
+      cloudflareAccessClientSecretLength: accessClientSecret.length,
     },
   });
 

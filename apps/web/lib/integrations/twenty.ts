@@ -35,6 +35,10 @@ export type TwentyRequestDiagnostic = {
   responseHeaders: Record<string, string>;
   apiKeyFingerprint: string;
   apiKeyLength: number;
+  cloudflareAccessHeadersSent: boolean;
+  cloudflareAccessClientIdFingerprint: string;
+  cloudflareAccessClientIdLength: number;
+  cloudflareAccessClientSecretLength: number;
 };
 
 export class TwentyRequestError extends Error {
@@ -74,6 +78,8 @@ const diagnosticHeaders = (
   Object.fromEntries(
     [
       "content-type",
+      "cf-cache-status",
+      "cf-mitigated",
       "cf-ray",
       "server",
       "x-request-id",
@@ -178,6 +184,17 @@ export class TwentyClient {
             .digest("hex")
             .slice(0, 12),
           apiKeyLength: this.apiKey.length,
+          cloudflareAccessHeadersSent: Boolean(this.cloudflareAccess),
+          cloudflareAccessClientIdFingerprint: this.cloudflareAccess
+            ? createHash("sha256")
+                .update(this.cloudflareAccess.clientId)
+                .digest("hex")
+                .slice(0, 12)
+            : "",
+          cloudflareAccessClientIdLength:
+            this.cloudflareAccess?.clientId.length ?? 0,
+          cloudflareAccessClientSecretLength:
+            this.cloudflareAccess?.clientSecret.length ?? 0,
         },
       );
     }
