@@ -12,21 +12,24 @@ import {
   WalletCards,
 } from "lucide-react";
 import { hasLocale } from "next-intl";
+import { setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { ActionLink } from "@vantuch/ui";
-import { ReferralRequestForm } from "@/components/referral-request-form";
-import { SiteFooter, SiteHeader } from "@/components/site-chrome";
+import { SiteFooter, SiteHeader } from "@/components/layout/site-chrome";
+import { ReferralRequestForm } from "@/components/referrals/referral-request-form";
 import { routing } from "@/i18n/routing";
-import { localizedPath, type Locale } from "@/lib/content";
-import { referralCopy } from "@/lib/referral-content";
+import { localizedPath, type Locale } from "@/lib/site/content";
+import { referralCopy } from "@/messages/referrals/page";
 
-type Props = { params: Promise<{ locale: string }> };
+type ReferralPageProps = { params: Promise<{ locale: string }> };
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: ReferralPageProps): Promise<Metadata> {
   const { locale } = await params;
   if (!hasLocale(routing.locales, locale)) notFound();
   const { meta } = referralCopy[locale];
@@ -57,9 +60,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export default async function ReferralPage({ params }: Props) {
+export default async function ReferralPage({ params }: ReferralPageProps) {
   const { locale } = await params;
   if (!hasLocale(routing.locales, locale)) notFound();
+  setRequestLocale(locale);
   const t = referralCopy[locale as Locale];
 
   return (

@@ -156,72 +156,74 @@ export function InteractiveHeroArt() {
 
   return (
     <div
-      className={`hero-art ${styles["hero-art"]}`}
+      className={`hero-art ${styles["hero-art"]} relative grid min-h-[29rem] place-items-center [perspective:75rem] max-[900px]:hidden max-[460px]:min-h-60`}
       aria-hidden="true"
       ref={artRef}
     >
       <div
-        className={`hero-art__orbit-layer hero-art__orbit-layer--one ${styles["hero-art__orbit-layer"]} ${styles["hero-art__orbit-layer--one"]}`}
+        className={`hero-art__orbit-layer hero-art__orbit-layer--one ${styles["hero-art__orbit-layer"]} ${styles["hero-art__orbit-layer--one"]} pointer-events-none absolute inset-0 grid place-items-center will-change-transform`}
       >
         <div
-          className={`hero-art__orbit hero-art__orbit--one ${styles["hero-art__orbit"]} ${styles["hero-art__orbit--one"]}`}
+          className={`hero-art__orbit hero-art__orbit--one ${styles["hero-art__orbit"]} ${styles["hero-art__orbit--one"]} relative size-[28rem] rounded-full border border-[rgba(95,108,255,0.16)] will-change-transform max-[1000px]:size-[23rem] max-[900px]:size-80`}
         >
-          <span className={`hero-art__planet ${styles["hero-art__planet"]}`} />
+          <span
+            className={`hero-art__planet ${styles["hero-art__planet"]} absolute top-[-0.28rem] left-[calc(50%-0.28rem)] size-[0.55rem] rounded-full bg-primary shadow-[0_0_0_0.35rem_rgba(95,108,255,0.1)]`}
+          />
         </div>
       </div>
       <div
-        className={`hero-art__orbit-layer hero-art__orbit-layer--two ${styles["hero-art__orbit-layer"]} ${styles["hero-art__orbit-layer--two"]}`}
+        className={`hero-art__orbit-layer hero-art__orbit-layer--two ${styles["hero-art__orbit-layer"]} ${styles["hero-art__orbit-layer--two"]} pointer-events-none absolute inset-0 grid place-items-center will-change-transform`}
       >
         <div
-          className={`hero-art__orbit hero-art__orbit--two ${styles["hero-art__orbit"]} ${styles["hero-art__orbit--two"]}`}
+          className={`hero-art__orbit hero-art__orbit--two ${styles["hero-art__orbit"]} ${styles["hero-art__orbit--two"]} relative size-[37rem] rounded-full border border-[rgba(95,108,255,0.16)] will-change-transform max-[1000px]:size-[30rem] max-[900px]:size-[26rem]`}
         >
-          <span className={`hero-art__planet ${styles["hero-art__planet"]}`} />
+          <span
+            className={`hero-art__planet ${styles["hero-art__planet"]} absolute top-[-0.28rem] left-[calc(50%-0.28rem)] size-[0.55rem] rounded-full bg-primary shadow-[0_0_0_0.35rem_rgba(95,108,255,0.1)]`}
+          />
         </div>
       </div>
       <div
-        className={`hero-art__window-layer ${styles["hero-art__window-layer"]}`}
+        className={`hero-art__window-layer ${styles["hero-art__window-layer"]} relative z-[2] grid w-full place-items-center will-change-transform`}
       >
-        <div className={`hero-art__window ${styles["hero-art__window"]}`}>
-          <div
-            className={`hero-art__window-bar ${styles["hero-art__window-bar"]}`}
-          >
+        <div
+          className={`hero-art__window ${styles["hero-art__window"]} relative w-[min(100%,30rem)] -rotate-3 overflow-hidden rounded-[1.35rem] border border-[#cdd3f5] bg-white shadow-[0_34px_75px_rgba(58,66,143,0.18),0_2px_10px_rgba(58,66,143,0.08)] max-[900px]:w-[min(92%,26rem)]`}
+        >
+          <div className="hero-art__window-bar flex min-h-[2.4rem] items-center gap-[0.34rem] border-b border-[#e6e9fb] bg-[#f9faff] px-4 [&>i]:ml-auto [&>i]:font-mono [&>i]:text-[0.62rem] [&>i]:not-italic [&>i]:text-[#9ca4c6] [&>span]:size-[0.42rem] [&>span]:rounded-full [&>span]:bg-[#c7ceeb] [&>span:first-child]:bg-[#a8afff]">
             <span />
             <span />
             <span />
             <i>vantuch.dev</i>
           </div>
-          <div
-            className={`hero-art__window-body ${styles["hero-art__window-body"]}`}
-          >
+          <div className="hero-art__window-body px-[2.2rem] pt-[2.4rem] pb-10 max-[900px]:p-6 max-[460px]:p-[1.2rem]">
             <span
-              className={`hero-art__mini-label ${styles["hero-art__mini-label"]}`}
+              className={`hero-art__mini-label ${styles["hero-art__mini-label"]} inline-block font-mono text-[0.62rem] font-bold tracking-[0.12em] text-primary will-change-transform`}
             >
               BUILD / CONNECT / GROW
             </span>
             <div
-              className={`hero-art__headline ${styles["hero-art__headline"]}`}
+              className={`hero-art__headline ${styles["hero-art__headline"]} my-[1.4rem] mb-[2.3rem] grid gap-[0.65rem] will-change-transform [&>span]:h-4 [&>span]:rounded-[0.3rem] [&>span]:bg-[#222a49] [&>span:first-child]:w-[83%] [&>span:last-child]:w-[61%]`}
             >
               <span />
               <span />
             </div>
-            <div className={`hero-art__diagram ${styles["hero-art__diagram"]}`}>
+            <div
+              className={`hero-art__diagram ${styles["hero-art__diagram"]} flex items-center justify-between will-change-transform [&>div]:grid [&>div]:size-[3.7rem] [&>div]:place-items-center [&>div]:rounded-2xl [&>div]:border [&>div]:border-[#dfe3fc] [&>div]:bg-[#f5f6ff] [&>div]:text-primary max-[460px]:[&>div]:size-[2.7rem] max-[460px]:[&>div]:rounded-xl`}
+            >
               <div>
                 <Code2 size={21} />
               </div>
-              <span
-                className={`hero-art__connection ${styles["hero-art__connection"]}`}
-              />
+              <span className="hero-art__connection h-0.5 flex-1 bg-[repeating-linear-gradient(90deg,#b1baff_0_5px,transparent_5px_10px)]" />
               <div>
                 <Workflow size={21} />
               </div>
-              <span
-                className={`hero-art__connection ${styles["hero-art__connection"]}`}
-              />
+              <span className="hero-art__connection h-0.5 flex-1 bg-[repeating-linear-gradient(90deg,#b1baff_0_5px,transparent_5px_10px)]" />
               <div>
                 <Blocks size={21} />
               </div>
             </div>
-            <div className={`hero-art__bars ${styles["hero-art__bars"]}`}>
+            <div
+              className={`hero-art__bars ${styles["hero-art__bars"]} mt-[2.2rem] grid gap-2 will-change-transform [&>span]:h-[0.45rem] [&>span]:rounded-full [&>span]:bg-[#e6e9fa] [&>span:nth-child(2)]:w-[82%] [&>span:nth-child(3)]:w-[56%]`}
+            >
               <span />
               <span />
               <span />
@@ -230,17 +232,17 @@ export function InteractiveHeroArt() {
         </div>
       </div>
       <div
-        className={`hero-art__floating hero-art__floating--top ${styles["hero-art__floating"]} ${styles["hero-art__floating--top"]}`}
+        className={`hero-art__floating hero-art__floating--top ${styles["hero-art__floating"]} ${styles["hero-art__floating--top"]} absolute top-6 right-0 z-[3] flex items-center gap-[0.55rem] rounded-[0.8rem] border border-border-soft bg-white px-[0.9rem] py-[0.7rem] font-mono text-body font-extrabold text-primary shadow-[0_16px_32px_rgba(77,84,150,0.12)] will-change-transform [&>span]:text-ui-2xs [&>span]:tracking-ui [&>span]:text-[#3e4768] max-[900px]:top-0 max-[900px]:right-[0.3rem] max-[460px]:px-[0.6rem] max-[460px]:py-[0.45rem] max-[460px]:text-ui-xs max-[460px]:[&>span]:text-[0.55rem]`}
       >
         01 <span>WEB</span>
       </div>
       <div
-        className={`hero-art__floating hero-art__floating--middle ${styles["hero-art__floating"]} ${styles["hero-art__floating--middle"]}`}
+        className={`hero-art__floating hero-art__floating--middle ${styles["hero-art__floating"]} ${styles["hero-art__floating--middle"]} absolute top-[49%] right-[-1.3rem] z-[3] flex items-center gap-[0.55rem] rounded-[0.8rem] border border-border-soft bg-white px-[0.9rem] py-[0.7rem] font-mono text-body font-extrabold text-primary shadow-[0_16px_32px_rgba(77,84,150,0.12)] will-change-transform [&>span]:text-ui-2xs [&>span]:tracking-ui [&>span]:text-[#3e4768] max-[460px]:px-[0.6rem] max-[460px]:py-[0.45rem] max-[460px]:text-ui-xs max-[460px]:[&>span]:text-[0.55rem]`}
       >
         02 <span>AUTOMATION</span>
       </div>
       <div
-        className={`hero-art__floating hero-art__floating--bottom ${styles["hero-art__floating"]} ${styles["hero-art__floating--bottom"]}`}
+        className={`hero-art__floating hero-art__floating--bottom ${styles["hero-art__floating"]} ${styles["hero-art__floating--bottom"]} absolute bottom-[1.2rem] left-[-1.2rem] z-[3] flex items-center gap-[0.55rem] rounded-[0.8rem] border border-border-soft bg-white px-[0.9rem] py-[0.7rem] font-mono text-body font-extrabold text-primary shadow-[0_16px_32px_rgba(77,84,150,0.12)] will-change-transform [&>span]:text-ui-2xs [&>span]:tracking-ui [&>span]:text-[#3e4768] max-[900px]:bottom-0 max-[900px]:left-0 max-[460px]:px-[0.6rem] max-[460px]:py-[0.45rem] max-[460px]:text-ui-xs max-[460px]:[&>span]:text-[0.55rem]`}
       >
         03 <span>SYSTEMS</span>
       </div>

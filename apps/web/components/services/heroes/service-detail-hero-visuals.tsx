@@ -25,7 +25,7 @@ import {
   TicketCheck,
   UsersRound,
 } from "lucide-react";
-import type { Locale } from "@/lib/content";
+import type { Locale } from "@/lib/site/content";
 
 type HeroVisualProps = {
   locale: Locale;

@@ -115,6 +115,7 @@ test("AI use-case carousel keeps only compact text content on mobile", async ({
     '.ai-use-case-carousel__slide[data-active="true"]',
   );
   const workflowSteps = activeSlide.locator(".ai-use-case__workflow li");
+  const tabs = page.locator(".ai-use-case-carousel__tabs button");
 
   await expect(activeSlide.locator(".ai-use-case__content")).toBeVisible();
   await expect(activeSlide.locator(".ai-case-visual")).toBeHidden();
@@ -124,6 +125,27 @@ test("AI use-case carousel keeps only compact text content on mobile", async ({
       .first()
       .evaluate((step) => Number.parseFloat(getComputedStyle(step).columnGap)),
   ).toBeLessThanOrEqual(7);
+
+  await activeSlide.evaluate(async (slide) => {
+    await Promise.all(
+      slide.getAnimations().map((animation) => animation.finished),
+    );
+  });
+
+  const contentBox = await activeSlide
+    .locator(".ai-use-case__content")
+    .boundingBox();
+  const firstTabBox = await tabs.first().boundingBox();
+  const lastTabBox = await tabs.last().boundingBox();
+  expect(contentBox).not.toBeNull();
+  expect(firstTabBox).not.toBeNull();
+  expect(lastTabBox).not.toBeNull();
+  expect(Math.abs(firstTabBox!.x - contentBox!.x)).toBeLessThanOrEqual(1);
+  expect(
+    Math.abs(
+      lastTabBox!.x + lastTabBox!.width - (contentBox!.x + contentBox!.width),
+    ),
+  ).toBeLessThanOrEqual(1);
 });
 
 test("AI use-case carousel is localized in English", async ({ page }) => {

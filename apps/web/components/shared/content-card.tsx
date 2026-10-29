@@ -49,7 +49,7 @@ export const ContentCard = ({
           {icon}
         </span>
       </div>
-      <p className="content-card__description mb-0 mt-[1.2rem] text-[0.82rem] leading-[1.7] text-[#596484] max-[600px]:mt-5">
+      <p className="content-card__description mb-0 mt-[1.2rem] text-body-sm leading-[1.7] text-[#596484] max-[600px]:mt-5">
         {description}
       </p>
       {((tags && tags.length > 0) || (accentTags && accentTags.length > 0)) && (
@@ -64,7 +64,7 @@ export const ContentCard = ({
           ))}
           {accentTags?.map((tag) => (
             <span
-              className="content-card__tag content-card__tag--accent rounded-full border border-white/30 bg-[linear-gradient(135deg,#5468ff,#8a5cff)] px-[0.55rem] py-[0.35rem] font-mono text-[0.68rem] font-bold tracking-[0.08em] text-white shadow-[0_0.35rem_0.9rem_rgba(94,88,255,0.2)]"
+              className="content-card__tag content-card__tag--accent rounded-full border border-white/30 bg-[linear-gradient(135deg,#5468ff,#8a5cff)] px-[0.55rem] py-[0.35rem] font-mono text-[0.68rem] font-bold tracking-ui text-white shadow-[0_0.35rem_0.9rem_rgba(94,88,255,0.2)]"
               key={tag}
             >
               {tag}

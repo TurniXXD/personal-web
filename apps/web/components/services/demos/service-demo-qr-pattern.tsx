@@ -1,4 +1,6 @@
-export function ServiceDemoQrPattern({ label }: { label: string }) {
+type ServiceDemoQrPatternProps = { label: string };
+
+export function ServiceDemoQrPattern({ label }: ServiceDemoQrPatternProps) {
   return (
     <div className="service-demo__qr" role="img" aria-label={label}>
       {Array.from({ length: 49 }, (_, index) => (

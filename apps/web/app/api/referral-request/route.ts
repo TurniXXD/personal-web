@@ -1,13 +1,17 @@
 import { randomUUID } from "node:crypto";
 import { Resend } from "resend";
-import { apiErrorResponse } from "@/lib/api-error-response";
-import { localizedPath } from "@/lib/content";
-import { createReferralToken } from "@/lib/referral-token";
-import { rateLimit } from "@/lib/rate-limit";
-import { validateReferralRequest } from "@/lib/referral-request";
-import { siteConfig } from "@/lib/site-config";
-import { configuredTwenty, twentyErrorContext } from "@/lib/twenty";
-import { verifyTurnstile } from "@/lib/turnstile";
+import { apiErrorResponse } from "@/lib/api/error-response";
+import { localizedPath } from "@/lib/site/content";
+import { createReferralToken } from "@/lib/referrals/token";
+import { rateLimit } from "@/lib/api/rate-limit";
+import { validateReferralRequest } from "@/lib/referrals/request";
+import { siteConfig } from "@/lib/site/config";
+import { referralEmailCopy } from "@/messages/referrals/email";
+import {
+  configuredTwenty,
+  twentyErrorContext,
+} from "@/lib/integrations/twenty";
+import { verifyTurnstile } from "@/lib/contact/turnstile";
 
 const defaultFrom = "Jakub Vantuch <onboarding@resend.dev>";
 const endpoint = "referral-request";
@@ -167,14 +171,10 @@ export async function POST(request: Request) {
       "",
     );
     const referralUrl = `${siteUrl}${localizedPath(input.locale)}?ref=${encodeURIComponent(token)}`;
-    const isCzech = input.locale === "cs";
-    const subject = isCzech
-      ? "Váš osobní doporučovací odkaz"
-      : "Your personal referral link";
-    const text = isCzech
-      ? `Dobrý den, ${input.name},\n\nzde je váš osobní doporučovací odkaz:\n${referralUrl}\n\nPošlete jej zájemci. Doporučení se přiřadí, když přes odkaz otevře web a odešle vlastní poptávku.\n\nJakub Vantuch`
-      : `Hello ${input.name},\n\nHere is your personal referral link:\n${referralUrl}\n\nShare it with a prospective client. The referral is attributed when they open the site through the link and submit their own inquiry.\n\nJakub Vantuch`;
-    const html = `<p>${isCzech ? "Dobrý den" : "Hello"}, ${escapeHtml(input.name)},</p><p>${isCzech ? "zde je váš osobní doporučovací odkaz:" : "here is your personal referral link:"}</p><p><a href="${escapeHtml(referralUrl)}">${escapeHtml(referralUrl)}</a></p><p>${isCzech ? "Pošlete jej zájemci. Doporučení se přiřadí, když přes odkaz otevře web a odešle vlastní poptávku." : "Share it with a prospective client. The referral is attributed when they open the site through the link and submit their own inquiry."}</p><p>Jakub Vantuch</p>`;
+    const emailCopy = referralEmailCopy[input.locale];
+    const subject = emailCopy.subject;
+    const text = `${emailCopy.greeting}, ${input.name},\n\n${emailCopy.introduction}\n${referralUrl}\n\n${emailCopy.instructions}\n\nJakub Vantuch`;
+    const html = `<p>${emailCopy.greeting}, ${escapeHtml(input.name)},</p><p>${emailCopy.introduction}</p><p><a href="${escapeHtml(referralUrl)}">${escapeHtml(referralUrl)}</a></p><p>${emailCopy.instructions}</p><p>Jakub Vantuch</p>`;
 
     try {
       const { error } = await resend.emails.send(
@@ -212,12 +212,11 @@ export async function POST(request: Request) {
     return Response.json({ ok: true });
   }
 
-  const companyLine = input.company ? `Firma: ${input.company}\n` : "";
-  const partnershipMessage = `${
-    input.locale === "cs"
-      ? "Zájem o partnerskou spolupráci"
-      : "Partnership inquiry"
-  }\n${companyLine}\n${input.message}`;
+  const emailCopy = referralEmailCopy[input.locale];
+  const companyLine = input.company
+    ? `${emailCopy.companyLabel}: ${input.company}\n`
+    : "";
+  const partnershipMessage = `${emailCopy.partnershipTitle}\n${companyLine}\n${input.message}`;
   try {
     await twenty.saveContact(
       {

@@ -1,7 +1,5 @@
 "use client";
 
-import styles from "./services-dropdown.module.css";
-
 import { useEffect, useRef, useState } from "react";
 import { ChevronDown, ShieldCheck } from "lucide-react";
 import {
@@ -29,6 +27,7 @@ export function ServicesDropdown({
 }: ServicesDropdownProps) {
   const [open, setOpen] = useState(false);
   const hoverOpened = useRef(false);
+  const suppressCloseAutoFocus = useRef(false);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(
@@ -52,6 +51,7 @@ export function ServicesDropdown({
         document.activeElement?.getAttribute("data-slot") !==
           "dropdown-menu-trigger"
       ) {
+        suppressCloseAutoFocus.current = true;
         setOpen(false);
       }
       hoverOpened.current = false;
@@ -65,6 +65,7 @@ export function ServicesDropdown({
         if (event.pointerType !== "mouse") return;
         cancelClose();
         if (!open) {
+          suppressCloseAutoFocus.current = false;
           hoverOpened.current = true;
           setOpen(true);
         }
@@ -77,6 +78,9 @@ export function ServicesDropdown({
         open={open}
         onOpenChange={(next) => {
           cancelClose();
+          if (!next && hoverOpened.current) {
+            suppressCloseAutoFocus.current = true;
+          }
           setOpen(next);
           if (!next) hoverOpened.current = false;
         }}
@@ -90,7 +94,7 @@ export function ServicesDropdown({
               cancelClose();
               hoverOpened.current = false;
             }}
-            className={`${styles.trigger} inline-flex cursor-pointer items-center gap-[0.3rem] py-[0.8rem] transition-colors duration-200 [&_svg]:transition-transform [&_svg]:duration-200 data-[state=open]:[&_svg]:rotate-180`}
+            className="inline-flex cursor-pointer items-center gap-[0.3rem] py-[0.8rem] [font:inherit] text-inherit transition-colors duration-200 hover:text-primary focus:!ring-0 focus:!outline-none focus-visible:text-primary focus-visible:!ring-0 focus-visible:!outline-none data-[active=true]:text-primary data-[state=open]:text-primary data-[state=open]:[&_svg]:rotate-180 [&_svg]:transition-transform [&_svg]:duration-200"
             onPointerDown={(event) => {
               if (event.pointerType === "mouse" && hoverOpened.current) {
                 event.preventDefault();
@@ -105,25 +109,30 @@ export function ServicesDropdown({
         <DropdownMenuContent
           align="center"
           sideOffset={5}
-          className="z-30 grid w-[23rem] gap-0 rounded-2xl border-[#dfe4f8] bg-white/98 p-2 text-[#313a5f] shadow-[0_20px_55px_rgba(39,48,100,0.16)] data-[state=open]:animate-none"
+          className="z-[100] grid w-[23rem] gap-0 rounded-2xl border-[#dfe4f8] bg-white p-2 text-[#313a5f] shadow-[0_20px_55px_rgba(39,48,100,0.16)] data-[state=open]:animate-none"
           onPointerEnter={cancelClose}
           onPointerLeave={scheduleHoverClose}
+          onCloseAutoFocus={(event) => {
+            if (!suppressCloseAutoFocus.current) return;
+            event.preventDefault();
+            suppressCloseAutoFocus.current = false;
+          }}
         >
           {links.map((item, index) => (
             <DropdownMenuItem
               asChild
               key={item.href}
-              className={`${styles.item} min-h-[3.75rem] rounded-[0.65rem] p-0 focus:bg-[#f3f4ff]`}
+              className="min-h-[3.75rem] rounded-[0.65rem] p-0 focus:bg-[#f3f4ff] focus:!outline-none focus-visible:!outline-none data-[highlighted]:!outline-none"
             >
               <a
                 href={item.href}
                 className="grid grid-cols-[1.8rem_minmax(0,1fr)] items-start gap-[0.55rem] px-[0.7rem] py-[0.55rem]"
               >
-                <span className="pt-[0.12rem] font-mono text-[0.58rem] font-extrabold tracking-[0.08em] text-[#8b95c1]">
+                <span className="pt-[0.12rem] font-mono text-[0.58rem] font-extrabold tracking-ui text-[#8b95c1]">
                   {String(index + 1).padStart(2, "0")}
                 </span>
                 <span className="grid min-w-0 gap-[0.2rem]">
-                  <strong className="flex items-center gap-[0.4rem] text-[0.76rem] leading-[1.35] text-[#313a5f]">
+                  <strong className="flex items-center gap-[0.4rem] text-ui-sm leading-[1.35] text-[#313a5f]">
                     {item.label}
                     {item.icon === "shield" ? (
                       <ShieldCheck
@@ -133,7 +142,7 @@ export function ServicesDropdown({
                       />
                     ) : null}
                   </strong>
-                  <small className="text-[0.62rem] leading-[1.4] font-medium text-[#7a84a4]">
+                  <small className="text-[0.62rem] leading-[1.4] font-medium text-ink-soft">
                     {item.description}
                   </small>
                 </span>

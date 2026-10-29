@@ -1,4 +1,5 @@
-import type { Locale } from "@/lib/content";
+import type { Locale } from "@/lib/site/content";
+import { useTranslations } from "next-intl";
 
 type Testimonial = {
   quote: string;
@@ -6,10 +7,13 @@ type Testimonial = {
   role: string;
 };
 
+type TestimonialsSectionProps = { locale: Locale };
+
 // Add verified client quotes here when permission to publish them is available.
 const testimonials: Record<Locale, Testimonial[]> = { cs: [], en: [] };
 
-export function TestimonialsSection({ locale }: { locale: Locale }) {
+export function TestimonialsSection({ locale }: TestimonialsSectionProps) {
+  const t = useTranslations("testimonials");
   const items = testimonials[locale];
   if (items.length === 0) return null;
 
@@ -21,12 +25,8 @@ export function TestimonialsSection({ locale }: { locale: Locale }) {
       <div className="site-container">
         <div className="section-heading">
           <div>
-            <p className="eyebrow">
-              {locale === "cs" ? "ZKUŠENOSTI KLIENTŮ" : "CLIENT FEEDBACK"}
-            </p>
-            <h2 id="testimonials-title">
-              {locale === "cs" ? "Co říkají klienti" : "What clients say"}
-            </h2>
+            <p className="eyebrow">{t("eyebrow")}</p>
+            <h2 id="testimonials-title">{t("title")}</h2>
           </div>
         </div>
         <div className="testimonials-grid">

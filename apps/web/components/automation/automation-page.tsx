@@ -6,47 +6,36 @@ import {
   Mail,
 } from "lucide-react";
 import { ActionLink } from "@vantuch/ui";
-import { AutomationCatalog } from "@/components/automation-catalog";
-import { ContactBlock, SiteFooter, SiteHeader } from "@/components/site-chrome";
+import { useTranslations } from "next-intl";
+import { AutomationCatalog } from "@/components/automation/automation-catalog";
+import {
+  ContactBlock,
+  SiteFooter,
+  SiteHeader,
+} from "@/components/layout/site-chrome";
 import {
   automationPageCopy,
   getAutomationExamples,
-} from "@/lib/automation-content";
-import type { Locale } from "@/lib/content";
+} from "@/lib/automation/content";
+import { StructuredDataScript } from "@/components/shared/structured-data-script";
+import { createAutomationStructuredData } from "@/lib/seo/structured-data";
+import type { Locale } from "@/lib/site/content";
 
 type AutomationPageProps = { locale: Locale };
 
 export const AutomationPage = ({ locale }: AutomationPageProps) => {
+  const ui = useTranslations("automationUi");
   const content = automationPageCopy[locale];
   const examples = getAutomationExamples(locale);
-  const structuredData = {
-    "@context": "https://schema.org",
-    "@type": "Service",
+  const structuredData = createAutomationStructuredData({
     name: content.meta.title,
     description: content.meta.description,
-    provider: {
-      "@type": "Person",
-      name: "Jakub Vantuch",
-      url: "https://vantuch.dev",
-    },
-    areaServed: { "@type": "Country", name: "Czech Republic" },
-    serviceType: [
-      "Business process automation",
-      "Systems integration",
-      "AI solutions",
-      "Automated reporting",
-    ],
-  };
+  });
 
   return (
     <>
       <SiteHeader locale={locale} path="/automatizace" />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(structuredData).replace(/</g, "\\u003c"),
-        }}
-      />
+      <StructuredDataScript data={structuredData} />
       <main id="main-content">
         <section
           className="automation-page-hero"
@@ -110,11 +99,7 @@ export const AutomationPage = ({ locale }: AutomationPageProps) => {
               <h2 id="automation-catalog-title">{content.catalog.title}</h2>
               <p>{content.catalog.description}</p>
             </div>
-            <AutomationCatalog
-              locale={locale}
-              examples={examples}
-              content={content.catalog}
-            />
+            <AutomationCatalog examples={examples} content={content.catalog} />
           </div>
         </section>
 
@@ -144,9 +129,7 @@ export const AutomationPage = ({ locale }: AutomationPageProps) => {
         <ContactBlock
           locale={locale}
           title={content.contactTitle}
-          topic={
-            locale === "cs" ? "Automatizace procesů" : "Process automation"
-          }
+          topic={ui("serviceName")}
           requestType="automation"
         />
       </main>

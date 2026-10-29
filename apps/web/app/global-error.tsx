@@ -2,14 +2,14 @@
 
 import { useEffect } from "react";
 import * as Sentry from "@sentry/browser";
+import messages from "@/messages/global-error.json";
 
-export default function GlobalError({
-  error,
-  reset,
-}: {
+type GlobalErrorProps = {
   error: Error & { digest?: string };
   reset: () => void;
-}) {
+};
+
+export default function GlobalError({ error, reset }: GlobalErrorProps) {
   useEffect(() => {
     Sentry.captureException(error);
   }, [error]);
@@ -19,19 +19,15 @@ export default function GlobalError({
       <body>
         <main className="global-error-page">
           <div className="global-error-page__card">
-            <p className="global-error-page__label">
-              NĚCO SE NEPOVEDLO / SOMETHING WENT WRONG
-            </p>
-            <h1>
-              Stránku se nepodařilo načíst. / The page could not be loaded.
-            </h1>
-            <p>Zkuste načtení zopakovat. / Try loading the page again.</p>
+            <p className="global-error-page__label">{messages.label}</p>
+            <h1>{messages.title}</h1>
+            <p>{messages.description}</p>
             <button
               className="ui-action ui-action--primary"
               type="button"
               onClick={reset}
             >
-              Zkusit znovu / Try again
+              {messages.action}
             </button>
           </div>
         </main>

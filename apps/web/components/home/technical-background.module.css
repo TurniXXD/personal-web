@@ -1,21 +1,3 @@
-.technical-background {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  overflow: hidden;
-  pointer-events: none;
-}
-.technical-background__lines,
-.technical-background__nodes,
-.technical-background__shapes {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-}
-.technical-background__lines {
-  overflow: visible;
-}
 .technical-background__lines path {
   fill: none;
   stroke: rgba(104, 116, 205, 0.23);
@@ -30,33 +12,12 @@
     opacity 240ms ease-out;
 }
 .technical-background__shape {
-  position: absolute;
-  left: var(--technical-x);
-  top: var(--technical-y);
-  width: var(--technical-width);
-  height: var(--technical-height);
-  border: 1px solid rgba(117, 129, 218, 0.09);
-  border-radius: clamp(1.5rem, 3.5vw, 3rem);
-  background: linear-gradient(
-    135deg,
-    rgba(218, 222, 255, 0.3),
-    rgba(240, 242, 255, 0.1)
-  );
   transform: rotate(var(--technical-rotate));
   transition:
     opacity 420ms ease-out,
     transform 520ms cubic-bezier(0.22, 1, 0.36, 1);
-  will-change: opacity, transform;
 }
 .technical-background__node {
-  position: absolute;
-  left: var(--technical-x);
-  top: var(--technical-y);
-  width: 0.42rem;
-  height: 0.42rem;
-  border-radius: 0.1rem;
-  background: var(--brand);
-  box-shadow: 0 0 0 0.25rem rgba(95, 108, 255, 0.07);
   transform: translate(-50%, -50%);
   transition:
     opacity 210ms ease-out,
@@ -98,34 +59,6 @@
   opacity: 1;
   transform: translate3d(0, 0, 0) rotate(var(--technical-rotate)) scale(1);
   transition-delay: var(--technical-delay);
-}
-.technical-background--services .technical-background__lines,
-.technical-background--services .technical-background__nodes {
-  top: auto;
-  bottom: var(--services-line-offset);
-  height: 11rem;
-}
-@media (max-width: 900px) {
-  .technical-background {
-    height: min(24rem, 60%);
-  }
-}
-@media (max-width: 900px) {
-  .technical-background--services {
-    height: 100%;
-  }
-}
-@media (max-width: 900px) {
-  .technical-background__lines path:nth-child(n + 2),
-  .technical-background__node:nth-child(n + 3),
-  .technical-background__shape:nth-child(n + 2) {
-    display: none;
-  }
-}
-@media (max-width: 600px) {
-  .technical-background__node:nth-child(n + 2) {
-    display: none;
-  }
 }
 @media (prefers-reduced-motion: reduce) {
   .technical-background__lines path,

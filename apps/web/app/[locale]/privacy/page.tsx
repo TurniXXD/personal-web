@@ -1,19 +1,22 @@
 import type { Metadata } from "next";
 import { hasLocale } from "next-intl";
+import { setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
-import { SiteFooter, SiteHeader } from "@/components/site-chrome";
+import { SiteFooter, SiteHeader } from "@/components/layout/site-chrome";
 import { routing } from "@/i18n/routing";
-import { localizedPath } from "@/lib/content";
-import { privacyCopy } from "@/lib/privacy-content";
-import { contactMailto, siteConfig } from "@/lib/site-config";
+import { localizedPath } from "@/lib/site/content";
+import { privacyCopy } from "@/messages/privacy";
+import { contactMailto, siteConfig } from "@/lib/site/config";
 
-type Props = { params: Promise<{ locale: string }> };
+type PrivacyPageProps = { params: Promise<{ locale: string }> };
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: PrivacyPageProps): Promise<Metadata> {
   const { locale } = await params;
   if (!hasLocale(routing.locales, locale)) notFound();
   const t = privacyCopy[locale];
@@ -40,9 +43,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export default async function PrivacyPage({ params }: Props) {
+export default async function PrivacyPage({ params }: PrivacyPageProps) {
   const { locale } = await params;
   if (!hasLocale(routing.locales, locale)) notFound();
+  setRequestLocale(locale);
   const t = privacyCopy[locale];
 
   return (

@@ -25,6 +25,12 @@
 @theme inline {
   --color-background: #fbfcff;
   --color-foreground: var(--ink);
+  --color-ink: var(--ink);
+  --color-ink-strong: var(--navy);
+  --color-ink-muted: #59617d;
+  --color-ink-soft: #7a84a4;
+  --color-ink-on-dark: #b7bfdf;
+  --color-ink-on-dark-soft: #929cbd;
   --color-card: #fff;
   --color-card-foreground: var(--ink);
   --color-popover: #fff;
@@ -33,12 +39,25 @@
   --color-primary-foreground: #fff;
   --color-secondary: #f0f2ff;
   --color-secondary-foreground: var(--navy);
+  --color-surface-soft: #f2f3ff;
+  --color-surface-dark: #171e3c;
   --color-muted: #f3f4ff;
   --color-muted-foreground: #7a84a4;
   --color-accent: #f3f4ff;
   --color-accent-foreground: var(--navy);
   --color-destructive: #c72d42;
   --color-border: #dfe4fb;
+  --color-border-card: #dce2fa;
+  --color-border-soft: #e4e7fb;
   --color-input: #dfe4fb;
   --color-ring: var(--brand);
+  --text-ui-2xs: 0.65rem;
+  --text-ui-xs: 0.7rem;
+  --text-ui-sm: 0.76rem;
+  --text-body-sm: 0.82rem;
+  --text-body: 0.9rem;
+  --tracking-ui: 0.08em;
+  --leading-copy: 1.65;
+  --radius-card: 1.5rem;
+  --shadow-card: 0 1.5rem 4rem rgba(36, 46, 94, 0.12);
 }

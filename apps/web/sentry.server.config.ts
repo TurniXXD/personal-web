@@ -1,5 +1,8 @@
 import * as Sentry from "@sentry/nextjs";
-import { getSentryServerDsn, sentryOptions } from "@/lib/sentry-options";
+import {
+  getSentryServerDsn,
+  sentryOptions,
+} from "@/lib/observability/sentry-options";
 
 const dsn = getSentryServerDsn();
 

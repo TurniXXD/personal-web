@@ -1,0 +1,176 @@
+{
+  "common": {
+    "learnMore": "Zjistit více",
+    "retry": "Zkusit znovu",
+    "present": "dosud"
+  },
+  "cookieSettings": {
+    "title": "Cookies a analytika",
+    "description": "Nezbytné funkce webu běží vždy. Volitelně můžete povolit analytiku Microsoft Clarity a Cloudflare, která mi pomáhá web zlepšovat.",
+    "details": "Více o soukromí",
+    "essentialOnly": "Pouze nezbytné",
+    "allowAnalytics": "Povolit analytiku",
+    "settings": "Nastavení cookies"
+  },
+  "turnstile": {
+    "label": "Ochrana formuláře Cloudflare Turnstile",
+    "failed": "Ověření se nepodařilo načíst. ",
+    "retry": "Zkusit znovu"
+  },
+  "testimonials": {
+    "eyebrow": "ZKUŠENOSTI KLIENTŮ",
+    "title": "Co říkají klienti"
+  },
+  "automationUi": {
+    "categoriesLabel": "Kategorie automatizací",
+    "serviceName": "Automatizace procesů"
+  },
+  "homeUi": {
+    "portraitAlt": "Portrét Jakuba Vantucha"
+  },
+  "notFound": {
+    "eyebrow": "STRÁNKA NENALEZENA",
+    "title": "Tahle stránka tu není.",
+    "description": "Odkaz může být zastaralý nebo se stránka přesunula. Vraťte se na úvod a pokračujte odtud.",
+    "action": "Zpět na úvod"
+  },
+  "webApplicationVisual": {
+    "eyebrow": "ANALYTICKÝ PŘEHLED",
+    "title": "Výsledky na jednom místě",
+    "visits": "Návštěvy",
+    "conversions": "Konverze",
+    "activity": "Aktivita uživatelů",
+    "complete": "splněno"
+  },
+  "aiHeroVisual": {
+    "inputs": "Vstupy",
+    "invoices": "Faktury",
+    "contracts": "Smlouvy",
+    "businessData": "Firemní data",
+    "pipelineName": "AI pipeline",
+    "pipelineSteps": "čtení · extrakce · kontrola",
+    "outputs": "Zpracované výstupy",
+    "invoice": "Faktura",
+    "lineItems": "8 položek",
+    "contract": "Smlouva",
+    "summary": "shrnutí",
+    "analysis": "Analýza",
+    "insights": "3 zjištění",
+    "documentation": "Dokumentace",
+    "ready": "připravena"
+  },
+  "serviceDetailUi": {
+    "home": "Domů",
+    "services": "Weby a aplikace",
+    "breadcrumb": "Drobečková navigace",
+    "relatedTitle": "Související služby",
+    "relatedAction": "Zjistit více",
+    "solutionFitted": "Řešení přizpůsobené vašemu provozu",
+    "tailored": "Na míru",
+    "readyToEvolve": "Připravené k rozvoji"
+  },
+  "serviceDemos": {
+    "loyalty": {
+      "card": "Věrnostní karta",
+      "visits": "{visits} z 10 návštěv",
+      "rewardReady": "Odměna je připravena k uplatnění.",
+      "remaining": "Do další masáže se slevou zbývají {remaining} návštěvy.",
+      "reward": "Další masáž se slevou 30 %",
+      "available": "Dostupná",
+      "locked": "Zamčená",
+      "history": "Poslední aktivita",
+      "activity": "Relaxační masáž · potvrzeno obsluhou",
+      "confirm": "Potvrdit návštěvu obsluhou",
+      "success": "Návštěva byla připsána.",
+      "reset": "Obnovit ukázku",
+      "qr": "Ilustrativní QR kód zákaznické karty",
+      "staff": "Rozhraní obsluhy",
+      "verified": "Zákazník identifikován"
+    },
+    "admin": {
+      "label": "ILUSTRATIVNÍ NÁHLED ADMINISTRACE",
+      "title": "Přehled věrnostního programu",
+      "period": "Posledních 30 dní",
+      "navigation": ["Zákazníci", "Odměny", "Historie", "Nastavení rolí"],
+      "metrics": [
+        ["Aktivní zákazníci", "128"],
+        ["Potvrzené návštěvy", "342"],
+        ["Uplatněné odměny", "41"]
+      ],
+      "customers": "Poslední aktivita zákazníků",
+      "columns": ["Zákazník", "Stav", "Poslední změna"],
+      "rows": [
+        ["JV–10482", "8 / 10 návštěv", "+1 obsluhou"],
+        ["JV–23810", "620 bodů", "Odměna uplatněna"],
+        ["JV–50432", "Úroveň Gold", "Nákup ověřen"]
+      ],
+      "audit": "Každá změna má autora, čas a auditní záznam.",
+      "report": "Aktivita programu",
+      "reportNote": "Vývoj návštěv a uplatnění odměn"
+    },
+    "voucher": {
+      "initialMessage": "Užij si chvíli pro sebe.",
+      "illustrative": "ILUSTRATIVNÍ UKÁZKA",
+      "builder": "Nastavení poukazu",
+      "recipient": "Jméno příjemce",
+      "message": "Osobní věnování",
+      "amount": "Hodnota poukazu",
+      "preview": "Náhled PDF poukazu",
+      "gift": "Dárkový poukaz",
+      "for": "pro",
+      "validity": "Platnost ukázky: 12 měsíců",
+      "code": "Kód: GIFT–JV–2048",
+      "qr": "Ilustrativní QR kód dárkového poukazu",
+      "steps": [
+        "Simulovat potvrzenou platbu",
+        "Připravit ukázkové PDF",
+        "Simulovat uplatnění obsluhou"
+      ],
+      "states": [
+        "Čeká na platbu",
+        "Platba potvrzena",
+        "PDF připraveno",
+        "Uplatněno"
+      ],
+      "disclaimer": "Bez skutečné platby, e-mailu nebo platného poukazu.",
+      "reset": "Obnovit ukázku",
+      "download": "Ukázkové PDF"
+    }
+  },
+  "siteChrome": {
+    "brandName": "Jakub Vantuch",
+    "brandRole": "Digital Solutions Consultant",
+    "footerNavigationLabel": "Navigace v patičce",
+    "languageAriaLabel": "EN – Přepnout do angličtiny",
+    "languageShortLabel": "EN",
+    "mainNavigationLabel": "Hlavní navigace",
+    "mobileMenuButtonLabel": "Otevřít menu",
+    "mobileNavigationLabel": "Mobilní navigace",
+    "serviceLinks": [
+      {
+        "label": "Weby a aplikace",
+        "description": "Weby, portály a aplikace na míru"
+      },
+      {
+        "label": "Automatizace procesů",
+        "description": "Méně ruční práce a propojené systémy"
+      },
+      {
+        "label": "AI řešení",
+        "description": "Praktická práce s daty a dokumenty"
+      },
+      {
+        "label": "Digitální věrnostní programy",
+        "description": "Odměny a návraty zákazníků"
+      },
+      {
+        "label": "Dárkové poukazy",
+        "description": "Online prodej, PDF a uplatnění"
+      },
+      {
+        "label": "Audit vibecoded aplikací",
+        "description": "Bezpečnost, výkon a dokončení AI aplikací"
+      }
+    ]
+  }
+}

@@ -1,14 +1,17 @@
 import type { Metadata } from "next";
 import { hasLocale } from "next-intl";
+import { setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
-import { AutomationPage } from "@/components/automation-page";
+import { AutomationPage } from "@/components/automation/automation-page";
 import { routing } from "@/i18n/routing";
-import { automationPageCopy } from "@/lib/automation-content";
-import { localizedPath } from "@/lib/content";
+import { automationPageCopy } from "@/lib/automation/content";
+import { localizedPath } from "@/lib/site/content";
 
-type Props = { params: Promise<{ locale: string }> };
+type AutomationRouteProps = { params: Promise<{ locale: string }> };
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: AutomationRouteProps): Promise<Metadata> {
   const { locale } = await params;
   if (!hasLocale(routing.locales, locale)) {
     notFound();
@@ -42,11 +45,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export default async function AutomationRoute({ params }: Props) {
+export default async function AutomationRoute({
+  params,
+}: AutomationRouteProps) {
   const { locale } = await params;
   if (!hasLocale(routing.locales, locale)) {
     notFound();
   }
+  setRequestLocale(locale);
 
   return <AutomationPage locale={locale} />;
 }

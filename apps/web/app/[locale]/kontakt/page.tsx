@@ -1,21 +1,24 @@
 import type { Metadata } from "next";
 import { Building2, Clock3, Mail, MapPin, PhoneCall } from "lucide-react";
 import { hasLocale } from "next-intl";
+import { setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
-import { ContactForm } from "@/components/contact-form";
-import { SiteFooter, SiteHeader } from "@/components/site-chrome";
+import { ContactForm } from "@/components/contact/contact-form";
+import { SiteFooter, SiteHeader } from "@/components/layout/site-chrome";
 import { routing } from "@/i18n/routing";
-import { contactPageCopy } from "@/lib/contact-page-content";
-import { localizedPath } from "@/lib/content";
-import { contactMailto, contactTel, siteConfig } from "@/lib/site-config";
+import { contactPageCopy } from "@/messages/contact/page";
+import { localizedPath } from "@/lib/site/content";
+import { contactMailto, contactTel, siteConfig } from "@/lib/site/config";
 
-type Props = { params: Promise<{ locale: string }> };
+type ContactPageProps = { params: Promise<{ locale: string }> };
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: ContactPageProps): Promise<Metadata> {
   const { locale } = await params;
   if (!hasLocale(routing.locales, locale)) notFound();
   const { meta } = contactPageCopy[locale];
@@ -46,9 +49,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export default async function ContactPage({ params }: Props) {
+export default async function ContactPage({ params }: ContactPageProps) {
   const { locale } = await params;
   if (!hasLocale(routing.locales, locale)) notFound();
+  setRequestLocale(locale);
   const t = contactPageCopy[locale];
 
   return (

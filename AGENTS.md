@@ -15,6 +15,18 @@
 ## Content localization
 
 - Whenever user-visible copy is changed, update both the Czech and English versions in the same change, even when the request provides wording in only one language.
+- Store user-visible copy in the locale message catalogs and read it through `next-intl`; do not add language conditionals or literal UI copy inside components.
+- Keep route segments and slugs in shared semantic constants. Do not compare or assemble route slugs from ad-hoc string literals in components.
+
+## TypeScript props
+
+- Define function and component object parameters as named types such as `ComponentNameProps`; never declare an object type inline in a parameter list.
+
+## Styling
+
+- Prefer Tailwind utility classes for layout, spacing, sizing, typography, colors, borders, shadows, responsive states, and ordinary hover/focus states.
+- Use CSS modules only when the style depends on complex keyframes, pseudo-element artwork, CSS masks, multi-element state choreography, or runtime CSS variables that would be less readable as utilities.
+- When touching an existing CSS module, move any ordinary static declarations that fit Tailwind into the component instead of expanding the module.
 
 ## Search engine discovery
 

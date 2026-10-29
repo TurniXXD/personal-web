@@ -1,5 +1,8 @@
 import * as Sentry from "@sentry/browser";
-import { getSentryClientDsn, sentryOptions } from "@/lib/sentry-options";
+import {
+  getSentryClientDsn,
+  sentryOptions,
+} from "@/lib/observability/sentry-options";
 
 const dsn = getSentryClientDsn();
 

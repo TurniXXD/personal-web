@@ -1,5 +1,6 @@
 import Link from "next/link";
 import dynamic from "next/dynamic";
+import { useTranslations } from "next-intl";
 import {
   ArrowRight,
   BadgePercent,
@@ -19,8 +20,14 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { ActionLink } from "@vantuch/ui";
-import { ScrollReveal } from "@/components/scroll-reveal";
-import { ServicePipelineDivider } from "@/components/service-pipeline-divider";
+import {
+  ContactBlock,
+  SiteFooter,
+  SiteHeader,
+} from "@/components/layout/site-chrome";
+import { ScrollReveal } from "@/components/shared/scroll-reveal";
+import { StructuredDataScript } from "@/components/shared/structured-data-script";
+import { ServicePipelineDivider } from "@/components/services/service-pipeline-divider";
 import {
   AuditHeroVisual,
   CompanyWebsiteHeroVisual,
@@ -28,13 +35,18 @@ import {
   ShoptetHeroVisual,
   VoucherHeroVisual,
   WebApplicationDetailHeroVisual,
-} from "@/components/service-detail-hero-visuals";
-import { ContactBlock, SiteFooter, SiteHeader } from "@/components/site-chrome";
-import { localizedPath, type Locale } from "@/lib/content";
+} from "@/components/services/heroes/service-detail-hero-visuals";
+import { localizedPath, type Locale } from "@/lib/site/content";
 import {
   serviceDetailCopy,
   type ServiceDetailSlug,
-} from "@/lib/service-detail-content";
+} from "@/lib/services/detail-content";
+import { createServiceDetailStructuredData } from "@/lib/seo/structured-data";
+import {
+  SERVICE_SECTION_ID,
+  SERVICE_SLUG,
+  serviceDetailPath,
+} from "@/lib/site/routes";
 
 type ServiceDetailPageProps = {
   locale: Locale;
@@ -42,17 +54,22 @@ type ServiceDetailPageProps = {
 };
 
 const relatedServiceIcons: Record<ServiceDetailSlug, LucideIcon> = {
-  "firemni-weby": Layers3,
-  "webove-aplikace-na-miru": Code2,
-  shoptet: ShoppingCart,
-  cms: FileText,
-  "api-integrace": Network,
-  "vernostni-programy": BadgePercent,
-  "webova-analytika": ChartNoAxesCombined,
-  crm: UsersRound,
-  "audit-ai-aplikaci": ShieldCheck,
-  "darkove-poukazy": Gift,
+  [SERVICE_SLUG.companyWebsites]: Layers3,
+  [SERVICE_SLUG.customWebApplications]: Code2,
+  [SERVICE_SLUG.shoptet]: ShoppingCart,
+  [SERVICE_SLUG.cms]: FileText,
+  [SERVICE_SLUG.apiIntegration]: Network,
+  [SERVICE_SLUG.loyaltyProgrammes]: BadgePercent,
+  [SERVICE_SLUG.webAnalytics]: ChartNoAxesCombined,
+  [SERVICE_SLUG.crm]: UsersRound,
+  [SERVICE_SLUG.aiApplicationAudit]: ShieldCheck,
+  [SERVICE_SLUG.giftVouchers]: Gift,
 };
+
+const limitedFaqSlugs: readonly ServiceDetailSlug[] = [
+  SERVICE_SLUG.loyaltyProgrammes,
+  SERVICE_SLUG.giftVouchers,
+];
 
 const DemoLoading = () => (
   <div className="service-detail-demo__loading" aria-hidden="true" />
@@ -60,20 +77,21 @@ const DemoLoading = () => (
 
 const LoyaltyAdminPreview = dynamic(
   () =>
-    import("@/components/service-detail-demos").then(
+    import("@/components/services/demos/service-detail-demos").then(
       (module) => module.LoyaltyAdminPreview,
     ),
   { loading: DemoLoading },
 );
 const VoucherDemo = dynamic(
   () =>
-    import("@/components/service-detail-demos").then(
+    import("@/components/services/demos/service-detail-demos").then(
       (module) => module.VoucherDemo,
     ),
   { loading: DemoLoading },
 );
 
 const DetailHeroVisual = ({ locale, slug }: ServiceDetailPageProps) => {
+  const labels = useTranslations("serviceDetailUi");
   const content = serviceDetailCopy[locale][slug];
   const customVisualProps = {
     locale,
@@ -82,27 +100,27 @@ const DetailHeroVisual = ({ locale, slug }: ServiceDetailPageProps) => {
     items: content.visual.items,
   };
 
-  if (slug === "vernostni-programy") {
+  if (slug === SERVICE_SLUG.loyaltyProgrammes) {
     return <LoyaltyHeroVisual {...customVisualProps} />;
   }
 
-  if (slug === "firemni-weby") {
+  if (slug === SERVICE_SLUG.companyWebsites) {
     return <CompanyWebsiteHeroVisual {...customVisualProps} />;
   }
 
-  if (slug === "webove-aplikace-na-miru") {
+  if (slug === SERVICE_SLUG.customWebApplications) {
     return <WebApplicationDetailHeroVisual {...customVisualProps} />;
   }
 
-  if (slug === "shoptet") {
+  if (slug === SERVICE_SLUG.shoptet) {
     return <ShoptetHeroVisual {...customVisualProps} />;
   }
 
-  if (slug === "darkove-poukazy") {
+  if (slug === SERVICE_SLUG.giftVouchers) {
     return <VoucherHeroVisual {...customVisualProps} />;
   }
 
-  if (slug === "audit-ai-aplikaci") {
+  if (slug === SERVICE_SLUG.aiApplicationAudit) {
     return <AuditHeroVisual {...customVisualProps} />;
   }
 
@@ -136,45 +154,40 @@ const DetailHeroVisual = ({ locale, slug }: ServiceDetailPageProps) => {
           </div>
           <div className="service-detail-visual__signal">
             <CircleGauge size={20} aria-hidden="true" />
-            <span>
-              {content.visual.signal ??
-                (locale === "cs"
-                  ? "Řešení přizpůsobené vašemu provozu"
-                  : "A solution fitted to your operation")}
-            </span>
+            <span>{content.visual.signal ?? labels("solutionFitted")}</span>
             <i />
           </div>
         </div>
       </div>
       <div className="service-detail-visual__chip service-detail-visual__chip--top">
         <Sparkles size={16} aria-hidden="true" />
-        {content.visual.topChip ?? (locale === "cs" ? "Na míru" : "Tailored")}
+        {content.visual.topChip ?? labels("tailored")}
       </div>
       <div className="service-detail-visual__chip service-detail-visual__chip--bottom">
         <Layers3 size={16} aria-hidden="true" />
-        {content.visual.bottomChip ??
-          (locale === "cs" ? "Připravené k rozvoji" : "Ready to evolve")}
+        {content.visual.bottomChip ?? labels("readyToEvolve")}
       </div>
     </div>
   );
 };
 
 export const ServiceDetailPage = ({ locale, slug }: ServiceDetailPageProps) => {
+  const labels = useTranslations("serviceDetailUi");
   const content = serviceDetailCopy[locale][slug];
-  const path = `/sluzby/${slug}`;
+  const path = serviceDetailPath(slug);
   const sectionPlan =
-    slug === "vernostni-programy"
+    slug === SERVICE_SLUG.loyaltyProgrammes
       ? [
           { index: 1, itemLimit: 3 },
           { index: 2, itemLimit: 4 },
         ]
-      : slug === "darkove-poukazy"
+      : slug === SERVICE_SLUG.giftVouchers
         ? [
             { index: 0, itemLimit: 3 },
             { index: 2, itemLimit: 4 },
             { index: 3, itemLimit: 3 },
           ]
-        : slug === "audit-ai-aplikaci"
+        : slug === SERVICE_SLUG.aiApplicationAudit
           ? [{ index: 0, itemLimit: 3 }]
           : null;
   const visibleSections = sectionPlan
@@ -186,59 +199,23 @@ export const ServiceDetailPage = ({ locale, slug }: ServiceDetailPageProps) => {
       })
     : content.sections;
   const visibleWorkflowSteps =
-    slug === "darkove-poukazy"
+    slug === SERVICE_SLUG.giftVouchers
       ? [0, 2, 4, 6].flatMap((index) => {
           const step = content.workflow.steps[index];
           return step ? [step] : [];
         })
       : content.workflow.steps;
-  const visibleFaqItems = ["vernostni-programy", "darkove-poukazy"].includes(
-    slug,
-  )
+  const visibleFaqItems = limitedFaqSlugs.includes(slug)
     ? content.faq.items.slice(0, 5)
     : content.faq.items;
-  const labels =
-    locale === "cs"
-      ? {
-          home: "Domů",
-          services: "Weby a aplikace",
-          breadcrumb: "Drobečková navigace",
-          relatedTitle: "Související služby",
-          relatedAction: "Zjistit více",
-        }
-      : {
-          home: "Home",
-          services: "Websites and applications",
-          breadcrumb: "Breadcrumb navigation",
-          relatedTitle: "Related services",
-          relatedAction: "Learn more",
-        };
 
-  const structuredData = {
-    "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "Service",
-        name: content.name,
-        description: content.meta.description,
-        provider: {
-          "@type": "Person",
-          name: "Jakub Vantuch",
-          url: "https://vantuch.dev",
-        },
-        areaServed: { "@type": "Country", name: "Czech Republic" },
-        url: `https://vantuch.dev${localizedPath(locale, path)}`,
-      },
-      {
-        "@type": "FAQPage",
-        mainEntity: visibleFaqItems.map((item) => ({
-          "@type": "Question",
-          name: item.question,
-          acceptedAnswer: { "@type": "Answer", text: item.answer },
-        })),
-      },
-    ],
-  };
+  const structuredData = createServiceDetailStructuredData({
+    description: content.meta.description,
+    faqItems: visibleFaqItems,
+    locale,
+    name: content.name,
+    path,
+  });
   const demoSection =
     content.demo === "voucher" && content.demoCopy ? (
       <section
@@ -254,7 +231,7 @@ export const ServiceDetailPage = ({ locale, slug }: ServiceDetailPageProps) => {
             ) : null}
           </ScrollReveal>
           <ScrollReveal>
-            <VoucherDemo locale={locale} />
+            <VoucherDemo />
           </ScrollReveal>
         </div>
       </section>
@@ -263,12 +240,7 @@ export const ServiceDetailPage = ({ locale, slug }: ServiceDetailPageProps) => {
   return (
     <>
       <SiteHeader locale={locale} path={path} />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(structuredData).replace(/</g, "\\u003c"),
-        }}
-      />
+      <StructuredDataScript data={structuredData} />
       <main
         id="main-content"
         className={`service-detail service-detail--${slug}`}
@@ -278,11 +250,14 @@ export const ServiceDetailPage = ({ locale, slug }: ServiceDetailPageProps) => {
           aria-labelledby="service-detail-title"
         >
           <div className="site-container">
-            <nav className="service-breadcrumbs" aria-label={labels.breadcrumb}>
-              <Link href={localizedPath(locale)}>{labels.home}</Link>
+            <nav
+              className="service-breadcrumbs"
+              aria-label={labels("breadcrumb")}
+            >
+              <Link href={localizedPath(locale)}>{labels("home")}</Link>
               <span aria-hidden="true">/</span>
               <Link href={localizedPath(locale, "/sluzby/webove-aplikace")}>
-                {labels.services}
+                {labels("services")}
               </Link>
               <span aria-hidden="true">/</span>
               <span aria-current="page">{content.name}</span>
@@ -344,7 +319,11 @@ export const ServiceDetailPage = ({ locale, slug }: ServiceDetailPageProps) => {
 
         <section
           className="section service-detail-workflow"
-          id={slug === "audit-ai-aplikaci" ? "co-proverim" : "jak-to-funguje"}
+          id={
+            slug === SERVICE_SLUG.aiApplicationAudit
+              ? SERVICE_SECTION_ID.auditScope
+              : SERVICE_SECTION_ID.workflow
+          }
           aria-labelledby="detail-workflow-title"
         >
           <div className="site-container">
@@ -364,7 +343,7 @@ export const ServiceDetailPage = ({ locale, slug }: ServiceDetailPageProps) => {
                 </article>
               ))}
             </ScrollReveal>
-            {slug === "audit-ai-aplikaci" ? (
+            {slug === SERVICE_SLUG.aiApplicationAudit ? (
               <div className="service-detail-workflow__action">
                 <ActionLink href="#contact">
                   {content.hero.primary}{" "}
@@ -403,10 +382,12 @@ export const ServiceDetailPage = ({ locale, slug }: ServiceDetailPageProps) => {
                   </article>
                 ))}
               </ScrollReveal>
-              {slug === "vernostni-programy" &&
-              ["administrace", "administration"].includes(section.id) ? (
+              {slug === SERVICE_SLUG.loyaltyProgrammes &&
+              SERVICE_SECTION_ID.administration.some(
+                (sectionId) => sectionId === section.id,
+              ) ? (
                 <ScrollReveal>
-                  <LoyaltyAdminPreview locale={locale} />
+                  <LoyaltyAdminPreview />
                 </ScrollReveal>
               ) : null}
             </div>
@@ -414,8 +395,8 @@ export const ServiceDetailPage = ({ locale, slug }: ServiceDetailPageProps) => {
         ))}
 
         {content.useCases &&
-        slug !== "darkove-poukazy" &&
-        slug !== "vernostni-programy" ? (
+        slug !== SERVICE_SLUG.giftVouchers &&
+        slug !== SERVICE_SLUG.loyaltyProgrammes ? (
           <section
             className="section service-detail-use-cases"
             aria-labelledby="detail-cases-title"
@@ -470,7 +451,7 @@ export const ServiceDetailPage = ({ locale, slug }: ServiceDetailPageProps) => {
         >
           <div className="site-container">
             <ScrollReveal className="service-detail-heading">
-              <h2 id="detail-related-title">{labels.relatedTitle}</h2>
+              <h2 id="detail-related-title">{labels("relatedTitle")}</h2>
             </ScrollReveal>
             <ScrollReveal className="service-detail-related__grid" stagger>
               {content.related.map((relatedSlug) => {
@@ -492,7 +473,7 @@ export const ServiceDetailPage = ({ locale, slug }: ServiceDetailPageProps) => {
                     <h3>{related.name}</h3>
                     <p>{related.meta.description}</p>
                     <strong>
-                      {labels.relatedAction}{" "}
+                      {labels("relatedAction")}{" "}
                       <ArrowRight size={16} aria-hidden="true" />
                     </strong>
                   </Link>

@@ -166,30 +166,38 @@ test("Czech homepage presents the offer and contact", async ({ page }) => {
     const actionBounds = action?.getBoundingClientRect();
     return action && arrow
       ? {
-          actionText: action.textContent?.trim(),
-          actionBottom: actionBounds?.bottom ?? null,
-          descriptionBottom:
-            card
-              .querySelector(".social-platform-card__description")
-              ?.getBoundingClientRect().bottom ?? null,
-          arrowIsRight:
-            arrow.getBoundingClientRect().left >
-            action.getBoundingClientRect().left,
           actionRightGap: actionBounds
             ? cardBounds.right - actionBounds.right
             : null,
         }
       : null;
   });
-  expect(socialCardAlignment?.arrowIsRight).toBe(true);
-  expect(
-    Math.abs(
-      (socialCardAlignment?.actionBottom ?? 0) -
-        (socialCardAlignment?.descriptionBottom ?? 0),
-    ),
-  ).toBeLessThanOrEqual(1);
+  expect(socialCardAlignment?.actionRightGap).toBeGreaterThanOrEqual(15);
+  for (const card of await page
+    .locator("#newsletter .social-platform-card")
+    .all()) {
+    await expect(card).toHaveCSS("background-color", "rgb(255, 255, 255)");
+  }
+  await expect(firstSocialCard).toHaveCSS(
+    "transition-property",
+    "background-color",
+  );
+  for (const foreground of [
+    firstSocialCard.locator("strong"),
+    firstSocialCard.locator(".social-platform-card__description"),
+    firstSocialCard.locator(".social-platform-card__icon"),
+    firstSocialCard.locator(".social-platform-card__arrow"),
+  ]) {
+    await expect(foreground).toHaveCSS("transition-duration", "0s");
+  }
+  const arrowTransform = await firstSocialCard
+    .locator(".social-platform-card__arrow")
+    .evaluate((element) => getComputedStyle(element).transform);
+  await firstSocialCard.hover();
+  await expect(
+    firstSocialCard.locator(".social-platform-card__arrow"),
+  ).toHaveCSS("transform", arrowTransform);
   expect(socialCardAlignment?.actionRightGap).toBeLessThanOrEqual(40);
-  expect(socialCardAlignment?.actionText).toContain("Zjistit více");
   const sectionOrder = await page
     .locator("main > section[id]")
     .evaluateAll((sections) => sections.map((section) => section.id));
@@ -281,5 +289,5 @@ test("social cards stay compact on mobile", async ({ page }) => {
     .boundingBox();
   expect(titleBox).not.toBeNull();
   expect(actionBox).not.toBeNull();
-  expect(actionBox!.x - titleBox!.x).toBeGreaterThanOrEqual(14);
+  expect(actionBox!.x - titleBox!.x).toBeGreaterThanOrEqual(120);
 });

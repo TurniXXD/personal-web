@@ -3,7 +3,7 @@ import { test } from "./site-fixture";
 import {
   serviceDetailCopy,
   serviceDetailSlugs,
-} from "../lib/service-detail-content";
+} from "../lib/services/detail-content";
 
 test("web applications service page presents real work and contact flow", async ({
   page,

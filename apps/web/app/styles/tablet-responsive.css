@@ -232,12 +232,6 @@
   .testimonials-grid {
     grid-template-columns: 1fr;
   }
-  .social-platform-grid {
-    grid-template-columns: 1fr;
-  }
-  .social-platform-card {
-    min-height: 9.5rem;
-  }
   .case-card p {
     min-height: 0;
   }

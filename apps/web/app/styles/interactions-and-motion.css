@@ -402,6 +402,7 @@
   transition:
     opacity 560ms ease,
     transform 780ms cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
 }
 .content-card__watermark svg {
   width: 100%;
@@ -411,7 +412,6 @@
 .content-card h3,
 .case-card h3,
 .newsletter-card h3,
-.social-platform-card > strong,
 .service-benefits__list p,
 .service-flow__step strong,
 .service-scenario-card h3,
@@ -432,8 +432,6 @@
 .content-card--interactive .content-card__tag,
 .content-card--interactive .content-card__action,
 .case-card :is(.case-card__description, .case-card__action),
-.social-platform-card
-  :is(.social-platform-card__description, .social-platform-card__action),
 .service-detail-related__card :is(span, p, strong),
 .service-related__links a :is(small, .service-related__action) {
   transition:
@@ -443,19 +441,19 @@
 }
 .content-card--interactive h3,
 .case-card h3,
-.social-platform-card > strong,
 .service-detail-related__card h3,
 .service-related__links strong {
   transition: color 0s;
 }
 .content-card--interactive .content-card__description,
 .content-card--interactive .content-card__icon,
-.content-card--interactive .content-card__tag {
+.content-card--interactive .content-card__tag,
+.service-detail-related__card :is(span, p, strong),
+.service-related__links a :is(small, .service-related__action) {
   transition: none;
 }
 .content-card--interactive .content-card__action,
 .case-card__action,
-.social-platform-card__action,
 .service-detail-related__card strong,
 .service-related__action {
   visibility: hidden;
@@ -470,7 +468,6 @@
 }
 .content-card__action svg,
 .case-card__action svg,
-.social-platform-card__action svg,
 .service-detail-related__card strong svg,
 .service-related__action svg {
   transition: transform 480ms cubic-bezier(0.16, 1, 0.3, 1);
@@ -481,19 +478,6 @@
 .case-card :is(.case-card__description, .case-card__action),
 .case-card .case-card__action svg {
   transition: none;
-}
-.content-card--interactive,
-.content-card--interactive *,
-.case-card,
-.case-card *,
-.social-platform-card,
-.social-platform-card *,
-.service-detail-related__card,
-.service-detail-related__card *,
-.service-related__links a,
-.service-related__links a * {
-  transition-duration: 0s !important;
-  transition-delay: 0s !important;
 }
 @media (min-width: 1025px) and (hover: hover) and (pointer: fine) {
   .content-card--interactive:is(:hover, :focus-visible),
@@ -518,6 +502,9 @@
     .service-related__watermark {
     opacity: 0.18;
     transform: translate(-50%, -50%) scale(1) rotate(-7deg);
+  }
+  .case-card:is(:hover, :focus-within) .case-card__image img {
+    transform: scale(1.035);
   }
   .content-card--interactive:is(:hover, :focus-visible)
     :is(h3, .content-card__description, .content-card__action),
@@ -550,8 +537,6 @@
   }
   .content-card--interactive:is(:hover, :focus-visible) .content-card__action,
   .case-card:is(:hover, :focus-within) .case-card__action,
-  .social-platform-card:is(:hover, :focus-visible)
-    .social-platform-card__action,
   .service-detail-related__card:is(:hover, :focus-visible) strong,
   .service-related__links
     a:is(:hover, :focus-visible)
@@ -564,9 +549,6 @@
     .content-card__action
     svg,
   .case-card:is(:hover, :focus-within) .case-card__action svg,
-  .social-platform-card:is(:hover, :focus-visible)
-    .social-platform-card__action
-    svg,
   .service-detail-related__card:is(:hover, :focus-visible) strong svg,
   .service-related__links
     a:is(:hover, :focus-visible)
@@ -580,7 +562,6 @@
   position: relative;
 }
 .case-card__action,
-.social-platform-card__action,
 .service-related__action {
   display: inline-flex;
   align-items: center;
@@ -592,22 +573,6 @@
 }
 .case-card__action {
   margin-top: 0.8rem;
-}
-.social-platform-card {
-  position: relative;
-  grid-template-rows: auto auto 1fr;
-}
-.social-platform-card__description {
-  grid-column: 1;
-  grid-row: 3;
-  align-self: end;
-}
-.social-platform-card__action {
-  grid-column: 2;
-  grid-row: 3;
-  align-self: end;
-  justify-self: end;
-  margin: 0.65rem 0 0 1rem;
 }
 .service-detail-related__card,
 .service-related__links a {
@@ -625,35 +590,11 @@
 @media (max-width: 1024px), (hover: none), (pointer: coarse) {
   .content-card--interactive .content-card__action,
   .case-card__action,
-  .social-platform-card__action,
   .service-detail-related__card strong,
   .service-related__action {
     visibility: visible;
     opacity: 1;
     transition-delay: 0s;
-  }
-}
-
-@media (max-width: 600px) {
-  .social-platform-card {
-    grid-template-rows: auto auto auto;
-    padding: 0.7rem 1rem;
-  }
-  .social-platform-card__action {
-    grid-column: 2 / -1;
-    grid-row: 3;
-    justify-self: start;
-    margin-top: 0.15rem;
-    margin-left: 1rem;
-    font-size: 0.65rem;
-    line-height: 1;
-  }
-  .social-platform-card__description {
-    grid-row: 2;
-  }
-  .social-platform-card__action svg {
-    width: 0.85rem;
-    height: 0.85rem;
   }
 }
 

@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 import {
   ArrowUpRight,
   Bot,
@@ -16,16 +17,22 @@ import {
   Workflow,
 } from "lucide-react";
 import { ActionLink } from "@vantuch/ui";
-import { copy, localizedPath, type Locale } from "@/lib/content";
+import { copy, localizedPath, type Locale } from "@/lib/site/content";
 import { InteractiveHeroArt } from "@/components/home/interactive-hero-art";
 import { NewsletterSocialSection } from "@/components/home/newsletter-social-section";
 import { ProjectGrid } from "@/components/home/project-grid";
 import { TechnicalBackground } from "@/components/home/technical-background";
 import { TestimonialsSection } from "@/components/home/testimonials-section";
-import { ContactBlock, SiteFooter, SiteHeader } from "@/components/layout/site-chrome";
+import {
+  ContactBlock,
+  SiteFooter,
+  SiteHeader,
+} from "@/components/layout/site-chrome";
 import { ContentCard } from "@/components/shared/content-card";
 import { ScrollReveal } from "@/components/shared/scroll-reveal";
-import { siteConfig } from "@/lib/site-config";
+import { StructuredDataScript } from "@/components/shared/structured-data-script";
+import { createHomeStructuredData } from "@/lib/seo/structured-data";
+import { siteConfig } from "@/lib/site/config";
 
 const serviceIcons = [Code2, Workflow, Bot] as const;
 const serviceIds = ["websites", "automation", "ai"] as const;
@@ -47,50 +54,18 @@ type MarketingPageProps = { locale: Locale };
 
 export const MarketingPage = ({ locale }: MarketingPageProps) => {
   const t = copy[locale];
+  const ui = useTranslations("homeUi");
   const newsletterEnabled = Boolean(process.env.NEWSLETTER_WEBHOOK_URL?.trim());
   const newsletterVisible = process.env.NEWSLETTER_VISIBLE === "true";
-  const structuredData = {
-    "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "Person",
-        "@id": "https://vantuch.dev/#person",
-        name: "Jakub Vantuch",
-        url: "https://vantuch.dev",
-        jobTitle: "Digital Solutions Consultant",
-        knowsAbout: [
-          "Web Development",
-          "Business Process Automation",
-          "Systems Integration",
-          "Custom Software",
-          "Private AI",
-          "Retrieval-Augmented Generation",
-        ],
-      },
-      {
-        "@type": "ProfessionalService",
-        "@id": "https://vantuch.dev/#business",
-        name: "Jakub Vantuch",
-        url: "https://vantuch.dev",
-        email: siteConfig.contact.email,
-        telephone: siteConfig.contact.phoneHref,
-        description: t.meta.description,
-        areaServed: { "@type": "Country", name: "Czech Republic" },
-        founder: { "@id": "https://vantuch.dev/#person" },
-        serviceType: t.services.items.map((service) => service.title),
-      },
-    ],
-  };
+  const structuredData = createHomeStructuredData({
+    description: t.meta.description,
+    serviceTypes: t.services.items.map((service) => service.title),
+  });
 
   return (
     <>
       <SiteHeader locale={locale} />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(structuredData).replace(/</g, "\\u003c"),
-        }}
-      />
+      <StructuredDataScript data={structuredData} />
       <main id="main-content">
         <section className="hero" aria-labelledby="hero-title">
           <div className="site-container hero__grid">
@@ -280,11 +255,7 @@ export const MarketingPage = ({ locale }: MarketingPageProps) => {
                 <div>
                   <Image
                     src="/images/jakub-vantuch.jpg"
-                    alt={
-                      locale === "cs"
-                        ? "Portrét Jakuba Vantucha"
-                        : "Portrait of Jakub Vantuch"
-                    }
+                    alt={ui("portraitAlt")}
                     width={950}
                     height={1280}
                     sizes="(max-width: 900px) 90vw, 390px"

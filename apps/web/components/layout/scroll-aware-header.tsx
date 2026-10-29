@@ -3,11 +3,12 @@
 import { useEffect, useRef, type ReactNode } from "react";
 
 type ScrollDirection = "down" | "up" | null;
+type ScrollAwareHeaderProps = { children: ReactNode };
 
 const DOWN_DISTANCE_BEFORE_HIDE = 24;
 const UP_DISTANCE_BEFORE_SHOW = 4;
 
-export function ScrollAwareHeader({ children }: { children: ReactNode }) {
+export function ScrollAwareHeader({ children }: ScrollAwareHeaderProps) {
   const headerRef = useRef<HTMLElement>(null);
 
   useEffect(() => {

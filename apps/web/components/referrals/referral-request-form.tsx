@@ -2,20 +2,25 @@
 
 import { useRef, useState, type FormEvent } from "react";
 import { CheckCircle2, Handshake, Link2 } from "lucide-react";
-import { localizedPath, type Locale } from "@/lib/content";
+import { localizedPath, type Locale } from "@/lib/site/content";
 import {
   validateReferralRequest,
   type ReferralRequestErrors,
   type ReferralRequestField,
   type ReferralRequestIntent,
-} from "@/lib/referral-request";
-import { referralRequestCopy } from "@/lib/referral-request-content";
+} from "@/lib/referrals/request";
+import { referralRequestCopy } from "@/messages/referrals/request";
 import {
   TurnstileWidget,
   turnstileEnabled,
-} from "@/components/turnstile-widget";
+} from "@/components/contact/turnstile-widget";
 
 type Status = "idle" | "sending" | "success" | "failure" | "configurationError";
+
+type ReferralRequestFormProps = {
+  intent: ReferralRequestIntent;
+  locale: Locale;
+};
 
 const fieldValue = (data: FormData, name: string) =>
   String(data.get(name) ?? "");
@@ -23,10 +28,7 @@ const fieldValue = (data: FormData, name: string) =>
 export function ReferralRequestForm({
   locale,
   intent,
-}: {
-  locale: Locale;
-  intent: ReferralRequestIntent;
-}) {
+}: ReferralRequestFormProps) {
   const t = referralRequestCopy[locale][intent];
   const [errors, setErrors] = useState<ReferralRequestErrors>({});
   const [status, setStatus] = useState<Status>("idle");
@@ -234,7 +236,6 @@ export function ReferralRequestForm({
         <a href={localizedPath(locale, "/privacy")}>{t.privacyLink}</a>.
       </p>
       <TurnstileWidget
-        locale={locale}
         action={intent === "link" ? "referral_link" : "referral_partner"}
         onTokenChange={setTurnstileToken}
         resetKey={turnstileResetKey}

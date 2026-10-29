@@ -1,16 +1,20 @@
 import type { Metadata } from "next";
 import { hasLocale } from "next-intl";
+import { setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
-import { ServiceDetailPage } from "@/components/service-detail-page";
+import { ServiceDetailPage } from "@/components/services/service-detail-page";
 import { routing } from "@/i18n/routing";
-import { localizedPath } from "@/lib/content";
+import { localizedPath } from "@/lib/site/content";
 import {
   isServiceDetailSlug,
   serviceDetailCopy,
   serviceDetailSlugs,
-} from "@/lib/service-detail-content";
+} from "@/lib/services/detail-content";
+import { serviceDetailPath } from "@/lib/site/routes";
 
-type Props = { params: Promise<{ locale: string; slug: string }> };
+type ServiceDetailRouteProps = {
+  params: Promise<{ locale: string; slug: string }>;
+};
 
 export function generateStaticParams() {
   return routing.locales.flatMap((locale) =>
@@ -18,14 +22,16 @@ export function generateStaticParams() {
   );
 }
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: ServiceDetailRouteProps): Promise<Metadata> {
   const { locale, slug } = await params;
   if (!hasLocale(routing.locales, locale) || !isServiceDetailSlug(slug)) {
     notFound();
   }
 
   const content = serviceDetailCopy[locale][slug];
-  const route = `/sluzby/${slug}`;
+  const route = serviceDetailPath(slug);
   const canonical = localizedPath(locale, route);
 
   return {
@@ -53,11 +59,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export default async function ServiceDetailRoute({ params }: Props) {
+export default async function ServiceDetailRoute({
+  params,
+}: ServiceDetailRouteProps) {
   const { locale, slug } = await params;
   if (!hasLocale(routing.locales, locale) || !isServiceDetailSlug(slug)) {
     notFound();
   }
+  setRequestLocale(locale);
 
   return <ServiceDetailPage locale={locale} slug={slug} />;
 }

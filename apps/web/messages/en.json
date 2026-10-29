@@ -1,0 +1,176 @@
+{
+  "common": {
+    "learnMore": "Learn more",
+    "retry": "Try again",
+    "present": "present"
+  },
+  "cookieSettings": {
+    "title": "Cookies and analytics",
+    "description": "Essential website features always run. You can optionally allow Microsoft Clarity and Cloudflare analytics to help me improve the website.",
+    "details": "Privacy details",
+    "essentialOnly": "Essential only",
+    "allowAnalytics": "Allow analytics",
+    "settings": "Cookie settings"
+  },
+  "turnstile": {
+    "label": "Cloudflare Turnstile form protection",
+    "failed": "Verification could not load. ",
+    "retry": "Try again"
+  },
+  "testimonials": {
+    "eyebrow": "CLIENT FEEDBACK",
+    "title": "What clients say"
+  },
+  "automationUi": {
+    "categoriesLabel": "Automation categories",
+    "serviceName": "Process automation"
+  },
+  "homeUi": {
+    "portraitAlt": "Portrait of Jakub Vantuch"
+  },
+  "notFound": {
+    "eyebrow": "PAGE NOT FOUND",
+    "title": "This page is not here.",
+    "description": "The link may be outdated or the page may have moved. Return home and continue from there.",
+    "action": "Back to home"
+  },
+  "webApplicationVisual": {
+    "eyebrow": "ANALYTICS OVERVIEW",
+    "title": "Results in one place",
+    "visits": "Visits",
+    "conversions": "Conversions",
+    "activity": "User activity",
+    "complete": "complete"
+  },
+  "aiHeroVisual": {
+    "inputs": "Inputs",
+    "invoices": "Invoices",
+    "contracts": "Contracts",
+    "businessData": "Business data",
+    "pipelineName": "AI pipeline",
+    "pipelineSteps": "read · extract · review",
+    "outputs": "Processed outputs",
+    "invoice": "Invoice",
+    "lineItems": "8 line items",
+    "contract": "Contract",
+    "summary": "summary",
+    "analysis": "Analysis",
+    "insights": "3 insights",
+    "documentation": "Documentation",
+    "ready": "ready"
+  },
+  "serviceDetailUi": {
+    "home": "Home",
+    "services": "Websites and applications",
+    "breadcrumb": "Breadcrumb navigation",
+    "relatedTitle": "Related services",
+    "relatedAction": "Learn more",
+    "solutionFitted": "A solution fitted to your operation",
+    "tailored": "Tailored",
+    "readyToEvolve": "Ready to evolve"
+  },
+  "serviceDemos": {
+    "loyalty": {
+      "card": "Loyalty card",
+      "visits": "{visits} of 10 visits",
+      "rewardReady": "The reward is ready to redeem.",
+      "remaining": "{remaining} visits remain before the next discounted massage.",
+      "reward": "30% off the next massage",
+      "available": "Available",
+      "locked": "Locked",
+      "history": "Latest activity",
+      "activity": "Relaxing massage · confirmed by staff",
+      "confirm": "Confirm a staff-verified visit",
+      "success": "The visit has been added.",
+      "reset": "Reset demo",
+      "qr": "Illustrative customer card QR code",
+      "staff": "Staff interface",
+      "verified": "Customer identified"
+    },
+    "admin": {
+      "label": "ILLUSTRATIVE ADMIN PREVIEW",
+      "title": "Loyalty programme overview",
+      "period": "Last 30 days",
+      "navigation": ["Customers", "Rewards", "History", "Staff roles"],
+      "metrics": [
+        ["Active customers", "128"],
+        ["Confirmed visits", "342"],
+        ["Rewards redeemed", "41"]
+      ],
+      "customers": "Latest customer activity",
+      "columns": ["Customer", "Balance", "Latest change"],
+      "rows": [
+        ["JV–10482", "8 / 10 visits", "+1 by staff"],
+        ["JV–23810", "620 points", "Reward redeemed"],
+        ["JV–50432", "Gold tier", "Purchase verified"]
+      ],
+      "audit": "Every change records its author, time and audit entry.",
+      "report": "Programme activity",
+      "reportNote": "Visits and reward redemptions over time"
+    },
+    "voucher": {
+      "initialMessage": "Enjoy a moment for yourself.",
+      "illustrative": "ILLUSTRATIVE DEMO",
+      "builder": "Voucher setup",
+      "recipient": "Recipient name",
+      "message": "Personal message",
+      "amount": "Voucher value",
+      "preview": "PDF voucher preview",
+      "gift": "Gift voucher",
+      "for": "for",
+      "validity": "Demo validity: 12 months",
+      "code": "Code: GIFT–JV–2048",
+      "qr": "Illustrative gift voucher QR code",
+      "steps": [
+        "Simulate confirmed payment",
+        "Prepare demo PDF",
+        "Simulate staff redemption"
+      ],
+      "states": [
+        "Awaiting payment",
+        "Payment confirmed",
+        "PDF ready",
+        "Redeemed"
+      ],
+      "disclaimer": "No real payment, email or valid voucher is created.",
+      "reset": "Reset demo",
+      "download": "Demo PDF"
+    }
+  },
+  "siteChrome": {
+    "brandName": "Jakub Vantuch",
+    "brandRole": "Digital Solutions Consultant",
+    "footerNavigationLabel": "Footer navigation",
+    "languageAriaLabel": "CZ – Switch to Czech",
+    "languageShortLabel": "CZ",
+    "mainNavigationLabel": "Main navigation",
+    "mobileMenuButtonLabel": "Open menu",
+    "mobileNavigationLabel": "Mobile navigation",
+    "serviceLinks": [
+      {
+        "label": "Websites and apps",
+        "description": "Custom websites, portals and applications"
+      },
+      {
+        "label": "Process automation",
+        "description": "Less manual work and connected systems"
+      },
+      {
+        "label": "AI solutions",
+        "description": "Practical work with data and documents"
+      },
+      {
+        "label": "Digital loyalty programmes",
+        "description": "Rewards and returning customers"
+      },
+      {
+        "label": "Gift vouchers",
+        "description": "Online sales, PDFs and redemption"
+      },
+      {
+        "label": "Vibecoded application audit",
+        "description": "Security, performance and AI app completion"
+      }
+    ]
+  }
+}

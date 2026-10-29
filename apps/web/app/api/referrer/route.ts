@@ -1,7 +1,10 @@
 import { cookies } from "next/headers";
-import { apiErrorResponse } from "@/lib/api-error-response";
-import { referralCookie, verifyReferralToken } from "@/lib/referral-token";
-import { configuredTwenty, twentyErrorContext } from "@/lib/twenty";
+import { apiErrorResponse } from "@/lib/api/error-response";
+import { referralCookie, verifyReferralToken } from "@/lib/referrals/token";
+import {
+  configuredTwenty,
+  twentyErrorContext,
+} from "@/lib/integrations/twenty";
 
 const endpoint = "referrer";
 

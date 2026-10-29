@@ -1,4 +1,4 @@
-import { createSocialImage, socialImageSize } from "@/lib/social-image";
+import { createSocialImage, socialImageSize } from "@/lib/site/social-image";
 
 export const alt = "Jakub Vantuch — Digital Solutions Consultant";
 export const size = socialImageSize;

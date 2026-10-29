@@ -1,8 +1,8 @@
 import { expect, test } from "@playwright/test";
-import { apiErrorResponse } from "../lib/api-error-response";
-import { verifyTurnstile } from "../lib/turnstile";
-import { sanitizeSentryEvent } from "../lib/sentry-options";
-import { rateLimit } from "../lib/rate-limit";
+import { apiErrorResponse } from "../lib/api/error-response";
+import { verifyTurnstile } from "../lib/contact/turnstile";
+import { sanitizeSentryEvent } from "../lib/observability/sentry-options";
+import { rateLimit } from "../lib/api/rate-limit";
 
 test("Turnstile rejects forged, expired, cross-form and foreign-host tokens", async () => {
   const previousSecret = process.env.TURNSTILE_SECRET_KEY;

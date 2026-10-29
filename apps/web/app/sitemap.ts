@@ -1,20 +1,21 @@
 import type { MetadataRoute } from "next";
-import { caseStudySlugs } from "@/lib/content";
-import { serviceDetailSlugs } from "@/lib/service-detail-content";
+import { caseStudySlugs } from "@/lib/site/content";
+import { serviceDetailSlugs } from "@/lib/services/detail-content";
+import { SITE_PATH, serviceDetailPath } from "@/lib/site/routes";
 
 const siteUrl = "https://vantuch.dev";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const paths = [
-    "",
-    "/automatizace",
-    "/sluzby/webove-aplikace",
-    "/sluzby/ai-reseni",
-    ...serviceDetailSlugs.map((slug) => `/sluzby/${slug}`),
-    "/kontakt",
-    ...caseStudySlugs.map((slug) => `/work/${slug}`),
-    "/doporuceni",
-    "/privacy",
+    SITE_PATH.home,
+    SITE_PATH.automation,
+    SITE_PATH.services.webApplications,
+    SITE_PATH.services.ai,
+    ...serviceDetailSlugs.map(serviceDetailPath),
+    SITE_PATH.contact,
+    ...caseStudySlugs.map((slug) => `${SITE_PATH.work}/${slug}`),
+    SITE_PATH.referral,
+    SITE_PATH.privacy,
   ];
 
   const baseEntries = paths.flatMap((path, index) => {

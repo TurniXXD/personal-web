@@ -1,12 +1,19 @@
 "use client";
 
 import { useEffect, useLayoutEffect, useState } from "react";
-import { localizedPath, type Locale } from "@/lib/content";
+import { useTranslations } from "next-intl";
+import { localizedPath, type Locale } from "@/lib/site/content";
 
 const storageKey = "vantuch_cookie_consent_v1";
 const openEvent = "vantuch:open-cookie-preferences";
 const consentLifetime = 180 * 24 * 60 * 60 * 1000;
 type Consent = "accepted" | "rejected";
+
+type CookieConsentProps = {
+  clarityProjectId?: string;
+  cloudflareAnalyticsToken?: string;
+  locale: Locale;
+};
 
 function readConsent(): Consent | null {
   try {
@@ -62,14 +69,15 @@ function loadCloudflareAnalytics(token: string) {
   document.head.append(script);
 }
 
-export function CookiePreferencesButton({ locale }: { locale: Locale }) {
+export function CookiePreferencesButton() {
+  const t = useTranslations("cookieSettings");
   return (
     <button
       className="cookie-preferences-button"
       type="button"
       onClick={() => window.dispatchEvent(new Event(openEvent))}
     >
-      {locale === "cs" ? "Nastavení cookies" : "Cookie settings"}
+      {t("settings")}
     </button>
   );
 }
@@ -78,11 +86,8 @@ export function CookieConsent({
   locale,
   clarityProjectId,
   cloudflareAnalyticsToken,
-}: {
-  locale: Locale;
-  clarityProjectId?: string;
-  cloudflareAnalyticsToken?: string;
-}) {
+}: CookieConsentProps) {
+  const t = useTranslations("cookieSettings");
   const [consent, setConsent] = useState<Consent | null>(null);
   // Render the first-visit notice in the initial HTML. Besides avoiding a
   // layout shift, this keeps the banner from becoming a late LCP candidate
@@ -144,33 +149,24 @@ export function CookieConsent({
   if (!open) return null;
 
   return (
-    <aside
-      className="cookie-consent"
-      aria-label={locale === "cs" ? "Nastavení cookies" : "Cookie settings"}
-    >
+    <aside className="cookie-consent" aria-label={t("settings")}>
       <div>
-        <strong>
-          {locale === "cs" ? "Cookies a analytika" : "Cookies and analytics"}
-        </strong>
+        <strong>{t("title")}</strong>
         <p>
-          {locale === "cs"
-            ? "Nezbytné funkce webu běží vždy. Volitelně můžete povolit analytiku Microsoft Clarity a Cloudflare, která mi pomáhá web zlepšovat."
-            : "Essential website features always run. You can optionally allow Microsoft Clarity and Cloudflare analytics to help me improve the website."}{" "}
-          <a href={localizedPath(locale, "/privacy")}>
-            {locale === "cs" ? "Více o soukromí" : "Privacy details"}
-          </a>
+          {t("description")}{" "}
+          <a href={localizedPath(locale, "/privacy")}>{t("details")}</a>
         </p>
       </div>
       <div className="cookie-consent__actions">
         <button type="button" onClick={() => saveConsent("rejected")}>
-          {locale === "cs" ? "Pouze nezbytné" : "Essential only"}
+          {t("essentialOnly")}
         </button>
         <button
           className="cookie-consent__accept"
           type="button"
           onClick={() => saveConsent("accepted")}
         >
-          {locale === "cs" ? "Povolit analytiku" : "Allow analytics"}
+          {t("allowAnalytics")}
         </button>
       </div>
     </aside>

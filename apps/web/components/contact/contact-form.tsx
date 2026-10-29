@@ -2,9 +2,9 @@
 
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import { CheckCircle2, Send } from "lucide-react";
-import { localizedPath, type Locale } from "@/lib/content";
-import { contactFormCopy } from "@/lib/contact-form-content";
-import { getAutomationExamples } from "@/lib/automation-content";
+import { localizedPath, type Locale } from "@/lib/site/content";
+import { contactFormCopy } from "@/messages/contact/form";
+import { getAutomationExamples } from "@/lib/automation/content";
 import {
   TurnstileWidget,
   turnstileEnabled,
@@ -15,9 +15,15 @@ import {
   type ContactField,
   type ContactInput,
   type ContactRequestType,
-} from "@/lib/contact-submission";
+} from "@/lib/contact/submission";
 
 type Status = "idle" | "sending" | "success" | "failure" | "configurationError";
+
+type ContactFormProps = {
+  initialTopic?: string;
+  locale: Locale;
+  requestType?: ContactRequestType;
+};
 
 function fieldValue(data: FormData, name: string): string {
   return String(data.get(name) ?? "");
@@ -36,11 +42,7 @@ export function ContactForm({
   locale,
   initialTopic,
   requestType = initialTopic ? "service" : "general",
-}: {
-  locale: Locale;
-  initialTopic?: string;
-  requestType?: ContactRequestType;
-}) {
+}: ContactFormProps) {
   const t = contactFormCopy[locale];
   const [errors, setErrors] = useState<ContactErrors>({});
   const [status, setStatus] = useState<Status>("idle");
@@ -259,7 +261,6 @@ export function ContactForm({
         <a href={localizedPath(locale, "/privacy")}>{t.privacyLink}</a>.
       </p>
       <TurnstileWidget
-        locale={locale}
         action="contact"
         onTokenChange={setTurnstileToken}
         resetKey={turnstileResetKey}

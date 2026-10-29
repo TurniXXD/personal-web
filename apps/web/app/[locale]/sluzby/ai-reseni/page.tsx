@@ -1,14 +1,17 @@
 import type { Metadata } from "next";
 import { hasLocale } from "next-intl";
+import { setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
-import { ServiceLandingPage } from "@/components/service-landing-page";
+import { ServiceLandingPage } from "@/components/services/service-landing-page";
 import { routing } from "@/i18n/routing";
-import { localizedPath } from "@/lib/content";
-import { servicePageCopy } from "@/lib/service-content";
+import { localizedPath } from "@/lib/site/content";
+import { servicePageCopy } from "@/lib/services/landing-content";
 
-type Props = { params: Promise<{ locale: string }> };
+type AiSolutionsRouteProps = { params: Promise<{ locale: string }> };
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: AiSolutionsRouteProps): Promise<Metadata> {
   const { locale } = await params;
   if (!hasLocale(routing.locales, locale)) notFound();
 
@@ -40,9 +43,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export default async function AiSolutionsRoute({ params }: Props) {
+export default async function AiSolutionsRoute({
+  params,
+}: AiSolutionsRouteProps) {
   const { locale } = await params;
   if (!hasLocale(routing.locales, locale)) notFound();
+  setRequestLocale(locale);
 
   return <ServiceLandingPage kind="ai" locale={locale} />;
 }

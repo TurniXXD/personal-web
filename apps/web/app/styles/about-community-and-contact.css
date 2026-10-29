@@ -163,61 +163,6 @@
 .newsletter-card__status--error {
   color: #a42c50 !important;
 }
-.social-platform-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 1rem;
-}
-.social-platform-card {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  grid-template-rows: auto auto 1fr;
-  align-items: start;
-  min-height: 10.5rem;
-  padding: clamp(1.2rem, 2vw, 1.5rem);
-  border: 1px solid #d8def8;
-  border-radius: 1.15rem;
-  background: #fff;
-  color: var(--brand);
-  transition:
-    border-color 180ms ease,
-    background-color 180ms ease,
-    box-shadow 180ms ease;
-}
-.social-platform-card:hover,
-.social-platform-card:focus-visible {
-  border-color: rgba(95, 108, 255, 0.45);
-  background: #f8f9ff;
-  box-shadow: 0 1rem 2.5rem rgba(40, 53, 110, 0.08);
-}
-.social-platform-card > svg:first-child {
-  grid-column: 1 / -1;
-  margin-bottom: 0.85rem;
-}
-.social-platform-card strong {
-  grid-column: 1 / -1;
-  color: var(--ink);
-  font-size: 1.18rem;
-  letter-spacing: -0.035em;
-}
-.social-platform-card span {
-  align-self: end;
-  margin-top: 0.65rem;
-  color: #6a7596;
-  font-size: 0.82rem;
-  line-height: 1.55;
-}
-.social-platform-card__arrow {
-  align-self: end;
-  justify-self: end;
-  margin: 0.65rem 0 0 1rem;
-  transition: transform 180ms ease;
-}
-.social-platform-card:hover .social-platform-card__arrow,
-.social-platform-card:focus-visible .social-platform-card__arrow {
-  transform: translateX(0.2rem);
-}
-
 .testimonials-section {
   background: #fff;
 }

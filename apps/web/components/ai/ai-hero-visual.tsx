@@ -3,6 +3,7 @@
 import styles from "./ai-hero-visual.module.css";
 
 import { useEffect, useRef } from "react";
+import { useTranslations } from "next-intl";
 import {
   BookOpenCheck,
   Bot,
@@ -12,16 +13,17 @@ import {
   ReceiptText,
   ScrollText,
 } from "lucide-react";
-import type { Locale } from "@/lib/content";
-
-type AiHeroVisualProps = {
-  locale: Locale;
-};
-
 const clamp = (value: number, minimum: number, maximum: number) =>
   Math.min(Math.max(value, minimum), maximum);
 
-export const AiHeroVisual = ({ locale }: AiHeroVisualProps) => {
+const aiInputClass =
+  "absolute left-0 grid min-h-14 w-full grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-[0.48rem] rounded-[0.9rem] border border-border-card bg-white/[0.96] px-[0.7rem] py-[0.68rem] text-primary shadow-[0_12px_30px_rgba(47,59,125,0.075)] [&>small]:font-mono [&>small]:text-[0.46rem] [&>small]:font-bold [&>small]:tracking-[0.06em] [&>small]:text-[#8a94b4] [&>span]:overflow-hidden [&>span]:text-ellipsis [&>span]:whitespace-nowrap [&>span]:text-[0.64rem] [&>span]:font-extrabold [&>span]:text-[#3e496e] max-[600px]:min-h-12 max-[600px]:grid-cols-[auto_minmax(0,1fr)] max-[600px]:gap-[0.35rem] max-[600px]:p-[0.48rem] max-[600px]:[&>small]:hidden max-[600px]:[&>span]:text-[0.53rem] max-[460px]:[&>span]:text-[0.49rem]";
+
+const aiOutputClass =
+  "absolute left-0 grid min-h-14 w-full grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-2 rounded-[0.9rem] border border-border-card bg-white/[0.96] px-[0.7rem] py-[0.68rem] text-primary shadow-[0_12px_30px_rgba(47,59,125,0.075)] [&>span]:grid [&>span]:min-w-0 [&>span]:gap-[0.08rem] [&_strong]:overflow-hidden [&_strong]:text-ellipsis [&_strong]:whitespace-nowrap [&_strong]:text-[0.61rem] [&_strong]:text-[#303a60] [&_small]:text-[0.49rem] [&_small]:text-[#818ba9] [&>svg:last-child]:text-[#47a685] max-[600px]:min-h-12 max-[600px]:gap-[0.3rem] max-[600px]:p-[0.48rem] max-[600px]:[&_strong]:text-[0.53rem] max-[600px]:[&_small]:text-[0.41rem] max-[600px]:[&>svg:last-child]:hidden max-[460px]:[&_strong]:text-[0.49rem] max-[460px]:[&_small]:hidden";
+
+export const AiHeroVisual = () => {
+  const t = useTranslations("aiHeroVisual");
   const rootRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -116,55 +118,51 @@ export const AiHeroVisual = ({ locale }: AiHeroVisualProps) => {
       aria-hidden="true"
     >
       <div
-        className={`ai-pipeline__inputs ${styles["ai-pipeline__inputs"]}`}
+        className="ai-pipeline__inputs absolute inset-y-0 left-0 z-[2] w-[8.8rem] max-[600px]:w-[5.2rem]"
         data-ai-visual-part
         data-x="-18"
       >
-        <span className={`ai-pipeline__label ${styles["ai-pipeline__label"]}`}>
-          {locale === "cs" ? "Vstupy" : "Inputs"}
+        <span className="ai-pipeline__label absolute top-[4%] left-[0.2rem] font-mono text-[0.54rem] font-extrabold tracking-[0.11em] text-primary uppercase max-[600px]:text-[0.43rem]">
+          {t("inputs")}
         </span>
         <div
-          className={`ai-pipeline__input ai-pipeline__input--invoice ${styles["ai-pipeline__input"]} ${styles["ai-pipeline__input--invoice"]}`}
+          className={`ai-pipeline__input ai-pipeline__input--invoice top-[16%] ${styles["ai-pipeline__input"]} ${aiInputClass}`}
         >
           <ReceiptText size={19} />
-          <span>{locale === "cs" ? "Faktury" : "Invoices"}</span>
+          <span>{t("invoices")}</span>
           <small>PDF</small>
         </div>
         <div
-          className={`ai-pipeline__input ai-pipeline__input--contract ${styles["ai-pipeline__input"]} ${styles["ai-pipeline__input--contract"]}`}
+          className={`ai-pipeline__input ai-pipeline__input--contract top-[43%] ${styles["ai-pipeline__input"]} ${styles["ai-pipeline__input--contract"]} ${aiInputClass}`}
         >
           <ScrollText size={19} />
-          <span>{locale === "cs" ? "Smlouvy" : "Contracts"}</span>
+          <span>{t("contracts")}</span>
           <small>DOCX</small>
         </div>
         <div
-          className={`ai-pipeline__input ai-pipeline__input--data ${styles["ai-pipeline__input"]} ${styles["ai-pipeline__input--data"]}`}
+          className={`ai-pipeline__input ai-pipeline__input--data top-[70%] ${styles["ai-pipeline__input"]} ${styles["ai-pipeline__input--data"]} ${aiInputClass}`}
         >
           <FileSpreadsheet size={19} />
-          <span>{locale === "cs" ? "Firemní data" : "Business data"}</span>
+          <span>{t("businessData")}</span>
           <small>XLSX</small>
         </div>
       </div>
 
       <div
-        className={`ai-pipeline__core ${styles["ai-pipeline__core"]}`}
+        className={`ai-pipeline__core ${styles["ai-pipeline__core"]} absolute top-[32%] left-[39.5%] z-[4] grid min-h-36 w-[9.5rem] place-items-center rounded-3xl border border-[#aeb7ff] bg-[linear-gradient(145deg,#eef0ff,#fff)] px-[0.8rem] py-4 text-center text-primary shadow-[0_22px_55px_rgba(66,78,173,0.14)] transition-shadow duration-[240ms] [&>strong]:mt-[0.65rem] [&>strong]:text-body-sm [&>strong]:text-[#303a60] [&>span:not(.ai-pipeline__core-icon)]:mt-[0.22rem] [&>span:not(.ai-pipeline__core-icon)]:text-[0.54rem] [&>span:not(.ai-pipeline__core-icon)]:leading-[1.45] [&>span:not(.ai-pipeline__core-icon)]:text-[#737d9b] max-[600px]:top-[34%] max-[600px]:left-[34%] max-[600px]:min-h-[7.5rem] max-[600px]:w-[6.4rem] max-[600px]:px-[0.45rem] max-[600px]:py-3 max-[600px]:[&>strong]:mt-[0.45rem] max-[600px]:[&>strong]:text-[0.69rem] max-[600px]:[&>span:not(.ai-pipeline__core-icon)]:text-[0.43rem] max-[460px]:left-[33%] max-[460px]:w-[6.1rem]`}
         data-ai-visual-part
         data-y="-4"
         data-scale="0.035"
       >
         <span
-          className={`ai-pipeline__core-icon ${styles["ai-pipeline__core-icon"]}`}
+          className={`ai-pipeline__core-icon ${styles["ai-pipeline__core-icon"]} grid size-12 place-items-center rounded-2xl border border-[rgba(95,108,255,0.3)] bg-[rgba(95,108,255,0.08)] max-[600px]:size-10`}
         >
           <Bot size={28} />
         </span>
-        <strong>AI pipeline</strong>
-        <span>
-          {locale === "cs"
-            ? "čtení · extrakce · kontrola"
-            : "read · extract · review"}
-        </span>
+        <strong>{t("pipelineName")}</strong>
+        <span>{t("pipelineSteps")}</span>
         <div
-          className={`ai-pipeline__core-status ${styles["ai-pipeline__core-status"]}`}
+          className={`ai-pipeline__core-status ${styles["ai-pipeline__core-status"]} mt-[0.65rem] flex gap-[0.3rem] [&>i]:size-[0.3rem] [&>i]:rounded-full [&>i]:bg-[#8390ff] max-[600px]:mt-[0.45rem]`}
         >
           <i />
           <i />
@@ -173,50 +171,50 @@ export const AiHeroVisual = ({ locale }: AiHeroVisualProps) => {
       </div>
 
       <div
-        className={`ai-pipeline__outputs ${styles["ai-pipeline__outputs"]}`}
+        className="ai-pipeline__outputs absolute inset-y-0 right-0 z-[2] w-[8.6rem] max-[600px]:w-[5.4rem]"
         data-ai-visual-part
         data-x="20"
       >
-        <span className={`ai-pipeline__label ${styles["ai-pipeline__label"]}`}>
-          {locale === "cs" ? "Zpracované výstupy" : "Processed outputs"}
+        <span className="ai-pipeline__label absolute top-[4%] right-0 w-full text-right font-mono text-[0.54rem] font-extrabold tracking-[0.11em] text-primary uppercase max-[600px]:text-[0.43rem]">
+          {t("outputs")}
         </span>
         <div
-          className={`ai-pipeline__output ai-pipeline__output--invoice ${styles["ai-pipeline__output"]} ${styles["ai-pipeline__output--invoice"]}`}
+          className={`ai-pipeline__output ai-pipeline__output--invoice top-[10%] ${styles["ai-pipeline__output"]} ${aiOutputClass}`}
         >
           <ReceiptText size={17} />
           <span>
-            <strong>{locale === "cs" ? "Faktura" : "Invoice"}</strong>
-            <small>{locale === "cs" ? "8 položek" : "8 line items"}</small>
+            <strong>{t("invoice")}</strong>
+            <small>{t("lineItems")}</small>
           </span>
           <Check size={14} />
         </div>
         <div
-          className={`ai-pipeline__output ai-pipeline__output--contract ${styles["ai-pipeline__output"]} ${styles["ai-pipeline__output--contract"]}`}
+          className={`ai-pipeline__output ai-pipeline__output--contract top-[31%] ${styles["ai-pipeline__output"]} ${styles["ai-pipeline__output--contract"]} ${aiOutputClass}`}
         >
           <ScrollText size={17} />
           <span>
-            <strong>{locale === "cs" ? "Smlouva" : "Contract"}</strong>
-            <small>{locale === "cs" ? "shrnutí" : "summary"}</small>
+            <strong>{t("contract")}</strong>
+            <small>{t("summary")}</small>
           </span>
           <Check size={14} />
         </div>
         <div
-          className={`ai-pipeline__output ai-pipeline__output--analysis ${styles["ai-pipeline__output"]} ${styles["ai-pipeline__output--analysis"]}`}
+          className={`ai-pipeline__output ai-pipeline__output--analysis top-[52%] ${styles["ai-pipeline__output"]} ${styles["ai-pipeline__output--analysis"]} ${aiOutputClass}`}
         >
           <ChartNoAxesCombined size={17} />
           <span>
-            <strong>{locale === "cs" ? "Analýza" : "Analysis"}</strong>
-            <small>{locale === "cs" ? "3 zjištění" : "3 insights"}</small>
+            <strong>{t("analysis")}</strong>
+            <small>{t("insights")}</small>
           </span>
           <Check size={14} />
         </div>
         <div
-          className={`ai-pipeline__output ai-pipeline__output--docs ${styles["ai-pipeline__output"]} ${styles["ai-pipeline__output--docs"]}`}
+          className={`ai-pipeline__output ai-pipeline__output--docs top-[73%] ${styles["ai-pipeline__output"]} ${styles["ai-pipeline__output--docs"]} ${aiOutputClass}`}
         >
           <BookOpenCheck size={17} />
           <span>
-            <strong>{locale === "cs" ? "Dokumentace" : "Documentation"}</strong>
-            <small>{locale === "cs" ? "připravena" : "ready"}</small>
+            <strong>{t("documentation")}</strong>
+            <small>{t("ready")}</small>
           </span>
           <Check size={14} />
         </div>

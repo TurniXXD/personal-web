@@ -1,16 +1,19 @@
 import { Resend } from "resend";
 import { randomUUID } from "node:crypto";
 import { cookies } from "next/headers";
-import { apiErrorResponse } from "@/lib/api-error-response";
+import { apiErrorResponse } from "@/lib/api/error-response";
 import {
   readContactRequestContext,
   validateContactInput,
-} from "@/lib/contact-submission";
-import { referralCookie, verifyReferralToken } from "@/lib/referral-token";
-import { rateLimit } from "@/lib/rate-limit";
-import { siteConfig } from "@/lib/site-config";
-import { configuredTwenty, twentyErrorContext } from "@/lib/twenty";
-import { verifyTurnstile } from "@/lib/turnstile";
+} from "@/lib/contact/submission";
+import { referralCookie, verifyReferralToken } from "@/lib/referrals/token";
+import { rateLimit } from "@/lib/api/rate-limit";
+import { siteConfig } from "@/lib/site/config";
+import {
+  configuredTwenty,
+  twentyErrorContext,
+} from "@/lib/integrations/twenty";
+import { verifyTurnstile } from "@/lib/contact/turnstile";
 
 const defaultFrom = "Jakub Vantuch <onboarding@resend.dev>";
 const endpoint = "contact";

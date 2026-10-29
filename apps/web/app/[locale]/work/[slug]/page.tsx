@@ -8,9 +8,10 @@ import {
   MessageCircle,
 } from "lucide-react";
 import { hasLocale } from "next-intl";
+import { setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { ActionLink, Pill } from "@vantuch/ui";
-import { SiteFooter, SiteHeader } from "@/components/site-chrome";
+import { SiteFooter, SiteHeader } from "@/components/layout/site-chrome";
 import { routing } from "@/i18n/routing";
 import {
   caseStudyProjects,
@@ -18,9 +19,11 @@ import {
   copy,
   localizedPath,
   type CaseStudySlug,
-} from "@/lib/content";
+} from "@/lib/site/content";
 
-type Props = { params: Promise<{ locale: string; slug: string }> };
+type CaseStudyPageProps = {
+  params: Promise<{ locale: string; slug: string }>;
+};
 
 function isCaseStudySlug(value: string): value is CaseStudySlug {
   return caseStudySlugs.includes(value as CaseStudySlug);
@@ -32,7 +35,9 @@ export function generateStaticParams() {
   );
 }
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: CaseStudyPageProps): Promise<Metadata> {
   const { locale, slug } = await params;
   if (!hasLocale(routing.locales, locale) || !isCaseStudySlug(slug)) notFound();
 
@@ -61,9 +66,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export default async function CaseStudyPage({ params }: Props) {
+export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
   const { locale, slug } = await params;
   if (!hasLocale(routing.locales, locale) || !isCaseStudySlug(slug)) notFound();
+  setRequestLocale(locale);
 
   const t = copy[locale];
   const project = caseStudyProjects[slug];

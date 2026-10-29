@@ -2,17 +2,17 @@ import { expect, test } from "@playwright/test";
 import {
   createReferralToken,
   verifyReferralToken,
-} from "../lib/referral-token";
+} from "../lib/referrals/token";
 import {
   readContactRequestContext,
   validateContactInput,
-} from "../lib/contact-submission";
-import { validateReferralRequest } from "../lib/referral-request";
+} from "../lib/contact/submission";
+import { validateReferralRequest } from "../lib/referrals/request";
 import {
   TwentyClient,
   TwentyRequestError,
   twentyErrorContext,
-} from "../lib/twenty";
+} from "../lib/integrations/twenty";
 
 test("referral links reject changed person IDs and signatures", () => {
   const id = "e191876c-7043-4e42-b644-234dbd43f43d";

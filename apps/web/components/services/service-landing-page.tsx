@@ -16,20 +16,27 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import dynamic from "next/dynamic";
+import { useTranslations } from "next-intl";
 import { ActionLink } from "@vantuch/ui";
 import { AiHeroVisual } from "@/components/ai/ai-hero-visual";
 import { ProjectGrid } from "@/components/home/project-grid";
-import { ContactBlock, SiteFooter, SiteHeader } from "@/components/layout/site-chrome";
+import {
+  ContactBlock,
+  SiteFooter,
+  SiteHeader,
+} from "@/components/layout/site-chrome";
 import { ContentCard } from "@/components/shared/content-card";
 import { ScrollReveal } from "@/components/shared/scroll-reveal";
+import { StructuredDataScript } from "@/components/shared/structured-data-script";
 import { ServicePipelineDivider } from "@/components/services/service-pipeline-divider";
 import { WebApplicationHeroVisual } from "@/components/services/heroes/web-application-hero-visual";
-import { localizedPath, type Locale } from "@/lib/content";
+import { localizedPath, type Locale } from "@/lib/site/content";
 import {
   servicePageCopy,
   type ServiceIconName,
   type ServicePageKind,
-} from "@/lib/service-content";
+} from "@/lib/services/landing-content";
+import { createServiceStructuredData } from "@/lib/seo/structured-data";
 
 type ServiceLandingPageProps = {
   kind: ServicePageKind;
@@ -68,32 +75,21 @@ export const ServiceLandingPage = ({
   kind,
   locale,
 }: ServiceLandingPageProps) => {
+  const common = useTranslations("common");
   const content = servicePageCopy[kind][locale];
   const route =
     kind === "web" ? "/sluzby/webove-aplikace" : "/sluzby/ai-reseni";
-  const structuredData = {
-    "@context": "https://schema.org",
-    "@type": "Service",
+  const structuredData = createServiceStructuredData({
     name: content.meta.title,
     description: content.meta.description,
-    provider: {
-      "@type": "Person",
-      name: "Jakub Vantuch",
-      url: "https://vantuch.dev",
-    },
-    areaServed: { "@type": "Country", name: "Czech Republic" },
-    url: `https://vantuch.dev${localizedPath(locale, route)}`,
-  };
+    locale,
+    path: route,
+  });
 
   return (
     <>
       <SiteHeader locale={locale} path={route} />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(structuredData).replace(/</g, "\\u003c"),
-        }}
-      />
+      <StructuredDataScript data={structuredData} />
       <main id="main-content" className={`service-page service-page--${kind}`}>
         <section className="service-hero" aria-labelledby="service-hero-title">
           <div className="site-container service-hero__grid">
@@ -115,11 +111,7 @@ export const ServiceLandingPage = ({
                 )}
               </div>
             </div>
-            {kind === "web" ? (
-              <WebApplicationHeroVisual locale={locale} />
-            ) : (
-              <AiHeroVisual locale={locale} />
-            )}
+            {kind === "web" ? <WebApplicationHeroVisual /> : <AiHeroVisual />}
           </div>
         </section>
 
@@ -153,7 +145,7 @@ export const ServiceLandingPage = ({
                     action={
                       item.href ? (
                         <>
-                          {locale === "cs" ? "Zjistit více" : "Learn more"}{" "}
+                          {common("learnMore")}{" "}
                           <ArrowRight size={15} aria-hidden="true" />
                         </>
                       ) : undefined
@@ -282,7 +274,7 @@ export const ServiceLandingPage = ({
                         <strong>{item.title}</strong>
                         <small>{item.description}</small>
                         <span className="service-related__action">
-                          {locale === "cs" ? "Zjistit více" : "Learn more"}
+                          {common("learnMore")}
                           <ArrowRight size={15} aria-hidden="true" />
                         </span>
                       </span>
@@ -304,15 +296,7 @@ export const ServiceLandingPage = ({
         <ContactBlock
           locale={locale}
           title={content.contactTitle}
-          topic={
-            kind === "web"
-              ? locale === "cs"
-                ? "Weby a aplikace"
-                : "Websites and applications"
-              : locale === "cs"
-                ? "AI řešení"
-                : "AI solutions"
-          }
+          topic={content.hero.title}
           requestType="service"
         />
       </main>

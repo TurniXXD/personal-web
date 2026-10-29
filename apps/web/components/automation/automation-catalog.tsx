@@ -1,18 +1,17 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { AutomationIcon } from "@/components/automation-icon";
-import { ContentCard } from "@/components/content-card";
+import { useTranslations } from "next-intl";
+import { AutomationIcon } from "@/components/automation/automation-icon";
+import { ContentCard } from "@/components/shared/content-card";
 import { Button } from "@/components/ui/button";
 import {
   type AutomationCategoryId,
   type AutomationExample,
   type AutomationPageCopy,
-} from "@/lib/automation-content";
-import type { Locale } from "@/lib/content";
+} from "@/lib/automation/content";
 
 type AutomationCatalogProps = {
-  locale: Locale;
   examples: AutomationExample[];
   content: AutomationPageCopy["catalog"];
 };
@@ -20,10 +19,10 @@ type AutomationCatalogProps = {
 const initialVisibleCount = 9;
 
 export const AutomationCatalog = ({
-  locale,
   examples,
   content,
 }: AutomationCatalogProps) => {
+  const t = useTranslations("automationUi");
   const [activeCategory, setActiveCategory] = useState<
     AutomationCategoryId | "all"
   >("all");
@@ -53,14 +52,12 @@ export const AutomationCatalog = ({
     <>
       <div
         className="automation-filters mt-10 flex flex-wrap gap-[0.55rem]"
-        aria-label={
-          locale === "cs" ? "Kategorie automatizací" : "Automation categories"
-        }
+        aria-label={t("categoriesLabel")}
       >
         <Button
           type="button"
           variant="outline"
-          className="h-auto rounded-full border-[#dce2fa] bg-white px-[0.85rem] py-[0.65rem] text-[0.76rem] font-bold text-[#4c5879] shadow-none transition-colors hover:border-primary hover:bg-[#f2f3ff] hover:text-primary aria-pressed:border-primary aria-pressed:bg-[#f2f3ff] aria-pressed:text-primary"
+          className="h-auto rounded-full border-border-card bg-white px-[0.85rem] py-[0.65rem] text-ui-sm font-bold text-[#4c5879] shadow-none transition-colors hover:border-primary hover:bg-surface-soft hover:text-primary aria-pressed:border-primary aria-pressed:bg-surface-soft aria-pressed:text-primary"
           aria-pressed={activeCategory === "all"}
           onClick={() => selectCategory("all")}
         >
@@ -70,7 +67,7 @@ export const AutomationCatalog = ({
           <Button
             type="button"
             variant="outline"
-            className="h-auto rounded-full border-[#dce2fa] bg-white px-[0.85rem] py-[0.65rem] text-[0.76rem] font-bold text-[#4c5879] shadow-none transition-colors hover:border-primary hover:bg-[#f2f3ff] hover:text-primary aria-pressed:border-primary aria-pressed:bg-[#f2f3ff] aria-pressed:text-primary"
+            className="h-auto rounded-full border-border-card bg-white px-[0.85rem] py-[0.65rem] text-ui-sm font-bold text-[#4c5879] shadow-none transition-colors hover:border-primary hover:bg-surface-soft hover:text-primary aria-pressed:border-primary aria-pressed:bg-surface-soft aria-pressed:text-primary"
             key={category}
             aria-pressed={activeCategory === category}
             onClick={() => selectCategory(category)}
@@ -99,7 +96,7 @@ export const AutomationCatalog = ({
       {activeCategory === "all" && visibleCount < filteredExamples.length && (
         <Button
           variant="outline"
-          className="automation-catalog__more mx-auto mt-6 block h-auto rounded-full border-[#dce2fa] bg-white px-4 py-[0.8rem] text-[0.76rem] font-bold text-[#4c5879] shadow-none transition-colors hover:border-primary hover:bg-[#f2f3ff] hover:text-primary"
+          className="automation-catalog__more mx-auto mt-6 block h-auto rounded-full border-border-card bg-white px-4 py-[0.8rem] text-ui-sm font-bold text-[#4c5879] shadow-none transition-colors hover:border-primary hover:bg-surface-soft hover:text-primary"
           type="button"
           onClick={() => setVisibleCount((count) => count + 6)}
         >

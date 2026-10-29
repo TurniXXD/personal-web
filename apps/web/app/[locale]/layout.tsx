@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
-import { hasLocale } from "next-intl";
+import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
-import { CookieConsent } from "@/components/cookie-consent";
+import { CookieConsent } from "@/components/layout/cookie-consent";
 import { routing } from "@/i18n/routing";
-import { copy } from "@/lib/content";
+import { copy } from "@/lib/site/content";
 import "@fontsource-variable/sora";
 import "@fontsource/ibm-plex-mono/400.css";
 import "@fontsource/ibm-plex-mono/600.css";
@@ -15,7 +15,7 @@ import "@/app/globals.css";
 
 const siteUrl = "https://vantuch.dev";
 
-type Props = {
+type LocaleLayoutProps = {
   children: ReactNode;
   params: Promise<{ locale: string }>;
 };
@@ -24,7 +24,9 @@ export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: LocaleLayoutProps): Promise<Metadata> {
   const { locale } = await params;
   if (!hasLocale(routing.locales, locale)) notFound();
 
@@ -55,7 +57,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export default async function LocaleLayout({ children, params }: Props) {
+export default async function LocaleLayout({
+  children,
+  params,
+}: LocaleLayoutProps) {
   const { locale } = await params;
   if (!hasLocale(routing.locales, locale)) notFound();
   setRequestLocale(locale);
@@ -63,12 +68,14 @@ export default async function LocaleLayout({ children, params }: Props) {
   return (
     <html lang={locale}>
       <body>
-        {children}
-        <CookieConsent
-          locale={locale}
-          clarityProjectId={process.env.CLARITY_PROJECT_ID?.trim()}
-          cloudflareAnalyticsToken={process.env.CLOUDFLARE_WEB_ANALYTICS_TOKEN?.trim()}
-        />
+        <NextIntlClientProvider>
+          {children}
+          <CookieConsent
+            locale={locale}
+            clarityProjectId={process.env.CLARITY_PROJECT_ID?.trim()}
+            cloudflareAnalyticsToken={process.env.CLOUDFLARE_WEB_ANALYTICS_TOKEN?.trim()}
+          />
+        </NextIntlClientProvider>
       </body>
     </html>
   );

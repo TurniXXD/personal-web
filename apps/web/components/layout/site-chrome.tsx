@@ -8,93 +8,85 @@ import {
   Send,
 } from "lucide-react";
 import dynamic from "next/dynamic";
+import { useTranslations } from "next-intl";
 import { ActionLink } from "@vantuch/ui";
-import { ContactForm } from "@/components/contact/contact-form";
-import { ContactOrbit } from "@/components/contact/contact-orbit";
 import { CookiePreferencesButton } from "@/components/layout/cookie-consent";
 import { MobileNavigation } from "@/components/layout/mobile-navigation";
 import { ScrollAwareHeader } from "@/components/layout/scroll-aware-header";
 import { ServicesDropdown } from "@/components/layout/services-dropdown";
 import { ScrollReveal } from "@/components/shared/scroll-reveal";
-import { copy, localizedPath, type Locale } from "@/lib/content";
-import type { ContactRequestType } from "@/lib/contact-submission";
-import { contactMailto, contactTel, siteConfig } from "@/lib/site-config";
+import { copy, localizedPath, type Locale } from "@/lib/site/content";
+import type { ContactRequestType } from "@/lib/contact/submission";
+import { contactMailto, contactTel, siteConfig } from "@/lib/site/config";
+import { SERVICE_SLUG, SITE_PATH, serviceDetailPath } from "@/lib/site/routes";
 
-const LazyContactOrbit = dynamic(() => Promise.resolve({ default: ContactOrbit }));
-const LazyContactForm = dynamic(() => Promise.resolve({ default: ContactForm }));
+const ContactOrbit = dynamic(() =>
+  import("@/components/contact/contact-orbit").then(
+    (module) => module.ContactOrbit,
+  ),
+);
+const ContactForm = dynamic(() =>
+  import("@/components/contact/contact-form").then(
+    (module) => module.ContactForm,
+  ),
+);
 
-export function SiteHeader({
-  locale,
-  path = "",
-}: {
+type SiteHeaderProps = {
   locale: Locale;
   path?: string;
-}) {
+};
+
+type ServiceLinkMessage = {
+  description: string;
+  label: string;
+};
+
+type ContactBlockProps = {
+  description?: string;
+  eyebrow?: string;
+  locale: Locale;
+  requestType?: ContactRequestType;
+  title?: string;
+  topic?: string;
+};
+
+export function SiteHeader({ locale, path = "" }: SiteHeaderProps) {
   const t = copy[locale];
+  const chrome = useTranslations("siteChrome");
   const otherLocale = locale === "cs" ? "en" : "cs";
   const languageHref = localizedPath(otherLocale, path);
-  const languageShortLabel = locale === "cs" ? "EN" : "CZ";
-  const languageAriaLabel =
-    locale === "cs" ? "EN – Přepnout do angličtiny" : "CZ – Switch to Czech";
+  const languageShortLabel = chrome("languageShortLabel");
+  const languageAriaLabel = chrome("languageAriaLabel");
   const servicesActive =
-    path === "/automatizace" || path.startsWith("/sluzby/");
-  const serviceLinks = [
+    path === SITE_PATH.automation || path.startsWith("/sluzby/");
+  const serviceLinkMessages = chrome.raw(
+    "serviceLinks",
+  ) as ServiceLinkMessage[];
+  const serviceRoutes = [
     {
-      href: "/sluzby/webove-aplikace",
-      label: locale === "cs" ? "Weby a aplikace" : "Websites and apps",
-      description:
-        locale === "cs"
-          ? "Weby, portály a aplikace na míru"
-          : "Custom websites, portals and applications",
+      href: SITE_PATH.services.webApplications,
     },
     {
-      href: "/automatizace",
-      label: locale === "cs" ? "Automatizace procesů" : "Process automation",
-      description:
-        locale === "cs"
-          ? "Méně ruční práce a propojené systémy"
-          : "Less manual work and connected systems",
+      href: SITE_PATH.automation,
     },
     {
-      href: "/sluzby/ai-reseni",
-      label: locale === "cs" ? "AI řešení" : "AI solutions",
-      description:
-        locale === "cs"
-          ? "Praktická práce s daty a dokumenty"
-          : "Practical work with data and documents",
+      href: SITE_PATH.services.ai,
     },
     {
-      href: "/sluzby/vernostni-programy",
-      label:
-        locale === "cs"
-          ? "Digitální věrnostní programy"
-          : "Digital loyalty programmes",
-      description:
-        locale === "cs"
-          ? "Odměny a návraty zákazníků"
-          : "Rewards and returning customers",
+      href: serviceDetailPath(SERVICE_SLUG.loyaltyProgrammes),
     },
     {
-      href: "/sluzby/darkove-poukazy",
-      label: locale === "cs" ? "Dárkové poukazy" : "Gift vouchers",
-      description:
-        locale === "cs"
-          ? "Online prodej, PDF a uplatnění"
-          : "Online sales, PDFs and redemption",
+      href: serviceDetailPath(SERVICE_SLUG.giftVouchers),
     },
     {
-      href: "/sluzby/audit-ai-aplikaci",
-      label:
-        locale === "cs"
-          ? "Audit vibecoded aplikací"
-          : "Vibecoded application audit",
-      description:
-        locale === "cs"
-          ? "Bezpečnost, výkon a dokončení AI aplikací"
-          : "Security, performance and AI app completion",
+      href: serviceDetailPath(SERVICE_SLUG.aiApplicationAudit),
       icon: "shield" as const,
     },
   ];
+  const serviceLinks = serviceRoutes.map((route, index) => ({
+    ...route,
+    ...serviceLinkMessages[index],
+  }));
 
   return (
     <ScrollAwareHeader>
@@ -102,21 +94,21 @@ export function SiteHeader({
         <a
           className="site-logo inline-flex shrink-0 items-center gap-[0.72rem] text-base font-extrabold tracking-[-0.04em]"
           href={localizedPath(locale)}
-          aria-label="Jakub Vantuch — Digital Solutions Consultant"
+          aria-label={`${chrome("brandName")} — ${chrome("brandRole")}`}
         >
           <span className="site-logo__copy grid gap-[0.16rem]">
             <span className="site-logo__name leading-none">
-              Jakub Vantuch
+              {chrome("brandName")}
               <span className="site-logo__dot text-primary">.</span>
             </span>
             <span className="site-logo__subtitle text-[0.59rem] leading-[1.2] font-semibold tracking-[0.015em] text-[#56617f]">
-              Digital Solutions Consultant
+              {chrome("brandRole")}
             </span>
           </span>
         </a>
         <nav
-          className="site-header__nav flex items-center gap-[clamp(1.05rem,2.2vw,2rem)] [&_a]:text-[0.78rem] [&_a]:font-bold [&_a]:text-[#59617d] [&_a]:transition-colors [&_a]:duration-200 [&_a:hover]:text-primary [&_a[aria-current=page]]:text-primary"
-          aria-label={locale === "cs" ? "Hlavní navigace" : "Main navigation"}
+          className="site-header__nav flex items-center gap-[clamp(1.05rem,2.2vw,2rem)] text-[0.78rem] font-bold text-ink-muted [&_a]:transition-colors [&_a]:duration-200 [&_a:hover]:text-primary [&_a[aria-current=page]]:text-primary"
+          aria-label={chrome("mainNavigationLabel")}
         >
           <ServicesDropdown
             active={servicesActive}
@@ -126,12 +118,18 @@ export function SiteHeader({
               href: localizedPath(locale, item.href),
             }))}
           />
-          <a href={localizedPath(locale, "#work")}>{t.nav.work}</a>
-          <a href={localizedPath(locale, "#process")}>{t.nav.process}</a>
-          <a href={localizedPath(locale, "#about")}>{t.nav.about}</a>
+          <a href={localizedPath(locale, SITE_PATH.sections.work)}>
+            {t.nav.work}
+          </a>
+          <a href={localizedPath(locale, SITE_PATH.sections.process)}>
+            {t.nav.process}
+          </a>
+          <a href={localizedPath(locale, SITE_PATH.sections.about)}>
+            {t.nav.about}
+          </a>
           <a
-            href={localizedPath(locale, "/kontakt")}
-            aria-current={path === "/kontakt" ? "page" : undefined}
+            href={localizedPath(locale, SITE_PATH.contact)}
+            aria-current={path === SITE_PATH.contact ? "page" : undefined}
           >
             {t.nav.contact}
           </a>
@@ -147,7 +145,7 @@ export function SiteHeader({
             {languageShortLabel}
           </a>
           <ActionLink
-            href={localizedPath(locale, "#contact")}
+            href={localizedPath(locale, SITE_PATH.sections.contact)}
             className="site-header__cta ui-action--icon-message min-h-[2.65rem] px-[0.95rem] text-[0.74rem]"
           >
             {t.nav.consultation} <MessageCircle size={16} aria-hidden="true" />
@@ -164,26 +162,30 @@ export function SiteHeader({
             {languageShortLabel}
           </a>
           <MobileNavigation
-            menuButtonLabel={locale === "cs" ? "Otevřít menu" : "Open menu"}
-            navigationLabel={
-              locale === "cs" ? "Mobilní navigace" : "Mobile navigation"
-            }
+            menuButtonLabel={chrome("mobileMenuButtonLabel")}
+            navigationLabel={chrome("mobileNavigationLabel")}
             servicesLabel={t.nav.services}
             serviceLinks={serviceLinks.map((item) => ({
               ...item,
               href: localizedPath(locale, item.href),
             }))}
             links={[
-              { href: localizedPath(locale, "#work"), label: t.nav.work },
               {
-                href: localizedPath(locale, "#process"),
+                href: localizedPath(locale, SITE_PATH.sections.work),
+                label: t.nav.work,
+              },
+              {
+                href: localizedPath(locale, SITE_PATH.sections.process),
                 label: t.nav.process,
               },
-              { href: localizedPath(locale, "#about"), label: t.nav.about },
               {
-                href: localizedPath(locale, "/kontakt"),
+                href: localizedPath(locale, SITE_PATH.sections.about),
+                label: t.nav.about,
+              },
+              {
+                href: localizedPath(locale, SITE_PATH.contact),
                 label: t.nav.contact,
-                ariaCurrent: path === "/kontakt" ? "page" : undefined,
+                ariaCurrent: path === SITE_PATH.contact ? "page" : undefined,
               },
             ]}
           />
@@ -200,14 +202,7 @@ export function ContactBlock({
   description,
   topic,
   requestType,
-}: {
-  locale: Locale;
-  eyebrow?: string;
-  title?: string;
-  description?: string;
-  topic?: string;
-  requestType?: ContactRequestType;
-}) {
+}: ContactBlockProps) {
   const t = copy[locale].contact;
 
   return (
@@ -250,27 +245,29 @@ type SiteFooterProps = { locale: Locale };
 export const SiteFooter = ({ locale }: SiteFooterProps) => {
   const t = copy[locale].footer;
   const nav = copy[locale].nav;
+  const chrome = useTranslations("siteChrome");
   return (
-    <footer className="site-footer border-t border-[rgba(188,196,255,0.16)] bg-[#171e3c] text-white">
+    <footer className="site-footer border-t border-[rgba(188,196,255,0.16)] bg-surface-dark text-white">
       <div className="site-container site-footer__inner grid grid-cols-[minmax(12rem,1fr)_minmax(0,2fr)] gap-x-12 gap-y-8 pt-12 pb-[1.35rem] max-[900px]:grid-cols-1">
         <div className="site-footer__brand min-w-0">
           <a
             className="site-footer__name inline-block text-[1.3rem] font-extrabold tracking-[-0.05em] text-white"
             href={localizedPath(locale)}
           >
-            Jakub Vantuch<span className="text-primary">.</span>
+            {chrome("brandName")}
+            <span className="text-primary">.</span>
           </a>
-          <p className="mt-3 max-w-[17rem] text-[0.82rem] leading-[1.65] text-[#b7bfdf]">
+          <p className="mt-3 max-w-[17rem] text-body-sm leading-copy text-ink-on-dark">
             {t.line}
           </p>
           <a
-            className="site-footer__email mt-[1.15rem] inline-flex max-w-full items-center gap-2 text-[0.9rem] font-bold text-white underline decoration-[rgba(174,184,255,0.55)] underline-offset-[0.22em] [overflow-wrap:anywhere] hover:decoration-white"
+            className="site-footer__email mt-[1.15rem] inline-flex max-w-full items-center gap-2 text-body font-bold text-white underline decoration-[rgba(174,184,255,0.55)] underline-offset-[0.22em] [overflow-wrap:anywhere] hover:decoration-white"
             href={contactMailto()}
           >
             <Mail size={16} aria-hidden="true" />
             {siteConfig.contact.email}
           </a>
-          <div className="site-footer__social mt-4 flex flex-wrap gap-x-[1.2rem] gap-y-[0.65rem] max-[600px]:mt-8 max-[600px]:mb-5 [&_a]:inline-flex [&_a]:items-center [&_a]:gap-[0.4rem] [&_a]:text-[0.79rem] [&_a]:text-[#b7bfdf] [&_a:hover]:text-white">
+          <div className="site-footer__social mt-4 flex flex-wrap gap-x-[1.2rem] gap-y-[0.65rem] max-[600px]:mt-8 max-[600px]:mb-5 [&_a]:inline-flex [&_a]:items-center [&_a]:gap-[0.4rem] [&_a]:text-[0.79rem] [&_a]:text-ink-on-dark [&_a:hover]:text-white">
             <a
               href={siteConfig.social.github}
               target="_blank"
@@ -295,10 +292,8 @@ export const SiteFooter = ({ locale }: SiteFooterProps) => {
           </div>
         </div>
         <nav
-          className="site-footer__nav flex flex-wrap items-start justify-end gap-x-6 gap-y-[0.9rem] max-[900px]:justify-start [&_a]:text-[0.79rem] [&_a]:leading-[1.45] [&_a]:text-[#b7bfdf] [&_a:hover]:text-white"
-          aria-label={
-            locale === "cs" ? "Navigace v patičce" : "Footer navigation"
-          }
+          className="site-footer__nav flex flex-wrap items-start justify-end gap-x-6 gap-y-[0.9rem] max-[900px]:justify-start [&_a]:text-[0.79rem] [&_a]:leading-[1.45] [&_a]:text-ink-on-dark [&_a:hover]:text-white"
+          aria-label={chrome("footerNavigationLabel")}
         >
           <a href={localizedPath(locale, "#services")}>{nav.services}</a>
           <a href={localizedPath(locale, "#work")}>{nav.work}</a>
@@ -306,13 +301,13 @@ export const SiteFooter = ({ locale }: SiteFooterProps) => {
           <a href={localizedPath(locale, "#about")}>{nav.about}</a>
           <a href={localizedPath(locale, "/kontakt")}>{nav.contact}</a>
         </nav>
-        <div className="site-footer__bottom col-span-full mt-[clamp(1.5rem,3vw,2.5rem)] flex justify-between gap-6 border-t border-[rgba(188,196,255,0.18)] pt-[1.35rem] text-[0.73rem] text-[#929cbd] max-[460px]:flex-col max-[460px]:gap-2">
+        <div className="site-footer__bottom col-span-full mt-[clamp(1.5rem,3vw,2.5rem)] flex justify-between gap-6 border-t border-[rgba(188,196,255,0.18)] pt-[1.35rem] text-[0.73rem] text-ink-on-dark-soft max-[460px]:flex-col max-[460px]:gap-2">
           <span>
-            © {new Date().getFullYear()} Jakub Vantuch. {t.copyright}
+            © {new Date().getFullYear()} {chrome("brandName")}. {t.copyright}
           </span>
-          <div className="site-footer__secondary flex flex-wrap gap-x-[1.4rem] gap-y-[0.65rem] [&_a]:text-[0.73rem] [&_a]:leading-[1.45] [&_a]:text-[#b7bfdf] [&_a:hover]:text-white">
+          <div className="site-footer__secondary flex flex-wrap gap-x-[1.4rem] gap-y-[0.65rem] [&_a]:text-[0.73rem] [&_a]:leading-[1.45] [&_a]:text-ink-on-dark [&_a:hover]:text-white">
             <a href={localizedPath(locale, "/privacy")}>{t.privacy}</a>
-            <CookiePreferencesButton locale={locale} />
+            <CookiePreferencesButton />
             <a href={localizedPath(locale, "/doporuceni")}>{t.referral}</a>
             <a href={localizedPath(locale, "#newsletter")}>{t.community}</a>
           </div>

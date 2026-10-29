@@ -80,7 +80,7 @@
     line-height: 1.3;
   }
   .referral-request-form__field > label {
-    background: #fff;
+    background: var(--referral-form-background);
   }
   .contact-form .contact-form__field :is(input, select, textarea),
   .referral-request-form .referral-request-form__field :is(input, textarea),

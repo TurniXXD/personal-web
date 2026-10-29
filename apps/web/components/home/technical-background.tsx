@@ -115,16 +115,22 @@ export const TechnicalBackground = ({ variant }: TechnicalBackgroundProps) => {
     <div
       ref={rootRef}
       className={technicalClass(
-        `technical-background technical-background--${variant}`,
+        `technical-background technical-background--${variant} pointer-events-none absolute inset-0 z-0 overflow-hidden max-[900px]:h-[min(24rem,60%)] ${variant === "services" ? "max-[900px]:h-full" : ""}`,
       )}
       data-technical-state={state}
       data-shape-state={shapeState}
       aria-hidden="true"
     >
-      <div className={technicalClass("technical-background__shapes")}>
+      <div
+        className={technicalClass(
+          "technical-background__shapes absolute inset-0 size-full",
+        )}
+      >
         {composition.shapes.map((shape, index) => (
           <span
-            className={technicalClass("technical-background__shape")}
+            className={technicalClass(
+              `technical-background__shape absolute top-(--technical-y) left-(--technical-x) h-(--technical-height) w-(--technical-width) rounded-[clamp(1.5rem,3.5vw,3rem)] border border-[rgba(117,129,218,0.09)] bg-[linear-gradient(135deg,rgba(218,222,255,0.3),rgba(240,242,255,0.1))] will-change-[opacity,transform] ${index >= 1 ? "max-[900px]:hidden" : ""}`,
+            )}
             key={`${variant}-shape-${index}`}
             data-side={shape.x < 50 ? "left" : "right"}
             style={
@@ -142,13 +148,16 @@ export const TechnicalBackground = ({ variant }: TechnicalBackgroundProps) => {
         ))}
       </div>
       <svg
-        className={technicalClass("technical-background__lines")}
+        className={technicalClass(
+          `technical-background__lines absolute inset-0 size-full overflow-visible ${variant === "services" ? "top-auto bottom-(--services-line-offset) h-44" : ""}`,
+        )}
         viewBox="0 0 1200 500"
         preserveAspectRatio="none"
         focusable="false"
       >
         {composition.paths.map((path, index) => (
           <path
+            className={index >= 1 ? "max-[900px]:hidden" : undefined}
             d={path.d}
             key={`${variant}-path-${index}`}
             pathLength="1"
@@ -161,10 +170,16 @@ export const TechnicalBackground = ({ variant }: TechnicalBackgroundProps) => {
           />
         ))}
       </svg>
-      <div className={technicalClass("technical-background__nodes")}>
+      <div
+        className={technicalClass(
+          `technical-background__nodes absolute inset-0 size-full ${variant === "services" ? "top-auto bottom-(--services-line-offset) h-44" : ""}`,
+        )}
+      >
         {composition.nodes.map((node, index) => (
           <span
-            className={technicalClass("technical-background__node")}
+            className={technicalClass(
+              `technical-background__node absolute top-(--technical-y) left-(--technical-x) size-[0.42rem] rounded-[0.1rem] bg-primary shadow-[0_0_0_0.25rem_rgba(95,108,255,0.07)] ${index >= 2 ? "max-[900px]:hidden" : ""} ${index >= 1 ? "max-[600px]:hidden" : ""}`,
+            )}
             key={`${variant}-node-${index}`}
             style={
               {

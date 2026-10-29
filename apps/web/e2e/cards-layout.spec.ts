@@ -144,25 +144,101 @@ test("project cards update foreground instantly without a fallback watermark", a
     "transition-duration",
     "0s",
   );
+  await expect(card.locator(".case-card__image img")).toHaveCSS(
+    "transition-duration",
+    "0.7s",
+  );
 });
 
-test("related service cards switch every hover layer instantly", async ({
+test("related service cards keep foreground instant and decorative motion smooth", async ({
   page,
 }) => {
   await page.goto("/sluzby/webove-aplikace-na-miru");
 
   const card = page.locator(".service-detail-related__card").first();
-  for (const part of [
-    card,
-    card.locator(".service-detail-related__watermark"),
-    card.locator("h3"),
-    card.locator("p"),
-    card.locator("strong"),
-    card.locator("strong svg"),
-  ]) {
+  for (const part of [card.locator("h3"), card.locator("p")]) {
     await expect(part).toHaveCSS("transition-duration", "0s");
     await expect(part).toHaveCSS("transition-delay", "0s");
   }
+  await expect(card).not.toHaveCSS("transition-duration", "0s");
+  await expect(
+    card.locator(".service-detail-related__watermark"),
+  ).not.toHaveCSS("transition-duration", "0s");
+  await expect(card.locator("strong svg")).not.toHaveCSS(
+    "transition-duration",
+    "0s",
+  );
+  await expect(card.locator("strong")).not.toHaveCSS(
+    "transition-duration",
+    "0s",
+  );
+});
+
+test("card artwork and project images animate in and out on desktop", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1440, height: 1000 });
+  await page.goto("/");
+
+  const expectHoverTransform = async (
+    targetSelector: string,
+    animatedSelector: string,
+    expectedOpacity?: string,
+  ) => {
+    const target = page.locator(targetSelector).first();
+    const animated = target.locator(animatedSelector);
+    await target.scrollIntoViewIfNeeded();
+    await page.waitForTimeout(900);
+    const initialTransform = await animated.evaluate(
+      (element) => getComputedStyle(element).transform,
+    );
+
+    await target.hover();
+    if (expectedOpacity) {
+      await expect(animated).toHaveCSS("opacity", expectedOpacity);
+    }
+    await expect
+      .poll(() =>
+        animated.evaluate((element) => getComputedStyle(element).transform),
+      )
+      .not.toBe(initialTransform);
+
+    await page.mouse.move(1, 1);
+    if (expectedOpacity) {
+      await expect(animated).toHaveCSS("opacity", "0");
+    }
+    await expect
+      .poll(() =>
+        animated.evaluate((element) => getComputedStyle(element).transform),
+      )
+      .toBe(initialTransform);
+  };
+
+  await expectHoverTransform(
+    ".service-card",
+    ".content-card__watermark",
+    "0.18",
+  );
+  await expectHoverTransform(
+    ".social-platform-card",
+    ".social-platform-card__watermark",
+    "0.18",
+  );
+  await expectHoverTransform(".case-card", ".case-card__image img");
+
+  await page.goto("/sluzby/webove-aplikace");
+  await expectHoverTransform(
+    ".service-related__links a",
+    ".service-related__watermark",
+    "0.18",
+  );
+
+  await page.goto("/sluzby/webove-aplikace-na-miru");
+  await expectHoverTransform(
+    ".service-detail-related__card",
+    ".service-detail-related__watermark",
+    "0.18",
+  );
 });
 
 test("content cards share one component across service and automation pages", async ({
@@ -200,7 +276,6 @@ test("every user-facing card title uses regular font weight", async ({
     ".automation-category-card h3",
     ".case-card h3",
     ".process-step h3",
-    ".social-platform-card > strong",
   ]);
 
   await page.goto("/sluzby/webove-aplikace");

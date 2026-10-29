@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
-import { apiErrorResponse } from "@/lib/api-error-response";
-import { rateLimit } from "@/lib/rate-limit";
-import { verifyTurnstile } from "@/lib/turnstile";
+import { apiErrorResponse } from "@/lib/api/error-response";
+import { rateLimit } from "@/lib/api/rate-limit";
+import { verifyTurnstile } from "@/lib/contact/turnstile";
 
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const endpoint = "newsletter";

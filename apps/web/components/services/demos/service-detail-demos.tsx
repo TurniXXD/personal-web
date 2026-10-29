@@ -3,6 +3,7 @@
 import { demoClass } from "./service-demo-classnames";
 import { ServiceDemoQrPattern } from "./service-demo-qr-pattern";
 import { useEffect, useId, useState } from "react";
+import { useTranslations } from "next-intl";
 import {
   Award,
   BarChart3,
@@ -16,50 +17,28 @@ import {
   Sparkles,
   Users,
 } from "lucide-react";
-import type { Locale } from "@/lib/content";
-
-export const LoyaltyCardDemo = ({ locale }: { locale: Locale }) => {
+export const LoyaltyCardDemo = () => {
+  const t = useTranslations("serviceDemos.loyalty");
   const [ready, setReady] = useState(false);
   const [visits, setVisits] = useState(7);
   const [confirmed, setConfirmed] = useState(false);
   const rewardReady = visits >= 10;
   const remaining = Math.max(10 - visits, 0);
-  const copy =
-    locale === "cs"
-      ? {
-          card: "Věrnostní karta",
-          visits: `${visits} z 10 návštěv`,
-          remaining: rewardReady
-            ? "Odměna je připravena k uplatnění."
-            : `Do další masáže se slevou zbývají ${remaining} návštěvy.`,
-          reward: "Další masáž se slevou 30 %",
-          available: rewardReady ? "Dostupná" : "Zamčená",
-          history: "Poslední aktivita",
-          activity: "Relaxační masáž · potvrzeno obsluhou",
-          confirm: "Potvrdit návštěvu obsluhou",
-          success: "Návštěva byla připsána.",
-          reset: "Obnovit ukázku",
-          qr: "Ilustrativní QR kód zákaznické karty",
-          staff: "Rozhraní obsluhy",
-          verified: "Zákazník identifikován",
-        }
-      : {
-          card: "Loyalty card",
-          visits: `${visits} of 10 visits`,
-          remaining: rewardReady
-            ? "The reward is ready to redeem."
-            : `${remaining} visits remain before the next discounted massage.`,
-          reward: "30% off the next massage",
-          available: rewardReady ? "Available" : "Locked",
-          history: "Latest activity",
-          activity: "Relaxing massage · confirmed by staff",
-          confirm: "Confirm a staff-verified visit",
-          success: "The visit has been added.",
-          reset: "Reset demo",
-          qr: "Illustrative customer card QR code",
-          staff: "Staff interface",
-          verified: "Customer identified",
-        };
+  const copy = {
+    card: t("card"),
+    visits: t("visits", { visits }),
+    remaining: rewardReady ? t("rewardReady") : t("remaining", { remaining }),
+    reward: t("reward"),
+    available: t(rewardReady ? "available" : "locked"),
+    history: t("history"),
+    activity: t("activity"),
+    confirm: t("confirm"),
+    success: t("success"),
+    reset: t("reset"),
+    qr: t("qr"),
+    staff: t("staff"),
+    verified: t("verified"),
+  };
 
   useEffect(() => setReady(true), []);
 
@@ -164,51 +143,21 @@ export const LoyaltyCardDemo = ({ locale }: { locale: Locale }) => {
   );
 };
 
-export const LoyaltyAdminPreview = ({ locale }: { locale: Locale }) => {
-  const copy =
-    locale === "cs"
-      ? {
-          label: "ILUSTRATIVNÍ NÁHLED ADMINISTRACE",
-          title: "Přehled věrnostního programu",
-          period: "Posledních 30 dní",
-          navigation: ["Zákazníci", "Odměny", "Historie", "Nastavení rolí"],
-          metrics: [
-            ["Aktivní zákazníci", "128"],
-            ["Potvrzené návštěvy", "342"],
-            ["Uplatněné odměny", "41"],
-          ],
-          customers: "Poslední aktivita zákazníků",
-          columns: ["Zákazník", "Stav", "Poslední změna"],
-          rows: [
-            ["JV–10482", "8 / 10 návštěv", "+1 obsluhou"],
-            ["JV–23810", "620 bodů", "Odměna uplatněna"],
-            ["JV–50432", "Úroveň Gold", "Nákup ověřen"],
-          ],
-          audit: "Každá změna má autora, čas a auditní záznam.",
-          report: "Aktivita programu",
-          reportNote: "Vývoj návštěv a uplatnění odměn",
-        }
-      : {
-          label: "ILLUSTRATIVE ADMIN PREVIEW",
-          title: "Loyalty programme overview",
-          period: "Last 30 days",
-          navigation: ["Customers", "Rewards", "History", "Staff roles"],
-          metrics: [
-            ["Active customers", "128"],
-            ["Confirmed visits", "342"],
-            ["Rewards redeemed", "41"],
-          ],
-          customers: "Latest customer activity",
-          columns: ["Customer", "Balance", "Latest change"],
-          rows: [
-            ["JV–10482", "8 / 10 visits", "+1 by staff"],
-            ["JV–23810", "620 points", "Reward redeemed"],
-            ["JV–50432", "Gold tier", "Purchase verified"],
-          ],
-          audit: "Every change records its author, time and audit entry.",
-          report: "Programme activity",
-          reportNote: "Visits and reward redemptions over time",
-        };
+export const LoyaltyAdminPreview = () => {
+  const t = useTranslations("serviceDemos.admin");
+  const copy = {
+    label: t("label"),
+    title: t("title"),
+    period: t("period"),
+    navigation: t.raw("navigation") as string[],
+    metrics: t.raw("metrics") as string[][],
+    customers: t("customers"),
+    columns: t.raw("columns") as string[],
+    rows: t.raw("rows") as string[][],
+    audit: t("audit"),
+    report: t("report"),
+    reportNote: t("reportNote"),
+  };
   const navIcons = [Users, Award, History, ShieldCheck];
 
   return (
@@ -301,75 +250,34 @@ export const LoyaltyAdminPreview = ({ locale }: { locale: Locale }) => {
   );
 };
 
-export const VoucherDemo = ({ locale }: { locale: Locale }) => {
+export const VoucherDemo = () => {
+  const t = useTranslations("serviceDemos.voucher");
   const recipientId = useId();
   const messageId = useId();
   const amountId = useId();
   const [recipient, setRecipient] = useState("Jakub Vantuch");
-  const [message, setMessage] = useState(
-    locale === "cs"
-      ? "Užij si chvíli pro sebe."
-      : "Enjoy a moment for yourself.",
-  );
+  const [message, setMessage] = useState(t("initialMessage"));
   const [amount, setAmount] = useState("1500 Kč");
   const [stage, setStage] = useState(0);
   const [ready, setReady] = useState(false);
-  const copy =
-    locale === "cs"
-      ? {
-          illustrative: "ILUSTRATIVNÍ UKÁZKA",
-          builder: "Nastavení poukazu",
-          recipient: "Jméno příjemce",
-          message: "Osobní věnování",
-          amount: "Hodnota poukazu",
-          preview: "Náhled PDF poukazu",
-          gift: "Dárkový poukaz",
-          for: "pro",
-          validity: "Platnost ukázky: 12 měsíců",
-          code: "Kód: GIFT–JV–2048",
-          qr: "Ilustrativní QR kód dárkového poukazu",
-          steps: [
-            "Simulovat potvrzenou platbu",
-            "Připravit ukázkové PDF",
-            "Simulovat uplatnění obsluhou",
-          ],
-          states: [
-            "Čeká na platbu",
-            "Platba potvrzena",
-            "PDF připraveno",
-            "Uplatněno",
-          ],
-          disclaimer: "Bez skutečné platby, e-mailu nebo platného poukazu.",
-          reset: "Obnovit ukázku",
-          download: "Ukázkové PDF",
-        }
-      : {
-          illustrative: "ILLUSTRATIVE DEMO",
-          builder: "Voucher setup",
-          recipient: "Recipient name",
-          message: "Personal message",
-          amount: "Voucher value",
-          preview: "PDF voucher preview",
-          gift: "Gift voucher",
-          for: "for",
-          validity: "Demo validity: 12 months",
-          code: "Code: GIFT–JV–2048",
-          qr: "Illustrative gift voucher QR code",
-          steps: [
-            "Simulate confirmed payment",
-            "Prepare demo PDF",
-            "Simulate staff redemption",
-          ],
-          states: [
-            "Awaiting payment",
-            "Payment confirmed",
-            "PDF ready",
-            "Redeemed",
-          ],
-          disclaimer: "No real payment, email or valid voucher is created.",
-          reset: "Reset demo",
-          download: "Demo PDF",
-        };
+  const copy = {
+    illustrative: t("illustrative"),
+    builder: t("builder"),
+    recipient: t("recipient"),
+    message: t("message"),
+    amount: t("amount"),
+    preview: t("preview"),
+    gift: t("gift"),
+    for: t("for"),
+    validity: t("validity"),
+    code: t("code"),
+    qr: t("qr"),
+    steps: t.raw("steps") as string[],
+    states: t.raw("states") as string[],
+    disclaimer: t("disclaimer"),
+    reset: t("reset"),
+    download: t("download"),
+  };
 
   useEffect(() => setReady(true), []);
 

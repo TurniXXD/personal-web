@@ -17,10 +17,24 @@ test("services navigation groups all service routes in an accessible dropdown", 
 
   const dropdown = page.locator(".site-header__services");
   const trigger = dropdown.getByRole("button", { name: "Služby" });
+  const projectsLink = page
+    .locator(".site-header__nav")
+    .getByRole("link", { name: "Projekty" });
   const serviceLinks = page.locator('[data-slot="dropdown-menu-content"] a');
 
   await expect(trigger).toContainText("Služby");
   await expect(trigger.locator("svg")).toHaveCount(1);
+  await expect(trigger).toHaveCSS("font-family", /Sora/);
+  await expect(trigger).toHaveCSS("font-weight", "700");
+  await expect
+    .poll(async () => {
+      const [triggerSize, linkSize] = await Promise.all([
+        trigger.evaluate((element) => getComputedStyle(element).fontSize),
+        projectsLink.evaluate((element) => getComputedStyle(element).fontSize),
+      ]);
+      return triggerSize === linkSize;
+    })
+    .toBe(true);
   await expect(
     page.locator('.site-header__nav > a[href="/automatizace"]'),
   ).toHaveCount(0);
@@ -28,10 +42,53 @@ test("services navigation groups all service routes in an accessible dropdown", 
   await dropdown.hover();
   await expect(trigger).toHaveAttribute("data-state", "open");
   await expect(trigger).toHaveCSS("outline-style", "none");
+  await expect(page.locator('[data-slot="dropdown-menu-content"]')).toHaveCSS(
+    "background-color",
+    "rgb(255, 255, 255)",
+  );
+  await expect
+    .poll(async () => {
+      const menuZIndex = Number.parseInt(
+        await page
+          .locator('[data-slot="dropdown-menu-content"]')
+          .evaluate((element) => getComputedStyle(element).zIndex),
+        10,
+      );
+      const headerZIndex = Number.parseInt(
+        await page
+          .locator(".site-header")
+          .evaluate((element) => getComputedStyle(element).zIndex),
+        10,
+      );
+      return menuZIndex > headerZIndex;
+    })
+    .toBe(true);
   await serviceLinks.first().hover();
   await expect(serviceLinks.first()).toHaveCSS("outline-style", "none");
   await page.locator(".site-logo").hover();
   await expect(trigger).toHaveAttribute("data-state", "closed");
+  await expect(trigger).toHaveCSS("color", "rgb(89, 97, 125)");
+
+  await page.evaluate(() => window.scrollTo(0, 900));
+  await page.evaluate(() => window.scrollBy(0, -80));
+  await expect(page.locator(".site-header")).toHaveAttribute(
+    "data-scroll-state",
+    "visible",
+  );
+  await page.waitForTimeout(300);
+  const scrollPositionBeforeHover = await page.evaluate(() => window.scrollY);
+  const dropdownBox = await dropdown.boundingBox();
+  expect(dropdownBox).not.toBeNull();
+  await page.mouse.move(
+    dropdownBox!.x + dropdownBox!.width / 2,
+    dropdownBox!.y + dropdownBox!.height / 2,
+  );
+  await expect(trigger).toHaveAttribute("data-state", "open");
+  await page.mouse.move(10, 500);
+  await expect(trigger).toHaveAttribute("data-state", "closed");
+  await expect
+    .poll(() => page.evaluate(() => window.scrollY))
+    .toBe(scrollPositionBeforeHover);
 
   await trigger.click();
   await expect(trigger).toHaveAttribute("data-state", "open");

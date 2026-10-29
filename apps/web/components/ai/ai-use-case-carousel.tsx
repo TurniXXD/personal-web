@@ -26,8 +26,8 @@ import {
   aiUseCaseCarouselCopy,
   getAiUseCaseSlides,
   type AiUseCaseSlide,
-} from "@/lib/ai-use-case-content";
-import type { Locale } from "@/lib/content";
+} from "@/messages/services/ai-use-cases";
+import type { Locale } from "@/lib/site/content";
 import baseVisualStyles from "./ai-case-visual-base.module.css";
 import variantVisualStyles from "./ai-case-visual-variants.module.css";
 
@@ -45,23 +45,26 @@ type AiUseCaseCarouselProps = {
   locale: Locale;
 };
 
+type AiUseCaseSlideProps = { slide: AiUseCaseSlide };
+type WorkflowStepsProps = { steps: string[] };
+
 const AUTO_ROTATION_DELAY = 6_000;
 
-const VisualHeader = ({ slide }: { slide: AiUseCaseSlide }) => (
+const VisualHeader = ({ slide }: AiUseCaseSlideProps) => (
   <div className={visualClass("ai-case-visual__header")}>
     <span>{slide.visual.eyebrow}</span>
     <strong>{slide.visual.title}</strong>
   </div>
 );
 
-const VisualFooter = ({ slide }: { slide: AiUseCaseSlide }) => (
+const VisualFooter = ({ slide }: AiUseCaseSlideProps) => (
   <div className={visualClass("ai-case-visual__summary")}>
     <Check size={15} strokeWidth={2.4} aria-hidden="true" />
     <strong>{slide.visual.summary}</strong>
   </div>
 );
 
-const AiUseCaseVisualization = ({ slide }: { slide: AiUseCaseSlide }) => {
+const AiUseCaseVisualization = ({ slide }: AiUseCaseSlideProps) => {
   if (slide.id === "trends") {
     return (
       <figure className={visualClass("ai-case-visual ai-case-visual--trends")}>
@@ -280,7 +283,7 @@ const AiUseCaseVisualization = ({ slide }: { slide: AiUseCaseSlide }) => {
   );
 };
 
-const WorkflowSteps = ({ steps }: { steps: string[] }) => (
+const WorkflowSteps = ({ steps }: WorkflowStepsProps) => (
   <ol className="ai-use-case__workflow">
     {steps.map((step, index) => (
       <li key={step}>

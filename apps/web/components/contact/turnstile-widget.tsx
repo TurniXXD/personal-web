@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import type { Locale } from "@/lib/content";
+import { useTranslations } from "next-intl";
 
 type TurnstileOptions = {
   sitekey: string;
@@ -20,6 +20,12 @@ type TurnstileApi = {
   render: (container: HTMLElement, options: TurnstileOptions) => string;
   reset: (widgetId: string) => void;
   remove: (widgetId: string) => void;
+};
+
+type TurnstileWidgetProps = {
+  action: string;
+  onTokenChange: (token: string) => void;
+  resetKey?: number;
 };
 
 declare global {
@@ -69,16 +75,11 @@ function loadTurnstile(): Promise<void> {
 export const turnstileEnabled = Boolean(siteKey);
 
 export function TurnstileWidget({
-  locale,
   action,
   onTokenChange,
   resetKey = 0,
-}: {
-  locale: Locale;
-  action: string;
-  onTokenChange: (token: string) => void;
-  resetKey?: number;
-}) {
+}: TurnstileWidgetProps) {
+  const t = useTranslations("turnstile");
   const containerRef = useRef<HTMLDivElement>(null);
   const [failed, setFailed] = useState(false);
   const [attempt, setAttempt] = useState(0);
@@ -137,21 +138,11 @@ export function TurnstileWidget({
   if (!siteKey) return null;
 
   return (
-    <div
-      className="turnstile-widget"
-      role="group"
-      aria-label={
-        locale === "cs"
-          ? "Ochrana formuláře Cloudflare Turnstile"
-          : "Cloudflare Turnstile form protection"
-      }
-    >
+    <div className="turnstile-widget" role="group" aria-label={t("label")}>
       <div ref={containerRef} />
       {failed ? (
         <p role="alert">
-          {locale === "cs"
-            ? "Ověření se nepodařilo načíst. "
-            : "Verification could not load. "}
+          {t("failed")}
           <button
             type="button"
             onClick={() => {
@@ -159,7 +150,7 @@ export function TurnstileWidget({
               setAttempt((value) => value + 1);
             }}
           >
-            {locale === "cs" ? "Zkusit znovu" : "Try again"}
+            {t("retry")}
           </button>
         </p>
       ) : null}

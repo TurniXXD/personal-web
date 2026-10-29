@@ -180,6 +180,32 @@ test("English referral page and locale switch are available", async ({
   ).toBeVisible();
 });
 
+test("referral fields and floating labels match each form background", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 375, height: 844 });
+  await page.goto("/doporuceni");
+
+  for (const { selector, color } of [
+    { selector: ".referral-request-form--link", color: "rgb(248, 249, 255)" },
+    {
+      selector: ".referral-request-form--partnership",
+      color: "rgb(255, 255, 255)",
+    },
+  ]) {
+    const form = page.locator(selector);
+    await expect(form).toHaveCSS("background-color", color);
+    await expect(form.locator("input").first()).toHaveCSS(
+      "background-color",
+      color,
+    );
+    await expect(form.locator("label").first()).toHaveCSS(
+      "background-color",
+      color,
+    );
+  }
+});
+
 test("referral and partnership forms submit their dedicated intent", async ({
   page,
 }) => {

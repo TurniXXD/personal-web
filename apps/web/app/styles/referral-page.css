@@ -177,6 +177,8 @@
   line-height: 1.6;
 }
 .referral-request-form {
+  --referral-form-background: #f8f9ff;
+
   position: relative;
   display: grid;
   width: 100%;
@@ -186,7 +188,7 @@
   padding: 1.25rem;
   border: 1px solid #dfe4f6;
   border-radius: 1.15rem;
-  background: #f8f9ff;
+  background: var(--referral-form-background);
   color: var(--ink);
 }
 .referral-request-form__heading {
@@ -245,7 +247,7 @@
   padding: 0.72rem 0.8rem;
   border: 1px solid #dce2f5;
   border-radius: 0.7rem;
-  background: #fff;
+  background: var(--referral-form-background);
   color: var(--ink);
   font: 0.82rem/1.5 var(--sans);
   transition: border-color 160ms ease;
@@ -392,9 +394,11 @@
   min-width: 0;
 }
 .referral-partner__form .referral-request-form {
+  --referral-form-background: #fff;
+
   margin-top: 0;
   padding: clamp(1.3rem, 3vw, 1.8rem);
-  background: #fff;
+  background: var(--referral-form-background);
 }
 
 .automation-page-hero {
