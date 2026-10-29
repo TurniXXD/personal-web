@@ -33,6 +33,11 @@ export type TwentyRequestDiagnostic = {
   statusText: string;
   responseBody: string;
   responseHeaders: Record<string, string>;
+  responseContentType: string;
+  responseServer: string;
+  cloudflareRay: string;
+  cloudflareMitigation: string;
+  cloudflareCacheStatus: string;
   apiKeyFingerprint: string;
   apiKeyLength: number;
   cloudflareAccessHeadersSent: boolean;
@@ -179,6 +184,11 @@ export class TwentyClient {
           statusText: response.statusText,
           responseBody,
           responseHeaders: diagnosticHeaders(response.headers, secrets),
+          responseContentType: response.headers.get("content-type") ?? "",
+          responseServer: response.headers.get("server") ?? "",
+          cloudflareRay: response.headers.get("cf-ray") ?? "",
+          cloudflareMitigation: response.headers.get("cf-mitigated") ?? "",
+          cloudflareCacheStatus: response.headers.get("cf-cache-status") ?? "",
           apiKeyFingerprint: createHash("sha256")
             .update(this.apiKey)
             .digest("hex")
