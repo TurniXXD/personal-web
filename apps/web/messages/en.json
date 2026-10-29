@@ -26,7 +26,53 @@
     "serviceName": "Process automation"
   },
   "homeUi": {
-    "portraitAlt": "Portrait of Jakub Vantuch"
+    "portraitAlt": "Portrait of Jakub Vantuch",
+    "heroVisual": {
+      "product": "vantuch.dev",
+      "productName": "Your solution",
+      "navigation": {
+        "dashboard": "Overview",
+        "analytics": "Analytics",
+        "automations": "Automation",
+        "integrations": "Integrations"
+      },
+      "title": "Growth",
+      "subtitle": "Results powered by smarter technology.",
+      "period": "Last 30 days",
+      "metrics": {
+        "users": {
+          "label": "Active users",
+          "value": "12.5K",
+          "change": "↗ 24%"
+        },
+        "conversions": {
+          "label": "Conversions",
+          "value": "8.4%",
+          "change": "↗ 36%"
+        },
+        "time": {
+          "label": "Time saved",
+          "value": "120h",
+          "change": "↗ 52%"
+        }
+      },
+      "chartLabel": "Performance trend",
+      "chartChange": "+36%",
+      "cards": {
+        "automation": {
+          "title": "AI automation",
+          "description": "Less routine, more time for what matters."
+        },
+        "applications": {
+          "title": "Web applications",
+          "description": "From the first idea to a dependable system."
+        },
+        "audits": {
+          "title": "Technical audits",
+          "description": "Weak spots turned into a clear plan."
+        }
+      }
+    }
   },
   "notFound": {
     "eyebrow": "PAGE NOT FOUND",

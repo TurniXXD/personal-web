@@ -3,13 +3,33 @@
 import styles from "./interactive-hero-art.module.css";
 
 import { useEffect, useRef } from "react";
-import { Blocks, Code2, Workflow } from "lucide-react";
+import {
+  BarChart3,
+  Bot,
+  Boxes,
+  Code2,
+  Gauge,
+  LayoutDashboard,
+  ShieldCheck,
+  Sparkles,
+  Workflow,
+} from "lucide-react";
+import { useTranslations } from "next-intl";
 
-const clamp = (value: number, min: number, max: number) =>
+type ClampParams = {
+  max: number;
+  min: number;
+  value: number;
+};
+
+type PointerMoveHandler = (event: PointerEvent) => void;
+
+const clamp = ({ value, min, max }: ClampParams) =>
   Math.min(Math.max(value, min), max);
 
 export function InteractiveHeroArt() {
   const artRef = useRef<HTMLDivElement>(null);
+  const t = useTranslations("homeUi.heroVisual");
 
   useEffect(() => {
     const art = artRef.current;
@@ -25,65 +45,101 @@ export function InteractiveHeroArt() {
     let targetScroll = 0;
     let currentX = 0;
     let currentY = 0;
+    let currentFloatX = 0;
+    let currentFloatY = 0;
     let currentScroll = 0;
     let frame = 0;
     let pointerInsideHero = false;
 
     const render = () => {
-      currentX += (targetX - currentX) * 0.12;
-      currentY += (targetY - currentY) * 0.12;
-      currentScroll += (targetScroll - currentScroll) * 0.1;
+      currentX += (targetX - currentX) * 0.09;
+      currentY += (targetY - currentY) * 0.09;
+      currentFloatX += (targetX - currentFloatX) * 0.055;
+      currentFloatY += (targetY - currentFloatY) * 0.055;
+      currentScroll += (targetScroll - currentScroll) * 0.07;
 
-      art.style.setProperty("--hero-window-x", `${currentX * 24}px`);
+      art.style.setProperty("--hero-window-x", `${currentX * 16}px`);
       art.style.setProperty(
         "--hero-window-y",
-        `${currentY * 18 - currentScroll * 12}px`,
+        `${currentY * 12 - currentScroll * 48}px`,
       );
-      art.style.setProperty("--hero-window-rotate-x", `${currentY * -1.2}deg`);
-      art.style.setProperty("--hero-window-rotate-y", `${currentX * 1.5}deg`);
-      art.style.setProperty("--hero-orbit-one-x", `${currentX * -16}px`);
+      art.style.setProperty(
+        "--hero-window-rotate-x",
+        `${currentY * -0.8 - currentScroll * 0.8}deg`,
+      );
+      art.style.setProperty(
+        "--hero-window-rotate-y",
+        `${currentX + currentScroll * 0.6}deg`,
+      );
+      art.style.setProperty("--hero-ambient-one-x", `${currentX * -18}px`);
+      art.style.setProperty(
+        "--hero-ambient-one-y",
+        `${currentY * -14 - currentScroll * 30}px`,
+      );
+      art.style.setProperty("--hero-ambient-two-x", `${currentX * 14}px`);
+      art.style.setProperty(
+        "--hero-ambient-two-y",
+        `${currentY * 12 + currentScroll * 22}px`,
+      );
+      art.style.setProperty(
+        "--hero-ambient-one-scale",
+        `${1 + currentScroll * 0.04}`,
+      );
+      art.style.setProperty(
+        "--hero-ambient-two-scale",
+        `${1 + currentScroll * 0.07}`,
+      );
+      art.style.setProperty("--hero-orbit-one-x", `${currentX * -10}px`);
       art.style.setProperty(
         "--hero-orbit-one-y",
-        `${currentY * -12 - currentScroll * 18}px`,
+        `${currentY * -8 - currentScroll * 28}px`,
       );
-      art.style.setProperty("--hero-orbit-two-x", `${currentX * 12}px`);
+      art.style.setProperty("--hero-orbit-two-x", `${currentX * 8}px`);
       art.style.setProperty(
         "--hero-orbit-two-y",
-        `${currentY * 10 + currentScroll * 8}px`,
+        `${currentY * 6 + currentScroll * 64}px`,
       );
       art.style.setProperty(
         "--hero-orbit-one-scale",
-        `${1 + currentScroll * 0.035}`,
+        `${1 + currentScroll * 0.02}`,
       );
       art.style.setProperty(
         "--hero-orbit-two-scale",
-        `${1 + currentScroll * 0.065}`,
+        `${1 + currentScroll * 0.04}`,
       );
       art.style.setProperty(
         "--hero-float-top-x",
-        `${currentX * 36 + currentScroll * 22}px`,
+        `${currentFloatX * 22 + currentScroll * 14}px`,
       );
       art.style.setProperty(
         "--hero-float-top-y",
-        `${currentY * 28 - currentScroll * 26}px`,
+        `${currentFloatY * 16 - currentScroll * 54}px`,
+      );
+      art.style.setProperty(
+        "--hero-float-middle-x",
+        `${currentFloatX * -18 - currentScroll * 12}px`,
+      );
+      art.style.setProperty(
+        "--hero-float-middle-y",
+        `${currentFloatY * -13 - currentScroll * 38}px`,
       );
       art.style.setProperty(
         "--hero-float-bottom-x",
-        `${currentX * -28 - currentScroll * 22}px`,
+        `${currentFloatX * 15 + currentScroll * 10}px`,
       );
       art.style.setProperty(
         "--hero-float-bottom-y",
-        `${currentY * -20 + currentScroll * 22}px`,
+        `${currentFloatY * -10 - currentScroll * 30}px`,
       );
-      art.style.setProperty("--hero-label-y", `${currentScroll * -10}px`);
-      art.style.setProperty("--hero-headline-y", `${currentScroll * -5}px`);
-      art.style.setProperty("--hero-diagram-y", `${currentScroll * 5}px`);
-      art.style.setProperty("--hero-bars-y", `${currentScroll * 12}px`);
-      art.style.setProperty("--hero-scroll-progress", `${currentScroll}`);
+      art.style.setProperty("--hero-sidebar-y", `${currentScroll * -16}px`);
+      art.style.setProperty("--hero-stats-y", `${currentScroll * 8}px`);
+      art.style.setProperty("--hero-chart-y", `${currentScroll * 18}px`);
 
       const isMoving =
         Math.abs(targetX - currentX) > 0.001 ||
         Math.abs(targetY - currentY) > 0.001 ||
+        Math.abs(targetX - currentFloatX) > 0.001 ||
+        Math.abs(targetY - currentFloatY) > 0.001 ||
         Math.abs(targetScroll - currentScroll) > 0.001;
 
       frame = isMoving ? window.requestAnimationFrame(render) : 0;
@@ -94,13 +150,15 @@ export function InteractiveHeroArt() {
     };
 
     const updateScroll = () => {
-      const rect = art.getBoundingClientRect();
-      const travelled = Math.max(0, -rect.top);
-      targetScroll = clamp(travelled / Math.max(rect.height, 1), 0, 1);
+      targetScroll = clamp({
+        value: window.scrollY / Math.max(hero.offsetHeight * 0.68, 1),
+        min: 0,
+        max: 1,
+      });
       scheduleRender();
     };
 
-    const handlePointerMove = (event: PointerEvent) => {
+    const handlePointerMove: PointerMoveHandler = (event) => {
       if (event.pointerType === "touch") return;
       const rect = hero.getBoundingClientRect();
       const isInsideHero =
@@ -119,16 +177,16 @@ export function InteractiveHeroArt() {
       }
 
       pointerInsideHero = true;
-      targetX = clamp(
-        ((event.clientX - rect.left) / rect.width - 0.5) * 2,
-        -1,
-        1,
-      );
-      targetY = clamp(
-        ((event.clientY - rect.top) / rect.height - 0.5) * 2,
-        -1,
-        1,
-      );
+      targetX = clamp({
+        value: ((event.clientX - rect.left) / rect.width - 0.5) * 2,
+        min: -1,
+        max: 1,
+      });
+      targetY = clamp({
+        value: ((event.clientY - rect.top) / rect.height - 0.5) * 2,
+        min: -1,
+        max: 1,
+      });
       scheduleRender();
     };
 
@@ -156,95 +214,236 @@ export function InteractiveHeroArt() {
 
   return (
     <div
-      className={`hero-art ${styles["hero-art"]} relative grid min-h-[29rem] place-items-center [perspective:75rem] max-[900px]:hidden max-[460px]:min-h-60`}
+      className={`${styles["hero-art"]} relative grid min-h-[29rem] place-items-center [perspective:75rem] max-[900px]:hidden`}
       aria-hidden="true"
       ref={artRef}
     >
       <div
-        className={`hero-art__orbit-layer hero-art__orbit-layer--one ${styles["hero-art__orbit-layer"]} ${styles["hero-art__orbit-layer--one"]} pointer-events-none absolute inset-0 grid place-items-center will-change-transform`}
+        className={`${styles["hero-art__ambient"]} ${styles["hero-art__ambient--one"]} pointer-events-none absolute top-[8%] right-[3%] size-[24rem] rounded-full bg-primary/10 blur-3xl`}
+      />
+      <div
+        className={`${styles["hero-art__ambient"]} ${styles["hero-art__ambient--two"]} pointer-events-none absolute bottom-[6%] left-[8%] size-72 rounded-full bg-secondary blur-3xl`}
+      />
+      <div
+        className={`${styles["hero-art__orbit-layer"]} ${styles["hero-art__orbit-layer--one"]} pointer-events-none absolute inset-0 z-[1] grid place-items-center will-change-transform`}
       >
         <div
-          className={`hero-art__orbit hero-art__orbit--one ${styles["hero-art__orbit"]} ${styles["hero-art__orbit--one"]} relative size-[28rem] rounded-full border border-[rgba(95,108,255,0.16)] will-change-transform max-[1000px]:size-[23rem] max-[900px]:size-80`}
+          className={`${styles["hero-art__orbit"]} ${styles["hero-art__orbit--one"]} relative size-[29rem] rounded-full border border-primary/15 max-[1100px]:size-[26rem]`}
         >
-          <span
-            className={`hero-art__planet ${styles["hero-art__planet"]} absolute top-[-0.28rem] left-[calc(50%-0.28rem)] size-[0.55rem] rounded-full bg-primary shadow-[0_0_0_0.35rem_rgba(95,108,255,0.1)]`}
-          />
+          <span className="absolute top-[-0.25rem] left-[calc(50%-0.25rem)] size-2 rounded-full bg-primary shadow-[0_0_0_0.32rem_rgba(79,93,224,0.1)]" />
         </div>
       </div>
       <div
-        className={`hero-art__orbit-layer hero-art__orbit-layer--two ${styles["hero-art__orbit-layer"]} ${styles["hero-art__orbit-layer--two"]} pointer-events-none absolute inset-0 grid place-items-center will-change-transform`}
+        className={`${styles["hero-art__orbit-layer"]} ${styles["hero-art__orbit-layer--two"]} pointer-events-none absolute inset-0 z-[1] grid place-items-center will-change-transform`}
       >
         <div
-          className={`hero-art__orbit hero-art__orbit--two ${styles["hero-art__orbit"]} ${styles["hero-art__orbit--two"]} relative size-[37rem] rounded-full border border-[rgba(95,108,255,0.16)] will-change-transform max-[1000px]:size-[30rem] max-[900px]:size-[26rem]`}
+          className={`${styles["hero-art__orbit"]} ${styles["hero-art__orbit--two"]} relative size-[38rem] rounded-full border border-primary/15 max-[1100px]:size-[34rem]`}
         >
-          <span
-            className={`hero-art__planet ${styles["hero-art__planet"]} absolute top-[-0.28rem] left-[calc(50%-0.28rem)] size-[0.55rem] rounded-full bg-primary shadow-[0_0_0_0.35rem_rgba(95,108,255,0.1)]`}
-          />
+          <span className="absolute top-[-0.25rem] left-[calc(50%-0.25rem)] size-2 rounded-full bg-primary shadow-[0_0_0_0.32rem_rgba(79,93,224,0.1)]" />
         </div>
       </div>
+
       <div
-        className={`hero-art__window-layer ${styles["hero-art__window-layer"]} relative z-[2] grid w-full place-items-center will-change-transform`}
+        className={`${styles["hero-art__window-layer"]} relative z-[2] grid w-full place-items-center will-change-transform`}
       >
-        <div
-          className={`hero-art__window ${styles["hero-art__window"]} relative w-[min(100%,30rem)] -rotate-3 overflow-hidden rounded-[1.35rem] border border-[#cdd3f5] bg-white shadow-[0_34px_75px_rgba(58,66,143,0.18),0_2px_10px_rgba(58,66,143,0.08)] max-[900px]:w-[min(92%,26rem)]`}
-        >
-          <div className="hero-art__window-bar flex min-h-[2.4rem] items-center gap-[0.34rem] border-b border-[#e6e9fb] bg-[#f9faff] px-4 [&>i]:ml-auto [&>i]:font-mono [&>i]:text-[0.62rem] [&>i]:not-italic [&>i]:text-[#9ca4c6] [&>span]:size-[0.42rem] [&>span]:rounded-full [&>span]:bg-[#c7ceeb] [&>span:first-child]:bg-[#a8afff]">
+        <div className="relative w-[min(94%,31rem)] -rotate-2 overflow-hidden rounded-[1.25rem] border border-border-card bg-card shadow-[0_2rem_4.5rem_rgba(36,46,94,0.15),0_0.25rem_1rem_rgba(36,46,94,0.06)]">
+          <div className="flex min-h-10 items-center gap-1.5 border-b border-border-soft bg-background/80 px-4 [&>span]:size-1.5 [&>span]:rounded-full [&>span]:bg-border [&>span:first-child]:bg-primary/60">
             <span />
             <span />
             <span />
-            <i>vantuch.dev</i>
+            <i className="ml-auto font-mono text-ui-2xs not-italic text-ink-soft">
+              {t("product")}
+            </i>
           </div>
-          <div className="hero-art__window-body px-[2.2rem] pt-[2.4rem] pb-10 max-[900px]:p-6 max-[460px]:p-[1.2rem]">
-            <span
-              className={`hero-art__mini-label ${styles["hero-art__mini-label"]} inline-block font-mono text-[0.62rem] font-bold tracking-[0.12em] text-primary will-change-transform`}
+
+          <div className="grid min-h-[21rem] grid-cols-[7rem_minmax(0,1fr)]">
+            <aside
+              className={`${styles["hero-art__sidebar"]} border-r border-border-soft bg-background/75 px-2.5 py-4 will-change-transform`}
             >
-              BUILD / CONNECT / GROW
-            </span>
-            <div
-              className={`hero-art__headline ${styles["hero-art__headline"]} my-[1.4rem] mb-[2.3rem] grid gap-[0.65rem] will-change-transform [&>span]:h-4 [&>span]:rounded-[0.3rem] [&>span]:bg-[#222a49] [&>span:first-child]:w-[83%] [&>span:last-child]:w-[61%]`}
-            >
-              <span />
-              <span />
-            </div>
-            <div
-              className={`hero-art__diagram ${styles["hero-art__diagram"]} flex items-center justify-between will-change-transform [&>div]:grid [&>div]:size-[3.7rem] [&>div]:place-items-center [&>div]:rounded-2xl [&>div]:border [&>div]:border-[#dfe3fc] [&>div]:bg-[#f5f6ff] [&>div]:text-primary max-[460px]:[&>div]:size-[2.7rem] max-[460px]:[&>div]:rounded-xl`}
-            >
-              <div>
-                <Code2 size={21} />
+              <div className="mb-5 flex items-center gap-2 px-1.5 text-[0.62rem] font-extrabold text-ink-strong">
+                <span className="grid size-6 place-items-center rounded-lg bg-primary text-primary-foreground">
+                  <Sparkles size={12} strokeWidth={2.2} />
+                </span>
+                {t("productName")}
               </div>
-              <span className="hero-art__connection h-0.5 flex-1 bg-[repeating-linear-gradient(90deg,#b1baff_0_5px,transparent_5px_10px)]" />
-              <div>
-                <Workflow size={21} />
+              <div className="grid gap-1 text-[0.57rem] font-semibold text-ink-soft">
+                <span className="flex items-center gap-2 rounded-lg bg-secondary px-2 py-2 text-primary">
+                  <LayoutDashboard size={12} />
+                  {t("navigation.dashboard")}
+                </span>
+                <span className="flex items-center gap-2 px-2 py-2">
+                  <BarChart3 size={12} />
+                  {t("navigation.analytics")}
+                </span>
+                <span className="flex items-center gap-2 px-2 py-2">
+                  <Workflow size={12} />
+                  {t("navigation.automations")}
+                </span>
+                <span className="flex items-center gap-2 px-2 py-2">
+                  <Boxes size={12} />
+                  {t("navigation.integrations")}
+                </span>
               </div>
-              <span className="hero-art__connection h-0.5 flex-1 bg-[repeating-linear-gradient(90deg,#b1baff_0_5px,transparent_5px_10px)]" />
-              <div>
-                <Blocks size={21} />
+            </aside>
+
+            <div className="min-w-0 bg-card px-4 py-4">
+              <div className="flex items-start justify-between gap-3">
+                <div>
+                  <p className="text-[1rem] font-extrabold tracking-[-0.035em] text-ink-strong">
+                    {t("title")}
+                  </p>
+                  <p className="mt-1 text-[0.56rem] text-ink-soft">
+                    {t("subtitle")}
+                  </p>
+                </div>
+                <span className="rounded-lg border border-border-soft bg-background px-2.5 py-1.5 text-[0.53rem] font-semibold text-ink-muted">
+                  {t("period")}
+                </span>
               </div>
-            </div>
-            <div
-              className={`hero-art__bars ${styles["hero-art__bars"]} mt-[2.2rem] grid gap-2 will-change-transform [&>span]:h-[0.45rem] [&>span]:rounded-full [&>span]:bg-[#e6e9fa] [&>span:nth-child(2)]:w-[82%] [&>span:nth-child(3)]:w-[56%]`}
-            >
-              <span />
-              <span />
-              <span />
+
+              <div
+                className={`${styles["hero-art__stats"]} mt-4 grid grid-cols-3 gap-2 will-change-transform`}
+              >
+                <div className="rounded-xl border border-border-soft bg-background/65 p-2.5">
+                  <span className="text-[0.52rem] text-ink-soft">
+                    {t("metrics.users.label")}
+                  </span>
+                  <strong className="mt-1.5 block text-[0.95rem] tracking-[-0.04em] text-ink-strong">
+                    {t("metrics.users.value")}
+                  </strong>
+                  <small className="mt-1 block text-[0.5rem] font-bold text-emerald-500">
+                    {t("metrics.users.change")}
+                  </small>
+                </div>
+                <div className="rounded-xl border border-border-soft bg-background/65 p-2.5">
+                  <span className="text-[0.52rem] text-ink-soft">
+                    {t("metrics.conversions.label")}
+                  </span>
+                  <strong className="mt-1.5 block text-[0.95rem] tracking-[-0.04em] text-ink-strong">
+                    {t("metrics.conversions.value")}
+                  </strong>
+                  <small className="mt-1 block text-[0.5rem] font-bold text-emerald-500">
+                    {t("metrics.conversions.change")}
+                  </small>
+                </div>
+                <div className="rounded-xl border border-border-soft bg-background/65 p-2.5">
+                  <span className="text-[0.52rem] text-ink-soft">
+                    {t("metrics.time.label")}
+                  </span>
+                  <strong className="mt-1.5 block text-[0.95rem] tracking-[-0.04em] text-ink-strong">
+                    {t("metrics.time.value")}
+                  </strong>
+                  <small className="mt-1 block text-[0.5rem] font-bold text-emerald-500">
+                    {t("metrics.time.change")}
+                  </small>
+                </div>
+              </div>
+
+              <div
+                className={`${styles["hero-art__chart"]} mt-3 rounded-xl border border-border-soft bg-background/55 px-3 pt-3 pb-2 will-change-transform`}
+              >
+                <div className="flex items-center justify-between">
+                  <span className="text-[0.52rem] font-semibold text-ink-muted">
+                    {t("chartLabel")}
+                  </span>
+                  <span className="rounded-full bg-primary px-2 py-1 text-[0.49rem] font-bold text-primary-foreground shadow-sm">
+                    {t("chartChange")}
+                  </span>
+                </div>
+                <svg
+                  className="mt-1 h-[5.6rem] w-full overflow-visible"
+                  viewBox="0 0 320 112"
+                  fill="none"
+                >
+                  <defs>
+                    <linearGradient
+                      id="hero-chart-fill"
+                      x1="0"
+                      y1="0"
+                      x2="0"
+                      y2="1"
+                    >
+                      <stop stopColor="var(--brand)" stopOpacity="0.22" />
+                      <stop
+                        offset="1"
+                        stopColor="var(--brand)"
+                        stopOpacity="0"
+                      />
+                    </linearGradient>
+                  </defs>
+                  <path
+                    d="M6 94C31 91 34 63 60 70C82 76 88 98 112 86C135 74 143 42 169 48C189 53 191 73 211 70C235 66 235 41 261 48C279 53 292 40 314 31V108H6V94Z"
+                    fill="url(#hero-chart-fill)"
+                  />
+                  <path
+                    className={styles["hero-art__chart-line"]}
+                    d="M6 94C31 91 34 63 60 70C82 76 88 98 112 86C135 74 143 42 169 48C189 53 191 73 211 70C235 66 235 41 261 48C279 53 292 40 314 31"
+                    stroke="var(--brand)"
+                    strokeWidth="3"
+                    strokeLinecap="round"
+                  />
+                  <circle cx="314" cy="31" r="4" fill="var(--brand)" />
+                  <circle
+                    cx="314"
+                    cy="31"
+                    r="8"
+                    fill="var(--brand)"
+                    fillOpacity="0.14"
+                  />
+                </svg>
+              </div>
             </div>
           </div>
         </div>
       </div>
+
       <div
-        className={`hero-art__floating hero-art__floating--top ${styles["hero-art__floating"]} ${styles["hero-art__floating--top"]} absolute top-6 right-0 z-[3] flex items-center gap-[0.55rem] rounded-[0.8rem] border border-border-soft bg-white px-[0.9rem] py-[0.7rem] font-mono text-body font-extrabold text-primary shadow-[0_16px_32px_rgba(77,84,150,0.12)] will-change-transform [&>span]:text-ui-2xs [&>span]:tracking-ui [&>span]:text-[#3e4768] max-[900px]:top-0 max-[900px]:right-[0.3rem] max-[460px]:px-[0.6rem] max-[460px]:py-[0.45rem] max-[460px]:text-ui-xs max-[460px]:[&>span]:text-[0.55rem]`}
+        className={`${styles["hero-art__floating"]} ${styles["hero-art__floating--top"]} absolute top-2 right-0 z-[3] flex max-w-[11.5rem] items-start gap-2.5 rounded-2xl border border-border-soft bg-card/95 p-3 shadow-[0_1rem_2.2rem_rgba(36,46,94,0.11)] backdrop-blur-sm will-change-transform`}
       >
-        01 <span>WEB</span>
+        <span className="grid size-8 shrink-0 place-items-center rounded-xl bg-secondary text-primary">
+          <Bot size={15} />
+        </span>
+        <span>
+          <strong className="block text-[0.66rem] text-ink-strong">
+            {t("cards.automation.title")}
+          </strong>
+          <small className="mt-1 block text-[0.52rem] leading-[1.4] text-ink-soft">
+            {t("cards.automation.description")}
+          </small>
+        </span>
       </div>
+
       <div
-        className={`hero-art__floating hero-art__floating--middle ${styles["hero-art__floating"]} ${styles["hero-art__floating--middle"]} absolute top-[49%] right-[-1.3rem] z-[3] flex items-center gap-[0.55rem] rounded-[0.8rem] border border-border-soft bg-white px-[0.9rem] py-[0.7rem] font-mono text-body font-extrabold text-primary shadow-[0_16px_32px_rgba(77,84,150,0.12)] will-change-transform [&>span]:text-ui-2xs [&>span]:tracking-ui [&>span]:text-[#3e4768] max-[460px]:px-[0.6rem] max-[460px]:py-[0.45rem] max-[460px]:text-ui-xs max-[460px]:[&>span]:text-[0.55rem]`}
+        className={`${styles["hero-art__floating"]} ${styles["hero-art__floating--middle"]} absolute bottom-[2.8rem] left-0 z-[3] flex max-w-[11.5rem] items-start gap-2.5 rounded-2xl border border-border-soft bg-card/95 p-3 shadow-[0_1rem_2.2rem_rgba(36,46,94,0.11)] backdrop-blur-sm will-change-transform`}
       >
-        02 <span>AUTOMATION</span>
+        <span className="grid size-8 shrink-0 place-items-center rounded-xl bg-secondary text-primary">
+          <Code2 size={15} />
+        </span>
+        <span>
+          <strong className="block text-[0.66rem] text-ink-strong">
+            {t("cards.applications.title")}
+          </strong>
+          <small className="mt-1 block text-[0.52rem] leading-[1.4] text-ink-soft">
+            {t("cards.applications.description")}
+          </small>
+        </span>
       </div>
+
       <div
-        className={`hero-art__floating hero-art__floating--bottom ${styles["hero-art__floating"]} ${styles["hero-art__floating--bottom"]} absolute bottom-[1.2rem] left-[-1.2rem] z-[3] flex items-center gap-[0.55rem] rounded-[0.8rem] border border-border-soft bg-white px-[0.9rem] py-[0.7rem] font-mono text-body font-extrabold text-primary shadow-[0_16px_32px_rgba(77,84,150,0.12)] will-change-transform [&>span]:text-ui-2xs [&>span]:tracking-ui [&>span]:text-[#3e4768] max-[900px]:bottom-0 max-[900px]:left-0 max-[460px]:px-[0.6rem] max-[460px]:py-[0.45rem] max-[460px]:text-ui-xs max-[460px]:[&>span]:text-[0.55rem]`}
+        className={`${styles["hero-art__floating"]} ${styles["hero-art__floating--bottom"]} absolute right-0 bottom-0 z-[3] flex max-w-[11.5rem] items-start gap-2.5 rounded-2xl border border-border-soft bg-card/95 p-3 shadow-[0_1rem_2.2rem_rgba(36,46,94,0.11)] backdrop-blur-sm will-change-transform`}
       >
-        03 <span>SYSTEMS</span>
+        <span className="grid size-8 shrink-0 place-items-center rounded-xl bg-secondary text-primary">
+          <ShieldCheck size={15} />
+        </span>
+        <span>
+          <strong className="flex items-center gap-1.5 text-[0.66rem] text-ink-strong">
+            {t("cards.audits.title")}
+            <Gauge size={11} className="text-primary" />
+          </strong>
+          <small className="mt-1 block text-[0.52rem] leading-[1.4] text-ink-soft">
+            {t("cards.audits.description")}
+          </small>
+        </span>
       </div>
     </div>
   );

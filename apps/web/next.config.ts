@@ -35,6 +35,7 @@ const securityHeaders = [
 const nextConfig: NextConfig = {
   // Keep the live dev server isolated from production builds used by E2E tests.
   distDir: process.env.NODE_ENV === "development" ? ".next-dev" : ".next",
+  allowedDevOrigins: ["127.0.0.1"],
   devIndicators: false,
   poweredByHeader: false,
   async headers() {

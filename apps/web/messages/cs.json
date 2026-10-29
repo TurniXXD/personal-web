@@ -26,7 +26,53 @@
     "serviceName": "Automatizace procesů"
   },
   "homeUi": {
-    "portraitAlt": "Portrét Jakuba Vantucha"
+    "portraitAlt": "Portrét Jakuba Vantucha",
+    "heroVisual": {
+      "product": "vantuch.dev",
+      "productName": "Vaše řešení",
+      "navigation": {
+        "dashboard": "Přehled",
+        "analytics": "Analytika",
+        "automations": "Automatizace",
+        "integrations": "Integrace"
+      },
+      "title": "Růst",
+      "subtitle": "Výsledky díky chytřejším technologiím.",
+      "period": "Posledních 30 dní",
+      "metrics": {
+        "users": {
+          "label": "Aktivní uživatelé",
+          "value": "12,5 tis.",
+          "change": "↗ 24 %"
+        },
+        "conversions": {
+          "label": "Konverze",
+          "value": "8,4 %",
+          "change": "↗ 36 %"
+        },
+        "time": {
+          "label": "Ušetřený čas",
+          "value": "120 h",
+          "change": "↗ 52 %"
+        }
+      },
+      "chartLabel": "Vývoj výkonu",
+      "chartChange": "+36 %",
+      "cards": {
+        "automation": {
+          "title": "AI automatizace",
+          "description": "Méně rutiny, více času na důležité."
+        },
+        "applications": {
+          "title": "Webové aplikace",
+          "description": "Od prvního nápadu po stabilní systém."
+        },
+        "audits": {
+          "title": "Technické audity",
+          "description": "Slabá místa proměněná v jasný plán."
+        }
+      }
+    }
   },
   "notFound": {
     "eyebrow": "STRÁNKA NENALEZENA",
