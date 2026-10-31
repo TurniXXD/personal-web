@@ -12,6 +12,7 @@ import {
   TwentyClient,
   TwentyRequestError,
   twentyErrorContext,
+  twentyErrorTags,
 } from "../lib/integrations/twenty";
 
 test("referral links reject changed person IDs and signatures", () => {
@@ -333,16 +334,12 @@ test("Twenty failures expose useful diagnostics without contact data or credenti
       responsePath: "",
       status: 403,
       statusText: "Forbidden",
-      responseHeaders: {
-        "content-type": "application/json",
-        "cf-cache-status": "DYNAMIC",
-        "cf-mitigated": "challenge",
-        "x-request-id": "req-123",
-        "cf-ray": "ray-456",
-        server: "cloudflare",
-      },
       responseContentType: "application/json",
       responseServer: "cloudflare",
+      responseRequestId: "req-123",
+      responseCorrelationId: "",
+      responseTraceparent: "",
+      responseWwwAuthenticate: "",
       cloudflareRay: "ray-456",
       cloudflareMitigation: "challenge",
       cloudflareCacheStatus: "DYNAMIC",
@@ -355,8 +352,10 @@ test("Twenty failures expose useful diagnostics without contact data or credenti
       cloudflareAccessClientSecretLength: accessClientSecret.length,
     },
   });
+  expect(twentyErrorTags(failure)).toEqual({ cf_ray: "ray-456" });
 
   const serialized = JSON.stringify(twentyErrorContext(failure));
+  expect(serialized).not.toContain("responseHeaders");
   expect(serialized).toContain("[redacted-email]");
   expect(serialized).toContain("[redacted-phone]");
   expect(serialized).not.toContain(apiKey);

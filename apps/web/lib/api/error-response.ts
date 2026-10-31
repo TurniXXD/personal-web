@@ -11,6 +11,7 @@ type ApiErrorResponseOptions<Body extends Record<string, unknown>> = {
   message: string;
   error?: unknown;
   context?: SentryLoggerContext;
+  tags?: Record<string, string>;
   headers?: HeadersInit;
   reported?: boolean;
 };
@@ -24,6 +25,7 @@ export const apiErrorResponse = <Body extends Record<string, unknown>>({
   message,
   error,
   context,
+  tags,
   headers,
   reported = false,
 }: ApiErrorResponseOptions<Body>): Response => {
@@ -36,6 +38,7 @@ export const apiErrorResponse = <Body extends Record<string, unknown>>({
       message,
       context: { status, code, ...context },
       tags: {
+        ...tags,
         source: "api",
         endpoint,
         error_code: code,

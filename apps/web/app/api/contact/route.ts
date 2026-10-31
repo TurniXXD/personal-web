@@ -12,6 +12,7 @@ import { siteConfig } from "@/lib/site/config";
 import {
   configuredTwenty,
   twentyErrorContext,
+  twentyErrorTags,
 } from "@/lib/integrations/twenty";
 import { verifyTurnstile } from "@/lib/contact/turnstile";
 
@@ -147,6 +148,7 @@ export async function POST(request: Request) {
         message: "Twenty referrer lookup failed",
         error,
         context: twentyErrorContext(error),
+        tags: twentyErrorTags(error),
       });
     }
     if (!referrer?.emails?.primaryEmail)
@@ -181,6 +183,7 @@ export async function POST(request: Request) {
       message: "Twenty contact persistence failed",
       error,
       context: twentyErrorContext(error),
+      tags: twentyErrorTags(error),
     });
   }
 

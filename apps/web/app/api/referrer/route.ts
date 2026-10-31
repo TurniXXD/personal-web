@@ -4,6 +4,7 @@ import { referralCookie, verifyReferralToken } from "@/lib/referrals/token";
 import {
   configuredTwenty,
   twentyErrorContext,
+  twentyErrorTags,
 } from "@/lib/integrations/twenty";
 
 const endpoint = "referrer";
@@ -71,6 +72,7 @@ export async function GET() {
       message: "Twenty referrer lookup failed",
       error,
       context: twentyErrorContext(error),
+      tags: twentyErrorTags(error),
       headers,
     });
   }

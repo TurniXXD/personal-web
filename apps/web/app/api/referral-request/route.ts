@@ -10,6 +10,7 @@ import { referralEmailCopy } from "@/messages/referrals/email";
 import {
   configuredTwenty,
   twentyErrorContext,
+  twentyErrorTags,
 } from "@/lib/integrations/twenty";
 import { verifyTurnstile } from "@/lib/contact/turnstile";
 
@@ -151,6 +152,7 @@ export async function POST(request: Request) {
         message: "Twenty referral requester persistence failed",
         error,
         context: twentyErrorContext(error),
+        tags: twentyErrorTags(error),
       });
     }
 
@@ -238,6 +240,7 @@ export async function POST(request: Request) {
       message: "Twenty partnership inquiry persistence failed",
       error,
       context: twentyErrorContext(error),
+      tags: twentyErrorTags(error),
     });
   }
 

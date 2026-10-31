@@ -32,9 +32,12 @@ export type TwentyRequestDiagnostic = {
   status: number;
   statusText: string;
   responseBody: string;
-  responseHeaders: Record<string, string>;
   responseContentType: string;
   responseServer: string;
+  responseRequestId: string;
+  responseCorrelationId: string;
+  responseTraceparent: string;
+  responseWwwAuthenticate: string;
   cloudflareRay: string;
   cloudflareMitigation: string;
   cloudflareCacheStatus: string;
@@ -64,6 +67,15 @@ export function twentyErrorContext(
     : undefined;
 }
 
+export function twentyErrorTags(
+  error: unknown,
+): Record<string, string> | undefined {
+  if (!(error instanceof TwentyRequestError)) return undefined;
+
+  const cloudflareRay = error.diagnostic.cloudflareRay.trim();
+  return cloudflareRay ? { cf_ray: cloudflareRay } : undefined;
+}
+
 const equals = (field: string, value: string) => `${field}[eq]:${value}`;
 const and = (...filters: string[]) => `and(${filters.join(",")})`;
 
@@ -76,33 +88,14 @@ const redactDiagnosticText = (value: string, secrets: string[] = []): string =>
     .replaceAll(/(bearer\s+)[^\s"',}]+/gi, "$1[redacted]")
     .slice(0, 2_000);
 
-const diagnosticHeaders = (
+const diagnosticHeader = (
   headers: Headers,
+  name: string,
   secrets: string[],
-): Record<string, string> =>
-  Object.fromEntries(
-    [
-      "content-type",
-      "cf-cache-status",
-      "cf-mitigated",
-      "cf-ray",
-      "server",
-      "x-request-id",
-      "x-correlation-id",
-      "traceparent",
-      "www-authenticate",
-    ]
-      .map(
-        (name) =>
-          [
-            name,
-            headers.get(name)
-              ? redactDiagnosticText(headers.get(name)!, secrets)
-              : null,
-          ] as const,
-      )
-      .filter((entry): entry is readonly [string, string] => Boolean(entry[1])),
-  );
+): string => {
+  const value = headers.get(name);
+  return value ? redactDiagnosticText(value, secrets) : "";
+};
 
 function toTwentyPhones(value: string): Phones | undefined {
   const input = value.trim();
@@ -183,12 +176,43 @@ export class TwentyClient {
           status: response.status,
           statusText: response.statusText,
           responseBody,
-          responseHeaders: diagnosticHeaders(response.headers, secrets),
-          responseContentType: response.headers.get("content-type") ?? "",
-          responseServer: response.headers.get("server") ?? "",
-          cloudflareRay: response.headers.get("cf-ray") ?? "",
-          cloudflareMitigation: response.headers.get("cf-mitigated") ?? "",
-          cloudflareCacheStatus: response.headers.get("cf-cache-status") ?? "",
+          responseContentType: diagnosticHeader(
+            response.headers,
+            "content-type",
+            secrets,
+          ),
+          responseServer: diagnosticHeader(response.headers, "server", secrets),
+          responseRequestId: diagnosticHeader(
+            response.headers,
+            "x-request-id",
+            secrets,
+          ),
+          responseCorrelationId: diagnosticHeader(
+            response.headers,
+            "x-correlation-id",
+            secrets,
+          ),
+          responseTraceparent: diagnosticHeader(
+            response.headers,
+            "traceparent",
+            secrets,
+          ),
+          responseWwwAuthenticate: diagnosticHeader(
+            response.headers,
+            "www-authenticate",
+            secrets,
+          ),
+          cloudflareRay: diagnosticHeader(response.headers, "cf-ray", secrets),
+          cloudflareMitigation: diagnosticHeader(
+            response.headers,
+            "cf-mitigated",
+            secrets,
+          ),
+          cloudflareCacheStatus: diagnosticHeader(
+            response.headers,
+            "cf-cache-status",
+            secrets,
+          ),
           apiKeyFingerprint: createHash("sha256")
             .update(this.apiKey)
             .digest("hex")
