@@ -64,9 +64,12 @@ export default async function ContactPage({ params }: ContactPageProps) {
             className="contact-page__intro"
             aria-labelledby="contact-page-title"
           >
-            <p className="eyebrow">{t.eyebrow}</p>
-            <h1 id="contact-page-title">{t.title}</h1>
-            <p className="contact-page__lead">{t.intro}</p>
+            <h1
+              id="contact-page-title"
+              className="m-0 max-w-[10ch] text-[clamp(2.8rem,6vw,5rem)] leading-[0.98] tracking-[-0.065em]"
+            >
+              {t.title}
+            </h1>
           </section>
 
           <section className="contact-page__form" aria-label={t.title}>

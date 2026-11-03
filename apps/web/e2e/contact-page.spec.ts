@@ -121,9 +121,11 @@ test("contact page combines direct and business details with the shared form", a
   await expect(
     page.getByRole("heading", {
       level: 1,
-      name: "Pojďme probrat váš projekt.",
+      name: "Kontakt",
     }),
   ).toBeVisible();
+  await expect(page.locator(".contact-page__intro .eyebrow")).toHaveCount(0);
+  await expect(page.locator(".contact-page__lead")).toHaveCount(0);
   await expect(page.locator(".site-header__nav > a").last()).toHaveAttribute(
     "aria-current",
     "page",
@@ -167,6 +169,9 @@ test("contact page combines direct and business details with the shared form", a
   expect(formBox!.y + formBox!.height).toBeLessThan(directContactBox!.y);
 
   await page.goto("/en/kontakt");
+  await expect(
+    page.getByRole("heading", { level: 1, name: "Contact" }),
+  ).toBeVisible();
   await expect(
     page.getByRole("heading", { name: "Direct contact" }),
   ).toHaveCount(0);

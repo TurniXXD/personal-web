@@ -332,20 +332,6 @@
 .contact-page__details > .contact-page__group:first-child {
   margin-top: 0;
 }
-.contact-page__intro h1 {
-  max-width: 10ch;
-  margin: 1rem 0 0;
-  font-size: clamp(2.8rem, 6vw, 5rem);
-  line-height: 0.98;
-  letter-spacing: -0.065em;
-}
-.contact-page__lead {
-  max-width: 38rem;
-  margin: 1.5rem 0 0;
-  color: #657091;
-  font-size: clamp(0.96rem, 1.4vw, 1.08rem);
-  line-height: 1.75;
-}
 .contact-page__group {
   margin-top: 2.5rem;
 }

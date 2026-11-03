@@ -7,10 +7,7 @@ export const contactPageCopy = {
       description:
         "Kontaktujte Jakuba Vantucha ohledně vývoje webu, aplikace, automatizace nebo AI řešení.",
     },
-    eyebrow: "KONTAKT",
-    title: "Pojďme probrat váš projekt.",
-    intro:
-      "Napište mi, co chcete vytvořit nebo zlepšit. Ozvu se vám a společně projdeme cíle, možnosti řešení i další postup.",
+    title: "Kontakt",
     directContact: "Přímý kontakt",
     telegramContact: "Telegram · @turnix",
     phoneAvailability:
@@ -28,10 +25,7 @@ export const contactPageCopy = {
       description:
         "Contact Jakub Vantuch about a website, application, automation, or AI solution.",
     },
-    eyebrow: "CONTACT",
-    title: "Let’s discuss your project.",
-    intro:
-      "Tell me what you want to build or improve. I will get back to you so we can discuss your goals, possible solutions, and next steps.",
+    title: "Contact",
     directContact: "Direct contact",
     telegramContact: "Telegram · @turnix",
     phoneAvailability:

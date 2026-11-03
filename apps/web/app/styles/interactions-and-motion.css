@@ -151,9 +151,7 @@
 .service-detail-hero__content > *,
 .referral-hero__content > .eyebrow,
 .referral-hero__content > h1,
-.contact-page__intro > .eyebrow,
 .contact-page__intro > h1,
-.contact-page__lead,
 .privacy-page__inner > .eyebrow,
 .privacy-page__inner > h1,
 .privacy-page__lead,
@@ -163,13 +161,11 @@
 .automation-page-hero__content > :nth-child(2),
 .service-detail-hero__content > :nth-child(2),
 .referral-hero__content > h1,
-.contact-page__intro > h1,
 .privacy-page__inner > h1 {
   animation-delay: 70ms;
 }
 .automation-page-hero__content > :nth-child(3),
 .service-detail-hero__content > :nth-child(3),
-.contact-page__lead,
 .privacy-page__lead {
   animation-delay: 140ms;
 }
@@ -606,9 +602,7 @@
   .service-detail-hero__content > *,
   .referral-hero__content > .eyebrow,
   .referral-hero__content > h1,
-  .contact-page__intro > .eyebrow,
   .contact-page__intro > h1,
-  .contact-page__lead,
   .privacy-page__inner > .eyebrow,
   .privacy-page__inner > h1,
   .privacy-page__lead,
