@@ -56,8 +56,21 @@
   --text-ui-sm: 0.76rem;
   --text-body-sm: 0.82rem;
   --text-body: 0.9rem;
+  --tracking-headline: -0.02em;
   --tracking-ui: 0.08em;
   --leading-copy: 1.65;
   --radius-card: 1.5rem;
   --shadow-card: 0 1.5rem 4rem rgba(36, 46, 94, 0.12);
+}
+
+#main-content :is(h1, h2, h3, h4, h5, h6),
+.global-error-page :is(h1, h2, h3, h4, h5, h6) {
+  letter-spacing: var(--tracking-headline);
+}
+
+@media (max-width: 600px) {
+  #main-content :is(h1, h2, h3, h4, h5, h6),
+  .global-error-page :is(h1, h2, h3, h4, h5, h6) {
+    letter-spacing: -0.025em;
+  }
 }

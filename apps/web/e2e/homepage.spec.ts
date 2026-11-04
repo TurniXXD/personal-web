@@ -277,6 +277,47 @@ test("English homepage explains the offer and automation categories", async ({
   );
 });
 
+test("headlines use the shared open letter spacing", async ({ page }) => {
+  await page.goto("/");
+
+  const headings = [
+    page.getByRole("heading", { level: 1 }),
+    page.locator("#services h2"),
+    page.locator("#services h3").first(),
+  ];
+
+  for (const heading of headings) {
+    const trackingRatio = await heading.evaluate((element) => {
+      const styles = getComputedStyle(element);
+      return (
+        Number.parseFloat(styles.letterSpacing) /
+        Number.parseFloat(styles.fontSize)
+      );
+    });
+
+    expect(trackingRatio).toBeCloseTo(-0.02, 3);
+  }
+
+  await page.setViewportSize({ width: 375, height: 844 });
+  await page.reload();
+
+  const mobileTrackingRatio = await page
+    .getByRole("heading", { level: 1 })
+    .evaluate((element) => {
+      const styles = getComputedStyle(element);
+      return (
+        Number.parseFloat(styles.letterSpacing) /
+        Number.parseFloat(styles.fontSize)
+      );
+    });
+  const horizontalOverflow = await page.evaluate(
+    () => document.documentElement.scrollWidth - window.innerWidth,
+  );
+
+  expect(mobileTrackingRatio).toBeCloseTo(-0.025, 3);
+  expect(horizontalOverflow).toBeLessThanOrEqual(1);
+});
+
 test("social cards stay compact on mobile", async ({ page }) => {
   await page.setViewportSize({ width: 375, height: 844 });
   await page.goto("/");
