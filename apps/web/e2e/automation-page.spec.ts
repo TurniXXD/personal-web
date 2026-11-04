@@ -104,7 +104,7 @@ test("automation page is localized, indexed and fits mobile width", async ({
   await page.goto("/en/automatizace");
   await expect(page.locator("html")).toHaveAttribute("lang", "en");
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
-    "Let routine work run itself. Focus on the work that needs you.",
+    "Less Routine. More Impact.",
   );
   await expect(page.locator(".automation-scroll-story")).toHaveCount(0);
   await expect(

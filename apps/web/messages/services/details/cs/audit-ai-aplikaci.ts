@@ -10,7 +10,7 @@ export default {
   hero: {
     eyebrow: "AUDIT AI APLIKACÍ",
     title: "Vytvořili jste aplikaci pomocí AI?",
-    highlight: "Nechte ji odborně prověřit.",
+    highlight: "Nechte ji prověřit.",
     description:
       "Prověřím bezpečnost, výkon a kvalitu kódu vaší aplikace. Odhalím rizika, navrhnu konkrétní řešení a pomůžu s opravami, nasazením i dalším vývojem.",
     primary: "Nechat zkontrolovat aplikaci",

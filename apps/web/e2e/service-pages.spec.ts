@@ -274,7 +274,7 @@ test("AI application audit page is complete, localized and production-oriented",
     "Vytvořili jste aplikaci pomocí AI?",
   );
   await expect(page.getByRole("heading", { level: 1 })).toContainText(
-    "Nechte ji odborně prověřit.",
+    "Nechte ji prověřit.",
   );
   await expect(page.locator(".service-detail-workflow article")).toHaveCount(6);
   await expect(page.locator(".service-detail-section")).toHaveCount(1);

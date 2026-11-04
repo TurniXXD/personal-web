@@ -9,7 +9,7 @@ export default {
   name: "Webové aplikace",
   hero: {
     eyebrow: "WEBOVÉ APLIKACE",
-    title: "Aplikace, která sedí vašemu způsobu práce.",
+    title: "Aplikace podle vašich potřeb.",
     description:
       "Interní systémy, zákaznické portály a přehledy pro firmy, kterým běžné tabulky nebo hotové nástroje přestávají stačit.",
     primary: "Probrat aplikaci",

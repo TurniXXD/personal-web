@@ -11,7 +11,7 @@ export default {
   name: "Web applications",
   hero: {
     eyebrow: "WEB APPLICATIONS",
-    title: "An app that fits the way your team works.",
+    title: "Tools that fit your team.",
     description:
       "Internal systems, customer portals and dashboards for companies that have outgrown spreadsheets or off-the-shelf tools.",
     primary: "Discuss an application",

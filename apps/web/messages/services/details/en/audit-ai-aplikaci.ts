@@ -9,10 +9,10 @@ export default {
   name: "AI-built application audit",
   hero: {
     eyebrow: "AI APPLICATION AUDIT",
-    title: "Built an application with AI?",
-    highlight: "I will help you prepare it for production.",
+    title: "AI prototype?",
+    highlight: "Prepare it for production.",
     description:
-      "I review your application's security, performance and code quality, identify risks and propose concrete improvements. I can also implement fixes, help with deployment and continue development.",
+      "I audit your app’s security, performance and code quality, identify risks, help fix issues, deploy and scale.",
     primary: "Request an application review",
     secondary: "What I review",
     secondaryHref: "#co-proverim",

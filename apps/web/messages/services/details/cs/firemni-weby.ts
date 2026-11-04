@@ -9,7 +9,7 @@ export default {
   name: "Firemní weby",
   hero: {
     eyebrow: "FIREMNÍ WEBY",
-    title: "Web, ze kterého je hned jasné, co děláte.",
+    title: "Zaujměte na první pohled.",
     description:
       "Pro firmy a služby, které chtějí působit profesionálně, získávat kvalitní poptávky a mít obsah pod kontrolou.",
     primary: "Probrat nový web",

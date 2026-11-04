@@ -11,7 +11,7 @@ export default {
   name: "Gift vouchers",
   hero: {
     eyebrow: "GIFT VOUCHERS",
-    title: "Gift vouchers without the hassle.",
+    title: "Gift Vouchers, Simplified.",
     description:
       "Customers choose a voucher, pay online and automatically receive a PDF by email. You can track sales, validity and redemption.",
     primary: "Discuss gift voucher sales",
