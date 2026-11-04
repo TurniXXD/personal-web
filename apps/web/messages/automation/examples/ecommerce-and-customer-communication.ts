@@ -28,7 +28,7 @@ export default [
     en: {
       title: "Remind customers about an unfinished purchase",
       description:
-        "Follow up carefully when a customer leaves a checkout before completing the order.",
+        "Send a timely reminder when a customer leaves checkout before placing the order.",
       trigger: "A customer leaves the cart after entering contact details.",
       workflow: [
         "Unfinished purchase",
@@ -238,7 +238,7 @@ export default [
     en: {
       title: "Keep unfinished sales opportunities moving",
       description:
-        "Watch proposals and enquiries that have not received a response.",
+        "Track proposals and enquiries that have not received a response.",
       trigger: "No reply arrives within a configured period after a proposal.",
       workflow: [
         "Proposal sent",

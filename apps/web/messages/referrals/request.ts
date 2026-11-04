@@ -48,9 +48,9 @@ export const referralRequestCopy: Record<
       privacy: "Údaje použiji pouze pro vytvoření odkazu a správu doporučení.",
       privacyLink: "Zpracování osobních údajů",
       errors: {
-        required: "Vyplňte toto pole.",
-        invalidEmail: "Zadejte platný e-mail.",
-        tooLong: "Text je příliš dlouhý.",
+        required: "Toto pole je povinné.",
+        invalidEmail: "Zadejte e-mail ve formátu jmeno@firma.cz.",
+        tooLong: "Zkraťte text a zkuste to znovu.",
       },
     },
     partnership: {
@@ -73,9 +73,9 @@ export const referralRequestCopy: Record<
       privacy: "Údaje použiji pouze pro odpověď a navazující komunikaci.",
       privacyLink: "Zpracování osobních údajů",
       errors: {
-        required: "Vyplňte toto pole.",
-        invalidEmail: "Zadejte platný e-mail.",
-        tooLong: "Text je příliš dlouhý.",
+        required: "Toto pole je povinné.",
+        invalidEmail: "Zadejte e-mail ve formátu jmeno@firma.cz.",
+        tooLong: "Zkraťte text a zkuste to znovu.",
       },
     },
   },
@@ -100,9 +100,9 @@ export const referralRequestCopy: Record<
         "I use these details only to create your link and manage referrals.",
       privacyLink: "Privacy notice",
       errors: {
-        required: "Please fill in this field.",
-        invalidEmail: "Enter a valid email address.",
-        tooLong: "This text is too long.",
+        required: "This field is required.",
+        invalidEmail: "Enter an email address in the format name@example.com.",
+        tooLong: "Shorten this text and try again.",
       },
     },
     partnership: {
@@ -115,7 +115,7 @@ export const referralRequestCopy: Record<
       message: "How do you see us working together?",
       messagePlaceholder:
         "Share a few words about your work, client types, and partnership idea.",
-      submit: "Send partnership inquiry",
+      submit: "Send partnership enquiry",
       sending: "Sending…",
       success: "Thank you. I will get back to you to discuss the partnership.",
       failure:
@@ -126,9 +126,9 @@ export const referralRequestCopy: Record<
         "I use these details only to reply and continue the conversation.",
       privacyLink: "Privacy notice",
       errors: {
-        required: "Please fill in this field.",
-        invalidEmail: "Enter a valid email address.",
-        tooLong: "This text is too long.",
+        required: "This field is required.",
+        invalidEmail: "Enter an email address in the format name@example.com.",
+        tooLong: "Shorten this text and try again.",
       },
     },
   },

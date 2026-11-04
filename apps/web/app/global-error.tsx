@@ -2,7 +2,9 @@
 
 import { useEffect } from "react";
 import * as Sentry from "@sentry/browser";
+import { usePathname } from "next/navigation";
 import messages from "@/messages/global-error.json";
+import { localeFromPathname } from "@/lib/site/locale-from-pathname";
 
 type GlobalErrorProps = {
   error: Error & { digest?: string };
@@ -10,24 +12,27 @@ type GlobalErrorProps = {
 };
 
 export default function GlobalError({ error, reset }: GlobalErrorProps) {
+  const locale = localeFromPathname(usePathname());
+  const copy = messages[locale];
+
   useEffect(() => {
     Sentry.captureException(error);
   }, [error]);
 
   return (
-    <html lang="mul">
+    <html lang={locale}>
       <body>
         <main className="global-error-page">
           <div className="global-error-page__card">
-            <p className="global-error-page__label">{messages.label}</p>
-            <h1>{messages.title}</h1>
-            <p>{messages.description}</p>
+            <p className="global-error-page__label">{copy.label}</p>
+            <h1>{copy.title}</h1>
+            <p>{copy.description}</p>
             <button
               className="ui-action ui-action--primary"
               type="button"
               onClick={reset}
             >
-              {messages.action}
+              {copy.action}
             </button>
           </div>
         </main>

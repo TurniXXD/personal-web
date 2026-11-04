@@ -176,7 +176,7 @@ export default [
       ],
     },
     en: {
-      title: "Stop retyping invoice data manually",
+      title: "Stop retyping invoice data",
       description:
         "Invoice details are transferred to your accounting software automatically, so you do not have to retype them.",
       trigger: "An invoice arrives in a selected inbox or storage location.",
@@ -377,7 +377,7 @@ export default [
     en: {
       title: "Never let an important task slip through",
       description:
-        "Watch deadlines and remind the right person at the right time.",
+        "Track deadlines and remind the right person at the right time.",
       trigger: "A task approaches its deadline or remains unchanged.",
       workflow: ["New task", "Deadline", "Automatic reminder", "Status update"],
       benefit: "Better visibility of deadlines and ownership.",

@@ -56,14 +56,14 @@ export const referralCopy: Record<Locale, ReferralCopy> = {
     meta: {
       title: "Doporučte klienta | Jakub Vantuch",
       description:
-        "Doporučte mě firmě, která řeší web, automatizaci nebo systém na míru. Odměna platí, pokud klient přijde přes váš osobní odkaz nebo vás zmíní na úvodním callu a vznikne zaplacený projekt.",
+        "Doporučte mě firmě, která řeší web, automatizaci nebo systém na míru. Odměna platí, pokud klient přijde přes váš osobní odkaz nebo vás zmíní při prvním hovoru a vznikne zaplacený projekt.",
     },
     hero: {
       eyebrow: "PROGRAM DOPORUČENÍ",
       title: "Znáte firmu, které bych mohl pomoct?",
       description:
         "Doporučte mě firmě, která potřebuje web, aplikaci nebo automatizaci. Pokud z doporučení vznikne placený projekt, získáte 10 % z přijatých plateb za první projekt.",
-      primary: "Doporučit klienta",
+      primary: "Získat doporučovací odkaz",
       secondary: "Jak to funguje",
       rewardTitle: "Provize za doporučení",
       rewardDetail: "z přijatých plateb za první projekt",
@@ -92,7 +92,7 @@ export const referralCopy: Record<Locale, ReferralCopy> = {
           number: "03",
           title: "Klient se ozve sám",
           description:
-            "Sám odešle poptávku. Doporučení přiřadí osobní odkaz, nebo vás klient uvede jako doporučitele na úvodním callu.",
+            "Sám odešle poptávku. Doporučení přiřadí osobní odkaz, nebo vás klient uvede jako doporučitele při prvním hovoru.",
         },
         {
           number: "04",
@@ -106,7 +106,7 @@ export const referralCopy: Record<Locale, ReferralCopy> = {
       eyebrow: "ODMĚNA ZA DOPORUČENÍ",
       title: "10 % z prvního projektu",
       description:
-        "Odměna platí pouze tehdy, když klient přijde přes váš osobní odkaz, nebo vás výslovně zmíní jako doporučitele na úvodním callu. Pokud z toho vznikne projekt, získáte 10 % z plateb, které za první projekt skutečně obdržím. Samotné zaslání cizího kontaktu, nabídka ani podepsaná smlouva nárok nezakládají.",
+        "Odměna platí pouze tehdy, když klient přijde přes váš osobní odkaz, nebo vás výslovně zmíní jako doporučitele při úvodním hovoru. Pokud z toho vznikne projekt, získáte 10 % z plateb, které za první projekt skutečně obdržím. Samotné zaslání cizího kontaktu, nabídka ani podepsaná smlouva nárok nezakládají.",
       example: "Příklad při plném uhrazení projektu",
       project: "Hodnota prvního projektu",
       reward: "Odměna za doporučení",
@@ -115,7 +115,7 @@ export const referralCopy: Record<Locale, ReferralCopy> = {
     },
     who: {
       title: "Nemusíte nic prodávat.",
-      text: "Stačí poslat odkaz člověku, který má o spolupráci zájem, nebo ho požádat, aby vás zmínil na úvodním callu. Jeho kontaktní údaje nikam nezadáváte; rozhodnutí ozvat se je na něm. Projekt, nabídku i cenu pak řeším přímo s ním.",
+      text: "Stačí poslat odkaz člověku, který má o spolupráci zájem, nebo ho požádat, aby vás zmínil při prvním hovoru. Jeho kontaktní údaje nikam nezadáváte; rozhodnutí ozvat se je na něm. Projekt, nabídku i cenu pak řeším přímo s ním.",
     },
     fit: {
       eyebrow: "VHODNÉ PŘÍLEŽITOSTI",
@@ -134,14 +134,14 @@ export const referralCopy: Record<Locale, ReferralCopy> = {
       eyebrow: "PŘEDAT DOPORUČENÍ",
       title: "Odkaz předáte vy. Poptávku pošle klient.",
       intro:
-        "Kontaktní údaje firem na této stránce nesbírám. Doporučení se počítá, když klient přijde přes váš osobní odkaz, nebo vás uvede jako doporučitele na úvodním callu.",
+        "Kontaktní údaje firem na této stránce nesbírám. Doporučení se počítá, když klient přijde přes váš osobní odkaz, nebo vás uvede jako doporučitele při úvodním hovoru.",
       cardEyebrow: "VÁŠ OSOBNÍ ODKAZ",
       cardTitle: "Požádejte o doporučovací odkaz",
       cardText:
         "Vyplňte své údaje a osobní odkaz vám automaticky přijde e-mailem. Pak ho můžete poslat zájemci; pokud přes něj otevře web a odešle vlastní poptávku, doporučení se k ní přiřadí. Neposílejte mi kontakty na jiné firmy.",
       clientTitle: "Jste doporučený klient?",
       clientText:
-        "Popište svůj projekt v kontaktním formuláři sami. Pokud nemáte doporučovací odkaz, na úvodním callu řekněte, kdo mě doporučil.",
+        "Popište svůj projekt v kontaktním formuláři sami. Pokud nemáte doporučovací odkaz, při prvním hovoru řekněte, kdo mě doporučil.",
       clientCta: "Odeslat vlastní poptávku",
       note: "Samotné předání odkazu nebo uvedení firmy bez její vlastní poptávky na odměnu nestačí.",
     },
@@ -152,7 +152,7 @@ export const referralCopy: Record<Locale, ReferralCopy> = {
         {
           question: "Kdy vzniká nárok na odměnu?",
           answer:
-            "Pokud klient přijde přes váš osobní odkaz nebo vás výslovně uvede jako doporučitele na úvodním callu a následně zaplatí za první projekt, který z kontaktu vznikl.",
+            "Pokud klient přijde přes váš osobní odkaz nebo vás výslovně uvede jako doporučitele při úvodním hovoru a následně zaplatí za první projekt, který z kontaktu vznikl.",
         },
         {
           question: "Z čeho se počítá 10 %?",
@@ -167,12 +167,12 @@ export const referralCopy: Record<Locale, ReferralCopy> = {
         {
           question: "Mohu poslat kontakt na firmu sám?",
           answer:
-            "Ne. Pošlete odkaz přímo zájemci. Ozvat se musí sám; doporučení se přiřadí přes osobní odkaz, nebo když vás zmíní na úvodním callu.",
+            "Ne. Pošlete odkaz přímo zájemci. Ozvat se musí sám; doporučení se přiřadí přes osobní odkaz, nebo když vás zmíní při úvodním hovoru.",
         },
         {
           question: "Co když klient nepoužije můj odkaz?",
           answer:
-            "Nevadí. Stačí, když vás při úvodním callu výslovně uvede jako člověka, který mě doporučil.",
+            "Nevadí. Stačí, když vás při úvodním hovoru výslovně uvede jako člověka, který mě doporučil.",
         },
         {
           question: "Kdy dostanu zaplaceno?",
@@ -187,7 +187,7 @@ export const referralCopy: Record<Locale, ReferralCopy> = {
         {
           question: "Co když doporučím více klientů?",
           answer:
-            "Každého klienta přiřazeného přes váš odkaz nebo zmínku na úvodním callu posoudím samostatně.",
+            "Každého klienta přiřazeného přes váš odkaz nebo zmínku při úvodním hovoru posoudím samostatně.",
         },
         {
           question: "Co když firma projekt nerealizuje?",
@@ -211,14 +211,14 @@ export const referralCopy: Record<Locale, ReferralCopy> = {
     meta: {
       title: "Refer a client | Jakub Vantuch",
       description:
-        "Refer a business that needs a website, automation, or a custom system. A reward applies if the client uses your personal link or names you on the introductory call and a paid project follows.",
+        "Refer a business that needs a website, automation, or a custom system. A reward applies if the client uses your personal link or names you during the first call and a paid project follows.",
     },
     hero: {
-      eyebrow: "REFERRAL PROGRAM",
+      eyebrow: "REFERRAL PROGRAMME",
       title: "Know a business I could help?",
       description:
         "Recommend me to a business that needs a website, application, or automation. If the referral leads to a paid project, you receive 10% of the payments received for that first project.",
-      primary: "Refer a client",
+      primary: "Get my referral link",
       secondary: "How it works",
       rewardTitle: "Referral commission",
       rewardDetail: "of payments received for the first project",
@@ -247,7 +247,7 @@ export const referralCopy: Record<Locale, ReferralCopy> = {
           number: "03",
           title: "The client contacts me",
           description:
-            "They submit their own inquiry. Your personal link attributes the referral, or the client names you as the referrer on the introductory call.",
+            "They submit their own enquiry. Your personal link attributes the referral, or the client names you as the referrer during the first call.",
         },
         {
           number: "04",
@@ -261,7 +261,7 @@ export const referralCopy: Record<Locale, ReferralCopy> = {
       eyebrow: "REFERRAL REWARD",
       title: "10% of the first project",
       description:
-        "The reward applies only when the client arrives through your personal link or explicitly names you as the referrer on the introductory call. If it leads to a project, you receive 10% of payments I actually receive for the first project. Sending someone else's contact details, a proposal, or a signed contract alone does not qualify.",
+        "The reward applies only when the client arrives through your personal link or explicitly names you as the referrer during the introductory call. If it leads to a project, you receive 10% of payments I actually receive for the first project. Sending someone else's contact details, a proposal, or a signed contract alone does not qualify.",
       example: "Example if the project is paid in full",
       project: "First project value",
       reward: "Referral reward",
@@ -270,7 +270,7 @@ export const referralCopy: Record<Locale, ReferralCopy> = {
     },
     who: {
       title: "You don't have to sell anything.",
-      text: "Just share your link with someone interested or ask them to name you on the introductory call. You don't enter their contact details anywhere; it's their choice to reach out. I'll discuss the project, proposal, and price directly with them.",
+      text: "Just share your link with someone interested or ask them to name you during the first call. You don't enter their contact details anywhere; it's their choice to reach out. I'll discuss the project, proposal, and price directly with them.",
     },
     fit: {
       eyebrow: "GOOD OPPORTUNITIES",
@@ -287,18 +287,18 @@ export const referralCopy: Record<Locale, ReferralCopy> = {
     },
     link: {
       eyebrow: "PASS ON A REFERRAL",
-      title: "You share the link. The client sends the inquiry.",
+      title: "You share the link. The client sends the enquiry.",
       intro:
-        "This page does not collect other businesses' contact details. A referral counts when the client arrives through your personal link or names you as the referrer on the introductory call.",
+        "This page does not collect other businesses' contact details. A referral counts when the client arrives through your personal link or names you as the referrer during the introductory call.",
       cardEyebrow: "YOUR PERSONAL LINK",
       cardTitle: "Ask for a referral link",
       cardText:
-        "Enter your details and your personal link will be sent to you automatically by email. Share it with a prospective client; if they open the site through it and submit their own inquiry, the referral is attributed to you. Do not send me another business's contact details.",
+        "Enter your details and your personal link will be sent to you automatically by email. Share it with a prospective client; if they open the site through it and submit their own enquiry, the referral is attributed to you. Do not send me another business's contact details.",
       clientTitle: "Were you referred here?",
       clientText:
-        "Send your own project inquiry through the contact form. If you don't have a referral link, name the person who referred you on the introductory call.",
-      clientCta: "Send your own inquiry",
-      note: "Sharing a link or naming a business without its own inquiry does not qualify for a reward.",
+        "Send your own project enquiry through the contact form. If you don't have a referral link, name the person who referred you during the first call.",
+      clientCta: "Send your own enquiry",
+      note: "Sharing a link or naming a business without its own enquiry does not qualify for a reward.",
     },
     faq: {
       eyebrow: "CLEAR TERMS",
@@ -307,7 +307,7 @@ export const referralCopy: Record<Locale, ReferralCopy> = {
         {
           question: "When is the reward earned?",
           answer:
-            "When the client arrives through your personal link or explicitly names you as the referrer on the introductory call, and then pays for the first project arising from that contact.",
+            "When the client arrives through your personal link or explicitly names you as the referrer during the introductory call, and then pays for the first project arising from that contact.",
         },
         {
           question: "What is the 10% based on?",
@@ -322,12 +322,12 @@ export const referralCopy: Record<Locale, ReferralCopy> = {
         {
           question: "Can I send you a business's contact details?",
           answer:
-            "No. Share the link with the prospective client instead. They must contact me themselves; the referral is attributed through your link or when they name you on the introductory call.",
+            "No. Share the link with the prospective client instead. They must contact me themselves; the referral is attributed through your link or when they name you during the introductory call.",
         },
         {
           question: "What if the client does not use my link?",
           answer:
-            "That is fine. They only need to explicitly name you as the person who referred them during the introductory call.",
+            "That is fine. They only need to name you as the person who referred them during the introductory call.",
         },
         {
           question: "When will I be paid?",
@@ -342,7 +342,7 @@ export const referralCopy: Record<Locale, ReferralCopy> = {
         {
           question: "What if I refer more than one client?",
           answer:
-            "I assess each client attributed through your link or named referral on the introductory call separately.",
+            "I assess each client attributed through your link or named referral during the introductory call separately.",
         },
         {
           question: "What if the business does not go ahead?",
@@ -351,7 +351,7 @@ export const referralCopy: Record<Locale, ReferralCopy> = {
         {
           question: "Does it cover later projects?",
           answer:
-            "This program applies to the referred client's first project.",
+            "This programme applies to the referred client's first project.",
         },
       ],
       note: "Payout and any tax-related details depend on your circumstances and can be agreed individually.",

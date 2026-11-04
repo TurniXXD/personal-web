@@ -34,7 +34,7 @@ test("automation page filters non-clickable examples", async ({ page }) => {
     "Automatizace procesů a AI řešení na míru | Jakub Vantuch",
   );
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
-    "Rutinu nechte běžet. Soustřeďte se na růst.",
+    "Rutinu nechte běžet. Věnujte se práci, která potřebuje vás.",
   );
   await expect(page.locator(".automation-scroll-story")).toHaveCount(0);
   await expect(page.locator(".automation-page-hero__visual li")).toHaveCount(3);
@@ -104,7 +104,7 @@ test("automation page is localized, indexed and fits mobile width", async ({
   await page.goto("/en/automatizace");
   await expect(page.locator("html")).toHaveAttribute("lang", "en");
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
-    "Let routine work run itself. Focus on growth.",
+    "Let routine work run itself. Focus on the work that needs you.",
   );
   await expect(page.locator(".automation-scroll-story")).toHaveCount(0);
   await expect(

@@ -151,9 +151,9 @@ export default {
   },
   finalCta: {
     eyebrow: "LET'S TALK",
-    title: "Do you have an idea of what you would like to create?",
+    title: "Need a website that explains your offer clearly?",
     description:
-      "Tell me about your idea or current problem. Together we will determine what solution makes sense.",
-    action: "Discuss the project",
+      "Tell me what the website needs to achieve, who it serves and what is not working today. I’ll suggest the next step from structure to launch.",
+    action: "Discuss your website",
   },
 } satisfies ServiceDetailCopy;

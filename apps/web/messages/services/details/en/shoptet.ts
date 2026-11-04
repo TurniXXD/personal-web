@@ -146,9 +146,9 @@ export default {
   },
   finalCta: {
     eyebrow: "LET'S TALK",
-    title: "Do you have an idea of what you would like to create?",
+    title: "Where does your store make buying harder than it should be?",
     description:
-      "Tell me about your idea or current problem. Together we will determine what solution makes sense.",
-    action: "Discuss the project",
+      "Send me the store link and tell me what needs improving. We’ll focus on changes that help customers and your team.",
+    action: "Discuss the store",
   },
 } satisfies ServiceDetailCopy;

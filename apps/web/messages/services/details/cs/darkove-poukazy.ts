@@ -12,7 +12,7 @@ export default {
     title: "Dárkové poukazy bez starostí.",
     description:
       "Zákazník vybere poukaz, zaplatí online a automaticky obdrží PDF e-mailem. Vy máte přehled o prodeji, platnosti i uplatnění.",
-    primary: "Chci prodávat dárkové poukazy",
+    primary: "Probrat prodej poukazů",
     secondary: "Jak funguje prodej poukazů",
   },
   visual: {
@@ -376,7 +376,7 @@ export default {
     eyebrow: "POJĎME TO PROBRAT",
     title: "Chcete prodávat poukazy bez ručního vystavování?",
     description:
-      "Popište mi typy poukazů, současný web a způsob uplatnění. Společně navrhneme bezpečný nákupní i provozní proces.",
+      "Popište mi typy poukazů, současný web a způsob uplatnění. Navrhnu bezpečný nákupní i provozní postup.",
     action: "Probrat dárkové poukazy",
   },
 } satisfies ServiceDetailCopy;

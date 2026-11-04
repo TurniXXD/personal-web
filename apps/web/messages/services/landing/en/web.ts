@@ -45,7 +45,7 @@ export default {
       },
       {
         icon: "shield",
-        title: "Vibecoded application audits",
+        title: "AI-built application audits",
         description:
           "Security, performance and code quality reviews for applications built with AI, including fixes and MVP completion.",
         href: "/sluzby/audit-ai-aplikaci",
@@ -118,7 +118,7 @@ export default {
         href: "/sluzby/ai-reseni",
       },
       {
-        title: "Vibecoded application audits",
+        title: "AI-built application audits",
         description: "Review, fix and complete an application created with AI.",
         href: "/sluzby/audit-ai-aplikaci",
       },

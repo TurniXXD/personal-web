@@ -148,9 +148,9 @@ export default {
   },
   finalCta: {
     eyebrow: "LET'S TALK",
-    title: "Do you have an idea of what you would like to create?",
+    title: "Has your team outgrown spreadsheets and off-the-shelf tools?",
     description:
-      "Tell me about your idea or current problem. Together we will determine what solution makes sense.",
-    action: "Discuss the project",
+      "Tell me about the current process, roles and manual work. We’ll identify what the first version of the application needs to solve.",
+    action: "Discuss the application",
   },
 } satisfies ServiceDetailCopy;

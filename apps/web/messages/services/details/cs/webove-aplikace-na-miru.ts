@@ -11,7 +11,7 @@ export default {
     eyebrow: "WEBOVÉ APLIKACE",
     title: "Aplikace, která sedí vašemu způsobu práce.",
     description:
-      "Interní systémy, zákaznické portály a dashboardy pro firmy, kterým běžné tabulky nebo hotové nástroje přestávají stačit.",
+      "Interní systémy, zákaznické portály a přehledy pro firmy, kterým běžné tabulky nebo hotové nástroje přestávají stačit.",
     primary: "Probrat aplikaci",
     secondary: "Jak řešení funguje",
   },
@@ -46,7 +46,7 @@ export default {
     eyebrow: "JAK ŘEŠENÍ FUNGUJE",
     title: "Od vstupu dat po jasný další krok.",
     description:
-      "Konkrétní workflow navrhnu podle vašeho procesu, rolí a návazných systémů.",
+      "Konkrétní pracovní postup navrhnu podle vašeho procesu, rolí a návazných systémů.",
     steps: [
       {
         title: "Příjem požadavku",
@@ -113,9 +113,9 @@ export default {
           "Tým spravuje případy, termíny a odpovědnosti v jednotném rozhraní.",
       },
       {
-        title: "Provozní dashboard",
+        title: "Provozní přehled",
         description:
-          "Vedení vidí stav práce a důležité výjimky bez ručního reportingu.",
+          "Vedení vidí stav práce a důležité výjimky bez ručního sestavování reportů.",
       },
     ],
   },
@@ -141,16 +141,16 @@ export default {
       {
         question: "Lze začít menší verzí?",
         answer:
-          "Ano. Doporučuji začít klíčovým workflow, ověřit ho v provozu a další funkce přidávat podle přínosu.",
+          "Ano. Doporučuji začít klíčovým pracovním postupem, ověřit ho v provozu a další funkce přidávat podle přínosu.",
       },
     ],
   },
   related: ["firemni-weby", "vernostni-programy"],
   finalCta: {
     eyebrow: "POJĎME TO PROBRAT",
-    title: "Máte představu, co byste chtěli vytvořit?",
+    title: "Přestávají vašemu týmu stačit tabulky a hotové nástroje?",
     description:
-      "Popište mi svůj nápad nebo současný problém. Společně zjistíme, jaké řešení pro vás dává smysl.",
-    action: "Nezávazně probrat projekt",
+      "Popište mi současný proces, role a místa, kde vzniká ruční práce. Probereme, co má smysl řešit první verzí aplikace.",
+    action: "Probrat aplikaci",
   },
 } satisfies ServiceDetailCopy;

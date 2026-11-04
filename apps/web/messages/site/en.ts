@@ -18,21 +18,20 @@ export default {
   },
   hero: {
     eyebrow: "WEBSITES · AUTOMATION · SYSTEMS · AI",
-    title: "Technology that helps businesses",
+    title: "Technologies that help businesses",
     highlight: "save time and grow.",
     description:
-      "I help businesses streamline their everyday work with modern web solutions, automation, and AI. From analysing the problem through development to long-term support.",
+      "I design and build websites, internal tools, automation and practical AI integrations around the way your business works — from the first analysis to launch and ongoing support.",
     primary: "Discuss your project",
     secondary: "Explore my work",
-    experience: "Personal approach",
-    availability: "Complete delivery",
-    casesProof: "Long-term support",
+    experience: "Work directly with me",
+    availability: "One partner from idea to launch",
+    casesProof: "Support after launch",
   },
   services: {
     eyebrow: "WHAT WE CAN IMPROVE",
     title: "What I can create for you.",
-    intro:
-      "I choose the solution around what will actually help your business.",
+    intro: "I recommend the approach that will help your business most.",
     more: "Learn more",
     items: [
       {
@@ -134,7 +133,7 @@ export default {
   },
   about: {
     eyebrow: "WHO YOU WILL WORK WITH",
-    title: "I stand behind every project personally.",
+    title: "I’m personally involved in every project.",
     intro: "Hello, I am Jakub Vantuch.",
     text: "For more than five years, I have been developing websites, applications, and automation. I help businesses create digital solutions that make their work easier and continue to make sense in the long term.",
     detail:
@@ -168,12 +167,12 @@ export default {
   audit: {
     eyebrow: "INITIAL REVIEW",
     title: "Not sure what to automate first?",
-    text: "Together, we review your current process, find where the business is losing time, and outline the simplest technical solution.",
+    text: "We review your current process, find where the business is losing time, and outline the simplest technical response.",
     cta: "Discuss the options",
   },
   contact: {
     eyebrow: "LET’S TALK",
-    title: "What can we improve together?",
+    title: "What is slowing your business down?",
     text: "Tell me what is holding your business back or what you would like to take further. We will discuss your goals, possible solutions, and the next steps.",
     email: "Send an email",
     phone: "Call me",
@@ -191,7 +190,7 @@ export default {
     ctaEyebrow: "HAVE A SIMILAR PROJECT?",
     ctaTitle: "Let’s create something that works for you too.",
     ctaText:
-      "Tell me what you need to solve. Together, we will discuss the options.",
+      "Tell me what you need to solve, and we’ll talk through the options.",
   },
   footer: {
     line: "Digital Solutions Consultant",
@@ -213,7 +212,7 @@ export default {
         "CMS and dynamic content integration",
       ],
       result:
-        "Visitors can explore products and related information in one place, while the team has a way to manage that content.",
+        "Product and editorial content share one responsive website, giving visitors a consistent route through the catalogue and the team a manageable publishing setup.",
     },
     kinedok: {
       category: "Content platform",
@@ -228,12 +227,12 @@ export default {
         "Maintenance and continued development",
       ],
       result:
-        "Programmes and content are available in a consistent format across devices and can be kept up to date.",
+        "Films, venues and current programmes are presented in one responsive platform that the team can keep up to date as the programme changes.",
     },
     revizio: {
       category: "Web application",
       summary:
-        "An application that brings inspection work and records into a single interface.",
+        "An application that brings inspection records, standards and templates into a single interface.",
       challenge:
         "Inspection work involves many records and steps that businesses and technicians need to navigate with confidence.",
       role: [
@@ -243,7 +242,7 @@ export default {
         "Continued product development",
       ],
       result:
-        "Users have inspection information and related workflows together in one application.",
+        "Businesses and technicians can work with inspection records, standards, templates and related steps in one application.",
     },
     my213: {
       category: "Client portal",
@@ -258,7 +257,7 @@ export default {
         "Integrations with connected systems",
       ],
       result:
-        "Users can complete related steps and manage the information they need in one place.",
+        "The portal guides users through connected tasks and data entry, with information from linked systems available in the same flow.",
     },
     ondrasek: {
       category: "Presentation website",
@@ -273,7 +272,7 @@ export default {
         "Technical SEO foundations",
       ],
       result:
-        "The result is a clear, maintainable website that makes important content accessible across devices.",
+        "Products, services and company information follow a consistent structure across screen sizes and remain manageable for the team.",
     },
   },
 } satisfies SiteCopy;

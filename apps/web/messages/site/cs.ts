@@ -21,12 +21,12 @@ export default {
     title: "Technologie, které firmám",
     highlight: "šetří čas a pomáhají růst.",
     description:
-      "Pomáhám firmám zefektivnit každodenní práci pomocí moderních webových řešení, automatizace a AI. Od analýzy problému přes vývoj až po dlouhodobou správu.",
+      "Navrhuji a stavím firemní weby, interní nástroje, automatizace a praktická propojení s AI podle toho, jak vaše firma skutečně funguje — od úvodní analýzy po spuštění a další podporu.",
     primary: "Probrat projekt",
     secondary: "Prohlédnout realizace",
-    experience: "Osobní přístup",
-    availability: "Kompletní realizace",
-    casesProof: "Dlouhodobá podpora",
+    experience: "Spolupráce přímo se mnou",
+    availability: "Od zadání po spuštění",
+    casesProof: "Podpora i po spuštění",
   },
   services: {
     eyebrow: "CO MŮŽEME ZLEPŠIT",
@@ -74,7 +74,7 @@ export default {
       {
         title: "Sociální sítě",
         description:
-          "Monitoring trendů, příprava příspěvků a plánování publikování obsahu.",
+          "Sledování trendů, příprava příspěvků a plánování publikování obsahu.",
       },
       {
         title: "AI a dokumenty",
@@ -87,7 +87,7 @@ export default {
           "Automatická synchronizace CRM, e-shopu, účetnictví a interních aplikací.",
       },
       {
-        title: "Data a reporting",
+        title: "Data a přehledy",
         description:
           "Pravidelné reporty, upozornění na změny a přehledy důležitých výsledků.",
       },
@@ -131,7 +131,7 @@ export default {
   },
   about: {
     eyebrow: "KDO ZA TÍM STOJÍ",
-    title: "Za každým projektem stojím osobně.",
+    title: "Na každém projektu pracuji osobně.",
     intro: "Ahoj,\njsem Jakub Vantuch.",
     text: "Už více než 5 let se věnuji vývoji webů, aplikací a automatizací. Pomáhám firmám vytvářet digitální řešení, která jim usnadňují práci a dávají smysl i z dlouhodobého hlediska.",
     detail:
@@ -170,7 +170,7 @@ export default {
   },
   contact: {
     eyebrow: "POJĎME TO PROBRAT",
-    title: "Co můžeme společně zlepšit?",
+    title: "Co vaši firmu zbytečně brzdí?",
     text: "Popište mi, co vás ve firmě brzdí nebo co byste chtěli posunout dál. Probereme vaše cíle, možnosti řešení a další postup.",
     email: "Napsat e-mail",
     phone: "Zavolat",
@@ -205,11 +205,11 @@ export default {
         "Široká nabídka profesionální světelné techniky potřebuje přehlednou prezentaci a průběžně aktualizovaný produktový i redakční obsah.",
       role: [
         "Vývoj produktových a obsahových stránek",
-        "Modernizace frontendové architektury",
+        "Modernizace architektury frontendu",
         "Integrace CMS a dynamického obsahu",
       ],
       result:
-        "Návštěvníci mohou procházet produkty a související informace na jednom webu; tým má zázemí pro jejich správu.",
+        "Produktový a redakční obsah spojuje jeden responzivní web. Návštěvníci se v nabídce pohybují jednotně a tým má zázemí pro její správu.",
     },
     kinedok: {
       category: "Obsahová platforma",
@@ -218,20 +218,20 @@ export default {
       challenge:
         "Návštěvníci potřebují snadno najít aktuální program a místo promítání, zatímco tým musí průběžně udržovat rozmanitý obsah.",
       role: [
-        "Frontend vývoj stránek a programových přehledů",
+        "Vývoj frontendu stránek a programových přehledů",
         "Propojení dynamického obsahu",
         "Responzivní rozhraní",
         "Údržba a další rozvoj",
       ],
       result:
-        "Program a obsah jsou dostupné v jednotné podobě napříč zařízeními a lze je průběžně spravovat.",
+        "Filmy, místa a aktuální program spojuje jedna responzivní platforma, kterou tým průběžně aktualizuje podle změn v programu.",
     },
     revizio: {
       category: "Webová aplikace",
       summary:
-        "Aplikace, pro správu revizní agendy a práci s normami a šablonami revizí.",
+        "Aplikace pro správu revizní agendy a práci s normami a šablonami revizí.",
       challenge:
-        "Revizní agenda zahrnuje mnoho záznamů a kroků, ve kterých musí firmy i technici rychle a spolehlivě orientovat.",
+        "Revizní agenda zahrnuje mnoho záznamů a kroků, ve kterých se musí firmy i technici rychle a spolehlivě orientovat.",
       role: [
         "Vývoj aplikačního frontendu",
         "Návrh a úpravy uživatelského rozhraní",
@@ -239,7 +239,7 @@ export default {
         "Průběžný rozvoj produktu",
       ],
       result:
-        "Uživatelé mají revizní informace a navazující postupy pohromadě v jedné aplikaci.",
+        "Firmy i technici pracují s revizními záznamy, normami, šablonami a navazujícími kroky v jedné aplikaci.",
     },
     my213: {
       category: "Klientský portál",
@@ -254,7 +254,7 @@ export default {
         "Integrace s navazujícími systémy",
       ],
       result:
-        "Uživatelé mohou projít souvisejícími kroky a spravovat potřebné informace na jednom místě.",
+        "Portál provází uživatele navazujícími úkoly a zadáváním dat; informace z propojených systémů zůstávají ve stejném postupu.",
     },
     ondrasek: {
       category: "Prezentační web",
@@ -263,13 +263,13 @@ export default {
       challenge:
         "Rozsáhlý obsah organizace potřeboval srozumitelnou strukturu a responzivní prezentaci, ve které návštěvníci rychle najdou důležité informace.",
       role: [
-        "Frontend vývoj",
+        "Vývoj frontendu",
         "Struktura a prezentace obsahu",
         "Responzivní rozhraní",
         "Technické základy SEO",
       ],
       result:
-        "Vznikl přehledný web, který zpřístupňuje důležitý obsah napříč zařízeními a lze jej průběžně spravovat.",
+        "Produkty, služby a informace o společnosti mají jednotnou strukturu napříč zařízeními a tým je může průběžně spravovat.",
     },
   },
 } satisfies SiteCopy;

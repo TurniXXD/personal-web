@@ -2,11 +2,11 @@ import type { ServiceDetailCopy } from "@/lib/services/detail-content";
 
 export default {
   meta: {
-    title: "AI application and vibecoded MVP audits | Jakub Vantuch",
+    title: "AI-built application audits | Jakub Vantuch",
     description:
       "Built an application with AI? I audit security, performance and code quality, fix issues and help complete MVPs for production.",
   },
-  name: "Vibecoded application audit",
+  name: "AI-built application audit",
   hero: {
     eyebrow: "AI APPLICATION AUDIT",
     title: "Built an application with AI?",
@@ -144,7 +144,7 @@ export default {
     eyebrow: "LET'S TALK",
     title: "Have an application but are not sure whether it is ready?",
     description:
-      "Send me a project link or a short description of what you already have. Together we will identify what works, what needs improvement and how to continue.",
+      "Send me a project link or a short description of what you already have. I’ll show you what works, what needs improvement and how to continue.",
     action: "Discuss my project",
   },
 } satisfies ServiceDetailCopy;

@@ -34,7 +34,7 @@ export default [
         "Document generation",
         "Review and sending",
       ],
-      benefit: "Faster preparation of repeated documents.",
+      benefit: "Prepare recurring documents faster.",
       details: [
         "Checks required fields before generation.",
         "Stores a version and requests approval before sending where needed.",
@@ -66,7 +66,7 @@ export default [
     en: {
       title: "Receive a regular overview of business results",
       description:
-        "Receive a clear summary of your results regularly without manually combining spreadsheets.",
+        "Get a regular summary of business results without manually combining spreadsheets.",
       trigger: "A scheduled reporting date arrives.",
       workflow: [
         "Business data",

@@ -49,13 +49,13 @@ test("contact form validates and sends only contact details", async ({
 
   await form.getByRole("button", { name: "Odeslat zprávu" }).click();
   await expect(page.locator("#contact-name-error")).toContainText(
-    "Vyplňte toto pole",
+    "Toto pole je povinné",
   );
   await expect(page.locator("#contact-email-error")).toContainText(
-    "Vyplňte toto pole",
+    "Toto pole je povinné",
   );
   await expect(page.locator("#contact-message-error")).toContainText(
-    "Vyplňte toto pole",
+    "Toto pole je povinné",
   );
 
   await form.locator('[name="name"]').fill("Jakub Vantuch");

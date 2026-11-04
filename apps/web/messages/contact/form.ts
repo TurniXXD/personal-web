@@ -21,10 +21,11 @@ export const contactFormCopy = {
     configurationError:
       "Formulář teď není dostupný. Napište mi prosím přímo na e-mail.",
     errors: {
-      required: "Vyplňte toto pole.",
-      invalidEmail: "Zadejte platný e-mail.",
-      invalidPhone: "Zadejte platné telefonní číslo.",
-      tooLong: "Text je příliš dlouhý.",
+      required: "Toto pole je povinné.",
+      invalidEmail: "Zadejte e-mail ve formátu jmeno@firma.cz.",
+      invalidPhone:
+        "Zadejte 7 až 15 číslic. Můžete použít mezery, +, závorky a pomlčky.",
+      tooLong: "Zkraťte text a zkuste to znovu.",
     },
   },
   en: {
@@ -35,9 +36,9 @@ export const contactFormCopy = {
     message: "How can I help you?",
     messagePlaceholder:
       "Tell me a little about your project or idea. We can discuss the details during an introductory call.",
-    referralApplied: "The referral from your link is attached to this inquiry.",
+    referralApplied: "The referral from your link is attached to this enquiry.",
     privacyNotice:
-      "By sending this form, you share these details so I can respond to your inquiry. Read the",
+      "By sending this form, you share these details so I can respond to your enquiry. Read the",
     privacyLink: "Privacy notice",
     submit: "Send message",
     sending: "Sending…",
@@ -47,10 +48,11 @@ export const contactFormCopy = {
     configurationError:
       "The form is unavailable right now. Please email me directly.",
     errors: {
-      required: "Please fill in this field.",
-      invalidEmail: "Enter a valid email address.",
-      invalidPhone: "Enter a valid phone number.",
-      tooLong: "This text is too long.",
+      required: "This field is required.",
+      invalidEmail: "Enter an email address in the format name@example.com.",
+      invalidPhone:
+        "Enter 7 to 15 digits. You can use spaces, +, parentheses and hyphens.",
+      tooLong: "Shorten this text and try again.",
     },
   },
 } as const satisfies Record<Locale, object>;

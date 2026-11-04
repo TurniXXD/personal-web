@@ -170,7 +170,7 @@ test("English referral page and locale switch are available", async ({
     "/doporuceni",
   );
   await expect(
-    page.getByRole("link", { name: /Send your own inquiry/ }),
+    page.getByRole("link", { name: /Send your own enquiry/ }),
   ).toHaveAttribute("href", "/en#contact");
   await expect(
     page.getByRole("form", { name: "Where should I send your link?" }),

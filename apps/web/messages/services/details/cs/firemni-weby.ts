@@ -146,9 +146,9 @@ export default {
   related: ["shoptet", "webove-aplikace-na-miru"],
   finalCta: {
     eyebrow: "POJĎME TO PROBRAT",
-    title: "Máte představu, co byste chtěli vytvořit?",
+    title: "Potřebujete web, který jasně vysvětlí vaši nabídku?",
     description:
-      "Popište mi svůj nápad nebo současný problém. Společně zjistíme, jaké řešení pro vás dává smysl.",
-    action: "Nezávazně probrat projekt",
+      "Napište mi, co má web splnit, komu slouží a co dnes nefunguje. Navrhnu další postup od struktury po spuštění.",
+    action: "Probrat firemní web",
   },
 } satisfies ServiceDetailCopy;

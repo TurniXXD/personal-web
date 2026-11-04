@@ -43,7 +43,7 @@ export default {
       },
       {
         icon: "shield",
-        title: "Audit vibecoded aplikací",
+        title: "Audit aplikací vytvořených pomocí AI",
         description:
           "Kontrola bezpečnosti, výkonu a kvality aplikací vytvořených pomocí AI. Pomůžu také s opravami a dokončením MVP.",
         href: "/sluzby/audit-ai-aplikaci",
@@ -105,7 +105,7 @@ export default {
     items: [
       {
         title: "Automatizace procesů",
-        description: "Propojení webu s komunikací a firemními workflow.",
+        description: "Propojení webu s komunikací a firemními procesy.",
         href: "/automatizace",
       },
       {
@@ -114,7 +114,7 @@ export default {
         href: "/sluzby/ai-reseni",
       },
       {
-        title: "Audit vibecoded aplikací",
+        title: "Audit aplikací vytvořených pomocí AI",
         description:
           "Kontrola, opravy a dokončení aplikace vytvořené pomocí AI.",
         href: "/sluzby/audit-ai-aplikaci",

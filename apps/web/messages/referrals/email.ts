@@ -23,9 +23,9 @@ export const referralEmailCopy: Record<Locale, ReferralEmailCopy> = {
     companyLabel: "Company",
     greeting: "Hello",
     instructions:
-      "Share it with a prospective client. The referral is attributed when they open the site through the link and submit their own inquiry.",
+      "Share it with a prospective client. The referral is attributed when they open the site through the link and submit their own enquiry.",
     introduction: "here is your personal referral link:",
-    partnershipTitle: "Partnership inquiry",
+    partnershipTitle: "Partnership enquiry",
     subject: "Your personal referral link",
   },
 };

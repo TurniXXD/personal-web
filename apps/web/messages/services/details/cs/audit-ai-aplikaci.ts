@@ -2,15 +2,15 @@ import type { ServiceDetailCopy } from "@/lib/services/detail-content";
 
 export default {
   meta: {
-    title: "Audit AI aplikací a vibecoded MVP | Jakub Vantuch",
+    title: "Audit aplikací vytvořených pomocí AI | Jakub Vantuch",
     description:
       "Vytvořili jste aplikaci pomocí AI? Nabízím audit bezpečnosti, výkonu a kvality kódu, opravy chyb a dokončení MVP pro reálný provoz.",
   },
-  name: "Audit vibecoded aplikací",
+  name: "Audit aplikací vytvořených pomocí AI",
   hero: {
     eyebrow: "AUDIT AI APLIKACÍ",
-    title: "Vibe coded?",
-    highlight: "Nechte to prověřit.",
+    title: "Vytvořili jste aplikaci pomocí AI?",
+    highlight: "Nechte ji odborně prověřit.",
     description:
       "Prověřím bezpečnost, výkon a kvalitu kódu vaší aplikace. Odhalím rizika, navrhnu konkrétní řešení a pomůžu s opravami, nasazením i dalším vývojem.",
     primary: "Nechat zkontrolovat aplikaci",
@@ -77,7 +77,7 @@ export default {
       {
         title: "Nasazení a infrastruktura",
         description:
-          "Hosting, proměnné prostředí, CI/CD, zálohy, logování, monitoring a spolehlivost nasazení.",
+          "Hosting, proměnné prostředí, CI/CD, zálohy, logování, dohled a spolehlivost nasazení.",
       },
       {
         title: "Testování a spolehlivost",
@@ -144,7 +144,7 @@ export default {
     eyebrow: "POJĎME TO PROBRAT",
     title: "Máte aplikaci, ale nejste si jistí, jestli je připravená?",
     description:
-      "Pošlete mi odkaz na projekt nebo krátký popis toho, co už máte. Společně zjistíme, co funguje, co potřebuje zlepšit a jak pokračovat.",
+      "Pošlete mi odkaz na projekt nebo krátký popis toho, co už máte. Ukážu vám, co funguje, co potřebuje zlepšit a jak pokračovat.",
     action: "Probrat můj projekt",
   },
 } satisfies ServiceDetailCopy;

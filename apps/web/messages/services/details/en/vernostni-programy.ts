@@ -14,7 +14,7 @@ export default {
     title: "Give customers a reason to return.",
     description:
       "Encourage repeat visits with a digital card customers open on their phone and staff can manage with ease.",
-    primary: "Design a loyalty programme",
+    primary: "Discuss a loyalty programme",
     secondary: "How the digital card works",
   },
   visual: {
@@ -298,7 +298,7 @@ export default {
     eyebrow: "DESIGN YOUR PROGRAMME",
     title: "How would you like to reward returning customers?",
     description:
-      "Tell me about your operation, visit frequency and current records. Together we can design a clear and secure programme.",
+      "Tell me about your operation, visit frequency and current records. I’ll propose a clear and secure programme.",
     action: "Discuss a loyalty programme",
   },
 } satisfies ServiceDetailCopy;

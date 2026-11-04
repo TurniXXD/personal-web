@@ -13,7 +13,7 @@ export default {
     title: "Dejte zákazníkům důvod se vracet.",
     description:
       "Podpořte opakované návštěvy pomocí digitální karty, kterou zákazník otevře v mobilu a obsluha snadno spravuje.",
-    primary: "Navrhnout věrnostní program",
+    primary: "Probrat věrnostní program",
     secondary: "Jak funguje digitální karta",
   },
   visual: {
@@ -304,7 +304,7 @@ export default {
     eyebrow: "NAVRHNĚME VÁŠ PROGRAM",
     title: "Máte představu, jak chcete zákazníky odměňovat?",
     description:
-      "Popište mi svůj provoz, četnost návštěv a současný způsob evidence. Společně navrhneme bezpečný a srozumitelný program.",
+      "Popište mi svůj provoz, četnost návštěv a současný způsob evidence. Navrhnu bezpečný a srozumitelný program.",
     action: "Probrat věrnostní program",
   },
 } satisfies ServiceDetailCopy;

@@ -14,7 +14,7 @@ export default {
     title: "Gift vouchers without the hassle.",
     description:
       "Customers choose a voucher, pay online and automatically receive a PDF by email. You can track sales, validity and redemption.",
-    primary: "Sell gift vouchers",
+    primary: "Discuss gift voucher sales",
     secondary: "How voucher sales work",
   },
   visual: {
@@ -86,7 +86,7 @@ export default {
   },
   demoCopy: {
     eyebrow: "INTERACTIVE DEMO",
-    title: "Build a fictional gift voucher.",
+    title: "Create a demo gift voucher.",
   },
   sections: [
     {
@@ -372,7 +372,7 @@ export default {
     eyebrow: "LET'S TALK",
     title: "Would you like to sell vouchers without manual issuance?",
     description:
-      "Tell me about voucher types, your current website and redemption process. Together we can design a safe purchase and operations flow.",
+      "Tell me about voucher types, your current website and redemption process. I’ll propose a secure purchase and operations flow.",
     action: "Discuss gift vouchers",
   },
 } satisfies ServiceDetailCopy;

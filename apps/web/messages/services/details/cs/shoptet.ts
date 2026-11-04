@@ -147,9 +147,9 @@ export default {
   related: ["firemni-weby", "darkove-poukazy"],
   finalCta: {
     eyebrow: "POJĎME TO PROBRAT",
-    title: "Máte představu, co byste chtěli vytvořit?",
+    title: "Kde dnes váš e-shop zbytečně komplikuje nákup?",
     description:
-      "Popište mi svůj nápad nebo současný problém. Společně zjistíme, jaké řešení pro vás dává smysl.",
-    action: "Nezávazně probrat projekt",
+      "Pošlete mi odkaz na e-shop a popište, co potřebujete zlepšit. Zaměříme se na úpravy, které dávají smysl zákazníkům i vašemu týmu.",
+    action: "Probrat e-shop",
   },
 } satisfies ServiceDetailCopy;

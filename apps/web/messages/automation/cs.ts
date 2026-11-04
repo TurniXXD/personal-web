@@ -9,7 +9,7 @@ export default {
   hero: {
     eyebrow: "AUTOMATIZACE PRO KAŽDODENNÍ PRÁCI",
     title: "Rutinu nechte běžet.",
-    highlight: "Soustřeďte se na růst.",
+    highlight: "Věnujte se práci, která potřebuje vás.",
     description:
       "Propojím nástroje, které už používáte, a opakované úkoly proměním ve spolehlivý proces. Bez zbytečného přepisování, čekání a hlídání každého kroku.",
     primary: "Probrat automatizaci",
@@ -36,7 +36,7 @@ export default {
       social: "Sociální sítě",
       "ai-documents": "Dokumenty a AI",
       "business-processes": "Firemní procesy",
-      "data-reporting": "Data a reporting",
+      "data-reporting": "Data a přehledy",
     },
   },
   process: {

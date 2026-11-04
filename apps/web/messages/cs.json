@@ -111,7 +111,7 @@
     "breadcrumb": "Drobečková navigace",
     "relatedTitle": "Související služby",
     "relatedAction": "Zjistit více",
-    "solutionFitted": "Řešení přizpůsobené vašemu provozu",
+    "solutionFitted": "Podle toho, jak pracujete",
     "tailored": "Na míru",
     "readyToEvolve": "Připravené k rozvoji"
   },
@@ -220,7 +220,7 @@
         "description": "Online prodej, PDF a uplatnění"
       },
       {
-        "label": "Audit vibecoded aplikací",
+        "label": "Audit aplikací vytvořených pomocí AI",
         "description": "Bezpečnost, výkon a dokončení AI aplikací"
       }
     ]

@@ -18,7 +18,9 @@ test("web applications service page presents real work and contact flow", async 
   );
   await expect(page.locator(".service-offering-card")).toHaveCount(4);
   await expect(
-    page.getByRole("heading", { name: "Audit vibecoded aplikací" }),
+    page.getByRole("heading", {
+      name: "Audit aplikací vytvořených pomocí AI",
+    }),
   ).toBeVisible();
   await expect(
     page.getByRole("heading", { name: "E-shopy na Shoptetu" }),
@@ -266,13 +268,13 @@ test("AI application audit page is complete, localized and production-oriented",
   await page.goto("/sluzby/audit-ai-aplikaci");
 
   await expect(page).toHaveTitle(
-    "Audit AI aplikací a vibecoded MVP | Jakub Vantuch",
+    "Audit aplikací vytvořených pomocí AI | Jakub Vantuch",
   );
   await expect(page.getByRole("heading", { level: 1 })).toContainText(
-    "Vibe coded?",
+    "Vytvořili jste aplikaci pomocí AI?",
   );
   await expect(page.getByRole("heading", { level: 1 })).toContainText(
-    "Nechte to prověřit.",
+    "Nechte ji odborně prověřit.",
   );
   await expect(page.locator(".service-detail-workflow article")).toHaveCount(6);
   await expect(page.locator(".service-detail-section")).toHaveCount(1);
@@ -297,7 +299,7 @@ test("AI application audit page is complete, localized and production-oriented",
     .poll(() =>
       page.locator('script[type="application/ld+json"]').textContent(),
     )
-    .toContain("Audit vibecoded aplikací");
+    .toContain("Audit aplikací vytvořených pomocí AI");
 
   let servicePayload: Record<string, unknown> | undefined;
   await page.route("**/api/contact", async (route) => {
@@ -324,15 +326,13 @@ test("AI application audit page is complete, localized and production-oriented",
       message: "Prosím o kontrolu aplikace.",
       request: {
         type: "service",
-        subject: "Audit vibecoded aplikací",
+        subject: "Audit aplikací vytvořených pomocí AI",
         sourcePath: "/sluzby/audit-ai-aplikaci",
       },
     });
 
   await page.goto("/en/sluzby/audit-ai-aplikaci");
-  await expect(page).toHaveTitle(
-    "AI application and vibecoded MVP audits | Jakub Vantuch",
-  );
+  await expect(page).toHaveTitle("AI-built application audits | Jakub Vantuch");
   await expect(page.locator(".service-detail-section article")).toHaveCount(3);
   await expect(page.getByRole("heading", { level: 1 })).toContainText(
     "Built an application with AI?",

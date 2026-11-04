@@ -111,7 +111,7 @@
     "breadcrumb": "Breadcrumb navigation",
     "relatedTitle": "Related services",
     "relatedAction": "Learn more",
-    "solutionFitted": "A solution fitted to your operation",
+    "solutionFitted": "Built around how you work",
     "tailored": "Tailored",
     "readyToEvolve": "Ready to evolve"
   },
@@ -220,7 +220,7 @@
         "description": "Online sales, PDFs and redemption"
       },
       {
-        "label": "Vibecoded application audit",
+        "label": "AI-built application audit",
         "description": "Security, performance and AI app completion"
       }
     ]

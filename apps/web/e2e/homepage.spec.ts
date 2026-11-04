@@ -13,7 +13,7 @@ test("Czech homepage presents the offer and contact", async ({ page }) => {
     "Navrhuji webové aplikace, automatizace a AI řešení, která firmám šetří čas a zjednodušují každodenní práci.",
   );
   await expect(page.getByRole("heading", { level: 1 })).toContainText(
-    "Technologie, které firmám šetří čas a pomáhají růst.",
+    "Weby, aplikace a automatizace, které zjednodušují každodenní práci.",
   );
   await expect(
     page.getByRole("heading", {
@@ -37,10 +37,16 @@ test("Czech homepage presents the offer and contact", async ({ page }) => {
       .nth(2)
       .locator(".content-card__icon svg.lucide-bot"),
   ).toHaveCount(1);
-  await expect(page.locator(".hero-art__floating")).toHaveCount(3);
-  await expect(page.locator(".hero-art__floating--middle")).toContainText(
-    "02 AUTOMATION",
-  );
+  const heroVisual = page.locator('.hero__grid > [aria-hidden="true"]');
+  await expect(
+    heroVisual.getByText("AI automatizace", { exact: true }),
+  ).toBeVisible();
+  await expect(
+    heroVisual.getByText("Webové aplikace", { exact: true }),
+  ).toBeVisible();
+  await expect(
+    heroVisual.getByText("Technické audity", { exact: true }),
+  ).toBeVisible();
   await expect(page.locator(".site-header__services > button")).toContainText(
     "Služby",
   );
@@ -51,9 +57,9 @@ test("Czech homepage presents the offer and contact", async ({ page }) => {
     "Kontakt",
   ]);
   await expect(page.locator(".hero__proof > span")).toHaveText([
-    "Osobní přístup",
-    "Kompletní realizace",
-    "Dlouhodobá podpora",
+    "Spolupráce přímo se mnou",
+    "Od zadání po spuštění",
+    "Podpora i po spuštění",
   ]);
   await expect(page.locator(".private-ai-section")).toHaveCount(0);
   await expect(
@@ -119,7 +125,7 @@ test("Czech homepage presents the offer and contact", async ({ page }) => {
   ).toHaveCount(0);
   await expect(
     page.getByRole("heading", {
-      name: "Za každým projektem stojím osobně.",
+      name: "Na každém projektu pracuji osobně.",
     }),
   ).toBeVisible();
   await expect(page.locator("#about .about-section__intro")).toHaveText(
@@ -237,7 +243,7 @@ test("English homepage explains the offer and automation categories", async ({
 }) => {
   await page.goto("/en");
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
-    "Technology that helps businesses save time and grow.",
+    "Websites, applications and automation that make everyday work simpler.",
   );
   await expect(
     page.getByRole("heading", {
@@ -262,9 +268,9 @@ test("English homepage explains the offer and automation categories", async ({
     "Launch and further development",
   ]);
   await expect(page.locator(".hero__proof > span")).toHaveText([
-    "Personal approach",
-    "Complete delivery",
-    "Long-term support",
+    "Work directly with me",
+    "One partner from idea to launch",
+    "Support after launch",
   ]);
   await expect(page.locator("#about .about-section__intro")).toHaveText(
     "Hello, I am Jakub Vantuch.",
