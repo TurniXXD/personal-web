@@ -343,7 +343,7 @@ test("hero illustration reacts to pointer and decorative planets orbit", async (
 }) => {
   await page.goto("/");
 
-  const heroWindowLayer = page.locator(".hero-art__window-layer");
+  const heroWindowLayer = page.locator("[data-home-hero-window]");
   const initialTransform = await heroWindowLayer.evaluate(
     (element) => getComputedStyle(element).transform,
   );
@@ -359,8 +359,8 @@ test("hero illustration reacts to pointer and decorative planets orbit", async (
     )
     .not.toBe(initialTransform);
 
-  await expect(page.locator(".hero-art__orbit")).toHaveCount(2);
-  const orbits = page.locator(".hero-art__orbit");
+  await expect(page.locator("[data-home-hero-orbit]")).toHaveCount(2);
+  const orbits = page.locator("[data-home-hero-orbit]");
   for (const orbit of await orbits.all()) {
     await expect(orbit).toHaveCSS("animation-name", /orbit-spin$/);
     const initialTransform = await orbit.evaluate(
@@ -455,7 +455,7 @@ test("hover states do not lift cards or related links", async ({ page }) => {
     .poll(() =>
       projectGrid.evaluate((element) => getComputedStyle(element).alignItems),
     )
-    .toBe("start");
+    .toBe("flex-start");
   await projectCard.hover();
   await expect(projectCard).toHaveCSS("border-color", "rgb(79, 93, 224)");
   await expectStableVerticalPosition(".case-card");

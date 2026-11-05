@@ -335,7 +335,7 @@ test("AI application audit page is complete, localized and production-oriented",
   await expect(page).toHaveTitle("AI-built application audits | Jakub Vantuch");
   await expect(page.locator(".service-detail-section article")).toHaveCount(3);
   await expect(page.getByRole("heading", { level: 1 })).toContainText(
-    "Built an application with AI?",
+    "AI prototype?Prepare it for production.",
   );
   await expect(page.locator("#contact-message")).toHaveValue("");
   await expect(page.locator("#contact-message")).toHaveAttribute(

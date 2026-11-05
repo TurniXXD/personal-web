@@ -209,7 +209,7 @@ test("mobile header and hero use the compact presentation", async ({
   await expect(menu).toBeVisible();
   await expect(menu.locator("svg")).toHaveCount(1);
   await expect(menu).not.toContainText("Menu");
-  await expect(page.locator(".hero-art")).toBeHidden();
+  await expect(page.locator("[data-home-hero-art]")).toBeHidden();
   await expect(page.locator(".hero__proof")).toBeHidden();
 
   const projectCard = page.locator(".case-card").first();
@@ -253,7 +253,7 @@ test("mobile heroes show copy only and hide right-side visuals", async ({
   await page.setViewportSize({ width: 375, height: 844 });
 
   for (const [path, visual, heading] of [
-    ["/", ".hero-art", "#hero-title"],
+    ["/", "[data-home-hero-art]", "#hero-title"],
     ["/sluzby/webove-aplikace", ".service-hero-visual", "#service-hero-title"],
     [
       "/automatizace",
