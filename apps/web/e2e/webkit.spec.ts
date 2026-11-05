@@ -44,8 +44,6 @@ test("mobile Safari exposes localized form validation", async ({ page }) => {
 
   const form = page.locator(".contact-form");
   await form.getByRole("button", { name: "Send message" }).click();
-  await expect(
-    form.getByText("Please fill in this field.").first(),
-  ).toBeVisible();
+  await expect(form.getByText("This field is required.").first()).toBeVisible();
   await expect(form.getByLabel("Name")).toBeFocused();
 });
