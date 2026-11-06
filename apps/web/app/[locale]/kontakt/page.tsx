@@ -73,7 +73,7 @@ export default async function ContactPage({ params }: ContactPageProps) {
           </section>
 
           <section className="contact-page__form" aria-label={t.title}>
-            <ContactForm locale={locale} />
+            <ContactForm emailHref={contactMailto()} locale={locale} />
           </section>
 
           <section

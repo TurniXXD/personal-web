@@ -89,7 +89,33 @@ test("contact form validates and sends only contact details", async ({
   });
 
   await form.getByRole("button", { name: "Odeslat zprávu" }).click();
-  await expect(form.getByRole("status")).toContainText("Děkuji za zprávu");
+  const confirmation = form.getByRole("status");
+  await expect(confirmation).toContainText("Zpráva je na cestě");
+  await expect(confirmation).toContainText("Děkuji za zprávu");
+});
+
+test("contact form offers a direct fallback when delivery fails", async ({
+  page,
+}) => {
+  await page.goto("/");
+  const form = page.locator(".contact-form");
+  await form.locator('[name="name"]').fill("Jakub Vantuch");
+  await form.locator('[name="email"]').fill("hello@vantuch.dev");
+  await form.locator('[name="message"]').fill("Potřebuji nový firemní web.");
+  await page.route("**/api/contact", (route) =>
+    route.fulfill({
+      status: 502,
+      contentType: "application/json",
+      body: JSON.stringify({ ok: false, message: "sendFailed" }),
+    }),
+  );
+
+  await form.getByRole("button", { name: "Odeslat zprávu" }).click();
+  const alert = form.getByRole("alert");
+  await expect(alert).toContainText("Odeslání se nezdařilo");
+  await expect(
+    alert.getByRole("link", { name: "Napsat e-mail" }),
+  ).toHaveAttribute("href", /^mailto:hello@vantuch\.dev/);
 });
 
 test("English contact form is localized", async ({ page }) => {

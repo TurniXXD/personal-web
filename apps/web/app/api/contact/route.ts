@@ -6,7 +6,8 @@ import {
   readContactRequestContext,
   validateContactInput,
 } from "@/lib/contact/submission";
-import { referralCookie, verifyReferralToken } from "@/lib/referrals/token";
+import { referralCookie } from "@/lib/referrals/token";
+import { resolveContactReferral } from "@/lib/referrals/contact-attribution";
 import { rateLimit } from "@/lib/api/rate-limit";
 import { siteConfig } from "@/lib/site/config";
 import {
@@ -15,6 +16,7 @@ import {
   twentyErrorTags,
 } from "@/lib/integrations/twenty";
 import { verifyTurnstile } from "@/lib/contact/turnstile";
+import { sentryLogger } from "@/lib/observability/sentry-logger";
 
 const defaultFrom = "Jakub Vantuch <onboarding@resend.dev>";
 const endpoint = "contact";
@@ -117,48 +119,25 @@ export async function POST(request: Request) {
   }
 
   const token = (await cookies()).get(referralCookie)?.value;
-  let referrer;
-  if (token) {
-    const secret = process.env.TWENTY_REFERRAL_SECRET;
-    if (!secret)
-      return apiErrorResponse({
-        body: { ok: false, message: "notConfigured" },
-        status: 503,
-        code: "referral_not_configured",
+  const referral = await resolveContactReferral({
+    token,
+    secret: process.env.TWENTY_REFERRAL_SECRET,
+    findPersonById: (id) => twenty.findPersonById(id),
+  });
+  const referrer = referral.referrer;
+  if (referral.issue) {
+    sentryLogger({
+      type: referral.issue === "lookupFailed" ? "error" : "warning",
+      error: referral.error,
+      message: "Contact referral attribution skipped",
+      context: {
         endpoint,
-        message: "Contact referral attribution is not configured",
-      });
-    const referrerId = verifyReferralToken(token, secret);
-    if (!referrerId)
-      return apiErrorResponse({
-        body: { ok: false, message: "invalidReferral" },
-        status: 400,
-        code: "invalid_referral",
-        endpoint,
-        message: "Contact referral token is invalid",
-      });
-    try {
-      referrer = await twenty.findPersonById(referrerId);
-    } catch (error) {
-      return apiErrorResponse({
-        body: { ok: false, message: "sendFailed" },
-        status: 502,
-        code: "referrer_lookup_failed",
-        endpoint,
-        message: "Twenty referrer lookup failed",
-        error,
-        context: twentyErrorContext(error),
-        tags: twentyErrorTags(error),
-      });
-    }
-    if (!referrer?.emails?.primaryEmail)
-      return apiErrorResponse({
-        body: { ok: false, message: "invalidReferral" },
-        status: 400,
-        code: "referrer_not_found",
-        endpoint,
-        message: "Contact referrer was not found",
-      });
+        reason: referral.issue,
+        ...twentyErrorContext(referral.error),
+      },
+      tags: { endpoint, ...twentyErrorTags(referral.error) },
+      fingerprint: ["contact", "referral-attribution", referral.issue],
+    });
   }
 
   const requestedId =

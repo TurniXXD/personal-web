@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, type FormEvent } from "react";
-import { CheckCircle2, Send } from "lucide-react";
+import { ArrowUpRight, CheckCircle2, Send, TriangleAlert } from "lucide-react";
 import { localizedPath, type Locale } from "@/lib/site/content";
 import { contactFormCopy } from "@/messages/contact/form";
 import { getAutomationExamples } from "@/lib/automation/content";
@@ -20,6 +20,7 @@ import {
 type Status = "idle" | "sending" | "success" | "failure" | "configurationError";
 
 type ContactFormProps = {
+  emailHref: string;
   initialTopic?: string;
   locale: Locale;
   requestType?: ContactRequestType;
@@ -38,7 +39,69 @@ function readInput(data: FormData): ContactInput {
   };
 }
 
+type SubmissionFeedbackProps = {
+  tone: "success" | "error";
+  title: string;
+  message: string;
+  emailHref?: string;
+  emailAction?: string;
+};
+
+function SubmissionFeedback({
+  tone,
+  title,
+  message,
+  emailHref,
+  emailAction,
+}: SubmissionFeedbackProps) {
+  const success = tone === "success";
+
+  return (
+    <div
+      className={`relative mt-4 overflow-hidden rounded-2xl border px-4 py-4 shadow-[0_12px_32px_rgba(36,46,94,0.08)] ${
+        success
+          ? "border-[#cde6dc] bg-[linear-gradient(135deg,#f2faf6_0%,#ffffff_72%)] text-[#234c3e]"
+          : "border-[#f0cad5] bg-[linear-gradient(135deg,#fff3f6_0%,#ffffff_72%)] text-[#7d2341]"
+      }`}
+      role={success ? "status" : "alert"}
+    >
+      <span
+        className={`absolute inset-y-0 left-0 w-1 ${success ? "bg-[#3f8169]" : "bg-[#b53b60]"}`}
+        aria-hidden="true"
+      />
+      <div className="flex items-start gap-3">
+        <span
+          className={`grid size-10 shrink-0 place-items-center rounded-full ${
+            success ? "bg-[#dcefe7]" : "bg-[#f7dce4]"
+          }`}
+          aria-hidden="true"
+        >
+          {success ? <CheckCircle2 size={21} /> : <TriangleAlert size={21} />}
+        </span>
+        <div className="min-w-0 pt-0.5">
+          <strong className="block text-sm font-semibold tracking-[-0.01em]">
+            {title}
+          </strong>
+          <p className="mt-1 text-[0.8rem] leading-relaxed text-current/80">
+            {message}
+          </p>
+          {emailAction && emailHref && (
+            <a
+              className="mt-2 inline-flex items-center gap-1 rounded-md text-[0.78rem] font-semibold underline decoration-current/30 underline-offset-4 transition-colors hover:decoration-current focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-current focus-visible:ring-offset-2"
+              href={emailHref}
+            >
+              {emailAction}
+              <ArrowUpRight size={15} aria-hidden="true" />
+            </a>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export function ContactForm({
+  emailHref,
   locale,
   initialTopic,
   requestType = initialTopic ? "service" : "general",
@@ -274,17 +337,26 @@ export function ContactForm({
         <Send size={18} aria-hidden="true" />
       </button>
       {status === "success" && (
-        <p className="contact-form__message" role="status">
-          {t.success}
-        </p>
+        <SubmissionFeedback
+          tone="success"
+          title={t.successTitle}
+          message={t.success}
+        />
       )}
       {(status === "failure" || status === "configurationError") && (
-        <p
-          className="contact-form__message contact-form__message--error"
-          role="alert"
-        >
-          {status === "configurationError" ? t.configurationError : t.failure}
-        </p>
+        <SubmissionFeedback
+          tone="error"
+          title={
+            status === "configurationError"
+              ? t.configurationErrorTitle
+              : t.failureTitle
+          }
+          message={
+            status === "configurationError" ? t.configurationError : t.failure
+          }
+          emailHref={emailHref}
+          emailAction={t.emailAction}
+        />
       )}
     </form>
   );
