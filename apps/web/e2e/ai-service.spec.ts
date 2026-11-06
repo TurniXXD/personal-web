@@ -213,6 +213,8 @@ test("AI use-case carousel keeps one height across every slide", async ({
 test("AI use-case carousel advances every six seconds until a step is clicked", async ({
   page,
 }) => {
+  const clockStart = new Date("2024-01-01T00:00:00Z");
+  await page.clock.install({ time: clockStart });
   await page.goto("/sluzby/ai-reseni");
 
   const carousel = page.locator(".ai-use-case-carousel");
@@ -221,17 +223,15 @@ test("AI use-case carousel advances every six seconds until a step is clicked", 
     '.ai-use-case-carousel__slide[data-active="true"]',
   );
 
-  await carousel.hover();
+  await expect(carousel).toBeVisible();
+  await page.clock.pauseAt(new Date(clockStart.getTime() + 60_000));
   const initialSlideId = await activeSlide.getAttribute("id");
-  await expect
-    .poll(() => activeSlide.getAttribute("id"), { timeout: 8_000 })
-    .not.toBe(initialSlideId);
-  const intervalStartSlideId = await activeSlide.getAttribute("id");
-  await page.waitForTimeout(5_000);
-  await expect(activeSlide).toHaveAttribute("id", intervalStartSlideId ?? "");
+  await page.clock.fastForward(5_900);
+  await expect(activeSlide).toHaveAttribute("id", initialSlideId ?? "");
+  await page.clock.fastForward(200);
   await expect
     .poll(() => activeSlide.getAttribute("id"), { timeout: 2_000 })
-    .not.toBe(intervalStartSlideId);
+    .not.toBe(initialSlideId);
 
   await carousel
     .getByRole("button", {
@@ -239,7 +239,7 @@ test("AI use-case carousel advances every six seconds until a step is clicked", 
     })
     .click();
   await expect(thirdSlide).toHaveAttribute("data-active", "true");
-  await page.waitForTimeout(6_500);
+  await page.clock.fastForward(6_500);
   await expect(thirdSlide).toHaveAttribute("data-active", "true");
 });
 

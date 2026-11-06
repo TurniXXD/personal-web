@@ -216,6 +216,7 @@ export function InteractiveHeroArt() {
     <div
       className={`${styles["hero-art"]} relative grid min-h-[29rem] place-items-center [perspective:75rem] max-[900px]:hidden`}
       aria-hidden="true"
+      data-home-hero-art
       ref={artRef}
     >
       <div
@@ -229,6 +230,7 @@ export function InteractiveHeroArt() {
       >
         <div
           className={`${styles["hero-art__orbit"]} ${styles["hero-art__orbit--one"]} relative size-[29rem] rounded-full border border-primary/15 max-[1100px]:size-[26rem]`}
+          data-home-hero-orbit
         >
           <span className="absolute top-[-0.25rem] left-[calc(50%-0.25rem)] size-2 rounded-full bg-primary shadow-[0_0_0_0.32rem_rgba(79,93,224,0.1)]" />
         </div>
@@ -238,6 +240,7 @@ export function InteractiveHeroArt() {
       >
         <div
           className={`${styles["hero-art__orbit"]} ${styles["hero-art__orbit--two"]} relative size-[38rem] rounded-full border border-primary/15 max-[1100px]:size-[34rem]`}
+          data-home-hero-orbit
         >
           <span className="absolute top-[-0.25rem] left-[calc(50%-0.25rem)] size-2 rounded-full bg-primary shadow-[0_0_0_0.32rem_rgba(79,93,224,0.1)]" />
         </div>
@@ -245,6 +248,7 @@ export function InteractiveHeroArt() {
 
       <div
         className={`${styles["hero-art__window-layer"]} relative z-[2] grid w-full place-items-center will-change-transform`}
+        data-home-hero-window
       >
         <div className="relative w-[min(94%,31rem)] -rotate-2 overflow-hidden rounded-[1.25rem] border border-border-card bg-card shadow-[0_2rem_4.5rem_rgba(36,46,94,0.15),0_0.25rem_1rem_rgba(36,46,94,0.06)]">
           <div className="flex min-h-10 items-center gap-1.5 border-b border-border-soft bg-background/80 px-4 [&>span]:size-1.5 [&>span]:rounded-full [&>span]:bg-border [&>span:first-child]:bg-primary/60">

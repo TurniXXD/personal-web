@@ -13,7 +13,7 @@ test("Czech homepage presents the offer and contact", async ({ page }) => {
     "Navrhuji webové aplikace, automatizace a AI řešení, která firmám šetří čas a zjednodušují každodenní práci.",
   );
   await expect(page.getByRole("heading", { level: 1 })).toContainText(
-    "Weby, aplikace a automatizace, které zjednodušují každodenní práci.",
+    "Technologie, které firmám šetří čas a pomáhají růst.",
   );
   await expect(
     page.getByRole("heading", {
@@ -243,7 +243,7 @@ test("English homepage explains the offer and automation categories", async ({
 }) => {
   await page.goto("/en");
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
-    "Websites, applications and automation that make everyday work simpler.",
+    "Technologies that help businesses save time and grow.",
   );
   await expect(
     page.getByRole("heading", {

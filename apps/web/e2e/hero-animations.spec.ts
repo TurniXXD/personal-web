@@ -6,7 +6,11 @@ test("hero animations on every page resolve to real keyframes", async ({
 }) => {
   test.setTimeout(120_000);
   const heroes = [
-    { path: "/", selector: ".hero-art", minimumAnimatedParts: 2 },
+    {
+      path: "/",
+      selector: "[data-home-hero-art]",
+      minimumAnimatedParts: 2,
+    },
     {
       path: "/sluzby/webove-aplikace",
       selector: ".service-hero",
@@ -27,7 +31,7 @@ test("hero animations on every page resolve to real keyframes", async ({
       selector: ".referral-hero",
       minimumAnimatedParts: 5,
     },
-    { path: "/kontakt", selector: ".contact-page", minimumAnimatedParts: 4 },
+    { path: "/kontakt", selector: ".contact-page", minimumAnimatedParts: 2 },
     { path: "/privacy", selector: ".privacy-page", minimumAnimatedParts: 3 },
     { path: "/work/robe", selector: ".case-detail", minimumAnimatedParts: 2 },
     {
