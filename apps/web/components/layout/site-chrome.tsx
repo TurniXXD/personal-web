@@ -220,6 +220,7 @@ export function ContactBlock({
         </ScrollReveal>
         <ScrollReveal className="contact-section__form-reveal" delay={60}>
           <ContactForm
+            emailHref={contactMailto()}
             locale={locale}
             initialTopic={topic}
             requestType={requestType}

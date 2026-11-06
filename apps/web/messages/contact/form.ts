@@ -15,11 +15,15 @@ export const contactFormCopy = {
     privacyLink: "Zpracování osobních údajů",
     submit: "Odeslat zprávu",
     sending: "Odesílám…",
+    successTitle: "Zpráva je na cestě",
     success: "Děkuji za zprávu. Ozvu se vám co nejdříve.",
+    failureTitle: "Odeslání se nezdařilo",
     failure:
       "Zprávu se nepodařilo odeslat. Zkuste to znovu nebo mi napište e-mail.",
+    configurationErrorTitle: "Formulář je dočasně nedostupný",
     configurationError:
       "Formulář teď není dostupný. Napište mi prosím přímo na e-mail.",
+    emailAction: "Napsat e-mail",
     errors: {
       required: "Toto pole je povinné.",
       invalidEmail: "Zadejte e-mail ve formátu jmeno@firma.cz.",
@@ -42,11 +46,15 @@ export const contactFormCopy = {
     privacyLink: "Privacy notice",
     submit: "Send message",
     sending: "Sending…",
+    successTitle: "Message sent",
     success: "Thanks for your message. I'll get back to you soon.",
+    failureTitle: "Message not sent",
     failure:
       "Your message couldn't be sent. Please try again or email me directly.",
+    configurationErrorTitle: "Form temporarily unavailable",
     configurationError:
       "The form is unavailable right now. Please email me directly.",
+    emailAction: "Send an email",
     errors: {
       required: "This field is required.",
       invalidEmail: "Enter an email address in the format name@example.com.",

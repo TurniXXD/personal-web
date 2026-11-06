@@ -8,6 +8,7 @@ import {
   validateContactInput,
 } from "../lib/contact/submission";
 import { validateReferralRequest } from "../lib/referrals/request";
+import { resolveContactReferral } from "../lib/referrals/contact-attribution";
 import {
   TwentyClient,
   TwentyRequestError,
@@ -23,6 +24,31 @@ test("referral links reject changed person IDs and signatures", () => {
   expect(verifyReferralToken(token, secret)).toBe(id);
   expect(verifyReferralToken(token.replace(id, otherId), secret)).toBeNull();
   expect(verifyReferralToken(token, `${secret}-different`)).toBeNull();
+});
+
+test("stale contact referrals never block the contact submission", async () => {
+  const id = "e191876c-7043-4e42-b644-234dbd43f43d";
+  const secret = "this-is-a-test-signing-secret-over-thirty-two-chars";
+  const token = createReferralToken(id, secret);
+
+  await expect(
+    resolveContactReferral({
+      token,
+      secret,
+      findPersonById: async () => undefined,
+    }),
+  ).resolves.toEqual({ issue: "notFound" });
+
+  const lookupError = new Error("Twenty is unavailable");
+  await expect(
+    resolveContactReferral({
+      token,
+      secret,
+      findPersonById: async () => {
+        throw lookupError;
+      },
+    }),
+  ).resolves.toEqual({ issue: "lookupFailed", error: lookupError });
 });
 
 test("contact validation ignores manually supplied attribution", () => {
