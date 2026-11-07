@@ -93,7 +93,7 @@ test("combines every filter into one API query", () => {
   });
   const query = toEventsApiQuery(filters, { cursor });
   assert.deepEqual(Object.fromEntries(query), {
-    city: "Praha",
+    city: "praha",
     limit: "24",
     sort: "-updatedAt",
     q: "rust",
@@ -175,23 +175,34 @@ test("filter links round-trip through the parser", () => {
   assert.equal(hasActiveEventFilters(reparsed.filters), true);
 });
 
-test("city is an optional filter that defaults to every city", () => {
+test("city accepts only the offered cities and defaults to every city", () => {
   assert.equal(toEventsApiQuery(DEFAULT_EVENT_FILTERS).get("city"), "all");
-  for (const value of ["", "  ", "all", "ALL"]) {
+  for (const [value, expected] of [
+    ["brno", "brno"],
+    [" Praha ", "praha"],
+    ["ZLÍN", "zlin"],
+    ["Zlin", "zlin"],
+    ["olomouc", "olomouc"],
+    ["Ostrava", "ostrava"],
+    ["all", null],
+    ["", null],
+    ["Ústí nad Labem", null],
+    ["brno-venkov", null],
+  ]) {
     assert.equal(
       parseEventListQuery({ city: value }).filters.city,
-      null,
+      expected,
       value,
     );
   }
-  const { filters } = parseEventListQuery({ city: "  Ústí   nad Labem " });
-  assert.equal(filters.city, "Ústí nad Labem");
+  const { filters } = parseEventListQuery({ city: "Zlín", freeFood: "true" });
   assert.equal(hasActiveEventFilters(filters), true);
-  assert.equal(toEventsApiQuery(filters).get("city"), "Ústí nad Labem");
+  assert.equal(toEventsApiQuery(filters).get("city"), "zlin");
   const next = new URL(
     eventListHref(BASE, filters, "c2"),
     "https://vantuch.dev",
   );
-  assert.equal(next.searchParams.get("city"), "Ústí nad Labem");
+  assert.equal(next.searchParams.get("city"), "zlin");
+  assert.equal(next.searchParams.get("freeFood"), "true");
   assert.equal(next.searchParams.get("cursor"), "c2");
 });

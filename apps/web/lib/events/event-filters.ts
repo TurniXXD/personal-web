@@ -11,7 +11,7 @@ export type EventPriceFilter = (typeof EVENT_PRICE_FILTERS)[number];
 /** Filter state shared by the URL, the filter form, and the API query. */
 export type EventFilters = {
   q: string | null;
-  city: string | null;
+  city: EventCity | null;
   category: string | null;
   from: string | null;
   to: string | null;
@@ -61,7 +61,6 @@ const API_SORT: Record<EventSort, "startsAt" | "-updatedAt"> = {
 const SEARCH_MIN_LENGTH = 2;
 const SEARCH_MAX_LENGTH = 100;
 const CURSOR_MAX_LENGTH = 512;
-const CITY_MAX_LENGTH = 120;
 const CATEGORY_PATTERN = /^[a-z0-9][a-z0-9-]{0,59}$/;
 const DATE_PATTERN = /^(\d{4})-(\d{2})-(\d{2})$/;
 
@@ -98,15 +97,34 @@ export const normalizeDateParam = (value: string | null): string | null => {
   return valid ? `${year}-${month}-${day}` : null;
 };
 
-/** City names are free text; the API matches them case and diacritics insensitively. */
-export const normalizeCity = (value: string | null): string | null => {
-  const candidate = value
-    ?.replace(/\s+/g, " ")
+/**
+ * Cities offered by the filter (URL and API value). Labels live in the
+ * `events.cities` message catalog. The Content API matches city names case
+ * and diacritics insensitively, so ASCII slugs select e.g. "Zlín".
+ */
+export const EVENT_CITIES = [
+  "brno",
+  "praha",
+  "ostrava",
+  "olomouc",
+  "zlin",
+] as const;
+export type EventCity = (typeof EVENT_CITIES)[number];
+
+/** Case and diacritics insensitive comparison key. */
+export const foldText = (value: string) =>
+  value
+    .normalize("NFD")
+    .replace(/\p{Diacritic}/gu, "")
+    .replace(/\s+/g, " ")
     .trim()
-    .slice(0, CITY_MAX_LENGTH)
-    .trim();
-  if (!candidate || candidate.toLowerCase() === ALL_CITIES) return null;
-  return candidate;
+    .toLowerCase();
+
+/** Accepts only the offered cities (by slug or name); anything else means every city. */
+export const normalizeCity = (value: string | null): EventCity | null => {
+  if (!value) return null;
+  const folded = foldText(value);
+  return EVENT_CITIES.find((city) => city === folded) ?? null;
 };
 
 const normalizeCategory = (value: string | null): string | null => {

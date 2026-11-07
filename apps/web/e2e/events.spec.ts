@@ -85,7 +85,9 @@ test("free food filter combines with other filters and keeps unknown food visibl
   ).toHaveCount(0);
 });
 
-test("city is a URL filter that combines with the others", async ({ page }) => {
+test("city autocomplete offers only the supported cities and filters by URL", async ({
+  page,
+}) => {
   await page.goto("/akce");
   // Without a city the listing covers every city.
   await expect(
@@ -95,22 +97,53 @@ test("city is a URL filter that combines with the others", async ({ page }) => {
     page.locator('[data-event-card="brno-ai-meetup"]'),
   ).toBeVisible();
 
-  await page.getByLabel("Město").fill("Praha");
-  await expect(page).toHaveURL(/city=Praha/);
+  const city = page.getByRole("combobox", { name: "Město" });
+  const cityOptions = page
+    .getByRole("listbox", { name: "Město" })
+    .getByRole("option");
+  await city.click();
+  await expect(cityOptions).toHaveText([
+    "Všechna města",
+    "Brno",
+    "Praha",
+    "Ostrava",
+    "Olomouc",
+    "Zlín",
+  ]);
+
+  // Typing narrows the list (diacritics-insensitive).
+  await city.fill("pra");
+  await expect(cityOptions).toHaveText(["Praha"]);
+  await cityOptions.filter({ hasText: "Praha" }).click();
+  await expect(page).toHaveURL(/city=praha/);
+  await expect(city).toHaveValue("Praha");
   await expect(page.locator("[data-event-card]")).toHaveCount(2);
-  await expect(page.locator('[data-event-card="brno-ai-meetup"]')).toHaveCount(
-    0,
-  );
 
   await page.getByRole("checkbox", { name: "Jídlo zdarma" }).check();
-  await expect(page).toHaveURL(/city=Praha.*freeFood=true/);
+  await expect(page).toHaveURL(/city=praha.*freeFood=true/);
   await expect(page.locator("[data-event-card]")).toHaveCount(1);
-  await expect(
-    page.locator('[data-event-card="praha-product-meetup"]'),
-  ).toBeVisible();
 
+  // Keyboard: type, move, and confirm without submitting the form.
+  await city.fill("zl");
+  await page.keyboard.press("ArrowDown");
+  await page.keyboard.press("Enter");
+  await expect(page).toHaveURL(/city=zlin/);
+  await expect(city).toHaveValue("Zlín");
+
+  // Unsupported text is not applied and reverts on blur.
+  await city.fill("Plzeň");
+  await expect(page.getByText("Město není v nabídce")).toBeVisible();
+  await page.getByLabel("Hledat akce").click();
+  await expect(city).toHaveValue("Zlín");
+
+  await page.getByRole("button", { name: "Zrušit výběr města" }).click();
+  await expect(page).not.toHaveURL(/city=/);
+
+  // Unknown URL values fall back to every city.
+  await page.goto("/akce?city=plzen&category=ai");
+  await expect(city).toHaveValue("");
   await page.goto("/akce?city=brno&category=ai");
-  await expect(page.getByLabel("Město")).toHaveValue("brno");
+  await expect(city).toHaveValue("Brno");
   await expect(
     page.locator('[data-event-card="brno-ai-meetup"]'),
   ).toBeVisible();

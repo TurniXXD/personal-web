@@ -248,6 +248,8 @@
       "searchSubmit": "Hledat",
       "cityLabel": "Město",
       "cityPlaceholder": "Všechna města",
+      "cityNoResults": "Město není v nabídce",
+      "cityClear": "Zrušit výběr města",
       "categoryLabel": "Kategorie",
       "categoryAll": "Všechny kategorie",
       "fromLabel": "Od data",
@@ -262,6 +264,13 @@
       "sortLatest": "Nově přidané",
       "reset": "Zrušit filtry",
       "updating": "Načítám výsledky…"
+    },
+    "cities": {
+      "brno": "Brno",
+      "praha": "Praha",
+      "ostrava": "Ostrava",
+      "olomouc": "Olomouc",
+      "zlin": "Zlín"
     },
     "pagination": {
       "label": "Stránkování akcí",

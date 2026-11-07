@@ -248,6 +248,8 @@
       "searchSubmit": "Search",
       "cityLabel": "City",
       "cityPlaceholder": "All cities",
+      "cityNoResults": "City not available",
+      "cityClear": "Clear city",
       "categoryLabel": "Category",
       "categoryAll": "All categories",
       "fromLabel": "From",
@@ -262,6 +264,13 @@
       "sortLatest": "Recently added",
       "reset": "Clear filters",
       "updating": "Loading results…"
+    },
+    "cities": {
+      "brno": "Brno",
+      "praha": "Prague",
+      "ostrava": "Ostrava",
+      "olomouc": "Olomouc",
+      "zlin": "Zlín"
     },
     "pagination": {
       "label": "Event pagination",
