@@ -1,3 +1,28 @@
+.automation-page-hero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background:
+    radial-gradient(
+      circle at 80% 25%,
+      rgba(106, 112, 255, 0.28),
+      transparent 32rem
+    ),
+    #202848;
+  color: #fff;
+}
+.automation-page-hero::before {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-image:
+    linear-gradient(rgba(184, 194, 255, 0.055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(184, 194, 255, 0.055) 1px, transparent 1px);
+  background-size: 5rem 5rem;
+  content: "";
+  pointer-events: none;
+}
+
 /* Automation landing page and shared service hero layouts. */
 .automation-page-hero__grid {
   display: grid;

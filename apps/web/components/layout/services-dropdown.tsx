@@ -94,7 +94,7 @@ export function ServicesDropdown({
               cancelClose();
               hoverOpened.current = false;
             }}
-            className="inline-flex cursor-pointer items-center gap-[0.3rem] py-[0.8rem] [font:inherit] text-inherit transition-colors duration-200 hover:text-primary focus:!ring-0 focus:!outline-none focus-visible:text-primary focus-visible:!ring-0 focus-visible:!outline-none data-[active=true]:text-primary data-[state=open]:text-primary data-[state=open]:[&_svg]:rotate-180 [&_svg]:transition-transform [&_svg]:duration-200"
+            className="inline-flex cursor-pointer items-center gap-[0.3rem] py-[0.8rem] [font:inherit] text-inherit transition-colors duration-200 hover:text-primary focus-visible:rounded-sm focus-visible:text-primary focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary data-[active=true]:text-primary data-[state=open]:text-primary data-[state=open]:[&_svg]:rotate-180 [&_svg]:transition-transform [&_svg]:duration-200"
             onPointerDown={(event) => {
               if (event.pointerType === "mouse" && hoverOpened.current) {
                 event.preventDefault();

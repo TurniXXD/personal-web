@@ -89,6 +89,8 @@ export default {
   sections: [
     {
       id: "jak-probiha-audit",
+      featured: true,
+      itemLimit: 3,
       eyebrow: "POSTUP A VÝSTUP",
       title: "Od první kontroly k jasnému plánu oprav.",
       description:

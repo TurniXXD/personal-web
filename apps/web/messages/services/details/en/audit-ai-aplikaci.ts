@@ -89,6 +89,8 @@ export default {
   sections: [
     {
       id: "audit-process",
+      featured: true,
+      itemLimit: 3,
       eyebrow: "PROCESS AND DELIVERABLES",
       title: "From the first review to a clear plan of action.",
       description:

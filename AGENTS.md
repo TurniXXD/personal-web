@@ -8,6 +8,7 @@
   - `packages/ui`: assets and UI with proven consumers in both apps.
 - Use Node.js 22 or newer and the pinned `pnpm@11.6.0`. Do not use npm or Yarn.
 - Keep changes inside the owning app unless a shared contract genuinely changes.
+- For audits or changes scoped to `apps/web`, do not investigate or modify `apps/portfolio` unless the task explicitly includes it.
 - Read the nearest `AGENTS.md` before editing. The generated block in `apps/web/AGENTS.md` must remain intact.
 
 ## Read only what the task needs

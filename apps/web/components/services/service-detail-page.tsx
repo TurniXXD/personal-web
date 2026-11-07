@@ -5,7 +5,6 @@ import {
   ArrowRight,
   BadgePercent,
   ChartNoAxesCombined,
-  Check,
   ChevronDown,
   CircleGauge,
   Code2,
@@ -28,6 +27,8 @@ import {
 import { ScrollReveal } from "@/components/shared/scroll-reveal";
 import { StructuredDataScript } from "@/components/shared/structured-data-script";
 import { ServicePipelineDivider } from "@/components/services/service-pipeline-divider";
+import { ServiceDetailCard } from "@/components/services/service-detail-card";
+import { ServiceSectionHeading } from "@/components/services/service-section-heading";
 import {
   AuditHeroVisual,
   CompanyWebsiteHeroVisual,
@@ -175,29 +176,17 @@ export const ServiceDetailPage = ({ locale, slug }: ServiceDetailPageProps) => {
   const labels = useTranslations("serviceDetailUi");
   const content = serviceDetailCopy[locale][slug];
   const path = serviceDetailPath(slug);
-  const sectionPlan =
-    slug === SERVICE_SLUG.loyaltyProgrammes
-      ? [
-          { index: 1, itemLimit: 3 },
-          { index: 2, itemLimit: 4 },
-        ]
-      : slug === SERVICE_SLUG.giftVouchers
-        ? [
-            { index: 0, itemLimit: 3 },
-            { index: 2, itemLimit: 4 },
-            { index: 3, itemLimit: 3 },
-          ]
-        : slug === SERVICE_SLUG.aiApplicationAudit
-          ? [{ index: 0, itemLimit: 3 }]
-          : null;
-  const visibleSections = sectionPlan
-    ? sectionPlan.flatMap(({ index, itemLimit }) => {
-        const section = content.sections[index];
-        return section
-          ? [{ ...section, items: section.items.slice(0, itemLimit) }]
-          : [];
-      })
-    : content.sections;
+  const hasFeaturedSections = content.sections.some(
+    (section) => section.featured,
+  );
+  const visibleSections = content.sections
+    .filter((section) => !hasFeaturedSections || section.featured)
+    .map((section) => ({
+      ...section,
+      items: section.itemLimit
+        ? section.items.slice(0, section.itemLimit)
+        : section.items,
+    }));
   const visibleWorkflowSteps =
     slug === SERVICE_SLUG.giftVouchers
       ? [0, 2, 4, 6].flatMap((index) => {
@@ -223,13 +212,10 @@ export const ServiceDetailPage = ({ locale, slug }: ServiceDetailPageProps) => {
         aria-labelledby="service-demo-title"
       >
         <div className="site-container">
-          <ScrollReveal className="service-detail-heading">
-            <p className="eyebrow">{content.demoCopy.eyebrow}</p>
-            <h2 id="service-demo-title">{content.demoCopy.title}</h2>
-            {content.demoCopy.description ? (
-              <p>{content.demoCopy.description}</p>
-            ) : null}
-          </ScrollReveal>
+          <ServiceSectionHeading
+            id="service-demo-title"
+            content={content.demoCopy}
+          />
           <ScrollReveal>
             <VoucherDemo />
           </ScrollReveal>
@@ -295,21 +281,20 @@ export const ServiceDetailPage = ({ locale, slug }: ServiceDetailPageProps) => {
           aria-labelledby="detail-benefits-title"
         >
           <div className="site-container">
-            <ScrollReveal className="service-detail-heading">
-              <p className="eyebrow">{content.benefits.eyebrow}</p>
-              <h2 id="detail-benefits-title">{content.benefits.title}</h2>
-              <p>{content.benefits.description}</p>
-            </ScrollReveal>
+            <ServiceSectionHeading
+              id="detail-benefits-title"
+              content={content.benefits}
+            />
             <ScrollReveal
               className="service-detail-card-grid service-detail-card-grid--three"
               stagger
             >
               {content.benefits.items.map((item, index) => (
-                <article className="service-detail-card" key={item.title}>
-                  <span>{String(index + 1).padStart(2, "0")}</span>
-                  <h3>{item.title}</h3>
-                  <p>{item.description}</p>
-                </article>
+                <ServiceDetailCard
+                  key={item.title}
+                  index={index + 1}
+                  {...item}
+                />
               ))}
             </ScrollReveal>
           </div>
@@ -327,11 +312,10 @@ export const ServiceDetailPage = ({ locale, slug }: ServiceDetailPageProps) => {
           aria-labelledby="detail-workflow-title"
         >
           <div className="site-container">
-            <ScrollReveal className="service-detail-heading">
-              <p className="eyebrow">{content.workflow.eyebrow}</p>
-              <h2 id="detail-workflow-title">{content.workflow.title}</h2>
-              <p>{content.workflow.description}</p>
-            </ScrollReveal>
+            <ServiceSectionHeading
+              id="detail-workflow-title"
+              content={content.workflow}
+            />
             <ScrollReveal className="service-detail-workflow__grid" stagger>
               {visibleWorkflowSteps.map((step, index) => (
                 <article key={step.title}>
@@ -364,22 +348,16 @@ export const ServiceDetailPage = ({ locale, slug }: ServiceDetailPageProps) => {
             key={section.id}
           >
             <div className="site-container">
-              <ScrollReveal className="service-detail-heading">
-                <p className="eyebrow">{section.eyebrow}</p>
-                <h2 id={`service-section-${section.id}`}>{section.title}</h2>
-                {section.description && <p>{section.description}</p>}
-              </ScrollReveal>
+              <ServiceSectionHeading
+                id={`service-section-${section.id}`}
+                content={section}
+              />
               <ScrollReveal
                 className={`service-detail-card-grid${section.layout === "list" ? " service-detail-card-grid--list" : ""}`}
                 stagger
               >
                 {section.items.map((item) => (
-                  <article className="service-detail-card" key={item.title}>
-                    <Check size={18} aria-hidden="true" />
-                    <h3>{item.title}</h3>
-                    <p>{item.description}</p>
-                    {item.note && <small>{item.note}</small>}
-                  </article>
+                  <ServiceDetailCard key={item.title} {...item} />
                 ))}
               </ScrollReveal>
               {slug === SERVICE_SLUG.loyaltyProgrammes &&
@@ -402,11 +380,10 @@ export const ServiceDetailPage = ({ locale, slug }: ServiceDetailPageProps) => {
             aria-labelledby="detail-cases-title"
           >
             <div className="site-container service-detail-use-cases__layout">
-              <ScrollReveal className="service-detail-heading">
-                <p className="eyebrow">{content.useCases.eyebrow}</p>
-                <h2 id="detail-cases-title">{content.useCases.title}</h2>
-                <p>{content.useCases.description}</p>
-              </ScrollReveal>
+              <ServiceSectionHeading
+                id="detail-cases-title"
+                content={content.useCases}
+              />
               <ScrollReveal className="service-detail-use-cases__list" stagger>
                 {content.useCases.items.map((item, index) => (
                   <article key={item.title}>
@@ -427,10 +404,10 @@ export const ServiceDetailPage = ({ locale, slug }: ServiceDetailPageProps) => {
           aria-labelledby="detail-faq-title"
         >
           <div className="site-container service-detail-faq__layout">
-            <ScrollReveal className="service-detail-heading">
-              <p className="eyebrow">{content.faq.eyebrow}</p>
-              <h2 id="detail-faq-title">{content.faq.title}</h2>
-            </ScrollReveal>
+            <ServiceSectionHeading
+              id="detail-faq-title"
+              content={content.faq}
+            />
             <ScrollReveal className="service-detail-faq__items" stagger>
               {visibleFaqItems.map((item) => (
                 <details key={item.question}>
@@ -450,9 +427,10 @@ export const ServiceDetailPage = ({ locale, slug }: ServiceDetailPageProps) => {
           aria-labelledby="detail-related-title"
         >
           <div className="site-container">
-            <ScrollReveal className="service-detail-heading">
-              <h2 id="detail-related-title">{labels("relatedTitle")}</h2>
-            </ScrollReveal>
+            <ServiceSectionHeading
+              id="detail-related-title"
+              content={{ title: labels("relatedTitle") }}
+            />
             <ScrollReveal className="service-detail-related__grid" stagger>
               {content.related.map((relatedSlug) => {
                 const related = serviceDetailCopy[locale][relatedSlug];

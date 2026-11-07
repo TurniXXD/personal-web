@@ -90,6 +90,8 @@ export default {
   sections: [
     {
       id: "typy",
+      featured: true,
+      itemLimit: 3,
       eyebrow: "TYPY POUKAZŮ",
       title: "Nabídka může odpovídat vašim službám i způsobu prodeje.",
       description:
@@ -160,6 +162,8 @@ export default {
     },
     {
       id: "znacka-a-zazitek",
+      featured: true,
+      itemLimit: 4,
       eyebrow: "ZNAČKA A ZÁŽITEK",
       title: "Poukaz, který působí jako přirozená součást vaší značky.",
       tone: "navy",
@@ -191,6 +195,8 @@ export default {
     },
     {
       id: "sprava",
+      featured: true,
+      itemLimit: 3,
       eyebrow: "SPRÁVA PRO FIRMU",
       title: "Každý poukaz má dohledatelný stav a historii.",
       tone: "soft",

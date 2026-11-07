@@ -102,6 +102,8 @@ export default {
     },
     {
       id: "typy-programu",
+      featured: true,
+      itemLimit: 3,
       eyebrow: "NASTAVENÍ ODMĚN",
       title: "Věrnostní program může mít různá pravidla.",
       description:
@@ -140,6 +142,8 @@ export default {
     },
     {
       id: "administrace",
+      featured: true,
+      itemLimit: 4,
       eyebrow: "SPRÁVA PRO FIRMU",
       title: "Obsluha má rychlý přehled, vedení dohledatelnou historii.",
       tone: "soft",

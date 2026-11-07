@@ -103,6 +103,8 @@ export default {
     },
     {
       id: "programme-types",
+      featured: true,
+      itemLimit: 3,
       eyebrow: "REWARD CONFIGURATION",
       title: "A loyalty programme can use different rules.",
       description:
@@ -139,6 +141,8 @@ export default {
     },
     {
       id: "administration",
+      featured: true,
+      itemLimit: 4,
       eyebrow: "BUSINESS ADMINISTRATION",
       title: "Staff get speed while management keeps a traceable history.",
       tone: "soft",

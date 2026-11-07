@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import "@/app/styles/referral-page.css";
 import {
   ArrowRight,
   BriefcaseBusiness,

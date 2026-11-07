@@ -106,7 +106,10 @@ test("services navigation groups all service routes in an accessible dropdown", 
   // Start keyboard navigation with a fresh menu state, independent of the
   // preceding mouse hover/click sequence and its delayed close timer.
   await page.reload();
-  await trigger.focus();
+  await page.keyboard.press("Tab");
+  await page.keyboard.press("Tab");
+  await expect(trigger).toBeFocused();
+  await expect(trigger).toHaveCSS("outline-style", "solid");
   await trigger.press("Enter");
   await expect(trigger).toHaveAttribute("data-state", "open");
   await expect

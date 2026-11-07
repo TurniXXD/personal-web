@@ -91,6 +91,8 @@ export default {
   sections: [
     {
       id: "types",
+      featured: true,
+      itemLimit: 3,
       eyebrow: "VOUCHER TYPES",
       title: "The offer can reflect your services and sales model.",
       description:
@@ -161,6 +163,8 @@ export default {
     },
     {
       id: "brand-and-experience",
+      featured: true,
+      itemLimit: 4,
       eyebrow: "BRAND AND EXPERIENCE",
       title: "A voucher that feels like a natural part of your brand.",
       tone: "navy",
@@ -192,6 +196,8 @@ export default {
     },
     {
       id: "management",
+      featured: true,
+      itemLimit: 3,
       eyebrow: "BUSINESS MANAGEMENT",
       title: "Every voucher has a traceable status and history.",
       tone: "soft",

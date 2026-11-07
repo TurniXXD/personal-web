@@ -10,6 +10,7 @@ import {
   type ReferralRequestIntent,
 } from "@/lib/referrals/request";
 import { referralRequestCopy } from "@/messages/referrals/request";
+import { FormTextField } from "@/components/shared/form-text-field";
 import {
   TurnstileWidget,
   turnstileEnabled,
@@ -132,68 +133,42 @@ export function ReferralRequestForm({
       </div>
 
       <div className="referral-request-form__grid">
-        <div className="referral-request-form__field">
-          <label htmlFor={`${prefix}-name`}>
-            {t.name} <span aria-hidden="true">*</span>
-          </label>
-          <input
-            id={`${prefix}-name`}
-            name="name"
-            type="text"
-            autoComplete="name"
-            maxLength={120}
-            required
-            aria-invalid={Boolean(errors.name)}
-            aria-describedby={errors.name ? `${prefix}-name-error` : undefined}
-          />
-          {errors.name ? (
-            <small id={`${prefix}-name-error`}>{errorFor("name")}</small>
-          ) : null}
-        </div>
-
-        <div className="referral-request-form__field">
-          <label htmlFor={`${prefix}-email`}>
-            {t.email} <span aria-hidden="true">*</span>
-          </label>
-          <input
-            id={`${prefix}-email`}
-            name="email"
-            type="email"
-            autoComplete="email"
-            maxLength={254}
-            required
-            aria-invalid={Boolean(errors.email)}
-            aria-describedby={
-              errors.email ? `${prefix}-email-error` : undefined
-            }
-          />
-          {errors.email ? (
-            <small id={`${prefix}-email-error`}>{errorFor("email")}</small>
-          ) : null}
-        </div>
+        <FormTextField
+          id={`${prefix}-name`}
+          name="name"
+          label={t.name}
+          type="text"
+          autoComplete="name"
+          maxLength={120}
+          className="referral-request-form__field"
+          error={errors.name ? errorFor("name") : undefined}
+          required
+        />
+        <FormTextField
+          id={`${prefix}-email`}
+          name="email"
+          label={t.email}
+          type="email"
+          autoComplete="email"
+          maxLength={254}
+          className="referral-request-form__field"
+          error={errors.email ? errorFor("email") : undefined}
+          required
+        />
 
         {intent === "partnership" ? (
           <>
-            <div className="referral-request-form__field referral-request-form__field--wide">
-              <label htmlFor={`${prefix}-company`}>{t.company}</label>
-              <input
-                id={`${prefix}-company`}
-                name="company"
-                type="text"
-                autoComplete="organization"
-                maxLength={160}
-                placeholder={t.companyPlaceholder}
-                aria-invalid={Boolean(errors.company)}
-                aria-describedby={
-                  errors.company ? `${prefix}-company-error` : undefined
-                }
-              />
-              {errors.company ? (
-                <small id={`${prefix}-company-error`}>
-                  {errorFor("company")}
-                </small>
-              ) : null}
-            </div>
+            <FormTextField
+              id={`${prefix}-company`}
+              name="company"
+              label={t.company}
+              type="text"
+              autoComplete="organization"
+              maxLength={160}
+              placeholder={t.companyPlaceholder}
+              className="referral-request-form__field referral-request-form__field--wide"
+              error={errors.company ? errorFor("company") : undefined}
+            />
             <div className="referral-request-form__field referral-request-form__field--wide">
               <label htmlFor={`${prefix}-message`}>
                 {t.message} <span aria-hidden="true">*</span>

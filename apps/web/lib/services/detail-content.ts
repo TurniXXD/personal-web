@@ -61,6 +61,8 @@ export type ServiceDetailSection = {
   description?: string;
   tone?: "light" | "soft" | "navy";
   layout?: "cards" | "list";
+  featured?: boolean;
+  itemLimit?: number;
   items: ServiceDetailItem[];
 };
 

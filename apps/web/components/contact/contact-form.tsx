@@ -5,6 +5,7 @@ import { ArrowUpRight, CheckCircle2, Send, TriangleAlert } from "lucide-react";
 import { localizedPath, type Locale } from "@/lib/site/content";
 import { contactFormCopy } from "@/messages/contact/form";
 import { getAutomationExamples } from "@/lib/automation/content";
+import { FormTextField } from "@/components/shared/form-text-field";
 import {
   TurnstileWidget,
   turnstileEnabled,
@@ -237,57 +238,38 @@ export function ContactForm({
         </p>
       )}
       <div className="contact-form__grid">
-        <div className="contact-form__field">
-          <label htmlFor="contact-name">
-            {t.name} <span aria-hidden="true">*</span>
-          </label>
-          <input
-            id="contact-name"
-            name="name"
-            type="text"
-            autoComplete="name"
-            maxLength={120}
-            required
-            aria-invalid={Boolean(errors.name)}
-            aria-describedby={errors.name ? "contact-name-error" : undefined}
-          />
-          {errors.name && (
-            <small id="contact-name-error">{errorFor("name")}</small>
-          )}
-        </div>
-        <div className="contact-form__field">
-          <label htmlFor="contact-email">
-            {t.email} <span aria-hidden="true">*</span>
-          </label>
-          <input
-            id="contact-email"
-            name="email"
-            type="email"
-            autoComplete="email"
-            maxLength={254}
-            required
-            aria-invalid={Boolean(errors.email)}
-            aria-describedby={errors.email ? "contact-email-error" : undefined}
-          />
-          {errors.email && (
-            <small id="contact-email-error">{errorFor("email")}</small>
-          )}
-        </div>
-        <div className="contact-form__field contact-form__field--wide">
-          <label htmlFor="contact-phone">{t.phone}</label>
-          <input
-            id="contact-phone"
-            name="phone"
-            type="tel"
-            autoComplete="tel"
-            maxLength={40}
-            aria-invalid={Boolean(errors.phone)}
-            aria-describedby={errors.phone ? "contact-phone-error" : undefined}
-          />
-          {errors.phone && (
-            <small id="contact-phone-error">{errorFor("phone")}</small>
-          )}
-        </div>
+        <FormTextField
+          id="contact-name"
+          name="name"
+          label={t.name}
+          type="text"
+          autoComplete="name"
+          maxLength={120}
+          className="contact-form__field"
+          error={errors.name ? errorFor("name") : undefined}
+          required
+        />
+        <FormTextField
+          id="contact-email"
+          name="email"
+          label={t.email}
+          type="email"
+          autoComplete="email"
+          maxLength={254}
+          className="contact-form__field"
+          error={errors.email ? errorFor("email") : undefined}
+          required
+        />
+        <FormTextField
+          id="contact-phone"
+          name="phone"
+          label={t.phone}
+          type="tel"
+          autoComplete="tel"
+          maxLength={40}
+          className="contact-form__field contact-form__field--wide"
+          error={errors.phone ? errorFor("phone") : undefined}
+        />
         <div className="contact-form__field contact-form__field--wide">
           <label htmlFor="contact-message">
             {t.message} <span aria-hidden="true">*</span>
