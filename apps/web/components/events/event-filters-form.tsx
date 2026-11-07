@@ -373,7 +373,7 @@ export function EventFiltersForm({
             value="true"
             checked={draft.freeFood}
             onChange={(event) => update("freeFood", event.target.checked)}
-            className="size-4 accent-primary"
+            className="size-4 cursor-pointer accent-primary"
           />
           <Pizza size={16} aria-hidden="true" />
           {t("freeFoodLabel")}
