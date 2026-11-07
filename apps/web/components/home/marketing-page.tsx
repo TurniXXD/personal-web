@@ -21,7 +21,7 @@ import { copy, localizedPath, type Locale } from "@/lib/site/content";
 import { InteractiveHeroArt } from "@/components/home/interactive-hero-art";
 import { NewsletterSocialSection } from "@/components/home/newsletter-social-section";
 import { ProjectGrid } from "@/components/home/project-grid";
-import { TechnicalBackground } from "@/components/home/technical-background";
+import { TechnicalBackground } from "@/components/shared/technical-background";
 import { TestimonialsSection } from "@/components/home/testimonials-section";
 import {
   ContactBlock,

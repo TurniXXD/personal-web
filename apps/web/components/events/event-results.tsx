@@ -3,6 +3,7 @@ import { getTranslations } from "next-intl/server";
 import { ActionLink } from "@vantuch/ui";
 import { EventCard } from "@/components/events/event-card";
 import { EventsState } from "@/components/events/events-state";
+import { ScrollReveal } from "@/components/shared/scroll-reveal";
 import {
   eventListHref,
   hasActiveEventFilters,
@@ -112,13 +113,16 @@ export async function EventResults({
         className="m-0 grid list-none grid-cols-1 gap-6 p-0 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
         data-events-grid
       >
-        {page.events.map((event) => (
+        {page.events.map((event, index) => (
           <li key={event.slug} className="min-w-0">
-            <EventCard
-              event={event}
-              locale={locale}
-              categoryLabel={categoryLabels[event.category] ?? event.category}
-            />
+            {/* Cards reveal per row, staggered by column (max four columns). */}
+            <ScrollReveal className="h-full" delay={(index % 4) * 70}>
+              <EventCard
+                event={event}
+                locale={locale}
+                categoryLabel={categoryLabels[event.category] ?? event.category}
+              />
+            </ScrollReveal>
           </li>
         ))}
       </ul>

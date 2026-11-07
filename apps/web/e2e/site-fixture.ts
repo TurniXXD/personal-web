@@ -4,6 +4,9 @@ export const test = base.extend<{ siteSetup: void }>({
   siteSetup: [
     async ({ context }, use) => {
       await context.addInitScript(() => {
+        // The randomly placed card robot would make layout and click tests
+        // nondeterministic; card-robot.spec.ts re-enables it explicitly.
+        localStorage.setItem("vantuch_card_robot", "off");
         localStorage.setItem(
           "vantuch_cookie_consent_v1",
           JSON.stringify({

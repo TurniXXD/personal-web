@@ -10,7 +10,7 @@ const technicalClass = (className: string) =>
     .filter(Boolean)
     .join(" ")}`;
 
-export type TechnicalBackgroundVariant = "services" | "automation";
+export type TechnicalBackgroundVariant = "services" | "automation" | "events";
 
 type TechnicalBackgroundProps = {
   variant: TechnicalBackgroundVariant;
@@ -71,6 +71,15 @@ const compositions: Record<TechnicalBackgroundVariant, TechnicalComposition> = {
     paths: [],
     nodes: [],
     shapes: [{ x: 4, y: 18, width: 42, height: 52, rotate: 7 }],
+  },
+  // Page header backdrop: ambient shapes only (no connectors near headings).
+  events: {
+    paths: [],
+    nodes: [],
+    shapes: [
+      { x: 64, y: 6, width: 40, height: 74, rotate: -7 },
+      { x: -10, y: 46, width: 26, height: 64, rotate: 6, delay: 140 },
+    ],
   },
 };
 

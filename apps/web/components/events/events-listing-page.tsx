@@ -2,6 +2,8 @@ import { Suspense } from "react";
 import { useTranslations } from "next-intl";
 import { SiteFooter, SiteHeader } from "@/components/layout/site-chrome";
 import { EventGridSkeleton } from "@/components/events/event-card-skeleton";
+import { EventsBackdrop } from "@/components/events/events-backdrop";
+import { ScrollReveal } from "@/components/shared/scroll-reveal";
 import { EventFiltersForm } from "@/components/events/event-filters-form";
 import { EventResults } from "@/components/events/event-results";
 import type { EventCategory } from "@/lib/events/event-model";
@@ -32,19 +34,28 @@ export function EventsListingPage({
       <SiteHeader locale={locale} path={SITE_PATH.events} />
       <main
         id="main-content"
-        className="bg-[linear-gradient(145deg,#fff,#f5f7ff)]"
+        className="relative overflow-x-clip bg-[linear-gradient(145deg,#fff,#f5f7ff)]"
       >
-        <div className="site-container pt-[clamp(3rem,7vw,5.5rem)] pb-[clamp(3.5rem,8vw,6rem)]">
-          <h1 className="m-0 text-[clamp(2.2rem,5.4vw,4.2rem)] leading-[1.08] tracking-[-0.06em] text-ink-strong">
-            {t("listing.title")}
-          </h1>
+        <EventsBackdrop className="h-[44rem]" />
+        {/* Header region stacks above the results so the city list can overlap them. */}
+        <div className="relative z-[2]">
+          <div className="site-container relative z-[1] pt-[clamp(3rem,7vw,5.5rem)]">
+            <ScrollReveal>
+              <h1 className="m-0 text-[clamp(2.2rem,5.4vw,4.2rem)] leading-[1.08] tracking-[-0.06em] text-ink-strong">
+                {t("listing.title")}
+              </h1>
+            </ScrollReveal>
+            <ScrollReveal delay={90} className="relative z-10">
+              <EventFiltersForm
+                basePath={basePath}
+                filters={query.filters}
+                categories={categories}
+              />
+            </ScrollReveal>
+          </div>
+        </div>
 
-          <EventFiltersForm
-            basePath={basePath}
-            filters={query.filters}
-            categories={categories}
-          />
-
+        <div className="site-container relative z-[1] pb-[clamp(3.5rem,8vw,6rem)]">
           <section aria-labelledby="events-results-title" className="mt-8">
             <h2 id="events-results-title" className="sr-only">
               {t("listing.resultsLabel")}
@@ -63,9 +74,11 @@ export function EventsListingPage({
             </Suspense>
           </section>
 
-          <p className="mt-14 mb-0 border-t border-border-soft pt-6 text-ui-sm leading-copy text-ink-muted">
-            {t("listing.attribution", { brand: chrome("brandName") })}
-          </p>
+          <ScrollReveal>
+            <p className="mt-14 mb-0 border-t border-border-soft pt-6 text-ui-sm leading-copy text-ink-muted">
+              {t("listing.attribution", { brand: chrome("brandName") })}
+            </p>
+          </ScrollReveal>
         </div>
       </main>
       <SiteFooter locale={locale} />

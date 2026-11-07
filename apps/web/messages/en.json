@@ -340,5 +340,8 @@
       "retry": "Try again",
       "back": "All events"
     }
+  },
+  "cardRobot": {
+    "greeting": "Hi!"
   }
 }

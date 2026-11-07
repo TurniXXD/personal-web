@@ -4,6 +4,7 @@ import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { CookieConsent } from "@/components/layout/cookie-consent";
+import { CardPeekRobot } from "@/components/shared/card-peek-robot";
 import { routing } from "@/i18n/routing";
 import { copy } from "@/lib/site/content";
 import "@fontsource-variable/sora";
@@ -70,6 +71,7 @@ export default async function LocaleLayout({
       <body>
         <NextIntlClientProvider>
           {children}
+          <CardPeekRobot />
           <CookieConsent
             locale={locale}
             clarityProjectId={process.env.CLARITY_PROJECT_ID?.trim()}

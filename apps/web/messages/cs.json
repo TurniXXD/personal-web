@@ -340,5 +340,8 @@
       "retry": "Zkusit znovu",
       "back": "Všechny akce"
     }
+  },
+  "cardRobot": {
+    "greeting": "Ahoj!"
   }
 }

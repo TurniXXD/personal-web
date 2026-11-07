@@ -23,7 +23,7 @@ type CityComboboxProps = {
 type ListItem = { value: EventCity | null; label: string };
 
 const inputClasses =
-  "min-h-11 w-full min-w-0 rounded-[0.7rem] border border-[#dce2f5] bg-background py-[0.6rem] pr-16 pl-9 text-[0.84rem] leading-normal text-ink transition-colors duration-150 hover:border-primary focus-visible:border-primary focus-visible:outline-[3px] focus-visible:outline-offset-2 focus-visible:outline-[#5f6cff40]";
+  "min-h-11 w-full min-w-0 rounded-[0.7rem] border border-[#dce2f5] bg-background py-[0.6rem] pl-9 text-[0.84rem] leading-normal text-ink transition-colors duration-150 hover:border-primary focus-visible:border-primary focus-visible:outline-[3px] focus-visible:outline-offset-2 focus-visible:outline-[#5f6cff40]";
 
 /**
  * Autocomplete select (WAI-ARIA combobox with a listbox popup). Typing narrows
@@ -166,7 +166,7 @@ export function CityCombobox({
         onClick={() => (open ? close() : openList())}
         onBlur={commitOrRevert}
         onKeyDown={onKeyDown}
-        className={inputClasses}
+        className={`${inputClasses} ${value ? "pr-16" : "pr-9"}`}
       />
       {value ? (
         <button

@@ -24,6 +24,8 @@ import {
 import { EventCalendarAction } from "@/components/events/event-calendar-action";
 import { EventCard } from "@/components/events/event-card";
 import { EventCover } from "@/components/events/event-cover";
+import { EventsBackdrop } from "@/components/events/events-backdrop";
+import { ScrollReveal } from "@/components/shared/scroll-reveal";
 import type { EventItem } from "@/lib/events/event-model";
 import {
   describeEventPrice,
@@ -94,10 +96,11 @@ export function EventDetailPage({
       <SiteHeader locale={locale} path={path} />
       <main
         id="main-content"
-        className="bg-[linear-gradient(145deg,#fff,#f5f7ff)]"
+        className="relative overflow-x-clip bg-[linear-gradient(145deg,#fff,#f5f7ff)]"
       >
+        <EventsBackdrop className="h-[38rem]" />
         <article
-          className="site-container pt-[clamp(2rem,5vw,3.5rem)] pb-[clamp(3.5rem,8vw,6rem)]"
+          className="site-container relative z-[1] pt-[clamp(2rem,5vw,3.5rem)] pb-[clamp(3.5rem,8vw,6rem)]"
           data-event-detail={event.slug}
           data-event-status={event.status}
         >
@@ -126,7 +129,7 @@ export function EventDetailPage({
           ) : null}
 
           <div className="mt-6 grid gap-10 lg:grid-cols-[minmax(0,1fr)_22rem] lg:gap-12">
-            <div className="min-w-0">
+            <ScrollReveal className="min-w-0">
               <div className="flex flex-wrap items-center gap-1.5">
                 {categoryLabel ? (
                   <EventCategoryBadge label={categoryLabel} />
@@ -202,100 +205,102 @@ export function EventDetailPage({
                   </ul>
                 </section>
               ) : null}
-            </div>
+            </ScrollReveal>
 
-            <aside
-              aria-label={t("detail.detailsLabel")}
-              className="self-start rounded-[1.35rem] border border-border-card bg-card p-5 shadow-[0_16px_40px_rgba(47,59,125,0.06)] lg:sticky lg:top-28"
-            >
-              <dl className="m-0">
-                <DetailRow
-                  icon={<CalendarDays size={18} />}
-                  label={t("detail.when")}
-                >
-                  {date && event.startsAt ? (
-                    <time dateTime={event.startsAt}>{date}</time>
-                  ) : (
-                    t("card.dateUnknown")
-                  )}
-                </DetailRow>
-                {location ? (
+            <ScrollReveal delay={90} className="self-start lg:sticky lg:top-28">
+              <aside
+                aria-label={t("detail.detailsLabel")}
+                className="rounded-[1.35rem] border border-border-card bg-card p-5 shadow-[0_16px_40px_rgba(47,59,125,0.06)]"
+              >
+                <dl className="m-0">
                   <DetailRow
-                    icon={<MapPin size={18} />}
-                    label={t("detail.where")}
+                    icon={<CalendarDays size={18} />}
+                    label={t("detail.when")}
                   >
-                    {location}
+                    {date && event.startsAt ? (
+                      <time dateTime={event.startsAt}>{date}</time>
+                    ) : (
+                      t("card.dateUnknown")
+                    )}
                   </DetailRow>
-                ) : null}
-                {event.organizerName ? (
+                  {location ? (
+                    <DetailRow
+                      icon={<MapPin size={18} />}
+                      label={t("detail.where")}
+                    >
+                      {location}
+                    </DetailRow>
+                  ) : null}
+                  {event.organizerName ? (
+                    <DetailRow
+                      icon={<Building2 size={18} />}
+                      label={t("detail.organizer")}
+                    >
+                      {event.organizerName}
+                    </DetailRow>
+                  ) : null}
                   <DetailRow
-                    icon={<Building2 size={18} />}
-                    label={t("detail.organizer")}
+                    icon={<Ticket size={18} />}
+                    label={t("detail.price")}
                   >
-                    {event.organizerName}
+                    {price.kind === "free"
+                      ? t("card.free")
+                      : price.kind === "paid"
+                        ? (price.amount ?? t("card.paid"))
+                        : t("detail.priceUnknown")}
                   </DetailRow>
-                ) : null}
-                <DetailRow
-                  icon={<Ticket size={18} />}
-                  label={t("detail.price")}
-                >
-                  {price.kind === "free"
-                    ? t("card.free")
-                    : price.kind === "paid"
-                      ? (price.amount ?? t("card.paid"))
-                      : t("detail.priceUnknown")}
-                </DetailRow>
-                {hasVerifiedFreeFood(event) || event.foodDetails ? (
-                  <DetailRow
-                    icon={<UtensilsCrossed size={18} />}
-                    label={t("detail.food")}
-                  >
-                    {hasVerifiedFreeFood(event) ? (
-                      <span className="block font-bold">
-                        <span aria-hidden="true">🍕 </span>
-                        {t("card.freeFood")}
-                      </span>
-                    ) : null}
-                    {event.foodDetails}
-                  </DetailRow>
-                ) : null}
-              </dl>
+                  {hasVerifiedFreeFood(event) || event.foodDetails ? (
+                    <DetailRow
+                      icon={<UtensilsCrossed size={18} />}
+                      label={t("detail.food")}
+                    >
+                      {hasVerifiedFreeFood(event) ? (
+                        <span className="block font-bold">
+                          <span aria-hidden="true">🍕 </span>
+                          {t("card.freeFood")}
+                        </span>
+                      ) : null}
+                      {event.foodDetails}
+                    </DetailRow>
+                  ) : null}
+                </dl>
 
-              <div className="mt-6 grid gap-3">
-                {showRegistration && event.registrationUrl ? (
-                  <ActionLink
-                    href={event.registrationUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-full"
-                    data-event-registration
-                  >
-                    {t("detail.register")}
-                    <ExternalLink size={16} aria-hidden="true" />
-                  </ActionLink>
-                ) : null}
-                <EventCalendarAction
-                  event={event}
-                  eventUrl={canonicalUrl}
-                  className="w-full justify-center"
-                />
-              </div>
+                <div className="mt-6 grid gap-3">
+                  {showRegistration && event.registrationUrl ? (
+                    <ActionLink
+                      href={event.registrationUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="w-full"
+                      data-event-registration
+                    >
+                      {t("detail.register")}
+                      <ExternalLink size={16} aria-hidden="true" />
+                    </ActionLink>
+                  ) : null}
+                  <EventCalendarAction
+                    event={event}
+                    eventUrl={canonicalUrl}
+                    className="w-full justify-center"
+                  />
+                </div>
 
-              {event.sourceUrl ? (
-                <p className="mt-5 mb-0 border-t border-border-soft pt-4 text-ui-xs leading-[1.6] text-ink-muted">
-                  {t("detail.sourceNote")}{" "}
-                  <a
-                    href={event.sourceUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1 font-bold text-[#4656cb] underline underline-offset-[0.18em] hover:text-primary"
-                  >
-                    {t("detail.source")}
-                    <ExternalLink size={12} aria-hidden="true" />
-                  </a>
-                </p>
-              ) : null}
-            </aside>
+                {event.sourceUrl ? (
+                  <p className="mt-5 mb-0 border-t border-border-soft pt-4 text-ui-xs leading-[1.6] text-ink-muted">
+                    {t("detail.sourceNote")}{" "}
+                    <a
+                      href={event.sourceUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1 font-bold text-[#4656cb] underline underline-offset-[0.18em] hover:text-primary"
+                    >
+                      {t("detail.source")}
+                      <ExternalLink size={12} aria-hidden="true" />
+                    </a>
+                  </p>
+                ) : null}
+              </aside>
+            </ScrollReveal>
           </div>
 
           {relatedEvents.length ? (
@@ -303,7 +308,7 @@ export function EventDetailPage({
               aria-labelledby="event-related"
               className="mt-16 border-t border-border-soft pt-10"
             >
-              <div className="flex flex-wrap items-baseline justify-between gap-3">
+              <ScrollReveal className="flex flex-wrap items-baseline justify-between gap-3">
                 <h2
                   id="event-related"
                   className="m-0 text-[1.35rem] tracking-[-0.04em] text-ink-strong"
@@ -317,20 +322,22 @@ export function EventDetailPage({
                   {t("states.showAll")}
                   <ArrowRight size={15} aria-hidden="true" />
                 </a>
-              </div>
+              </ScrollReveal>
               <ul
                 role="list"
                 className="mt-6 mb-0 grid list-none grid-cols-1 gap-6 p-0 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
               >
-                {relatedEvents.map((related) => (
+                {relatedEvents.map((related, index) => (
                   <li key={related.slug} className="min-w-0">
-                    <EventCard
-                      event={related}
-                      locale={locale}
-                      categoryLabel={
-                        categoryLabels[related.category] ?? related.category
-                      }
-                    />
+                    <ScrollReveal className="h-full" delay={index * 70}>
+                      <EventCard
+                        event={related}
+                        locale={locale}
+                        categoryLabel={
+                          categoryLabels[related.category] ?? related.category
+                        }
+                      />
+                    </ScrollReveal>
                   </li>
                 ))}
               </ul>
