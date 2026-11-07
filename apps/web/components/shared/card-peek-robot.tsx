@@ -67,6 +67,10 @@ const eventsListingIsEmpty = () =>
     '[data-events-state="empty"], [data-events-state="filtered-empty"]',
   ) !== null;
 
+/** Event filters mark themselves busy while new results are loading. */
+const eventFiltersBusy = () =>
+  document.querySelector('[data-event-filters][aria-busy="true"]') !== null;
+
 const cardEdge = (card: Element): Edge => {
   if (window.innerWidth < 1024) return "top";
   const rect = card.getBoundingClientRect();
@@ -125,7 +129,7 @@ export function CardPeekRobot() {
 
     // Prefer visible cards and avoid repeating the previous card when possible.
     const pickCard = () => {
-      if (eventsListingIsEmpty()) {
+      if (eventsListingIsEmpty() || eventFiltersBusy()) {
         card = null;
         return;
       }
@@ -223,9 +227,23 @@ export function CardPeekRobot() {
     }
 
     // Filter updates replace the result cards without remounting this layout.
-    // Drop the old portal position as soon as its card disappears.
+    // Leave as soon as a filter change starts, before the cards are replaced.
     const observer = new MutationObserver(() => {
-      if (card && (!card.isConnected || eventsListingIsEmpty())) {
+      if (card && eventFiltersBusy()) {
+        card = null;
+        if (timer) clearTimeout(timer);
+        if (reducedMotion) {
+          setPhase("hidden");
+          setPosition(null);
+          return;
+        }
+        setPhase((current) => (current === "hidden" ? current : "hide"));
+        later(() => {
+          setPhase("hidden");
+          setPosition(null);
+          scheduleNext(randomBetween(4000, 8000));
+        }, HIDE_MS);
+      } else if (card && (!card.isConnected || eventsListingIsEmpty())) {
         card = null;
         setPhase("hidden");
         setPosition(null);
@@ -233,12 +251,18 @@ export function CardPeekRobot() {
         reducedMotion &&
         !card &&
         !eventsListingIsEmpty() &&
+        !eventFiltersBusy() &&
         document.querySelector("[data-event-card]")
       ) {
         placeStatic();
       }
     });
-    observer.observe(document.body, { childList: true, subtree: true });
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true,
+      attributes: true,
+      attributeFilter: ["aria-busy"],
+    });
 
     const onResize = () => {
       if (card) measure();

@@ -19,9 +19,19 @@ import {
   SlidersHorizontal,
   X,
 } from "lucide-react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
+import type { DateRange } from "react-day-picker";
+import { cs, enUS } from "react-day-picker/locale";
 import { cn } from "cn";
 import { CityCombobox } from "@/components/events/city-combobox";
+import { Calendar } from "@/components/ui/calendar";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import type { EventCategory } from "@/lib/events/event-model";
 import {
   datePresetForRange,
@@ -50,6 +60,24 @@ type EventFiltersFormProps = {
   categories: EventCategory[];
 };
 
+/** `YYYY-MM-DD` URL values to local calendar dates and back. */
+const toLocalDate = (value: string | null) => {
+  if (!value) return undefined;
+  const [year, month, day] = value.split("-").map(Number);
+  return new Date(year, month - 1, day);
+};
+const toDateValue = (date: Date | undefined) =>
+  date
+    ? `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`
+    : null;
+
+const DATE_SHORT_LABEL = {
+  all: "dateAllShort",
+  week: "dateWeekShort",
+  month: "dateMonthShort",
+  custom: "dateCustomShort",
+} as const satisfies Record<EventDatePreset, string>;
+
 const fieldClasses = "grid min-w-0 content-start gap-[0.4rem]";
 const labelClasses = "text-[0.75rem] leading-[1.4] font-bold text-[#434d70]";
 const controlClasses =
@@ -67,6 +95,7 @@ export function EventFiltersForm({
 }: EventFiltersFormProps) {
   const t = useTranslations("events.filters");
   const tCities = useTranslations("events.cities");
+  const locale = useLocale();
   const router = useRouter();
   const id = useId();
   const searchRef = useRef<HTMLInputElement>(null);
@@ -79,6 +108,8 @@ export function EventFiltersForm({
   const [dateMode, setDateMode] = useState<EventDatePreset>(() =>
     datePresetForRange(filters.from, filters.to, todayInPrague()),
   );
+  const [rangeOpen, setRangeOpen] = useState(false);
+  const [rangeDraft, setRangeDraft] = useState<DateRange | undefined>();
   const filtersKey = eventListHref(basePath, filters);
   const today = todayInPrague();
 
@@ -147,12 +178,42 @@ export function EventFiltersForm({
   };
 
   const onDatePresetChange = (value: EventDatePreset) => {
-    setDateMode(value);
     if (value === "custom") {
-      navigate({ ...draft, q: typedQuery, from: null, to: null });
+      openRangeDialog();
       return;
     }
+    setDateMode(value);
     navigate({ ...draft, q: typedQuery, ...dateRangeForPreset(value, today) });
+  };
+
+  const openRangeDialog = () => {
+    const from = toLocalDate(draft.from);
+    setRangeDraft(from ? { from, to: toLocalDate(draft.to) } : undefined);
+    setRangeOpen(true);
+  };
+
+  const applyRange = () => {
+    if (!rangeDraft?.from) return;
+    setDateMode("custom");
+    setRangeOpen(false);
+    navigate({
+      ...draft,
+      q: typedQuery,
+      from: toDateValue(rangeDraft.from),
+      // A single picked day filters just that day.
+      to: toDateValue(rangeDraft.to ?? rangeDraft.from),
+    });
+  };
+
+  const formatDate = (value: Date | string | null | undefined) => {
+    const date = typeof value === "string" ? toLocalDate(value) : value;
+    return date
+      ? new Intl.DateTimeFormat(locale, {
+          day: "numeric",
+          month: "numeric",
+          year: "numeric",
+        }).format(date)
+      : t("rangeNotSet");
   };
 
   const active = hasActiveEventFilters(draft) || typedQuery !== null;
@@ -255,6 +316,7 @@ export function EventFiltersForm({
             options={cityOptions}
             labels={{
               placeholder: t("cityPlaceholder"),
+              placeholderShort: t("cityPlaceholderShort"),
               allCities: t("cityPlaceholder"),
               noResults: t("cityNoResults"),
               clear: t("cityClear"),
@@ -269,21 +331,31 @@ export function EventFiltersForm({
           <CalendarDays
             size={16}
             aria-hidden="true"
-            className="pointer-events-none absolute top-1/2 left-3 -translate-y-1/2 text-ink-muted"
+            className="pointer-events-none absolute top-1/2 left-2.5 -translate-y-1/2 text-ink-muted sm:left-3"
           />
           <select
             id={`${id}-date-preset`}
-            value={dateMode}
+            value={rangeOpen ? "custom" : dateMode}
             onChange={(event) =>
               onDatePresetChange(event.target.value as EventDatePreset)
             }
-            className={cn(controlClasses, "appearance-none pr-7 pl-9")}
+            className={cn(
+              controlClasses,
+              // Phones show a short overlay label; the full label needs more room.
+              "appearance-none truncate pr-7 pl-8 text-[0.75rem] max-sm:text-transparent sm:pl-9 sm:text-[0.84rem] [&>option]:text-ink",
+            )}
           >
             <option value="all">{t("dateAll")}</option>
             <option value="week">{t("dateWeek")}</option>
             <option value="month">{t("dateMonth")}</option>
             <option value="custom">{t("dateCustom")}</option>
           </select>
+          <span
+            aria-hidden="true"
+            className="pointer-events-none absolute top-1/2 right-7 left-8 -translate-y-1/2 truncate text-[0.75rem] text-ink sm:hidden"
+          >
+            {t(DATE_SHORT_LABEL[rangeOpen ? "custom" : dateMode])}
+          </span>
           <ChevronDown
             size={15}
             aria-hidden="true"
@@ -308,51 +380,88 @@ export function EventFiltersForm({
         </label>
       </div>
 
-      {dateMode === "custom" ? (
-        <div className="grid gap-2 sm:grid-cols-2" data-custom-date-range>
-          <div className={fieldClasses}>
-            <label htmlFor={`${id}-from`} className={labelClasses}>
-              {t("fromLabel")}
-            </label>
-            <input
-              id={`${id}-from`}
-              name={EVENT_FILTER_PARAM.from}
-              type="date"
-              value={draft.from ?? ""}
-              max={draft.to ?? undefined}
-              onChange={(event) => update("from", event.target.value || null)}
-              className={controlClasses}
-            />
+      {/* Carry the date range for GET submits without JavaScript. */}
+      <input
+        type="hidden"
+        name={EVENT_FILTER_PARAM.from}
+        value={draft.from ?? ""}
+      />
+      <input type="hidden" name={EVENT_FILTER_PARAM.to} value={draft.to ?? ""} />
+
+      <Dialog open={rangeOpen} onOpenChange={setRangeOpen}>
+        <DialogContent
+          closeLabel={t("rangeClose")}
+          data-custom-date-range
+          // Start on the dialog itself instead of the previous-month button.
+          onOpenAutoFocus={(event) => {
+            event.preventDefault();
+            (event.currentTarget as HTMLElement).focus();
+          }}
+        >
+          <div className="grid gap-1 pr-10">
+            <DialogTitle className="m-0 text-[1.2rem] leading-[1.25] font-bold tracking-[-0.03em] text-ink-strong">
+              {t("rangeTitle")}
+            </DialogTitle>
+            <DialogDescription className="m-0 text-ui-sm text-ink-muted">
+              {t("rangeDescription")}
+            </DialogDescription>
           </div>
-          <div className={fieldClasses}>
-            <label htmlFor={`${id}-to`} className={labelClasses}>
-              {t("toLabel")}
-            </label>
-            <input
-              id={`${id}-to`}
-              name={EVENT_FILTER_PARAM.to}
-              type="date"
-              value={draft.to ?? ""}
-              min={draft.from ?? undefined}
-              onChange={(event) => update("to", event.target.value || null)}
-              className={controlClasses}
-            />
+          <div className="grid grid-cols-2 gap-2" aria-live="polite">
+            {(
+              [
+                ["from", t("fromLabel"), rangeDraft?.from],
+                ["to", t("toLabel"), rangeDraft?.to ?? rangeDraft?.from],
+              ] as const
+            ).map(([key, label, value]) => (
+              <div
+                key={key}
+                data-range-value={key}
+                className={cn(
+                  "grid gap-0.5 rounded-[0.9rem] border px-3.5 py-2.5 transition-colors",
+                  value
+                    ? "border-primary bg-secondary"
+                    : "border-border-card bg-background",
+                )}
+              >
+                <span className="text-[0.68rem] font-bold tracking-[0.06em] text-ink-soft uppercase">
+                  {label}
+                </span>
+                <span
+                  className={cn(
+                    "text-[0.95rem] font-bold",
+                    value ? "text-primary" : "text-ink-soft",
+                  )}
+                >
+                  {formatDate(value)}
+                </span>
+              </div>
+            ))}
           </div>
-        </div>
-      ) : (
-        <>
-          <input
-            type="hidden"
-            name={EVENT_FILTER_PARAM.from}
-            value={draft.from ?? ""}
+          <Calendar
+            mode="range"
+            resetOnSelect
+            selected={rangeDraft}
+            onSelect={setRangeDraft}
+            locale={locale === "cs" ? cs : enUS}
+            weekStartsOn={1}
+            defaultMonth={rangeDraft?.from ?? toLocalDate(today)}
+            disabled={{ before: toLocalDate(today)! }}
           />
-          <input
-            type="hidden"
-            name={EVENT_FILTER_PARAM.to}
-            value={draft.to ?? ""}
-          />
-        </>
-      )}
+          <div className="flex items-center justify-end gap-2 border-t border-border-soft pt-4">
+            <DialogClose className="inline-flex min-h-11 items-center rounded-full px-4 text-ui-sm font-bold text-ink-muted transition-colors hover:bg-secondary hover:text-primary focus-visible:outline-[3px] focus-visible:outline-offset-2 focus-visible:outline-[#5f6cff40]">
+              {t("rangeCancel")}
+            </DialogClose>
+            <button
+              type="button"
+              onClick={applyRange}
+              disabled={!rangeDraft?.from}
+              className="inline-flex min-h-11 items-center rounded-full bg-primary px-5 text-ui-sm font-bold text-white transition-colors hover:bg-[#4656cb] focus-visible:outline-[3px] focus-visible:outline-offset-2 focus-visible:outline-[#5f6cff40] disabled:cursor-not-allowed disabled:opacity-45"
+            >
+              {t("rangeApply")}
+            </button>
+          </div>
+        </DialogContent>
+      </Dialog>
 
       <div
         id={`${id}-advanced`}
@@ -422,6 +531,17 @@ export function EventFiltersForm({
       </div>
 
       <div className="flex flex-wrap items-center gap-2 empty:hidden">
+        {dateMode === "custom" && (draft.from || draft.to) ? (
+          <button
+            type="button"
+            onClick={openRangeDialog}
+            aria-label={`${t("rangeEdit")}: ${formatDate(draft.from)} – ${formatDate(draft.to)}`}
+            className="inline-flex min-h-9 items-center gap-1.5 rounded-full bg-secondary px-3 text-ui-xs font-bold text-primary focus-visible:outline-[3px] focus-visible:outline-offset-2 focus-visible:outline-[#5f6cff40]"
+          >
+            <CalendarDays size={13} aria-hidden="true" />
+            {formatDate(draft.from)} – {formatDate(draft.to)}
+          </button>
+        ) : null}
         {draft.category ? (
           <button
             type="button"

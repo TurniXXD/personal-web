@@ -644,3 +644,15 @@
     box-shadow: 0 0 1rem rgba(239, 176, 102, 0.08);
   }
 }
+
+@keyframes dialog-fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes dialog-fade-out {
+  to {
+    opacity: 0;
+  }
+}

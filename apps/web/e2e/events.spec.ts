@@ -176,7 +176,6 @@ test("compact date presets and custom range preserve URL filters", async ({
   await page.goto("/akce?city=brno");
   const date = page.getByRole("combobox", { name: "Datum" });
   await expect(date).toBeVisible();
-  await expect(page.getByLabel("Od data")).toBeHidden();
   await date.selectOption("week");
   await expect(page).toHaveURL(/city=brno.*from=.*to=/);
   const week = new URL(page.url());
@@ -187,12 +186,32 @@ test("compact date presets and custom range preserve URL filters", async ({
   await date.selectOption("month");
   await expect(date).toHaveValue("month");
   await date.selectOption("custom");
-  await expect(page.getByLabel("Od data")).toBeVisible();
-  await expect(page.getByLabel("Od data")).toHaveValue("");
-  await expect(page.getByLabel("Do data")).toHaveValue("");
-  await page.getByLabel("Od data").fill("2030-02-01");
-  await page.getByLabel("Do data").fill("2030-02-28");
-  await expect(page).toHaveURL(/city=brno.*from=2030-02-01.*to=2030-02-28/);
+  const dialog = page.getByRole("dialog", { name: "Vlastní období" });
+  await expect(dialog).toBeVisible();
+  const apply = dialog.getByRole("button", { name: "Použít" });
+  // Cancelling keeps the previous preset.
+  await dialog.getByRole("button", { name: "Zrušit" }).click();
+  await expect(dialog).toBeHidden();
+  await expect(date).toHaveValue("month");
+
+  await date.selectOption("custom");
+  await dialog.getByRole("button", { name: /další měsíc/i }).click();
+  const next = new Date();
+  next.setDate(1);
+  next.setMonth(next.getMonth() + 1);
+  const month = `${next.getFullYear()}-${String(next.getMonth() + 1).padStart(2, "0")}`;
+  await dialog.locator(`[data-day="${month}-10"] button`).click();
+  await dialog.locator(`[data-day="${month}-20"] button`).click();
+  await apply.click();
+  await expect(dialog).toBeHidden();
+  await expect(page).toHaveURL(
+    new RegExp(`city=brno.*from=${month}-10.*to=${month}-20`),
+  );
+  await expect(date).toHaveValue("custom");
+  await page.getByRole("button", { name: /Upravit období/ }).click();
+  await expect(dialog).toBeVisible();
+  await page.keyboard.press("Escape");
+  await expect(dialog).toBeHidden();
   await date.selectOption("all");
   await expect(page).toHaveURL(/city=brno$/);
 });

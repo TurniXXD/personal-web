@@ -13,6 +13,8 @@ type CityComboboxProps = {
   options: readonly CityOption[];
   labels: {
     placeholder: string;
+    /** Shorter placeholder for narrow (mobile) fields. */
+    placeholderShort: string;
     allCities: string;
     noResults: string;
     clear: string;
@@ -23,7 +25,7 @@ type CityComboboxProps = {
 type ListItem = { value: EventCity | null; label: string };
 
 const inputClasses =
-  "min-h-11 w-full min-w-0 rounded-[0.7rem] border border-[#dce2f5] bg-background py-[0.6rem] pl-9 text-[0.84rem] leading-normal text-ink transition-colors duration-150 hover:border-primary focus-visible:border-primary focus-visible:outline-[3px] focus-visible:outline-offset-2 focus-visible:outline-[#5f6cff40]";
+  "min-h-11 w-full min-w-0 rounded-[0.7rem] border border-[#dce2f5] bg-background py-[0.6rem] pl-8 text-[0.75rem] leading-normal sm:pl-9 sm:text-[0.84rem] text-ink transition-colors duration-150 hover:border-primary focus-visible:border-primary focus-visible:outline-[3px] focus-visible:outline-offset-2 focus-visible:outline-[#5f6cff40]";
 
 /**
  * Autocomplete select (WAI-ARIA combobox with a listbox popup). Typing narrows
@@ -140,8 +142,18 @@ export function CityCombobox({
       <MapPin
         size={16}
         aria-hidden="true"
-        className="pointer-events-none absolute top-1/2 left-3 -translate-y-1/2 text-ink-muted"
+        className="pointer-events-none absolute top-1/2 left-2.5 -translate-y-1/2 text-ink-muted sm:left-3"
       />
+      {/* Responsive placeholder: a native placeholder cannot change per breakpoint. */}
+      {text ? null : (
+        <span
+          aria-hidden="true"
+          className="pointer-events-none absolute top-1/2 right-9 left-8 -translate-y-1/2 truncate text-[0.75rem] text-ink-muted sm:left-9 sm:text-[0.84rem]"
+        >
+          <span className="sm:hidden">{labels.placeholderShort}</span>
+          <span className="hidden sm:inline">{labels.placeholder}</span>
+        </span>
+      )}
       <input
         ref={inputRef}
         id={id}
@@ -155,7 +167,6 @@ export function CityCombobox({
         }
         autoComplete="off"
         spellCheck={false}
-        placeholder={labels.placeholder}
         value={text}
         onChange={(event) => {
           setText(event.target.value);
