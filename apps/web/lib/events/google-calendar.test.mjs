@@ -25,7 +25,7 @@ test("builds a prefilled Google Calendar template link", () => {
       endsAt: "2026-11-12T19:00:00.000Z",
       timezone: "Europe/Prague",
       summary: "Talks about RAG.",
-      eventUrl: "https://vantuch.dev/akce/brno/brno-ai-meetup",
+      eventUrl: "https://vantuch.dev/akce/brno-ai-meetup",
       location: "Impact Hub, Cyrilská 7, Brno",
     }),
   );
@@ -36,7 +36,7 @@ test("builds a prefilled Google Calendar template link", () => {
   assert.equal(params.get("ctz"), "Europe/Prague");
   assert.equal(
     params.get("details"),
-    "Talks about RAG.\n\nhttps://vantuch.dev/akce/brno/brno-ai-meetup",
+    "Talks about RAG.\n\nhttps://vantuch.dev/akce/brno-ai-meetup",
   );
   assert.equal(params.get("location"), "Impact Hub, Cyrilská 7, Brno");
 });

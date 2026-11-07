@@ -1,4 +1,5 @@
-export const EVENTS_CITY = "brno";
+/** Content API value for "every city"; the listing is not limited to one city. */
+export const ALL_CITIES = "all";
 export const EVENTS_PAGE_SIZE = 24;
 
 export const EVENT_SORTS = ["nearest", "latest"] as const;
@@ -10,6 +11,7 @@ export type EventPriceFilter = (typeof EVENT_PRICE_FILTERS)[number];
 /** Filter state shared by the URL, the filter form, and the API query. */
 export type EventFilters = {
   q: string | null;
+  city: string | null;
   category: string | null;
   from: string | null;
   to: string | null;
@@ -29,6 +31,7 @@ export type EventSearchParamsInput =
 /** URL parameter names; also used as form control names. */
 export const EVENT_FILTER_PARAM = {
   q: "q",
+  city: "city",
   category: "category",
   from: "from",
   to: "to",
@@ -40,6 +43,7 @@ export const EVENT_FILTER_PARAM = {
 
 export const DEFAULT_EVENT_FILTERS: EventFilters = {
   q: null,
+  city: null,
   category: null,
   from: null,
   to: null,
@@ -57,6 +61,7 @@ const API_SORT: Record<EventSort, "startsAt" | "-updatedAt"> = {
 const SEARCH_MIN_LENGTH = 2;
 const SEARCH_MAX_LENGTH = 100;
 const CURSOR_MAX_LENGTH = 512;
+const CITY_MAX_LENGTH = 120;
 const CATEGORY_PATTERN = /^[a-z0-9][a-z0-9-]{0,59}$/;
 const DATE_PATTERN = /^(\d{4})-(\d{2})-(\d{2})$/;
 
@@ -93,6 +98,17 @@ export const normalizeDateParam = (value: string | null): string | null => {
   return valid ? `${year}-${month}-${day}` : null;
 };
 
+/** City names are free text; the API matches them case and diacritics insensitively. */
+export const normalizeCity = (value: string | null): string | null => {
+  const candidate = value
+    ?.replace(/\s+/g, " ")
+    .trim()
+    .slice(0, CITY_MAX_LENGTH)
+    .trim();
+  if (!candidate || candidate.toLowerCase() === ALL_CITIES) return null;
+  return candidate;
+};
+
 const normalizeCategory = (value: string | null): string | null => {
   const candidate = value?.trim().toLowerCase();
   return candidate && CATEGORY_PATTERN.test(candidate) ? candidate : null;
@@ -121,6 +137,7 @@ export const parseEventListQuery = (
   return {
     filters: {
       q: normalizeSearchQuery(firstValue(input, EVENT_FILTER_PARAM.q)),
+      city: normalizeCity(firstValue(input, EVENT_FILTER_PARAM.city)),
       category: normalizeCategory(
         firstValue(input, EVENT_FILTER_PARAM.category),
       ),
@@ -137,6 +154,7 @@ export const parseEventListQuery = (
 export const hasActiveEventFilters = (filters: EventFilters) =>
   Boolean(
     filters.q ||
+    filters.city ||
     filters.category ||
     filters.from ||
     filters.to ||
@@ -156,6 +174,7 @@ export const eventFiltersToSearchParams = (
 ): URLSearchParams => {
   const params = new URLSearchParams();
   if (filters.q) params.set(EVENT_FILTER_PARAM.q, filters.q);
+  if (filters.city) params.set(EVENT_FILTER_PARAM.city, filters.city);
   if (filters.category)
     params.set(EVENT_FILTER_PARAM.category, filters.category);
   if (filters.from) params.set(EVENT_FILTER_PARAM.from, filters.from);
@@ -180,20 +199,15 @@ export const eventListHref = (
 type EventsApiQueryParams = {
   cursor?: string | null;
   limit?: number;
-  city?: string;
 };
 
 /** Builds the documented `GET /public/v1/events` query. */
 export const toEventsApiQuery = (
   filters: EventFilters,
-  {
-    cursor = null,
-    limit = EVENTS_PAGE_SIZE,
-    city = EVENTS_CITY,
-  }: EventsApiQueryParams = {},
+  { cursor = null, limit = EVENTS_PAGE_SIZE }: EventsApiQueryParams = {},
 ): URLSearchParams => {
   const params = new URLSearchParams({
-    city,
+    city: filters.city ?? ALL_CITIES,
     limit: String(Math.min(Math.max(Math.trunc(limit), 1), 100)),
     sort: API_SORT[filters.sort],
   });

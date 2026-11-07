@@ -9,7 +9,7 @@ import {
   toEventsApiQuery,
 } from "./event-filters.ts";
 
-const BASE = "/akce/brno";
+const BASE = "/akce";
 
 test("parses an empty query into the default listing", () => {
   const { filters, cursor } = parseEventListQuery({});
@@ -82,6 +82,7 @@ test("reads URLSearchParams from the client the same way", () => {
 test("combines every filter into one API query", () => {
   const { filters, cursor } = parseEventListQuery({
     q: "rust",
+    city: " Praha ",
     category: "development",
     from: "2026-11-01",
     to: "2026-11-30",
@@ -92,7 +93,7 @@ test("combines every filter into one API query", () => {
   });
   const query = toEventsApiQuery(filters, { cursor });
   assert.deepEqual(Object.fromEntries(query), {
-    city: "brno",
+    city: "Praha",
     limit: "24",
     sort: "-updatedAt",
     q: "rust",
@@ -172,4 +173,25 @@ test("filter links round-trip through the parser", () => {
   assert.deepEqual(reparsed.filters, original);
   assert.equal(reparsed.cursor, "c1");
   assert.equal(hasActiveEventFilters(reparsed.filters), true);
+});
+
+test("city is an optional filter that defaults to every city", () => {
+  assert.equal(toEventsApiQuery(DEFAULT_EVENT_FILTERS).get("city"), "all");
+  for (const value of ["", "  ", "all", "ALL"]) {
+    assert.equal(
+      parseEventListQuery({ city: value }).filters.city,
+      null,
+      value,
+    );
+  }
+  const { filters } = parseEventListQuery({ city: "  Ústí   nad Labem " });
+  assert.equal(filters.city, "Ústí nad Labem");
+  assert.equal(hasActiveEventFilters(filters), true);
+  assert.equal(toEventsApiQuery(filters).get("city"), "Ústí nad Labem");
+  const next = new URL(
+    eventListHref(BASE, filters, "c2"),
+    "https://vantuch.dev",
+  );
+  assert.equal(next.searchParams.get("city"), "Ústí nad Labem");
+  assert.equal(next.searchParams.get("cursor"), "c2");
 });

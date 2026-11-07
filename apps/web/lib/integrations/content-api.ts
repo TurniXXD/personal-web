@@ -1,7 +1,7 @@
 import type { paths } from "../events/cms-api-schema.ts";
 import {
   toEventsApiQuery,
-  EVENTS_CITY,
+  ALL_CITIES,
   type EventFilters,
 } from "../events/event-filters.ts";
 import { mapCmsCategory, mapCmsEvent } from "../events/event-mapping.ts";
@@ -57,7 +57,6 @@ export type ListEventsParams = {
   filters: EventFilters;
   cursor?: string | null;
   limit?: number;
-  city?: string;
 };
 
 /** Safe, redacted failure details (never response bodies or URLs with PII). */
@@ -191,13 +190,12 @@ export const createContentApiClient = ({
       filters,
       cursor = null,
       limit,
-      city = EVENTS_CITY,
     }: ListEventsParams): Promise<EventListPage> {
       const endpoint = "listEvents";
       const body = await request<ListEventsResponse>(
         endpoint,
         "/public/v1/events",
-        toEventsApiQuery(filters, { cursor, limit, city }),
+        toEventsApiQuery(filters, { cursor, limit }),
         {
           revalidate: CONTENT_API_REVALIDATE.events,
           tags: [CONTENT_CACHE_TAG.events],
@@ -237,12 +235,14 @@ export const createContentApiClient = ({
       return event;
     },
 
-    async getEventCategories(city = EVENTS_CITY): Promise<EventCategory[]> {
+    async getEventCategories(
+      city: string | null = null,
+    ): Promise<EventCategory[]> {
       const endpoint = "listEventCategories";
       const body = await request<CategoriesResponse>(
         endpoint,
         "/public/v1/events/categories",
-        new URLSearchParams({ city }),
+        new URLSearchParams({ city: city ?? ALL_CITIES }),
         {
           revalidate: CONTENT_API_REVALIDATE.categories,
           tags: [CONTENT_CACHE_TAG.categories],

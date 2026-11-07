@@ -68,9 +68,9 @@ export default async function EventsRoute({
   const query = parseEventListQuery(await searchParams);
   // Categories only enrich the filter; their failure is reported by the data
   // layer and must not hide the events themselves.
-  const categories: EventCategory[] = await getEventCategories().catch(
-    () => [],
-  );
+  const categories: EventCategory[] = await getEventCategories(
+    query.filters.city,
+  ).catch(() => []);
 
   return (
     <EventsListingPage locale={locale} query={query} categories={categories} />

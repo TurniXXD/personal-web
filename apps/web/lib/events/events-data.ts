@@ -79,9 +79,12 @@ export const getEventBySlug = async (
   }
 };
 
-export const getEventCategories = async (): Promise<EventCategory[]> => {
+/** Categories of upcoming events, optionally narrowed to one city. */
+export const getEventCategories = async (
+  city: string | null = null,
+): Promise<EventCategory[]> => {
   try {
-    return await contentApi().getEventCategories();
+    return await contentApi().getEventCategories(city);
   } catch (error) {
     reportFailure("getEventCategories", error);
     throw error;

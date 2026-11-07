@@ -7,8 +7,8 @@ test("public pages pass automated WCAG checks", async ({ page }) => {
     "/",
     "/sluzby/audit-ai-aplikaci",
     "/kontakt",
-    "/akce/brno",
-    "/akce/brno/brno-ai-meetup",
+    "/akce",
+    "/akce/brno-ai-meetup",
   ]) {
     await page.goto(path);
     const results = await new AxeBuilder({ page })

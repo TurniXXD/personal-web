@@ -80,7 +80,7 @@ test("requests one filtered page with cache tags and revalidation", async () => 
     "https://cms.example.com/api/public/v1/events",
   );
   assert.deepEqual(Object.fromEntries(url.searchParams), {
-    city: "brno",
+    city: "all",
     limit: "24",
     sort: "startsAt",
     q: "ai",
@@ -179,7 +179,7 @@ test("loads categories with a one hour revalidation", async () => {
   }).getEventCategories();
   assert.deepEqual(categories, [{ slug: "ai", label: "Ai" }]);
   assert.equal(calls[0].url.pathname, "/api/public/v1/events/categories");
-  assert.equal(calls[0].url.searchParams.get("city"), "brno");
+  assert.equal(calls[0].url.searchParams.get("city"), "all");
   assert.deepEqual(calls[0].init.next, {
     revalidate: 3600,
     tags: [CONTENT_CACHE_TAG.categories],

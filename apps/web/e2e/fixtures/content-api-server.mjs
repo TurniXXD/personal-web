@@ -90,6 +90,27 @@ const named = [
   },
 ];
 
+const prague = [
+  {
+    slug: "praha-product-meetup",
+    title: "Praha product meetup",
+    summary: "Product people share discovery stories.",
+    startsAt: at(6),
+    city: "Praha",
+    venueName: "Impact Hub Praha",
+    category: "startups",
+    freeFood: "yes",
+  },
+  {
+    slug: "praha-devops-night",
+    title: "Praha DevOps night",
+    summary: "Kubernetes in practice.",
+    startsAt: at(9),
+    city: "Praha",
+    category: "development",
+  },
+];
+
 const filler = Array.from({ length: 26 }, (_, index) => ({
   slug: `networking-brno-${index + 1}`,
   title: `Networking Brno #${index + 1}`,
@@ -99,7 +120,7 @@ const filler = Array.from({ length: 26 }, (_, index) => ({
   venueName: "Kavárna Místo",
 }));
 
-const events = [...named, ...filler].map((event, index) => ({
+const events = [...named, ...prague, ...filler].map((event, index) => ({
   ...base,
   id: `fixture-${index + 1}`,
   updatedAt: at(-index),
@@ -157,6 +178,8 @@ const listEvents = (params) => {
     const end = event.endsAt ? Date.parse(event.endsAt) : start;
     if (end < fromTime) return false;
     if (to && start >= dayEnd(to)) return false;
+    const city = params.get("city") ?? "brno";
+    if (city !== "all" && fold(event.city) !== fold(city)) return false;
     if (params.get("category") && event.category !== params.get("category"))
       return false;
     if (params.get("free") === "true" && event.isFree !== true) return false;

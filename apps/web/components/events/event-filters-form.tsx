@@ -9,7 +9,7 @@ import {
   type FormEvent,
 } from "react";
 import { useRouter } from "next/navigation";
-import { Pizza, RotateCcw, Search } from "lucide-react";
+import { MapPin, Pizza, RotateCcw, Search } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { cn } from "cn";
 import type { EventCategory } from "@/lib/events/event-model";
@@ -18,6 +18,7 @@ import {
   EVENT_FILTER_PARAM,
   eventListHref,
   hasActiveEventFilters,
+  normalizeCity,
   normalizeSearchQuery,
   type EventFilters,
   type EventPriceFilter,
@@ -52,10 +53,12 @@ export function EventFiltersForm({
   const router = useRouter();
   const id = useId();
   const searchRef = useRef<HTMLInputElement>(null);
+  const cityRef = useRef<HTMLInputElement>(null);
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [isPending, startTransition] = useTransition();
   const [draft, setDraft] = useState<EventFilters>(filters);
   const [searchText, setSearchText] = useState(filters.q ?? "");
+  const [cityText, setCityText] = useState(filters.city ?? "");
   const filtersKey = eventListHref(basePath, filters);
 
   // Follow URL changes (back/forward, reset) without overwriting active typing.
@@ -63,6 +66,9 @@ export function EventFiltersForm({
     setDraft(filters);
     if (document.activeElement !== searchRef.current) {
       setSearchText(filters.q ?? "");
+    }
+    if (document.activeElement !== cityRef.current) {
+      setCityText(filters.city ?? "");
     }
     // `filtersKey` captures every filter value.
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -87,32 +93,41 @@ export function EventFiltersForm({
     });
   };
 
+  // Typed values (search, city) are read from inputs, not the last URL state.
+  const typed = (text = { q: searchText, city: cityText }) => ({
+    q: normalizeSearchQuery(text.q),
+    city: normalizeCity(text.city),
+  });
+
   const update = <Key extends keyof EventFilters>(
     key: Key,
     value: EventFilters[Key],
-  ) =>
-    navigate({ ...draft, q: normalizeSearchQuery(searchText), [key]: value });
+  ) => navigate({ ...draft, ...typed(), [key]: value });
 
-  const onSearchChange = (value: string) => {
-    setSearchText(value);
+  const onTextChange = (field: "q" | "city", value: string) => {
+    if (field === "q") setSearchText(value);
+    else setCityText(value);
+    const text = { q: searchText, city: cityText, [field]: value };
     if (debounceRef.current) clearTimeout(debounceRef.current);
     debounceRef.current = setTimeout(() => {
-      navigate({ ...draft, q: normalizeSearchQuery(value) }, "replace");
+      navigate({ ...draft, ...typed(text) }, "replace");
     }, SEARCH_DEBOUNCE_MS);
   };
 
   const onSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    navigate({ ...draft, q: normalizeSearchQuery(searchText) });
+    navigate({ ...draft, ...typed() });
   };
 
   const onReset = () => {
     setSearchText("");
+    setCityText("");
     navigate(DEFAULT_EVENT_FILTERS);
   };
 
+  const { q: typedQuery, city: typedCity } = typed();
   const active =
-    hasActiveEventFilters(draft) || normalizeSearchQuery(searchText) !== null;
+    hasActiveEventFilters(draft) || typedQuery !== null || typedCity !== null;
   // Keep a category that is selected but missing from the CMS list usable.
   const categoryOptions =
     draft.category &&
@@ -154,7 +169,7 @@ export function EventFiltersForm({
               placeholder={t("searchPlaceholder")}
               aria-describedby={`${id}-q-hint`}
               value={searchText}
-              onChange={(event) => onSearchChange(event.target.value)}
+              onChange={(event) => onTextChange("q", event.target.value)}
               className={cn(controlClasses, "pl-9")}
             />
           </div>
@@ -170,8 +185,33 @@ export function EventFiltersForm({
         </small>
       </div>
 
-      <div className="grid grid-cols-2 gap-x-3 gap-y-4 sm:gap-x-4 lg:grid-cols-5">
-        <div className={cn(fieldClasses, "col-span-2 lg:col-span-1")}>
+      <div className="grid grid-cols-2 gap-x-3 gap-y-4 sm:gap-x-4 lg:grid-cols-6">
+        <div className={fieldClasses}>
+          <label htmlFor={`${id}-city`} className={labelClasses}>
+            {t("cityLabel")}
+          </label>
+          <div className="relative min-w-0">
+            <MapPin
+              size={16}
+              aria-hidden="true"
+              className="pointer-events-none absolute top-1/2 left-3 -translate-y-1/2 text-ink-muted"
+            />
+            <input
+              ref={cityRef}
+              id={`${id}-city`}
+              name={EVENT_FILTER_PARAM.city}
+              type="text"
+              autoComplete="address-level2"
+              enterKeyHint="search"
+              maxLength={120}
+              placeholder={t("cityPlaceholder")}
+              value={cityText}
+              onChange={(event) => onTextChange("city", event.target.value)}
+              className={cn(controlClasses, "pl-9")}
+            />
+          </div>
+        </div>
+        <div className={fieldClasses}>
           <label htmlFor={`${id}-category`} className={labelClasses}>
             {t("categoryLabel")}
           </label>

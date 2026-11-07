@@ -62,13 +62,13 @@ Visitors can allow analytics, use essential features only, or reopen Cookie sett
 
 Production builds on Vercel validate the complete form, monitoring, source-map, and analytics configuration before compiling. Run `VALIDATE_PRODUCTION_ENV=true pnpm --filter @vantuch/web validate:production-env` to perform the same check manually. API endpoints also apply a per-instance rate limit as defense in depth; retain Cloudflare or Vercel Firewall rate limiting at the edge so limits are shared across instances.
 
-## Commercial site: events directory (`/akce/brno`)
+## Commercial site: events directory (`/akce`)
 
 The events listing and detail pages read published events from the public, read-only Payload Content API (`GET /api/public/v1/events`, `/events/{slug}`, `/events/categories`, documented at `https://cms.vantuch.dev/api/public/docs`). No CMS credentials are used; all requests run server-side.
 
 - **Configuration:** `CONTENT_API_BASE_URL` (defaults to `https://cms.vantuch.dev`; HTTPS only). Its hostname is also the only remote pattern allowed for `next/image`; cover images from other hosts fall back to the design-system placeholder.
 - **Types:** `apps/web/lib/events/cms-api-schema.ts` is generated from the live OpenAPI contract. Regenerate after CMS contract changes with `pnpm --filter @vantuch/web generate:cms-types`.
-- **Filtering:** search, category, date range, admission, free food, and sort are URL parameters passed to the API, which filters server-side. Pagination uses the API's opaque cursor (`?cursor=`); filters are preserved across pages.
+- **Filtering:** search, city (`?city=brno`; every city when omitted), category, date range, admission, free food, and sort are URL parameters passed to the API, which filters server-side. Pagination uses the API's opaque cursor (`?cursor=`); filters are preserved across pages.
 - **Caching:** event lists and details revalidate every 15 minutes, categories every hour (tags `content:events`, `content:event:<slug>`, `content:event-categories`). Detail pages are generated on first request and cached (ISR).
 - **On-demand revalidation:** configure a CMS publish/update webhook to `POST https://vantuch.dev/api/revalidate/events` with header `Authorization: Bearer <CONTENT_REVALIDATE_SECRET>` and optional JSON body `{"slug": "event-slug"}` or `{"slugs": [...]}`. Set server-only `CONTENT_REVALIDATE_SECRET` (at least 32 random characters) in Vercel. Without it the endpoint returns 503 and pages refresh on the 15-minute schedule. Cancellations expire caches immediately.
 - **Tests:** unit tests (`pnpm --filter @vantuch/web test`) use simulated fetchers; E2E tests start a local contract fixture (`apps/web/e2e/fixtures/content-api-server.mjs`) and never contact the production CMS.

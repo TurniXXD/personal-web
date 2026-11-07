@@ -13,7 +13,7 @@ test("compact footer keeps core destinations and referrals understated", async (
     "/#process",
     "/#about",
     "/kontakt",
-    "/akce/brno",
+    "/akce",
     "/doporuceni",
     "/privacy",
     "mailto:hello@vantuch.dev",

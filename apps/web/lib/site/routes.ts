@@ -6,7 +6,7 @@ export const SITE_PATH = {
   home: "",
   automation: "/automatizace",
   contact: "/kontakt",
-  events: "/akce/brno",
+  events: "/akce",
   privacy: "/privacy",
   referral: "/doporuceni",
   services: {

@@ -35,15 +35,9 @@ export function EventsListingPage({
         className="bg-[linear-gradient(145deg,#fff,#f5f7ff)]"
       >
         <div className="site-container pt-[clamp(3rem,7vw,5.5rem)] pb-[clamp(3.5rem,8vw,6rem)]">
-          <header className="max-w-[46rem]">
-            <p className="eyebrow">{t("listing.eyebrow")}</p>
-            <h1 className="m-0 text-[clamp(2.2rem,5.4vw,4.2rem)] leading-[1.08] tracking-[-0.06em] text-ink-strong">
-              {t("listing.title")}
-            </h1>
-            <p className="mt-4 mb-0 max-w-[43rem] text-[1.05rem] leading-[1.7] text-[#596484]">
-              {t("listing.subtitle")}
-            </p>
-          </header>
+          <h1 className="m-0 text-[clamp(2.2rem,5.4vw,4.2rem)] leading-[1.08] tracking-[-0.06em] text-ink-strong">
+            {t("listing.title")}
+          </h1>
 
           <EventFiltersForm
             basePath={basePath}

@@ -10,25 +10,21 @@ test("navigation links to the events listing and marks it active", async ({
   const navLink = page
     .locator(".site-header__nav")
     .getByRole("link", { name: "Akce", exact: true });
-  await expect(navLink).toHaveAttribute("href", "/akce/brno");
+  await expect(navLink).toHaveAttribute("href", "/akce");
   await navLink.click();
-  await expect(page).toHaveURL(/\/akce\/brno$/);
+  await expect(page).toHaveURL(/\/akce$/);
   await expect(
     page.locator('.site-header__nav a[aria-current="page"]'),
   ).toHaveText("Akce");
-  await expect(
-    page.getByRole("heading", {
-      level: 1,
-      name: "Tech & networking akce v Brně",
-    }),
-  ).toBeVisible();
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Akce");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveCount(1);
 });
 
 test("listing shows a grid of at most four columns and paginates with filters", async ({
   page,
 }) => {
   await page.setViewportSize({ width: 1920, height: 1000 });
-  await page.goto("/akce/brno?category=networking");
+  await page.goto("/akce?category=networking");
   const grid = page.locator("[data-events-grid]");
   await expect(grid).toBeVisible();
   const columns = await grid.evaluate(
@@ -57,15 +53,15 @@ test("listing shows a grid of at most four columns and paginates with filters", 
 test("free food filter combines with other filters and keeps unknown food visible when off", async ({
   page,
 }) => {
-  await page.goto("/akce/brno");
+  await page.goto("/akce");
   await expect(
     page.locator('[data-event-card="data-breakfast"]'),
   ).toBeVisible();
 
   await page.getByRole("checkbox", { name: "Jídlo zdarma" }).check();
   await expect(page).toHaveURL(/freeFood=true/);
-  await expect(page.locator("[data-event-card]")).toHaveCount(2);
-  await expect(page.locator("[data-free-food-badge]")).toHaveCount(2);
+  await expect(page.locator("[data-event-card]")).toHaveCount(3);
+  await expect(page.locator("[data-free-food-badge]")).toHaveCount(3);
 
   await page.getByLabel("Kategorie").selectOption("ai");
   await expect(page).toHaveURL(/freeFood=true/);
@@ -76,7 +72,7 @@ test("free food filter combines with other filters and keeps unknown food visibl
   ).toBeVisible();
 
   await page.getByRole("link", { name: "Zrušit filtry" }).click();
-  await expect(page).toHaveURL(/\/akce\/brno$/);
+  await expect(page).toHaveURL(/\/akce$/);
   await expect(
     page.locator('[data-event-card="data-breakfast"]'),
   ).toBeVisible();
@@ -89,15 +85,49 @@ test("free food filter combines with other filters and keeps unknown food visibl
   ).toHaveCount(0);
 });
 
+test("city is a URL filter that combines with the others", async ({ page }) => {
+  await page.goto("/akce");
+  // Without a city the listing covers every city.
+  await expect(
+    page.locator('[data-event-card="praha-product-meetup"]'),
+  ).toBeVisible();
+  await expect(
+    page.locator('[data-event-card="brno-ai-meetup"]'),
+  ).toBeVisible();
+
+  await page.getByLabel("Město").fill("Praha");
+  await expect(page).toHaveURL(/city=Praha/);
+  await expect(page.locator("[data-event-card]")).toHaveCount(2);
+  await expect(page.locator('[data-event-card="brno-ai-meetup"]')).toHaveCount(
+    0,
+  );
+
+  await page.getByRole("checkbox", { name: "Jídlo zdarma" }).check();
+  await expect(page).toHaveURL(/city=Praha.*freeFood=true/);
+  await expect(page.locator("[data-event-card]")).toHaveCount(1);
+  await expect(
+    page.locator('[data-event-card="praha-product-meetup"]'),
+  ).toBeVisible();
+
+  await page.goto("/akce?city=brno&category=ai");
+  await expect(page.getByLabel("Město")).toHaveValue("brno");
+  await expect(
+    page.locator('[data-event-card="brno-ai-meetup"]'),
+  ).toBeVisible();
+  await expect(
+    page.locator('[data-event-card="praha-product-meetup"]'),
+  ).toHaveCount(0);
+});
+
 test("search is debounced into the URL and shows an empty state", async ({
   page,
 }) => {
-  await page.goto("/akce/brno");
+  await page.goto("/akce");
   await page.getByLabel("Hledat akce").fill("typescript");
   await expect(page).toHaveURL(/q=typescript/);
   await expect(page.locator("[data-event-card]")).toHaveCount(1);
 
-  await page.goto("/akce/brno?q=nothing-matches&price=paid");
+  await page.goto("/akce?q=nothing-matches&price=paid");
   await expect(
     page.locator('[data-events-state="filtered-empty"]'),
   ).toBeVisible();
@@ -107,7 +137,7 @@ test("search is debounced into the URL and shows an empty state", async ({
 test("card navigates to the detail page while the calendar link stays independent", async ({
   page,
 }) => {
-  await page.goto("/akce/brno");
+  await page.goto("/akce");
   const card = page.locator('[data-event-card="brno-ai-meetup"]');
   const calendar = card.locator("[data-calendar-action]");
 
@@ -121,7 +151,7 @@ test("card navigates to the detail page while the calendar link stays independen
   expect(calendarUrl.searchParams.get("text")).toBe("Brno AI meetup");
   expect(calendarUrl.searchParams.get("ctz")).toBe("Europe/Prague");
   expect(calendarUrl.searchParams.get("details")).toContain(
-    "https://vantuch.dev/akce/brno/brno-ai-meetup",
+    "https://vantuch.dev/akce/brno-ai-meetup",
   );
   // No interactive element is nested inside another.
   await expect(card.locator("a a, a button")).toHaveCount(0);
@@ -129,17 +159,17 @@ test("card navigates to the detail page while the calendar link stays independen
   const popup = page.waitForEvent("popup");
   await calendar.click();
   await (await popup).close();
-  await expect(page).toHaveURL(/\/akce\/brno$/);
+  await expect(page).toHaveURL(/\/akce$/);
 
   await card.locator("[data-event-card-link]").focus();
   await page.keyboard.press("Enter");
-  await expect(page).toHaveURL(/\/akce\/brno\/brno-ai-meetup$/);
+  await expect(page).toHaveURL(/\/akce\/brno-ai-meetup$/);
 });
 
 test("detail page renders registration, structured data, and metadata", async ({
   page,
 }) => {
-  await page.goto("/akce/brno/brno-ai-meetup");
+  await page.goto("/akce/brno-ai-meetup");
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
     "Brno AI meetup",
   );
@@ -151,7 +181,7 @@ test("detail page renders registration, structured data, and metadata", async ({
   ).toHaveText("Akce");
   await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
     "href",
-    "https://vantuch.dev/akce/brno/brno-ai-meetup",
+    "https://vantuch.dev/akce/brno-ai-meetup",
   );
 
   const jsonLd = JSON.parse(
@@ -169,7 +199,7 @@ test("detail page renders registration, structured data, and metadata", async ({
 test("cancelled events hide registration and disable the calendar", async ({
   page,
 }) => {
-  await page.goto("/akce/brno/startup-pitch-evening");
+  await page.goto("/akce/startup-pitch-evening");
   await expect(
     page.locator('[data-event-status-notice="cancelled"]'),
   ).toBeVisible();
@@ -187,7 +217,7 @@ test("cancelled events hide registration and disable the calendar", async ({
 });
 
 test("unknown events return the event not-found state", async ({ page }) => {
-  const response = await page.goto("/akce/brno/does-not-exist");
+  const response = await page.goto("/akce/does-not-exist");
   expect(response?.status()).toBe(404);
   await expect(page.locator("[data-event-not-found]")).toBeVisible();
 });
@@ -196,7 +226,7 @@ test("events pages reflow on phones without horizontal overflow", async ({
   page,
 }) => {
   await page.setViewportSize({ width: 360, height: 800 });
-  for (const path of ["/akce/brno", "/en/akce/brno/brno-ai-meetup"]) {
+  for (const path of ["/akce", "/en/akce/brno-ai-meetup"]) {
     await page.goto(path);
     const overflow = await page.evaluate(
       () =>
