@@ -232,6 +232,7 @@
     },
     "listing": {
       "title": "Events",
+      "subtitle": "Selected events I found with my bot, ones that caught my eye, or ones that are less known but definitely deserve more attention.",
       "resultsLabel": "Event list",
       "resultsCount": "{count, plural, =0 {No events} one {Showing # event} other {Showing # events}}",
       "moreAvailable": "More events are on the next page.",

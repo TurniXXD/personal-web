@@ -43,6 +43,9 @@ export function EventsListingPage({
               <h1 className="m-0 text-[clamp(2.2rem,5.4vw,4.2rem)] leading-[1.08] tracking-[-0.06em] text-ink-strong">
                 {t("listing.title")}
               </h1>
+              <p className="mt-4 mb-0 max-w-[46rem] text-[clamp(1rem,1.6vw,1.15rem)] leading-[1.6] text-ink-muted">
+                {t("listing.subtitle")}
+              </p>
             </ScrollReveal>
             <ScrollReveal delay={90} className="relative z-10">
               <EventFiltersForm

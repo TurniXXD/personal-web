@@ -232,6 +232,7 @@
     },
     "listing": {
       "title": "Akce",
+      "subtitle": "Vybrané akce, které jsem našel pomocí bota, zaujaly mě, nebo o kterých se tolik neví, ale rozhodně stojí za větší zmínku.",
       "resultsLabel": "Seznam akcí",
       "resultsCount": "{count, plural, =0 {Žádné akce} one {Zobrazena # akce} few {Zobrazeny # akce} other {Zobrazeno # akcí}}",
       "moreAvailable": "Další akce najdete na následující stránce.",
