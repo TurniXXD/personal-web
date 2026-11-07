@@ -5,11 +5,7 @@ import {
   type ListEventsParams,
 } from "@/lib/integrations/content-api";
 import { sentryLogger } from "@/lib/observability/sentry-logger";
-import type {
-  EventCategory,
-  EventItem,
-  EventListPage,
-} from "@/lib/events/event-model";
+import type { EventCategory, EventListPage } from "@/lib/events/event-model";
 
 let client: ContentApiClient | undefined;
 
@@ -63,18 +59,6 @@ export const getEvents = async (
     return page;
   } catch (error) {
     reportFailure("getEvents", error);
-    throw error;
-  }
-};
-
-/** Returns `null` for unknown or unpublished slugs (API 404). */
-export const getEventBySlug = async (
-  slug: string,
-): Promise<EventItem | null> => {
-  try {
-    return await contentApi().getEventBySlug(slug);
-  } catch (error) {
-    reportFailure("getEventBySlug", error);
     throw error;
   }
 };

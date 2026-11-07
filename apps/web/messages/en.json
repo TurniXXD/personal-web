@@ -228,9 +228,7 @@
   "events": {
     "meta": {
       "title": "Events | Jakub Vantuch",
-      "description": "Meetups, conferences, workshops, and networking events in one place. Search by city, category, date, or admission.",
-      "detailTitle": "{title} | Events",
-      "detailFallbackDescription": "{title}: date, venue, and registration in one place."
+      "description": "Meetups, conferences, workshops, and networking events in one place. Search by city, category, date, or admission."
     },
     "listing": {
       "title": "Events",
@@ -307,39 +305,14 @@
       "venue": "Venue",
       "time": "Time",
       "organizer": "Organised by",
-      "featured": "Featured"
+      "featured": "Featured",
+      "newWindow": "(opens the event page in a new window)"
     },
     "calendar": {
       "add": "Add to calendar",
       "newWindow": "(opens Google Calendar in a new window)",
       "unavailable": "The event date is not verified yet, so it cannot be added to a calendar.",
       "cancelled": "This event is cancelled, so it cannot be added to a calendar."
-    },
-    "detail": {
-      "back": "All events",
-      "when": "When",
-      "where": "Where",
-      "organizer": "Organiser",
-      "category": "Category",
-      "tags": "Tags",
-      "price": "Admission",
-      "priceUnknown": "Not stated",
-      "food": "Refreshments",
-      "about": "About the event",
-      "noDescription": "The organiser has not published a detailed description yet. See the original event page for more information.",
-      "register": "Register for the event",
-      "source": "Original event page",
-      "sourceNote": "Information comes from the organiser's source.",
-      "cancelledNotice": "This event has been cancelled.",
-      "postponedNotice": "This event has been postponed. Please confirm the current date with the organiser.",
-      "related": "More events in this category",
-      "detailsLabel": "Event details"
-    },
-    "notFound": {
-      "eyebrow": "Event not found",
-      "title": "We could not find this event.",
-      "description": "The event may have been removed, moved, or not published yet.",
-      "action": "Show all events"
     },
     "error": {
       "title": "The event could not be loaded",

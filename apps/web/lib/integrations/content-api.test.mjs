@@ -142,31 +142,6 @@ test("skips contract-violating items and reports how many", async () => {
   assert.equal(page.nextCursor, null);
 });
 
-test("returns null for unknown slugs and validates them before fetching", async () => {
-  const { calls, fetcher } = simulatedFetcher(() =>
-    json({ error: { code: "not_found", message: "Not found" } }, 404),
-  );
-  const client = createContentApiClient({ fetcher });
-  assert.equal(await client.getEventBySlug("missing-event"), null);
-  assert.equal(await client.getEventBySlug("../../admin"), null);
-  assert.equal(calls.length, 1);
-  assert.deepEqual(calls[0].init.next.tags, [
-    CONTENT_CACHE_TAG.events,
-    CONTENT_CACHE_TAG.event("missing-event"),
-  ]);
-});
-
-test("loads an event detail", async () => {
-  const { fetcher } = simulatedFetcher(() =>
-    json({ data: event({ status: "cancelled", freeFood: "yes" }) }),
-  );
-  const detail = await createContentApiClient({ fetcher }).getEventBySlug(
-    "brno-ai-meetup",
-  );
-  assert.equal(detail.status, "cancelled");
-  assert.equal(detail.freeFood, "yes");
-});
-
 test("loads categories with a one hour revalidation", async () => {
   const { calls, fetcher } = simulatedFetcher(() =>
     json({
@@ -244,7 +219,7 @@ test("reports network errors, invalid JSON, and invalid shapes", async () => {
     fetcher: async () =>
       new Response("oops", { status: 500, headers: { "x-request-id": "r9" } }),
   });
-  await assert.rejects(http500.getEventBySlug("a"), {
+  await assert.rejects(http500.getEventCategories(), {
     code: "http_500",
     requestId: "r9",
   });

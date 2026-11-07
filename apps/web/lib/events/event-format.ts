@@ -193,15 +193,6 @@ export const formatEventLocation = (
   return parts.length ? parts.join(", ") : null;
 };
 
-/** Splits plain-text CMS descriptions on blank lines. */
-export const descriptionParagraphs = (description: string | null) =>
-  description
-    ? description
-        .split(/\n\s*\n/)
-        .map((paragraph) => paragraph.trim())
-        .filter(Boolean)
-    : [];
-
 export const truncateText = (value: string, maxLength: number) => {
   if (value.length <= maxLength) return value;
   const cut = value.slice(0, maxLength - 1);

@@ -79,8 +79,14 @@ test("robot grabs a card edge, peeks out, and greets on hover", async ({
   );
   expect(overflow).toBe(false);
   await page.mouse.move(0, 0);
+  await page
+    .context()
+    .route("https://example.com/**", (route) =>
+      route.fulfill({ contentType: "text/html", body: "ok" }),
+    );
+  const popup = page.waitForEvent("popup");
   await page.locator("[data-event-card-link]").first().click();
-  await expect(page).toHaveURL(/\/akce\/[a-z0-9-]+$/);
+  expect((await popup).url()).toMatch(/^https:\/\/example\.com\//);
 });
 
 test("robot stays still for reduced motion", async ({ page }) => {

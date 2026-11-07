@@ -10,7 +10,7 @@ type MobileNavigationProps = {
   links: Array<{
     href: string;
     label: string;
-    ariaCurrent?: "page" | "true";
+    ariaCurrent?: "page";
     hrefLang?: string;
     lang?: string;
   }>;

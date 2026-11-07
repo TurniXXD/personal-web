@@ -75,8 +75,3 @@ export const SERVICE_SECTION_ID = {
 } as const;
 
 export const serviceDetailPath = (slug: ServiceSlug) => `/sluzby/${slug}`;
-
-export const eventDetailPath = (slug: string) => `${SITE_PATH.events}/${slug}`;
-
-export const isEventsPath = (path: string) =>
-  path === SITE_PATH.events || path.startsWith(`${SITE_PATH.events}/`);

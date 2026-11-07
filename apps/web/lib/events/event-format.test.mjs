@@ -3,7 +3,6 @@ import test from "node:test";
 
 import {
   describeEventPrice,
-  descriptionParagraphs,
   formatEventCardDateBadge,
   formatEventCardLocation,
   formatEventCardTime,
@@ -203,12 +202,7 @@ test("joins location parts without duplicates", () => {
   );
 });
 
-test("splits descriptions and truncates summaries", () => {
-  assert.deepEqual(descriptionParagraphs("First\n\n  \nSecond\nline"), [
-    "First",
-    "Second\nline",
-  ]);
-  assert.deepEqual(descriptionParagraphs(null), []);
+test("truncates summaries", () => {
   assert.equal(truncateText("short", 10), "short");
   const truncated = truncateText("one two three four five six", 15);
   assert.ok(truncated.length <= 15);

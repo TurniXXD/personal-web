@@ -238,14 +238,6 @@ createServer((request, response) => {
     return send(response, 200, result);
   }
 
-  const detail = url.pathname.match(/^\/api\/public\/v1\/events\/([^/]+)$/);
-  if (detail) {
-    const event = events.find((item) => item.slug === detail[1]);
-    return event
-      ? send(response, 200, { data: event })
-      : error(response, 404, "not_found");
-  }
-
   return error(response, 404, "not_found");
 }).listen(port, "127.0.0.1", () => {
   console.log(`Content API fixture listening on http://127.0.0.1:${port}`);

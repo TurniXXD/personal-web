@@ -221,12 +221,30 @@ test("advanced filters disclose, count and clear without losing quick filters", 
   await expect(page).toHaveURL(/\/akce$/);
 });
 
-test("card navigates to the detail page while the calendar link stays independent", async ({
+test("card opens the organiser's event page while the calendar link stays independent", async ({
   page,
+  context,
 }) => {
+  // Never leave the test environment: answer organiser URLs locally.
+  await context.route("https://example.com/**", (route) =>
+    route.fulfill({
+      contentType: "text/html",
+      body: "<title>Organiser</title>",
+    }),
+  );
   await page.goto("/akce");
   const card = page.locator('[data-event-card="brno-ai-meetup"]');
+  const link = card.locator("[data-event-card-link]");
   const calendar = card.locator("[data-calendar-action]");
+
+  // Registration URL wins over the source page.
+  await expect(link).toHaveAttribute(
+    "href",
+    "https://example.com/register/brno-ai-meetup",
+  );
+  await expect(link).toHaveAttribute("target", "_blank");
+  await expect(link).toHaveAttribute("rel", "noopener noreferrer");
+  await expect(link).toContainText("v novém okně");
 
   await expect(calendar).toHaveAttribute("target", "_blank");
   await expect(calendar).toHaveAttribute("rel", "noopener noreferrer");
@@ -238,19 +256,44 @@ test("card navigates to the detail page while the calendar link stays independen
   expect(calendarUrl.searchParams.get("text")).toBe("Brno AI meetup");
   expect(calendarUrl.searchParams.get("ctz")).toBe("Europe/Prague");
   expect(calendarUrl.searchParams.get("details")).toContain(
-    "https://vantuch.dev/akce/brno-ai-meetup",
+    "https://example.com/register/brno-ai-meetup",
   );
   // No interactive element is nested inside another.
   await expect(card.locator("a a, a button")).toHaveCount(0);
 
-  const popup = page.waitForEvent("popup");
+  const calendarPopup = page.waitForEvent("popup");
   await calendar.click();
-  await (await popup).close();
+  await (await calendarPopup).close();
   await expect(page).toHaveURL(/\/akce$/);
 
-  await card.locator("[data-event-card-link]").focus();
+  const eventPopup = page.waitForEvent("popup");
+  await link.focus();
   await page.keyboard.press("Enter");
-  await expect(page).toHaveURL(/\/akce\/brno-ai-meetup$/);
+  const organiser = await eventPopup;
+  expect(organiser.url()).toBe("https://example.com/register/brno-ai-meetup");
+  await organiser.close();
+  await expect(page).toHaveURL(/\/akce$/);
+});
+
+test("cards fall back to the source page and stay links when cancelled", async ({
+  page,
+}) => {
+  await page.goto("/akce");
+  // No registration URL: the card links to the organiser's source page.
+  await expect(
+    page.locator('[data-event-card="typescript-night"] [data-event-card-link]'),
+  ).toHaveAttribute("href", "https://example.com/events");
+
+  const cancelled = page.locator('[data-event-card="startup-pitch-evening"]');
+  await expect(cancelled.locator("[data-event-card-link]")).toHaveAttribute(
+    "href",
+    "https://example.com/events",
+  );
+  await expect(cancelled.locator("[data-calendar-disabled]")).toHaveAttribute(
+    "aria-disabled",
+    "true",
+  );
+  await expect(cancelled.locator("[data-calendar-action]")).toHaveCount(0);
 });
 
 test("listing cards keep only the title and show an icon-only calendar action", async ({
@@ -345,60 +388,11 @@ test("listing cards anchor venue details and reveal the calendar tooltip", async
   await expect(tooltip).toBeVisible();
 });
 
-test("detail page renders registration, structured data, and metadata", async ({
-  page,
-}) => {
-  await page.goto("/akce/brno-ai-meetup");
-  await expect(page.getByRole("heading", { level: 1 })).toHaveText(
-    "Brno AI meetup",
-  );
-  await expect(
-    page.getByRole("link", { name: /Registrovat se na akci/ }),
-  ).toHaveAttribute("href", "https://example.com/register/brno-ai-meetup");
-  await expect(
-    page.locator('.site-header__nav a[aria-current="true"]'),
-  ).toHaveText("Akce");
-  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
-    "href",
-    "https://vantuch.dev/akce/brno-ai-meetup",
-  );
-
-  const jsonLd = JSON.parse(
-    (await page.locator('script[type="application/ld+json"]').textContent()) ??
-      "{}",
-  );
-  expect(jsonLd["@type"]).toBe("Event");
-  expect(jsonLd.eventStatus).toBe("https://schema.org/EventScheduled");
-  expect(jsonLd.location.name).toBe("Impact Hub Brno");
-  expect(jsonLd.organizer.name).toBe("Brno AI Community");
-  expect(jsonLd.offers.price).toBe(0);
-  expect(jsonLd).not.toHaveProperty("image");
-});
-
-test("cancelled events hide registration and disable the calendar", async ({
-  page,
-}) => {
-  await page.goto("/akce/startup-pitch-evening");
-  await expect(
-    page.locator('[data-event-status-notice="cancelled"]'),
-  ).toBeVisible();
-  await expect(page.locator("[data-event-registration]")).toHaveCount(0);
-  await expect(page.locator("[data-calendar-disabled]")).toHaveAttribute(
-    "aria-disabled",
-    "true",
-  );
-  await expect(page.locator("aside [data-calendar-action]")).toHaveCount(0);
-  const jsonLd = JSON.parse(
-    (await page.locator('script[type="application/ld+json"]').textContent()) ??
-      "{}",
-  );
-  expect(jsonLd.eventStatus).toBe("https://schema.org/EventCancelled");
-});
-
-test("unknown events return the event not-found state", async ({ page }) => {
-  const response = await page.goto("/akce/does-not-exist");
-  expect(response?.status()).toBe(404);
-  await expect(page.locator("[data-event-not-found]")).toBeVisible();
+test("event detail pages no longer exist", async ({ page }) => {
+  for (const path of ["/akce/brno-ai-meetup", "/en/akce/brno-ai-meetup"]) {
+    const response = await page.goto(path);
+    expect(response?.status(), path).toBe(404);
+  }
 });
 
 test("events pages reflow on phones without horizontal overflow", async ({
@@ -431,13 +425,4 @@ test("events pages reflow on phones without horizontal overflow", async ({
     );
     expect(overflow, `${width}px`).toBe(false);
   }
-  await page.setViewportSize({ width: 360, height: 800 });
-  await page.goto("/en/akce/brno-ai-meetup");
-  expect(
-    await page.evaluate(
-      () =>
-        document.documentElement.scrollWidth >
-        document.documentElement.clientWidth,
-    ),
-  ).toBe(false);
 });

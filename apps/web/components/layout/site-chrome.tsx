@@ -18,12 +18,7 @@ import { ScrollReveal } from "@/components/shared/scroll-reveal";
 import { copy, localizedPath, type Locale } from "@/lib/site/content";
 import type { ContactRequestType } from "@/lib/contact/submission";
 import { contactMailto, contactTel, siteConfig } from "@/lib/site/config";
-import {
-  SERVICE_SLUG,
-  SITE_PATH,
-  isEventsPath,
-  serviceDetailPath,
-} from "@/lib/site/routes";
+import { SERVICE_SLUG, SITE_PATH, serviceDetailPath } from "@/lib/site/routes";
 
 const ContactOrbit = dynamic(() =>
   import("@/components/contact/contact-orbit").then(
@@ -64,13 +59,8 @@ export function SiteHeader({ locale, path = "" }: SiteHeaderProps) {
   const languageAriaLabel = chrome("languageAriaLabel");
   const servicesActive =
     path === SITE_PATH.automation || path.startsWith("/sluzby/");
-  // The listing is the current page; a detail page sits inside that section.
   const eventsCurrent =
-    path === SITE_PATH.events
-      ? ("page" as const)
-      : isEventsPath(path)
-        ? ("true" as const)
-        : undefined;
+    path === SITE_PATH.events ? ("page" as const) : undefined;
   const serviceLinkMessages = chrome.raw(
     "serviceLinks",
   ) as ServiceLinkMessage[];

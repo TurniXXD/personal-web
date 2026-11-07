@@ -1,5 +1,4 @@
-import Link from "next/link";
-import { Clock3, MapPin } from "lucide-react";
+import { Clock3, ExternalLink, MapPin } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { cn } from "cn";
 import {
@@ -19,27 +18,23 @@ import {
 } from "@/lib/events/event-format";
 import { optimizableEventImage } from "@/lib/events/event-images";
 import { localizedPath } from "@/lib/site/content";
-import { SITE_ORIGIN, eventDetailPath } from "@/lib/site/routes";
+import { SITE_ORIGIN, SITE_PATH } from "@/lib/site/routes";
 
 type EventCardProps = {
   event: EventItem;
   locale: EventLocale;
   categoryLabel: string;
-  headingLevel?: "h2" | "h3";
 };
 
 /**
  * Whole-card navigation uses a stretched title link (`after:inset-0`), so the
  * calendar action stays a sibling link instead of nesting inside an anchor.
  */
-export function EventCard({
-  event,
-  locale,
-  categoryLabel,
-  headingLevel: Heading = "h3",
-}: EventCardProps) {
+export function EventCard({ event, locale, categoryLabel }: EventCardProps) {
   const t = useTranslations("events.card");
-  const href = localizedPath(locale, eventDetailPath(event.slug));
+  // Cards open the organiser's page directly: registration when published,
+  // otherwise the source page. Without either the card is not a link.
+  const href = event.registrationUrl ?? event.sourceUrl;
   const date = formatEventCardDateBadge(event, locale);
   const time = formatEventCardTime(event, locale);
   const location = formatEventCardLocation(event);
@@ -85,21 +80,33 @@ export function EventCard({
             <EventStatusBadge status={event.status} />
           </div>
         </div>
-        <Heading
+        <h3
           className={cn(
             "m-0 line-clamp-3 text-[1.12rem] leading-[1.35] font-semibold tracking-[-0.03em] text-ink-strong transition-colors duration-300 group-hover:text-white group-focus-within:text-white",
             event.status === "cancelled" && "line-through decoration-1",
           )}
         >
-          <Link
-            href={href}
-            data-event-card-link
-            title={event.title}
-            className="outline-none after:absolute after:inset-0 after:z-0 after:content-['']"
-          >
-            {event.title}
-          </Link>
-        </Heading>
+          {href ? (
+            <a
+              href={href}
+              target="_blank"
+              rel="noopener noreferrer"
+              data-event-card-link
+              title={event.title}
+              className="outline-none after:absolute after:inset-0 after:z-0 after:content-['']"
+            >
+              {event.title}
+              <ExternalLink
+                size={14}
+                aria-hidden="true"
+                className="ml-1.5 inline-block align-[-0.08em] text-ink-muted transition-colors duration-300 group-focus-within:text-white group-hover:text-white"
+              />
+              <span className="sr-only"> {t("newWindow")}</span>
+            </a>
+          ) : (
+            event.title
+          )}
+        </h3>
         <div className="mt-auto flex flex-col gap-3">
           {time || location ? (
             <dl className="m-0 grid gap-1.5 text-ui-sm leading-[1.45] text-ink-muted transition-colors duration-300 group-hover:text-white group-focus-within:text-white">
@@ -138,7 +145,10 @@ export function EventCard({
               <EventPriceBadge event={event} locale={locale} />
               <EventCalendarAction
                 event={event}
-                eventUrl={`${SITE_ORIGIN}${href}`}
+                eventUrl={
+                  href ??
+                  `${SITE_ORIGIN}${localizedPath(locale, SITE_PATH.events)}`
+                }
                 iconOnly
                 className="relative z-10 ml-auto shrink-0"
               />

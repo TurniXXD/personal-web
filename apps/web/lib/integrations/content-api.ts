@@ -5,18 +5,13 @@ import {
   type EventFilters,
 } from "../events/event-filters.ts";
 import { mapCmsCategory, mapCmsEvent } from "../events/event-mapping.ts";
-import type {
-  EventCategory,
-  EventItem,
-  EventListPage,
-} from "../events/event-model.ts";
+import type { EventCategory, EventListPage } from "../events/event-model.ts";
 
 export const DEFAULT_CONTENT_API_BASE_URL = "https://cms.vantuch.dev";
 
 /** Revalidation windows (seconds) for the public Content API. */
 export const CONTENT_API_REVALIDATE = {
   events: 900,
-  eventDetail: 900,
   categories: 3600,
 } as const;
 
@@ -24,15 +19,12 @@ export const CONTENT_API_REVALIDATE = {
 export const CONTENT_CACHE_TAG = {
   events: "content:events",
   categories: "content:event-categories",
-  event: (slug: string) => `content:event:${slug}`,
 } as const;
 
 const REQUEST_TIMEOUT_MS = 8_000;
 
 type ListEventsResponse =
   paths["/public/v1/events"]["get"]["responses"]["200"]["content"]["application/json"];
-type EventDetailResponse =
-  paths["/public/v1/events/{slug}"]["get"]["responses"]["200"]["content"]["application/json"];
 type CategoriesResponse =
   paths["/public/v1/events/categories"]["get"]["responses"]["200"]["content"]["application/json"];
 type ApiErrorBody =
@@ -128,8 +120,7 @@ export const createContentApiClient = ({
     path: string,
     query: URLSearchParams | null,
     next: NonNullable<ContentApiFetchInit["next"]>,
-    { allowNotFound = false }: { allowNotFound?: boolean } = {},
-  ): Promise<Body | null> => {
+  ): Promise<Body> => {
     const search = query?.toString();
     const url = `${origin}/api${path}${search ? `?${search}` : ""}`;
     let response: Response;
@@ -151,7 +142,6 @@ export const createContentApiClient = ({
       });
     }
 
-    if (response.status === 404 && allowNotFound) return null;
     if (!response.ok) {
       const { code, requestId } = await readErrorBody(response);
       throw new ContentApiError(
@@ -213,26 +203,6 @@ export const createContentApiClient = ({
             : null,
         skipped: body.data.length - events.length,
       };
-    },
-
-    async getEventBySlug(slug: string): Promise<EventItem | null> {
-      const endpoint = "getEvent";
-      if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug)) return null;
-      const body = await request<EventDetailResponse>(
-        endpoint,
-        `/public/v1/events/${encodeURIComponent(slug)}`,
-        null,
-        {
-          revalidate: CONTENT_API_REVALIDATE.eventDetail,
-          tags: [CONTENT_CACHE_TAG.events, CONTENT_CACHE_TAG.event(slug)],
-        },
-        { allowNotFound: true },
-      );
-      if (body === null) return null;
-      if (!isRecord(body)) throw invalidShape(endpoint);
-      const event = mapCmsEvent(body.data);
-      if (!event) throw invalidShape(endpoint);
-      return event;
     },
 
     async getEventCategories(

@@ -228,9 +228,7 @@
   "events": {
     "meta": {
       "title": "Akce | Jakub Vantuch",
-      "description": "Přehled meetupů, konferencí, workshopů a networkingových akcí na jednom místě. Hledejte podle města, kategorie, data nebo vstupného.",
-      "detailTitle": "{title} | Akce",
-      "detailFallbackDescription": "{title}: datum, místo a registrace na jednom místě."
+      "description": "Přehled meetupů, konferencí, workshopů a networkingových akcí na jednom místě. Hledejte podle města, kategorie, data nebo vstupného."
     },
     "listing": {
       "title": "Akce",
@@ -307,39 +305,14 @@
       "venue": "Místo",
       "time": "Čas",
       "organizer": "Pořádá",
-      "featured": "Doporučujeme"
+      "featured": "Doporučujeme",
+      "newWindow": "(otevře stránku akce v novém okně)"
     },
     "calendar": {
       "add": "Přidat do kalendáře",
       "newWindow": "(otevře Google Kalendář v novém okně)",
       "unavailable": "Termín akce není ověřený, do kalendáře ji zatím nelze přidat.",
       "cancelled": "Akce je zrušená, do kalendáře ji nelze přidat."
-    },
-    "detail": {
-      "back": "Všechny akce",
-      "when": "Kdy",
-      "where": "Kde",
-      "organizer": "Pořadatel",
-      "category": "Kategorie",
-      "tags": "Štítky",
-      "price": "Vstupné",
-      "priceUnknown": "Neuvedeno",
-      "food": "Občerstvení",
-      "about": "O akci",
-      "noDescription": "Pořadatel zatím nezveřejnil podrobný popis. Více informací najdete na původní stránce akce.",
-      "register": "Registrovat se na akci",
-      "source": "Původní stránka akce",
-      "sourceNote": "Informace pocházejí ze zdroje pořadatele.",
-      "cancelledNotice": "Tato akce byla zrušena.",
-      "postponedNotice": "Akce byla odložena. Aktuální termín ověřte u pořadatele.",
-      "related": "Další akce v kategorii",
-      "detailsLabel": "Detaily akce"
-    },
-    "notFound": {
-      "eyebrow": "Akce nenalezena",
-      "title": "Tuhle akci jsme nenašli.",
-      "description": "Akce mohla být odstraněna, přesunuta nebo ještě není zveřejněná.",
-      "action": "Zobrazit všechny akce"
     },
     "error": {
       "title": "Detail akce se nepodařilo načíst",

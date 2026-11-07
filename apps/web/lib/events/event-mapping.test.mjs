@@ -6,11 +6,7 @@ import {
   mapCmsCategory,
   mapCmsEvent,
 } from "./event-mapping.ts";
-import {
-  canAddEventToCalendar,
-  isIndexableEvent,
-  toSchemaEventStatus,
-} from "./event-status.ts";
+import { canAddEventToCalendar } from "./event-status.ts";
 
 /** Mirrors the documented example of `GET /public/v1/events`. */
 const contractExample = {
@@ -113,7 +109,6 @@ test("invalidates bad dates and end times before the start", () => {
   assert.equal(invalidStart.startsAt, null);
   assert.equal(invalidStart.endsAt, null);
   assert.equal(canAddEventToCalendar(invalidStart), false);
-  assert.equal(isIndexableEvent(invalidStart), false);
 
   const reversed = mapCmsEvent({
     ...contractExample,
@@ -155,19 +150,6 @@ test("handles every documented event status", () => {
   const scheduled = mapCmsEvent(contractExample);
   const cancelled = mapCmsEvent({ ...contractExample, status: "cancelled" });
   const postponed = mapCmsEvent({ ...contractExample, status: "postponed" });
-
-  assert.equal(
-    toSchemaEventStatus(scheduled.status),
-    "https://schema.org/EventScheduled",
-  );
-  assert.equal(
-    toSchemaEventStatus(cancelled.status),
-    "https://schema.org/EventCancelled",
-  );
-  assert.equal(
-    toSchemaEventStatus(postponed.status),
-    "https://schema.org/EventPostponed",
-  );
 
   assert.equal(canAddEventToCalendar(scheduled), true);
   assert.equal(canAddEventToCalendar(postponed), true);
