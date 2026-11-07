@@ -25,9 +25,10 @@ const DATE_TIME_OPTIONS: Intl.DateTimeFormatOptions = {
  * event's own time zone, so DST and visitor time zones cannot shift it.
  * Returns `null` when the start is missing or invalid.
  */
-export const formatEventDateRange = (
+const formatDateRange = (
   event: EventDateInput,
   locale: EventLocale,
+  month: "long" | "numeric",
 ): string | null => {
   if (!event.startsAt) return null;
   const start = new Date(event.startsAt);
@@ -35,6 +36,7 @@ export const formatEventDateRange = (
 
   const formatter = new Intl.DateTimeFormat(intlLocale(locale), {
     ...DATE_TIME_OPTIONS,
+    month,
     timeZone: event.timezone,
   });
   const end = event.endsAt ? new Date(event.endsAt) : null;
@@ -44,7 +46,76 @@ export const formatEventDateRange = (
   return formatter.formatRange(start, end);
 };
 
-/** Compact date for card headers, e.g. "20. 11." / "20 Nov". */
+export const formatEventDateRange = (
+  event: EventDateInput,
+  locale: EventLocale,
+): string | null => formatDateRange(event, locale, "long");
+
+/** Numeric month on listing cards, preserving the event's time zone. */
+export const formatEventCardDateRange = (
+  event: EventDateInput,
+  locale: EventLocale,
+): string | null =>
+  formatDateRange(event, locale, "numeric")?.replace(
+    /(\d)\.\s+(?=\d)/g,
+    "$1.",
+  ) ?? null;
+
+/** Short date badge; show the year only when it differs in the event zone. */
+export const formatEventCardDateBadge = (
+  event: EventDateInput,
+  locale: EventLocale,
+  now: Date = new Date(),
+): string | null => {
+  if (!event.startsAt) return null;
+  const start = new Date(event.startsAt);
+  if (Number.isNaN(start.getTime())) return null;
+  const parts = new Intl.DateTimeFormat(intlLocale(locale), {
+    timeZone: event.timezone,
+    day: "numeric",
+    month: "numeric",
+    year: "numeric",
+  }).formatToParts(start);
+  const get = (type: string) => parts.find((part) => part.type === type)!.value;
+  const currentYear = new Intl.DateTimeFormat(intlLocale(locale), {
+    timeZone: event.timezone,
+    year: "numeric",
+  }).format(now);
+  return `${get("day")}.${get("month")}.${get("year") === currentYear ? "" : get("year")}`;
+};
+
+/** Compact time for the card, with an end only when it follows the start. */
+export const formatEventCardTime = (
+  event: EventDateInput,
+  locale: EventLocale,
+): string | null => {
+  if (!event.startsAt) return null;
+  const start = new Date(event.startsAt);
+  if (Number.isNaN(start.getTime())) return null;
+  const format = new Intl.DateTimeFormat(intlLocale(locale), {
+    timeZone: event.timezone,
+    hour: "2-digit",
+    minute: "2-digit",
+    hourCycle: "h23",
+  });
+  const end = event.endsAt ? new Date(event.endsAt) : null;
+  if (!end || Number.isNaN(end.getTime()) || end <= start)
+    return format.format(start);
+  return `${format.format(start)}–${format.format(end)}`;
+};
+
+/** Short venue and city label; the detail page retains the full address. */
+export const formatEventCardLocation = (
+  event: Pick<EventItem, "venueName" | "city" | "address">,
+): string | null => {
+  const venue = event.venueName?.trim();
+  const city = event.city?.trim();
+  if (venue && city && !venue.toLowerCase().includes(city.toLowerCase()))
+    return `${venue}, ${city}`;
+  return venue || city || null;
+};
+
+/** Numeric day and month for the card cover, e.g. "20.11.". */
 export const formatEventDay = (
   event: EventDateInput,
   locale: EventLocale,
@@ -57,10 +128,12 @@ export const formatEventDay = (
     day: new Intl.DateTimeFormat(intlLocale(locale), {
       ...options,
       day: "numeric",
-    }).format(start),
+    })
+      .format(start)
+      .replace(/\.$/, ""),
     month: new Intl.DateTimeFormat(intlLocale(locale), {
       ...options,
-      month: "short",
+      month: "numeric",
     })
       .format(start)
       .replace(/\.$/, ""),

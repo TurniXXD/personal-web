@@ -27,7 +27,13 @@ const PEEK_MS = 4200;
 const HIDE_MS = 600;
 
 type Phase = "hidden" | "grab" | "peek" | "hide";
-type Position = { top: number; left: number; bubbleAlign: "start" | "end" };
+type Edge = "top" | "left" | "right";
+type Position = {
+  top: number;
+  left: number;
+  edge: Edge;
+  bubbleAlign: "start" | "end";
+};
 
 const randomBetween = (min: number, max: number) =>
   min + Math.random() * (max - min);
@@ -56,8 +62,40 @@ const isInViewport = (element: Element) => {
   return rect.top > 140 && rect.top < window.innerHeight - 60;
 };
 
+const eventsListingIsEmpty = () =>
+  document.querySelector(
+    '[data-events-state="empty"], [data-events-state="filtered-empty"]',
+  ) !== null;
+
+const cardEdge = (card: Element): Edge => {
+  if (window.innerWidth < 1024) return "top";
+  const rect = card.getBoundingClientRect();
+  const row = [...document.querySelectorAll(CARD_SELECTOR)]
+    .filter(isUsableCard)
+    .filter(
+      (candidate) =>
+        Math.abs(candidate.getBoundingClientRect().top - rect.top) < 12,
+    );
+  if (row.length < 2) return "top";
+  const leftmost = row.reduce((left, candidate) =>
+    candidate.getBoundingClientRect().left < left.getBoundingClientRect().left
+      ? candidate
+      : left,
+  );
+  const rightmost = row.reduce((right, candidate) =>
+    candidate.getBoundingClientRect().right >
+    right.getBoundingClientRect().right
+      ? candidate
+      : right,
+  );
+  if (card === leftmost && rect.left >= ROBOT_WIDTH + 16) return "left";
+  if (card === rightmost && rect.right <= window.innerWidth - ROBOT_WIDTH - 16)
+    return "right";
+  return "top";
+};
+
 /**
- * A small purple robot that grabs the top edge of one randomly chosen card,
+ * A small purple robot that grabs the edge of one randomly chosen card,
  * peeks out, and hides again; hovering it shows a waving speech bubble.
  * Purely decorative: hidden from assistive technology and never blocks the
  * card's own interactions.
@@ -79,35 +117,61 @@ export function CardPeekRobot() {
     let cancelled = false;
     let timer: ReturnType<typeof setTimeout> | undefined;
     let card: Element | null = null;
-    // Horizontal anchor along the card, away from its rounded corners.
-    let anchor = randomBetween(0.2, 0.8);
+    // Anchor along the chosen edge, away from its rounded corners.
+    let anchor = 0.5;
     const reducedMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)",
     ).matches;
 
-    // Random card, preferring ones the visitor can currently see.
+    // Prefer visible cards and avoid repeating the previous card when possible.
     const pickCard = () => {
+      if (eventsListingIsEmpty()) {
+        card = null;
+        return;
+      }
       const cards = [...document.querySelectorAll(CARD_SELECTOR)].filter(
         isUsableCard,
       );
       const visible = cards.filter(isInViewport);
       const pool = visible.length ? visible : cards;
-      card = pool.length ? pool[Math.floor(Math.random() * pool.length)] : null;
+      const candidates =
+        pool.length > 1 ? pool.filter((candidate) => candidate !== card) : pool;
+      card = candidates.length
+        ? candidates[Math.floor(Math.random() * candidates.length)]
+        : null;
       anchor = randomBetween(0.2, 0.8);
     };
 
     const measure = () => {
-      if (!card?.isConnected) return false;
+      if (!card?.isConnected || eventsListingIsEmpty()) return false;
       const rect = card.getBoundingClientRect();
-      const minLeft = rect.left + 16;
-      const maxLeft = rect.right - ROBOT_WIDTH - 16;
-      const left = Math.min(
-        Math.max(rect.left + rect.width * anchor - ROBOT_WIDTH / 2, minLeft),
-        maxLeft,
-      );
+      const edge = cardEdge(card);
+      const left =
+        edge === "left"
+          ? rect.left - ROBOT_WIDTH
+          : edge === "right"
+            ? rect.right
+            : Math.min(
+                Math.max(
+                  rect.left + rect.width * anchor - ROBOT_WIDTH / 2,
+                  rect.left + 16,
+                ),
+                rect.right - ROBOT_WIDTH - 16,
+              );
+      const top =
+        edge === "top"
+          ? rect.top - PEEK_HEIGHT
+          : Math.min(
+              Math.max(
+                rect.top + rect.height * anchor - PEEK_HEIGHT / 2,
+                rect.top + 16,
+              ),
+              rect.bottom - PEEK_HEIGHT - 16,
+            );
       setPosition({
-        top: rect.top + window.scrollY - PEEK_HEIGHT,
+        top: top + window.scrollY,
         left: left + window.scrollX,
+        edge,
         // Keep the bubble inside the viewport.
         bubbleAlign:
           left + ROBOT_WIDTH / 2 > window.innerWidth / 2 ? "end" : "start",
@@ -134,9 +198,7 @@ export function CardPeekRobot() {
     };
 
     function cycle() {
-      if (!card?.isConnected || !isUsableCard(card) || !isInViewport(card)) {
-        pickCard();
-      }
+      pickCard();
       if (!card || !isInViewport(card)) return scheduleNext(1500);
       measure();
       setPhase("grab");
@@ -157,9 +219,26 @@ export function CardPeekRobot() {
     if (reducedMotion) {
       placeStatic();
     } else {
-      pickCard();
       scheduleNext(FIRST_PEEK_DELAY_MS);
     }
+
+    // Filter updates replace the result cards without remounting this layout.
+    // Drop the old portal position as soon as its card disappears.
+    const observer = new MutationObserver(() => {
+      if (card && (!card.isConnected || eventsListingIsEmpty())) {
+        card = null;
+        setPhase("hidden");
+        setPosition(null);
+      } else if (
+        reducedMotion &&
+        !card &&
+        !eventsListingIsEmpty() &&
+        document.querySelector("[data-event-card]")
+      ) {
+        placeStatic();
+      }
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
 
     const onResize = () => {
       if (card) measure();
@@ -169,6 +248,7 @@ export function CardPeekRobot() {
     return () => {
       cancelled = true;
       if (timer) clearTimeout(timer);
+      observer.disconnect();
       window.removeEventListener("resize", onResize);
       setPhase("hidden");
       setPosition(null);
@@ -187,6 +267,7 @@ export function CardPeekRobot() {
       aria-hidden="true"
       data-card-robot
       data-phase={phase}
+      data-edge={position.edge}
       data-greeting={greeting ? "true" : undefined}
       className={`${styles.root} pointer-events-none absolute z-40 select-none`}
       style={{

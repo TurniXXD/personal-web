@@ -237,19 +237,25 @@
       "resultsLabel": "Event list",
       "resultsCount": "{count, plural, =0 {No events} one {Showing # event} other {Showing # events}}",
       "moreAvailable": "More events are on the next page.",
-      "laterPage": "Continued results",
-      "attribution": "This event overview is curated by {brand}. Details come from organisers, so please confirm them on the event page before you go."
+      "laterPage": "Continued results"
     },
     "filters": {
       "legend": "Search and filters",
       "searchLabel": "Search events",
-      "searchPlaceholder": "Title, venue, or organiser",
+      "searchPlaceholder": "Search events...",
       "searchHint": "Enter at least 2 characters.",
       "searchSubmit": "Search",
       "cityLabel": "City",
       "cityPlaceholder": "All cities",
       "cityNoResults": "City not available",
       "cityClear": "Clear city",
+      "dateLabel": "Date",
+      "dateAll": "All upcoming",
+      "dateWeek": "This week",
+      "dateMonth": "This month",
+      "dateCustom": "Custom range",
+      "advanced": "Filters",
+      "removeFilter": "Remove filter",
       "categoryLabel": "Category",
       "categoryAll": "All categories",
       "fromLabel": "From",
@@ -299,6 +305,7 @@
         "postponed": "Postponed"
       },
       "venue": "Venue",
+      "time": "Time",
       "organizer": "Organised by",
       "featured": "Featured"
     },

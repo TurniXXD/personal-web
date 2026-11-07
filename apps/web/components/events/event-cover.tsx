@@ -54,12 +54,9 @@ export function EventCover({
           data-event-cover-fallback
         >
           {day ? (
-            <span className="grid min-w-[4.5rem] justify-items-center gap-0.5 rounded-[0.9rem] border border-border-card bg-card px-3 py-2 shadow-[0_10px_24px_rgba(47,59,125,0.06)]">
+            <span className="grid min-w-[4.5rem] justify-items-center rounded-[0.9rem] border border-border-card bg-card px-3 py-3 shadow-[0_10px_24px_rgba(47,59,125,0.06)]">
               <span className="text-[1.6rem] leading-none font-extrabold tracking-[-0.04em] text-ink-strong">
-                {day.day}
-              </span>
-              <span className="font-mono text-ui-2xs font-bold tracking-ui text-[#4654d4] uppercase">
-                {day.month}
+                {day.day}.{day.month}.
               </span>
             </span>
           ) : (

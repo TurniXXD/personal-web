@@ -20,7 +20,7 @@ test("navigation links to the events listing and marks it active", async ({
   await expect(page.getByRole("heading", { level: 1 })).toHaveCount(1);
 });
 
-test("listing shows a grid of at most four columns and paginates with filters", async ({
+test("listing shows a three-column grid and paginates with filters", async ({
   page,
 }) => {
   await page.setViewportSize({ width: 1920, height: 1000 });
@@ -31,7 +31,7 @@ test("listing shows a grid of at most four columns and paginates with filters", 
     (element) =>
       getComputedStyle(element).gridTemplateColumns.split(" ").length,
   );
-  expect(columns).toBe(4);
+  expect(columns).toBe(3);
 
   const next = page.locator("[data-events-next]");
   await expect(next).toBeVisible();
@@ -63,7 +63,8 @@ test("free food filter combines with other filters and keeps unknown food visibl
   await expect(page.locator("[data-event-card]")).toHaveCount(3);
   await expect(page.locator("[data-free-food-badge]")).toHaveCount(3);
 
-  await page.getByLabel("Kategorie").selectOption("ai");
+  await page.getByRole("button", { name: /Filtry/ }).click();
+  await page.getByLabel("Kategorie", { exact: true }).selectOption("ai");
   await expect(page).toHaveURL(/freeFood=true/);
   await expect(page).toHaveURL(/category=ai/);
   await expect(page.locator("[data-event-card]")).toHaveCount(1);
@@ -164,7 +165,60 @@ test("search is debounced into the URL and shows an empty state", async ({
   await expect(
     page.locator('[data-events-state="filtered-empty"]'),
   ).toBeVisible();
-  await expect(page.getByLabel("Vstupné")).toHaveValue("paid");
+  await expect(page.getByRole("button", { name: /Filtry/ })).toContainText("1");
+  await page.getByRole("button", { name: /Filtry/ }).click();
+  await expect(page.getByLabel("Vstupné", { exact: true })).toHaveValue("paid");
+});
+
+test("compact date presets and custom range preserve URL filters", async ({
+  page,
+}) => {
+  await page.goto("/akce?city=brno");
+  const date = page.getByRole("combobox", { name: "Datum" });
+  await expect(date).toBeVisible();
+  await expect(page.getByLabel("Od data")).toBeHidden();
+  await date.selectOption("week");
+  await expect(page).toHaveURL(/city=brno.*from=.*to=/);
+  const week = new URL(page.url());
+  expect(week.searchParams.get("from")).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+  expect(week.searchParams.get("to")).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+  await expect(date).toHaveValue("week");
+
+  await date.selectOption("month");
+  await expect(date).toHaveValue("month");
+  await date.selectOption("custom");
+  await expect(page.getByLabel("Od data")).toBeVisible();
+  await expect(page.getByLabel("Od data")).toHaveValue("");
+  await expect(page.getByLabel("Do data")).toHaveValue("");
+  await page.getByLabel("Od data").fill("2030-02-01");
+  await page.getByLabel("Do data").fill("2030-02-28");
+  await expect(page).toHaveURL(/city=brno.*from=2030-02-01.*to=2030-02-28/);
+  await date.selectOption("all");
+  await expect(page).toHaveURL(/city=brno$/);
+});
+
+test("advanced filters disclose, count and clear without losing quick filters", async ({
+  page,
+}) => {
+  await page.goto("/akce?city=brno");
+  const toggle = page.getByRole("button", { name: /Filtry/ });
+  await expect(toggle).toHaveAttribute("aria-expanded", "false");
+  await expect(page.getByLabel("Kategorie", { exact: true })).toBeHidden();
+  await toggle.click();
+  await expect(toggle).toHaveAttribute("aria-expanded", "true");
+  await page.getByLabel("Kategorie", { exact: true }).selectOption("ai");
+  await page.getByLabel("Vstupné", { exact: true }).selectOption("free");
+  await expect(page).toHaveURL(/city=brno.*category=ai.*price=free/);
+  await expect(toggle).toContainText("2");
+  await toggle.click();
+  await expect(page.getByLabel("Kategorie", { exact: true })).toBeHidden();
+  await expect(
+    page.getByRole("button", { name: /Odebrat filtr.*Kategorie/ }),
+  ).toBeVisible();
+  await page.getByRole("button", { name: /Odebrat filtr.*Kategorie/ }).click();
+  await expect(page).toHaveURL(/city=brno.*price=free/);
+  await page.getByRole("link", { name: "Zrušit filtry" }).click();
+  await expect(page).toHaveURL(/\/akce$/);
 });
 
 test("card navigates to the detail page while the calendar link stays independent", async ({
@@ -197,6 +251,98 @@ test("card navigates to the detail page while the calendar link stays independen
   await card.locator("[data-event-card-link]").focus();
   await page.keyboard.press("Enter");
   await expect(page).toHaveURL(/\/akce\/brno-ai-meetup$/);
+});
+
+test("listing cards keep only the title and show an icon-only calendar action", async ({
+  page,
+}) => {
+  await page.goto("/akce");
+  const card = page.locator('[data-event-card="brno-ai-meetup"]');
+  const calendar = card.locator("[data-calendar-action]");
+
+  await expect(
+    card.getByRole("heading", { name: "Brno AI meetup" }),
+  ).toBeVisible();
+  await expect(card.locator("[data-event-cover-fallback]")).toHaveCount(0);
+  await expect(card.locator("[data-event-date-badge]")).toBeVisible();
+  await expect(card.getByText("AI", { exact: true })).toBeVisible();
+  await expect(card.getByText("Impact Hub Brno")).toBeVisible();
+  await expect(card.getByText("Cyrilská 7, Brno")).toHaveCount(0);
+  await expect(card.getByText("Brno AI Community")).toHaveCount(0);
+  await expect(card.locator("[data-event-card-link]")).toHaveAttribute(
+    "title",
+    "Brno AI meetup",
+  );
+  await expect(
+    card.getByText("Talks about retrieval-augmented generation & local LLMs."),
+  ).toHaveCount(0);
+  await expect(calendar).toHaveAccessibleName(/Přidat do kalendáře/);
+  await expect(calendar.locator("svg")).toBeVisible();
+  expect(
+    await calendar.evaluate((element) =>
+      [...element.childNodes].some(
+        (node) =>
+          node.nodeType === Node.TEXT_NODE && !!node.textContent?.trim(),
+      ),
+    ),
+  ).toBe(false);
+  const price = await card.locator('[data-event-price="free"]').boundingBox();
+  const action = await calendar.boundingBox();
+  expect(price).not.toBeNull();
+  expect(action).not.toBeNull();
+  expect(action!.x).toBeGreaterThan(price!.x + price!.width);
+  expect(
+    Math.abs(action!.y + action!.height / 2 - (price!.y + price!.height / 2)),
+  ).toBeLessThan(8);
+  await expect(page.getByText("Přehled akcí připravuje")).toHaveCount(0);
+
+  await card.hover();
+  await expect(card).toHaveCSS("background-color", "rgb(98, 91, 223)");
+  await expect(card.getByRole("heading")).toHaveCSS(
+    "color",
+    "rgb(255, 255, 255)",
+  );
+  await page.mouse.move(0, 0);
+  await card.locator("[data-event-card-link]").focus();
+  await expect(card).toHaveCSS("background-color", "rgb(98, 91, 223)");
+});
+
+test("listing cards anchor venue details and reveal the calendar tooltip", async ({
+  page,
+}) => {
+  await page.goto("/akce");
+  await expect(page.locator("[data-events-grid]")).toBeVisible();
+  const gaps = await page.locator("[data-event-card]").evaluateAll((cards) =>
+    cards.flatMap((card) => {
+      const details = card.querySelector("dl");
+      const calendar = card.querySelector(
+        "[data-calendar-action], [data-calendar-disabled]",
+      );
+      return details && calendar
+        ? [
+            calendar.getBoundingClientRect().top -
+              details.getBoundingClientRect().bottom,
+          ]
+        : [];
+    }),
+  );
+  expect(gaps.length).toBeGreaterThan(0);
+  expect(gaps.every((gap) => gap < 80)).toBe(true);
+
+  const card = page.locator('[data-event-card="brno-ai-meetup"]');
+  const calendar = card.locator("[data-calendar-action]");
+  const tooltip = card.locator("[data-calendar-tooltip]");
+  await expect(card.locator("[data-event-date-badge]")).toContainText(
+    /\d{1,2}\.\d{1,2}\./,
+  );
+  await expect(card.locator("[data-event-time]")).toContainText(/\d{2}:\d{2}/);
+  await expect(tooltip).toHaveText("Přidat do kalendáře");
+  await expect(tooltip).toBeHidden();
+  await calendar.hover();
+  await expect(tooltip).toBeVisible();
+  await page.mouse.move(0, 0);
+  await calendar.focus();
+  await expect(tooltip).toBeVisible();
 });
 
 test("detail page renders registration, structured data, and metadata", async ({
@@ -258,14 +404,40 @@ test("unknown events return the event not-found state", async ({ page }) => {
 test("events pages reflow on phones without horizontal overflow", async ({
   page,
 }) => {
-  await page.setViewportSize({ width: 360, height: 800 });
-  for (const path of ["/akce", "/en/akce/brno-ai-meetup"]) {
-    await page.goto(path);
+  await page.goto("/akce");
+  await expect(page.locator("[data-events-grid]")).toBeVisible();
+  for (const [width, columns] of [
+    [360, 1],
+    [800, 2],
+    [1280, 3],
+    [1920, 3],
+  ]) {
+    await page.setViewportSize({ width, height: 900 });
+    await expect.poll(() => page.evaluate(() => window.innerWidth)).toBe(width);
+    await expect
+      .poll(() =>
+        page
+          .locator("[data-events-grid]")
+          .evaluate(
+            (element) =>
+              getComputedStyle(element).gridTemplateColumns.split(" ").length,
+          ),
+      )
+      .toBe(columns);
     const overflow = await page.evaluate(
       () =>
         document.documentElement.scrollWidth >
         document.documentElement.clientWidth,
     );
-    expect(overflow, path).toBe(false);
+    expect(overflow, `${width}px`).toBe(false);
   }
+  await page.setViewportSize({ width: 360, height: 800 });
+  await page.goto("/en/akce/brno-ai-meetup");
+  expect(
+    await page.evaluate(
+      () =>
+        document.documentElement.scrollWidth >
+        document.documentElement.clientWidth,
+    ),
+  ).toBe(false);
 });

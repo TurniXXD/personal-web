@@ -110,7 +110,7 @@ export async function EventResults({
       </div>
       <ul
         role="list"
-        className="m-0 grid list-none grid-cols-1 gap-6 p-0 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+        className="m-0 grid list-none grid-cols-1 gap-6 p-0 sm:grid-cols-2 lg:grid-cols-3"
         data-events-grid
       >
         {page.events.map((event, index) => (

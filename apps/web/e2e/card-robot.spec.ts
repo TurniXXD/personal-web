@@ -10,6 +10,10 @@ test("robot grabs a card edge, peeks out, and greets on hover", async ({
   page,
 }) => {
   await enableRobot(page);
+  await page.setViewportSize({ width: 1600, height: 900 });
+  await page.addInitScript(() => {
+    Math.random = () => 0.4;
+  });
   await page.addInitScript(() => {
     // Record every phase the robot passes through.
     const phases: string[] = [];
@@ -33,21 +37,32 @@ test("robot grabs a card edge, peeks out, and greets on hover", async ({
     timeout: 10_000,
   });
   await expect(robot).toHaveAttribute("aria-hidden", "true");
+  const edge = await robot.getAttribute("data-edge");
+  expect(["top", "left", "right"]).toContain(edge);
   const phases = await page.evaluate(
     () => (window as unknown as { robotPhases: string[] }).robotPhases,
   );
   expect(phases.slice(0, 2)).toEqual(["grab", "peek"]);
 
-  // The robot sits on the top edge of one of the event cards.
+  // The robot sits on an exposed edge of one of the event cards.
   const robotBox = await robot.boundingBox();
-  const cardTops = await page
+  const cardBoxes = await page
     .locator("[data-event-card]")
     .evaluateAll((cards) =>
-      cards.map((card) => card.getBoundingClientRect().top),
+      cards.map((card) => {
+        const rect = card.getBoundingClientRect();
+        return { top: rect.top, left: rect.left, right: rect.right };
+      }),
     );
   expect(robotBox).not.toBeNull();
   expect(
-    cardTops.some((top) => Math.abs(robotBox!.y + robotBox!.height - top) < 2),
+    cardBoxes.some((box) =>
+      edge === "top"
+        ? Math.abs(robotBox!.y + robotBox!.height - box.top) < 2
+        : edge === "left"
+          ? Math.abs(robotBox!.x + robotBox!.width - box.left) < 10
+          : Math.abs(robotBox!.x - box.right) < 10,
+    ),
   ).toBe(true);
 
   const bubble = robot.getByText("Ahoj!");
@@ -70,10 +85,112 @@ test("robot grabs a card edge, peeks out, and greets on hover", async ({
 
 test("robot stays still for reduced motion", async ({ page }) => {
   await enableRobot(page);
+  await page.setViewportSize({ width: 390, height: 844 });
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/akce");
   const robot = page.locator("[data-card-robot]");
   await expect(robot).toHaveAttribute("data-phase", "peek");
+  await expect(robot).toHaveAttribute("data-edge", "top");
   await page.waitForTimeout(1500);
   await expect(robot).toHaveAttribute("data-phase", "peek");
+});
+
+test("robot moves to another visible card on the next peek", async ({
+  page,
+}) => {
+  test.setTimeout(35_000);
+  await page.setViewportSize({ width: 1600, height: 900 });
+  await page.addInitScript(() => {
+    localStorage.removeItem("vantuch_card_robot");
+    Math.random = () => 0;
+  });
+  await page.goto("/akce");
+
+  const robot = page.locator("[data-card-robot]");
+  await expect(robot).toHaveAttribute("data-phase", "peek", {
+    timeout: 10_000,
+  });
+  const first = await robot.boundingBox();
+  await expect(robot).toHaveAttribute("data-phase", "hidden", {
+    timeout: 7_000,
+  });
+  await expect(robot).toHaveAttribute("data-phase", "peek", {
+    timeout: 12_000,
+  });
+  const second = await robot.boundingBox();
+
+  expect(first).not.toBeNull();
+  expect(second).not.toBeNull();
+  expect(second!.x).not.toBe(first!.x);
+});
+
+test("robot peeks from the outer side of a desktop card", async ({ page }) => {
+  await page.setViewportSize({ width: 1600, height: 900 });
+  await page.addInitScript(() => {
+    localStorage.removeItem("vantuch_card_robot");
+    Math.random = () => 0;
+  });
+  await page.goto("/akce");
+
+  const robot = page.locator("[data-card-robot]");
+  await expect(robot).toHaveAttribute("data-phase", "peek", {
+    timeout: 10_000,
+  });
+  await expect(robot).toHaveAttribute("data-edge", "left");
+  const robotBox = await robot.boundingBox();
+  const cardBox = await page.locator("[data-event-card]").first().boundingBox();
+  expect(robotBox).not.toBeNull();
+  expect(cardBox).not.toBeNull();
+  expect(Math.abs(robotBox!.x + robotBox!.width - cardBox!.x)).toBeLessThan(10);
+  expect(robotBox!.y).toBeGreaterThan(cardBox!.y);
+  expect(robotBox!.y + robotBox!.height).toBeLessThan(
+    cardBox!.y + cardBox!.height,
+  );
+  expect(
+    await page.evaluate(
+      () =>
+        document.documentElement.scrollWidth >
+        document.documentElement.clientWidth,
+    ),
+  ).toBe(false);
+});
+
+test("robot can peek from the right edge of a desktop card", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1600, height: 900 });
+  await page.addInitScript(() => {
+    localStorage.removeItem("vantuch_card_robot");
+    Math.random = () => 0.99;
+  });
+  await page.goto("/akce");
+
+  const robot = page.locator("[data-card-robot]");
+  await expect(robot).toHaveAttribute("data-phase", "peek", {
+    timeout: 10_000,
+  });
+  await expect(robot).toHaveAttribute("data-edge", "right");
+  const robotBox = await robot.boundingBox();
+  const cardBox = await page.locator("[data-event-card]").nth(2).boundingBox();
+  expect(robotBox).not.toBeNull();
+  expect(cardBox).not.toBeNull();
+  expect(Math.abs(robotBox!.x - (cardBox!.x + cardBox!.width))).toBeLessThan(
+    10,
+  );
+});
+
+test("robot disappears when filters leave no events", async ({ page }) => {
+  await enableRobot(page);
+  await page.goto("/akce?category=networking");
+
+  const robot = page.locator("[data-card-robot]");
+  await expect(robot).toHaveAttribute("data-phase", "peek", {
+    timeout: 10_000,
+  });
+  await page.getByRole("checkbox", { name: "Jídlo zdarma" }).check();
+  await expect(
+    page.locator('[data-events-state="filtered-empty"]'),
+  ).toBeVisible();
+  await expect(page.locator("[data-event-card]")).toHaveCount(0);
+  await expect(robot).toHaveCount(0);
 });

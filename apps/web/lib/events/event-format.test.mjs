@@ -4,6 +4,10 @@ import test from "node:test";
 import {
   describeEventPrice,
   descriptionParagraphs,
+  formatEventCardDateBadge,
+  formatEventCardLocation,
+  formatEventCardTime,
+  formatEventCardDateRange,
   formatEventDateRange,
   formatEventDay,
   formatEventLocation,
@@ -83,13 +87,57 @@ test("returns null for missing or invalid start dates", () => {
 });
 
 test("formats the compact card date", () => {
-  assert.deepEqual(formatEventDay(event, "cs"), { day: "20.", month: "lis" });
-  assert.deepEqual(formatEventDay(event, "en"), { day: "20", month: "Nov" });
+  assert.deepEqual(formatEventDay(event, "cs"), { day: "20", month: "11" });
+  assert.deepEqual(formatEventDay(event, "en"), { day: "20", month: "11" });
   // 23:30 UTC is already the next day in Prague.
   assert.equal(
     formatEventDay({ ...event, startsAt: "2026-11-20T23:30:00.000Z" }, "cs")
       .day,
-    "21.",
+    "21",
+  );
+});
+
+test("formats numeric dates on cards in the event time zone", () => {
+  assert.equal(
+    plain(formatEventCardDateRange(event, "cs")),
+    "pá 20.11.2026 18:00–20:00",
+  );
+  assert.equal(
+    plain(formatEventCardDateRange({ ...event, endsAt: null }, "cs")),
+    "pá 20.11.2026 18:00",
+  );
+  assert.doesNotMatch(formatEventCardDateRange(event, "en"), /November/);
+});
+
+test("card badges omit the current year and keep the event time zone", () => {
+  assert.equal(
+    formatEventCardDateBadge(event, "cs", new Date("2026-11-07T12:00:00Z")),
+    "20.11.",
+  );
+  assert.equal(
+    formatEventCardDateBadge(event, "cs", new Date("2027-01-01T12:00:00Z")),
+    "20.11.2026",
+  );
+  assert.equal(formatEventCardTime(event, "cs"), "18:00–20:00");
+  assert.equal(formatEventCardTime({ ...event, endsAt: null }, "cs"), "18:00");
+});
+
+test("card location uses structured venue and city without full address", () => {
+  assert.equal(
+    formatEventCardLocation({
+      venueName: "Hotel International Brno",
+      city: "Brno",
+      address: "Husova 200/16, 602 00 Brno-střed",
+    }),
+    "Hotel International Brno",
+  );
+  assert.equal(
+    formatEventCardLocation({
+      venueName: "CEITEC",
+      city: "Brno",
+      address: "205/B11, Brno",
+    }),
+    "CEITEC, Brno",
   );
 });
 

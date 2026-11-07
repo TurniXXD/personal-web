@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Building2, MapPin } from "lucide-react";
+import { Clock3, MapPin } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { cn } from "cn";
 import {
@@ -12,15 +12,14 @@ import { EventCalendarAction } from "@/components/events/event-calendar-action";
 import { EventCover } from "@/components/events/event-cover";
 import type { EventItem } from "@/lib/events/event-model";
 import {
-  formatEventDateRange,
-  formatEventLocation,
-  truncateText,
+  formatEventCardDateBadge,
+  formatEventCardLocation,
+  formatEventCardTime,
   type EventLocale,
 } from "@/lib/events/event-format";
+import { optimizableEventImage } from "@/lib/events/event-images";
 import { localizedPath } from "@/lib/site/content";
 import { SITE_ORIGIN, eventDetailPath } from "@/lib/site/routes";
-
-const SUMMARY_MAX_LENGTH = 170;
 
 type EventCardProps = {
   event: EventItem;
@@ -41,92 +40,110 @@ export function EventCard({
 }: EventCardProps) {
   const t = useTranslations("events.card");
   const href = localizedPath(locale, eventDetailPath(event.slug));
-  const date = formatEventDateRange(event, locale);
-  const location = formatEventLocation(event);
+  const date = formatEventCardDateBadge(event, locale);
+  const time = formatEventCardTime(event, locale);
+  const location = formatEventCardLocation(event);
+  const label =
+    event.category === "ai"
+      ? "AI"
+      : categoryLabel
+        ? categoryLabel[0].toLocaleUpperCase(locale) + categoryLabel.slice(1)
+        : "";
 
   return (
     <article
       data-event-card={event.slug}
       data-event-status={event.status}
-      className="group relative flex h-full min-w-0 flex-col overflow-hidden rounded-[1.35rem] border border-border-card bg-card shadow-[0_16px_40px_rgba(47,59,125,0.045)] transition-[border-color,box-shadow] duration-200 hover:border-[#c6ceff] hover:shadow-[0_18px_44px_rgba(47,59,125,0.09)] has-[[data-event-card-link]:focus-visible]:border-primary has-[[data-event-card-link]:focus-visible]:outline-[3px] has-[[data-event-card-link]:focus-visible]:outline-offset-4 has-[[data-event-card-link]:focus-visible]:outline-[#5f6cff45]"
+      className="group relative flex h-full min-w-0 flex-col overflow-hidden rounded-[1.35rem] border border-border-card bg-card shadow-[0_16px_40px_rgba(47,59,125,0.045)] transition-[background-color,border-color,box-shadow] duration-300 hover:border-primary hover:bg-[#625bdf] hover:shadow-[0_1.4rem_3.4rem_rgba(66,58,164,0.24)] focus-within:border-primary focus-within:bg-[#625bdf] focus-within:shadow-[0_1.4rem_3.4rem_rgba(66,58,164,0.24)] has-[[data-event-card-link]:focus-visible]:outline-[3px] has-[[data-event-card-link]:focus-visible]:outline-offset-4 has-[[data-event-card-link]:focus-visible]:outline-[#5f6cff45]"
     >
-      <EventCover
-        event={event}
-        locale={locale}
-        alt=""
-        sizes="(min-width: 1280px) 280px, (min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-      />
+      {optimizableEventImage(event.imageUrl) ? (
+        <EventCover
+          event={event}
+          locale={locale}
+          alt=""
+          sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+          className="aspect-[16/7]"
+        />
+      ) : null}
       <div className="flex flex-1 flex-col gap-3 p-5 max-[600px]:p-[1.1rem]">
-        <div className="flex flex-wrap items-center gap-1.5">
-          {categoryLabel ? <EventCategoryBadge label={categoryLabel} /> : null}
-          <EventStatusBadge status={event.status} />
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          {date && event.startsAt ? (
+            <time
+              dateTime={event.startsAt}
+              data-event-date-badge
+              className="inline-flex min-h-7 items-center rounded-full bg-secondary px-2.5 font-mono text-ui-xs font-bold text-primary"
+            >
+              {date}
+            </time>
+          ) : (
+            <span className="inline-flex min-h-7 items-center rounded-full bg-secondary px-2.5 text-ui-xs font-bold text-primary">
+              {t("dateUnknown")}
+            </span>
+          )}
+          <div className="flex flex-wrap items-center gap-1.5">
+            {label ? <EventCategoryBadge label={label} /> : null}
+            <EventStatusBadge status={event.status} />
+          </div>
         </div>
-        {date && event.startsAt ? (
-          <time
-            dateTime={event.startsAt}
-            className="font-mono text-ui-xs leading-[1.5] font-bold tracking-[0.04em] text-[#4654d4]"
-          >
-            {date}
-          </time>
-        ) : (
-          <p className="m-0 font-mono text-ui-xs font-bold text-ink-muted">
-            {t("dateUnknown")}
-          </p>
-        )}
         <Heading
           className={cn(
-            "m-0 text-[1.08rem] leading-[1.32] font-semibold tracking-[-0.03em] text-ink-strong transition-colors duration-200 group-hover:text-primary",
+            "m-0 line-clamp-3 text-[1.12rem] leading-[1.35] font-semibold tracking-[-0.03em] text-ink-strong transition-colors duration-300 group-hover:text-white group-focus-within:text-white",
             event.status === "cancelled" && "line-through decoration-1",
           )}
         >
           <Link
             href={href}
             data-event-card-link
+            title={event.title}
             className="outline-none after:absolute after:inset-0 after:z-0 after:content-['']"
           >
             {event.title}
           </Link>
         </Heading>
-        {event.summary ? (
-          <p className="m-0 line-clamp-3 text-body-sm leading-[1.6] text-[#596484]">
-            {truncateText(event.summary, SUMMARY_MAX_LENGTH)}
-          </p>
-        ) : null}
-        {location || event.organizerName ? (
-          <dl className="m-0 grid gap-1.5 text-ui-sm leading-[1.45] text-ink-muted">
-            {location ? (
-              <div className="flex min-w-0 items-start gap-1.5">
-                <dt className="shrink-0 pt-px">
-                  <MapPin size={14} aria-hidden="true" />
-                  <span className="sr-only">{t("venue")}</span>
-                </dt>
-                <dd className="m-0 min-w-0 [overflow-wrap:anywhere]">
-                  {location}
-                </dd>
-              </div>
-            ) : null}
-            {event.organizerName ? (
-              <div className="flex min-w-0 items-start gap-1.5">
-                <dt className="shrink-0 pt-px">
-                  <Building2 size={14} aria-hidden="true" />
-                  <span className="sr-only">{t("organizer")}</span>
-                </dt>
-                <dd className="m-0 min-w-0 [overflow-wrap:anywhere]">
-                  {event.organizerName}
-                </dd>
-              </div>
-            ) : null}
-          </dl>
-        ) : null}
-        <div className="flex flex-wrap gap-1.5 empty:hidden">
-          <EventPriceBadge event={event} locale={locale} />
-          <EventFreeFoodBadge event={event} />
-        </div>
-        <div className="relative z-10 mt-auto pt-2">
-          <EventCalendarAction
-            event={event}
-            eventUrl={`${SITE_ORIGIN}${href}`}
-          />
+        <div className="mt-auto flex flex-col gap-3">
+          {time || location ? (
+            <dl className="m-0 grid gap-1.5 text-ui-sm leading-[1.45] text-ink-muted transition-colors duration-300 group-hover:text-white group-focus-within:text-white">
+              {time && event.startsAt ? (
+                <div className="flex min-w-0 items-start gap-1.5">
+                  <dt className="shrink-0 pt-px">
+                    <Clock3 size={14} aria-hidden="true" />
+                    <span className="sr-only">{t("time")}</span>
+                  </dt>
+                  <dd className="m-0 min-w-0">
+                    <time dateTime={event.startsAt} data-event-time>
+                      {time}
+                    </time>
+                  </dd>
+                </div>
+              ) : null}
+              {location ? (
+                <div className="flex min-w-0 items-start gap-1.5">
+                  <dt className="shrink-0 pt-px">
+                    <MapPin size={14} aria-hidden="true" />
+                    <span className="sr-only">{t("venue")}</span>
+                  </dt>
+                  <dd
+                    className="m-0 min-w-0 line-clamp-2 [overflow-wrap:anywhere]"
+                    title={location}
+                  >
+                    {location}
+                  </dd>
+                </div>
+              ) : null}
+            </dl>
+          ) : null}
+          <div className="flex flex-col items-start gap-1.5">
+            <EventFreeFoodBadge event={event} />
+            <div className="flex w-full items-center justify-between gap-2">
+              <EventPriceBadge event={event} locale={locale} />
+              <EventCalendarAction
+                event={event}
+                eventUrl={`${SITE_ORIGIN}${href}`}
+                iconOnly
+                className="relative z-10 ml-auto shrink-0"
+              />
+            </div>
+          </div>
         </div>
       </div>
     </article>

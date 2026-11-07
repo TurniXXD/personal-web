@@ -237,19 +237,25 @@
       "resultsLabel": "Seznam akcí",
       "resultsCount": "{count, plural, =0 {Žádné akce} one {Zobrazena # akce} few {Zobrazeny # akce} other {Zobrazeno # akcí}}",
       "moreAvailable": "Další akce najdete na následující stránce.",
-      "laterPage": "Pokračování výsledků",
-      "attribution": "Přehled akcí připravuje {brand}. Údaje přebíráme od pořadatelů, před návštěvou je prosím ověřte na stránce akce."
+      "laterPage": "Pokračování výsledků"
     },
     "filters": {
       "legend": "Hledání a filtry",
       "searchLabel": "Hledat akce",
-      "searchPlaceholder": "Název, místo nebo pořadatel",
+      "searchPlaceholder": "Hledat akce...",
       "searchHint": "Zadejte alespoň 2 znaky.",
       "searchSubmit": "Hledat",
       "cityLabel": "Město",
       "cityPlaceholder": "Všechna města",
       "cityNoResults": "Město není v nabídce",
       "cityClear": "Zrušit výběr města",
+      "dateLabel": "Datum",
+      "dateAll": "Všechny nadcházející",
+      "dateWeek": "Tento týden",
+      "dateMonth": "Tento měsíc",
+      "dateCustom": "Vlastní období",
+      "advanced": "Filtry",
+      "removeFilter": "Odebrat filtr",
       "categoryLabel": "Kategorie",
       "categoryAll": "Všechny kategorie",
       "fromLabel": "Od data",
@@ -299,6 +305,7 @@
         "postponed": "Odloženo"
       },
       "venue": "Místo",
+      "time": "Čas",
       "organizer": "Pořádá",
       "featured": "Doporučujeme"
     },

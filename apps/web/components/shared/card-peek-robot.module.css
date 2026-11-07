@@ -1,4 +1,4 @@
-/* Choreography for the robot that peeks from behind a card's top edge. */
+/* Choreography for the robot that peeks from behind a card edge. */
 .root {
   --robot-ease: cubic-bezier(0.34, 1.56, 0.64, 1);
   transition: opacity 160ms ease-out;
@@ -9,8 +9,7 @@
   opacity: 0;
 }
 
-/* The window's bottom edge sits on the card's top edge and clips the head,
-   so the robot appears to rise from behind the card. */
+/* The window touches the selected card edge and clips the hidden head. */
 .window {
   position: absolute;
   inset: 0;
@@ -22,6 +21,12 @@
   inset: 0;
   transform: translateY(105%);
   transition: transform 420ms cubic-bezier(0.55, 0, 0.75, 0.2);
+}
+.root[data-edge="left"] .head {
+  transform: translateX(105%);
+}
+.root[data-edge="right"] .head {
+  transform: translateX(-105%);
 }
 .root[data-phase="peek"] .head {
   pointer-events: auto;
@@ -69,6 +74,34 @@
 .root[data-phase="grab"] .handRight,
 .root[data-phase="peek"] .handRight {
   transition-delay: 90ms;
+}
+.root[data-edge="left"] .hand,
+.root[data-edge="right"] .hand {
+  bottom: auto;
+}
+.root[data-edge="left"] .hand {
+  right: -0.3rem;
+  left: auto;
+  transform: translateX(0.45rem) rotate(90deg) scale(0.8);
+}
+.root[data-edge="right"] .hand {
+  right: auto;
+  left: -0.3rem;
+  transform: translateX(-0.45rem) rotate(-90deg) scale(0.8);
+}
+.root[data-edge="left"] .handLeft,
+.root[data-edge="right"] .handLeft {
+  top: 0.35rem;
+}
+.root[data-edge="left"] .handRight,
+.root[data-edge="right"] .handRight {
+  top: 2rem;
+}
+.root[data-edge="left"]:is([data-phase="grab"], [data-phase="peek"]) .hand {
+  transform: translateX(0) rotate(90deg) scale(1);
+}
+.root[data-edge="right"]:is([data-phase="grab"], [data-phase="peek"]) .hand {
+  transform: translateX(0) rotate(-90deg) scale(1);
 }
 
 .eyes {

@@ -23,7 +23,6 @@ export function EventsListingPage({
   categories,
 }: EventsListingPageProps) {
   const t = useTranslations("events");
-  const chrome = useTranslations("siteChrome");
   const basePath = localizedPath(locale, SITE_PATH.events);
   const categoryLabels = Object.fromEntries(
     categories.map((category) => [category.slug, category.label]),
@@ -73,12 +72,6 @@ export function EventsListingPage({
               />
             </Suspense>
           </section>
-
-          <ScrollReveal>
-            <p className="mt-14 mb-0 border-t border-border-soft pt-6 text-ui-sm leading-copy text-ink-muted">
-              {t("listing.attribution", { brand: chrome("brandName") })}
-            </p>
-          </ScrollReveal>
         </div>
       </main>
       <SiteFooter locale={locale} />

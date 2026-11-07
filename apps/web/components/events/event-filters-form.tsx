@@ -9,11 +9,26 @@ import {
   type FormEvent,
 } from "react";
 import { useRouter } from "next/navigation";
-import { Pizza, RotateCcw, Search } from "lucide-react";
+import {
+  ArrowRight,
+  CalendarDays,
+  ChevronDown,
+  Pizza,
+  RotateCcw,
+  Search,
+  SlidersHorizontal,
+  X,
+} from "lucide-react";
 import { useTranslations } from "next-intl";
 import { cn } from "cn";
 import { CityCombobox } from "@/components/events/city-combobox";
 import type { EventCategory } from "@/lib/events/event-model";
+import {
+  datePresetForRange,
+  dateRangeForPreset,
+  todayInPrague,
+  type EventDatePreset,
+} from "@/lib/events/event-date-presets";
 import {
   DEFAULT_EVENT_FILTERS,
   EVENT_FILTER_PARAM,
@@ -56,14 +71,28 @@ export function EventFiltersForm({
   const id = useId();
   const searchRef = useRef<HTMLInputElement>(null);
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const pendingHrefRef = useRef<string | null>(null);
   const [isPending, startTransition] = useTransition();
   const [draft, setDraft] = useState<EventFilters>(filters);
   const [searchText, setSearchText] = useState(filters.q ?? "");
+  const [advancedOpen, setAdvancedOpen] = useState(false);
+  const [dateMode, setDateMode] = useState<EventDatePreset>(() =>
+    datePresetForRange(filters.from, filters.to, todayInPrague()),
+  );
   const filtersKey = eventListHref(basePath, filters);
+  const today = todayInPrague();
 
   // Follow URL changes (back/forward, reset) without overwriting active typing.
   useEffect(() => {
+    const localNavigation = pendingHrefRef.current === filtersKey;
+    if (pendingHrefRef.current && !localNavigation) return;
+    pendingHrefRef.current = null;
     setDraft(filters);
+    if (!localNavigation) {
+      setDateMode(
+        datePresetForRange(filters.from, filters.to, todayInPrague()),
+      );
+    }
     if (document.activeElement !== searchRef.current) {
       setSearchText(filters.q ?? "");
     }
@@ -84,6 +113,7 @@ export function EventFiltersForm({
     // Any filter change starts again from the first page (no cursor).
     const href = eventListHref(basePath, next);
     if (href === filtersKey) return;
+    pendingHrefRef.current = href;
     startTransition(() => {
       if (mode === "replace") router.replace(href, { scroll: false });
       else router.push(href, { scroll: false });
@@ -112,10 +142,24 @@ export function EventFiltersForm({
 
   const onReset = () => {
     setSearchText("");
+    setDateMode("all");
     navigate(DEFAULT_EVENT_FILTERS);
   };
 
+  const onDatePresetChange = (value: EventDatePreset) => {
+    setDateMode(value);
+    if (value === "custom") {
+      navigate({ ...draft, q: typedQuery, from: null, to: null });
+      return;
+    }
+    navigate({ ...draft, q: typedQuery, ...dateRangeForPreset(value, today) });
+  };
+
   const active = hasActiveEventFilters(draft) || typedQuery !== null;
+  const advancedCount =
+    Number(Boolean(draft.category)) +
+    Number(Boolean(draft.price)) +
+    Number(draft.sort !== DEFAULT_EVENT_FILTERS.sort);
   const cityOptions = EVENT_CITIES.map((city) => ({
     value: city,
     label: tCities(city),
@@ -126,6 +170,9 @@ export function EventFiltersForm({
     !categories.some((category) => category.slug === draft.category)
       ? [...categories, { slug: draft.category, label: draft.category }]
       : categories;
+  const selectedCategory = categoryOptions.find(
+    (category) => category.slug === draft.category,
+  )?.label;
 
   return (
     <form
@@ -136,53 +183,63 @@ export function EventFiltersForm({
       aria-busy={isPending}
       onSubmit={onSubmit}
       data-event-filters
-      className="mt-8 grid gap-4 rounded-[1.35rem] border border-border-card bg-card p-4 shadow-[0_16px_40px_rgba(47,59,125,0.045)] sm:p-5"
+      className="mt-6 grid gap-3 rounded-[1.35rem] border border-border-card bg-card p-4 shadow-[0_16px_40px_rgba(47,59,125,0.045)] sm:p-5"
     >
-      <div className={fieldClasses}>
-        <label htmlFor={`${id}-q`} className={labelClasses}>
+      <div className="flex min-w-0 items-center gap-2">
+        <label htmlFor={`${id}-q`} className="sr-only">
           {t("searchLabel")}
         </label>
-        <div className="flex min-w-0 gap-2">
-          <div className="relative min-w-0 flex-1">
-            <Search
-              size={16}
-              aria-hidden="true"
-              className="pointer-events-none absolute top-1/2 left-3 -translate-y-1/2 text-ink-muted"
-            />
-            <input
-              ref={searchRef}
-              id={`${id}-q`}
-              name={EVENT_FILTER_PARAM.q}
-              type="search"
-              inputMode="search"
-              enterKeyHint="search"
-              autoComplete="off"
-              maxLength={100}
-              placeholder={t("searchPlaceholder")}
-              aria-describedby={`${id}-q-hint`}
-              value={searchText}
-              onChange={(event) => onSearchChange(event.target.value)}
-              className={cn(controlClasses, "pl-9")}
-            />
-          </div>
+        <div className="relative min-w-0 flex-1">
+          <Search
+            size={16}
+            aria-hidden="true"
+            className="pointer-events-none absolute top-1/2 left-3 -translate-y-1/2 text-ink-muted"
+          />
+          <input
+            ref={searchRef}
+            id={`${id}-q`}
+            name={EVENT_FILTER_PARAM.q}
+            type="search"
+            inputMode="search"
+            enterKeyHint="search"
+            autoComplete="off"
+            maxLength={100}
+            placeholder={t("searchPlaceholder")}
+            value={searchText}
+            onChange={(event) => onSearchChange(event.target.value)}
+            className={cn(controlClasses, "pr-12 pl-9")}
+          />
           <button
             type="submit"
-            className="ui-action ui-action--primary min-h-11 shrink-0 px-4 text-ui-sm"
+            aria-label={t("searchSubmit")}
+            className="absolute top-1/2 right-1 grid size-9 -translate-y-1/2 place-items-center rounded-[0.55rem] bg-secondary text-primary transition-colors hover:bg-primary hover:text-white focus-visible:outline-[3px] focus-visible:outline-offset-2 focus-visible:outline-[#5f6cff40]"
           >
-            {t("searchSubmit")}
+            <ArrowRight size={16} aria-hidden="true" />
           </button>
         </div>
-        <small id={`${id}-q-hint`} className="text-ui-xs text-ink-muted">
-          {t("searchHint")}
-        </small>
+        <button
+          type="button"
+          aria-expanded={advancedOpen}
+          aria-controls={`${id}-advanced`}
+          onClick={() => setAdvancedOpen((open) => !open)}
+          className="inline-flex min-h-11 shrink-0 items-center gap-2 rounded-[0.7rem] border border-border-card bg-background px-3 text-ui-sm font-bold text-ink-strong transition-colors hover:border-primary hover:text-primary focus-visible:outline-[3px] focus-visible:outline-offset-2 focus-visible:outline-[#5f6cff40]"
+        >
+          <SlidersHorizontal size={16} aria-hidden="true" />
+          {t("advanced")}
+          {advancedCount ? (
+            <span className="grid size-5 place-items-center rounded-full bg-primary text-[0.65rem] leading-none text-white">
+              {advancedCount}
+            </span>
+          ) : null}
+        </button>
       </div>
 
-      <div className="grid grid-cols-2 gap-x-3 gap-y-4 sm:gap-x-4 lg:grid-cols-6">
-        <div className={fieldClasses}>
+      <div className="grid grid-cols-2 gap-2 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_auto]">
+        <div className="min-w-0">
           <label
             id={`${id}-city-label`}
             htmlFor={`${id}-city`}
-            className={labelClasses}
+            className="sr-only"
           >
             {t("cityLabel")}
           </label>
@@ -205,6 +262,106 @@ export function EventFiltersForm({
             onChange={(city) => update("city", city)}
           />
         </div>
+        <div className="relative min-w-0">
+          <label htmlFor={`${id}-date-preset`} className="sr-only">
+            {t("dateLabel")}
+          </label>
+          <CalendarDays
+            size={16}
+            aria-hidden="true"
+            className="pointer-events-none absolute top-1/2 left-3 -translate-y-1/2 text-ink-muted"
+          />
+          <select
+            id={`${id}-date-preset`}
+            value={dateMode}
+            onChange={(event) =>
+              onDatePresetChange(event.target.value as EventDatePreset)
+            }
+            className={cn(controlClasses, "appearance-none pr-7 pl-9")}
+          >
+            <option value="all">{t("dateAll")}</option>
+            <option value="week">{t("dateWeek")}</option>
+            <option value="month">{t("dateMonth")}</option>
+            <option value="custom">{t("dateCustom")}</option>
+          </select>
+          <ChevronDown
+            size={15}
+            aria-hidden="true"
+            className="pointer-events-none absolute top-1/2 right-2.5 -translate-y-1/2 text-ink-muted"
+          />
+        </div>
+        <label
+          htmlFor={`${id}-free-food`}
+          className="col-span-2 inline-flex min-h-11 cursor-pointer items-center justify-center gap-2 rounded-full border border-border-card bg-background px-3 text-ui-sm font-bold text-ink-strong transition-colors hover:border-primary has-checked:border-primary has-checked:bg-secondary has-checked:text-primary has-focus-visible:outline-[3px] has-focus-visible:outline-offset-2 has-focus-visible:outline-[#5f6cff40] lg:col-span-1"
+        >
+          <input
+            id={`${id}-free-food`}
+            name={EVENT_FILTER_PARAM.freeFood}
+            type="checkbox"
+            value="true"
+            checked={draft.freeFood}
+            onChange={(event) => update("freeFood", event.target.checked)}
+            className="size-4 accent-primary"
+          />
+          <Pizza size={16} aria-hidden="true" />
+          {t("freeFoodLabel")}
+        </label>
+      </div>
+
+      {dateMode === "custom" ? (
+        <div className="grid gap-2 sm:grid-cols-2" data-custom-date-range>
+          <div className={fieldClasses}>
+            <label htmlFor={`${id}-from`} className={labelClasses}>
+              {t("fromLabel")}
+            </label>
+            <input
+              id={`${id}-from`}
+              name={EVENT_FILTER_PARAM.from}
+              type="date"
+              value={draft.from ?? ""}
+              max={draft.to ?? undefined}
+              onChange={(event) => update("from", event.target.value || null)}
+              className={controlClasses}
+            />
+          </div>
+          <div className={fieldClasses}>
+            <label htmlFor={`${id}-to`} className={labelClasses}>
+              {t("toLabel")}
+            </label>
+            <input
+              id={`${id}-to`}
+              name={EVENT_FILTER_PARAM.to}
+              type="date"
+              value={draft.to ?? ""}
+              min={draft.from ?? undefined}
+              onChange={(event) => update("to", event.target.value || null)}
+              className={controlClasses}
+            />
+          </div>
+        </div>
+      ) : (
+        <>
+          <input
+            type="hidden"
+            name={EVENT_FILTER_PARAM.from}
+            value={draft.from ?? ""}
+          />
+          <input
+            type="hidden"
+            name={EVENT_FILTER_PARAM.to}
+            value={draft.to ?? ""}
+          />
+        </>
+      )}
+
+      <div
+        id={`${id}-advanced`}
+        hidden={!advancedOpen}
+        className={cn(
+          "grid gap-3 border-t border-border-soft pt-3 sm:grid-cols-3",
+          !advancedOpen && "hidden",
+        )}
+      >
         <div className={fieldClasses}>
           <label htmlFor={`${id}-category`} className={labelClasses}>
             {t("categoryLabel")}
@@ -223,34 +380,6 @@ export function EventFiltersForm({
               </option>
             ))}
           </select>
-        </div>
-        <div className={fieldClasses}>
-          <label htmlFor={`${id}-from`} className={labelClasses}>
-            {t("fromLabel")}
-          </label>
-          <input
-            id={`${id}-from`}
-            name={EVENT_FILTER_PARAM.from}
-            type="date"
-            value={draft.from ?? ""}
-            max={draft.to ?? undefined}
-            onChange={(event) => update("from", event.target.value || null)}
-            className={controlClasses}
-          />
-        </div>
-        <div className={fieldClasses}>
-          <label htmlFor={`${id}-to`} className={labelClasses}>
-            {t("toLabel")}
-          </label>
-          <input
-            id={`${id}-to`}
-            name={EVENT_FILTER_PARAM.to}
-            type="date"
-            value={draft.to ?? ""}
-            min={draft.from ?? undefined}
-            onChange={(event) => update("to", event.target.value || null)}
-            className={controlClasses}
-          />
         </div>
         <div className={fieldClasses}>
           <label htmlFor={`${id}-price`} className={labelClasses}>
@@ -292,46 +421,67 @@ export function EventFiltersForm({
         </div>
       </div>
 
-      <div className="flex flex-wrap items-center justify-between gap-3">
-        <label
-          htmlFor={`${id}-free-food`}
-          className="inline-flex min-h-11 cursor-pointer items-center gap-2.5 rounded-full border border-[#dce2f5] bg-background py-2 pr-4 pl-3 text-ui-sm font-bold text-[#434d70] transition-colors duration-150 hover:border-primary has-checked:border-primary has-checked:bg-secondary has-checked:text-primary has-focus-visible:outline-[3px] has-focus-visible:outline-offset-2 has-focus-visible:outline-[#5f6cff40]"
-        >
-          <input
-            id={`${id}-free-food`}
-            name={EVENT_FILTER_PARAM.freeFood}
-            type="checkbox"
-            value="true"
-            checked={draft.freeFood}
-            onChange={(event) => update("freeFood", event.target.checked)}
-            className="size-4 accent-primary"
-          />
-          <Pizza size={16} aria-hidden="true" />
-          {t("freeFoodLabel")}
-        </label>
-        <div className="flex items-center gap-4">
+      <div className="flex flex-wrap items-center gap-2 empty:hidden">
+        {draft.category ? (
+          <button
+            type="button"
+            onClick={() => update("category", null)}
+            aria-label={`${t("removeFilter")} ${t("categoryLabel")}`}
+            className="inline-flex min-h-9 items-center gap-1.5 rounded-full bg-secondary px-3 text-ui-xs font-bold text-primary focus-visible:outline-[3px] focus-visible:outline-offset-2 focus-visible:outline-[#5f6cff40]"
+          >
+            {t("categoryLabel")}: {selectedCategory}
+            <X size={12} aria-hidden="true" />
+          </button>
+        ) : null}
+        {draft.price ? (
+          <button
+            type="button"
+            onClick={() => update("price", null)}
+            aria-label={`${t("removeFilter")} ${t("priceLabel")}`}
+            className="inline-flex min-h-9 items-center gap-1.5 rounded-full bg-secondary px-3 text-ui-xs font-bold text-primary focus-visible:outline-[3px] focus-visible:outline-offset-2 focus-visible:outline-[#5f6cff40]"
+          >
+            {t("priceLabel")}:{" "}
+            {draft.price === "free" ? t("priceFree") : t("pricePaid")}
+            <X size={12} aria-hidden="true" />
+          </button>
+        ) : null}
+        {draft.sort !== DEFAULT_EVENT_FILTERS.sort ? (
+          <button
+            type="button"
+            onClick={() => update("sort", DEFAULT_EVENT_FILTERS.sort)}
+            aria-label={`${t("removeFilter")} ${t("sortLabel")}`}
+            className="inline-flex min-h-9 items-center gap-1.5 rounded-full bg-secondary px-3 text-ui-xs font-bold text-primary focus-visible:outline-[3px] focus-visible:outline-offset-2 focus-visible:outline-[#5f6cff40]"
+          >
+            {t("sortLabel")}: {t("sortLatest")}
+            <X size={12} aria-hidden="true" />
+          </button>
+        ) : null}
+        {isPending ? (
           <span
             role="status"
             aria-live="polite"
             className="text-ui-xs text-ink-muted"
           >
-            {isPending ? t("updating") : ""}
+            {t("updating")}
           </span>
-          {active ? (
-            <a
-              href={basePath}
-              onClick={(event) => {
-                event.preventDefault();
-                onReset();
-              }}
-              className="inline-flex min-h-11 items-center gap-1.5 text-ui-sm font-bold text-[#4656cb] underline underline-offset-[0.18em] hover:text-primary"
-            >
-              <RotateCcw size={14} aria-hidden="true" />
-              {t("reset")}
-            </a>
-          ) : null}
-        </div>
+        ) : null}
+        {active ? (
+          <a
+            href={basePath}
+            onClick={(event) => {
+              event.preventDefault();
+              onReset();
+            }}
+            className="ml-auto inline-flex min-h-9 items-center gap-1.5 text-ui-sm font-bold text-[#4656cb] underline underline-offset-[0.18em] hover:text-primary"
+          >
+            <RotateCcw size={14} aria-hidden="true" />
+            {t("reset")}
+          </a>
+        ) : null}
       </div>
+      {searchText.trim().length === 1 ? (
+        <small className="text-ui-xs text-ink-muted">{t("searchHint")}</small>
+      ) : null}
     </form>
   );
 }
