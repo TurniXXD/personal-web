@@ -7,6 +7,9 @@ const webServerCommand =
     ? "pnpm exec next start -p 3001"
     : "pnpm build && pnpm exec next start -p 3001");
 const skipWebServer = process.env.PLAYWRIGHT_SKIP_WEB_SERVER === "true";
+// E2E runs against a local Content API fixture, never the production CMS.
+const contentApiPort = 4010;
+const contentApiUrl = `http://127.0.0.1:${contentApiPort}`;
 
 export default defineConfig({
   testDir: "./e2e",
@@ -25,12 +28,21 @@ export default defineConfig({
   },
   webServer: skipWebServer
     ? undefined
-    : {
-        command: webServerCommand,
-        url: `${baseURL}/en`,
-        reuseExistingServer: !process.env.CI,
-        timeout: 240_000,
-      },
+    : [
+        {
+          command: "node e2e/fixtures/content-api-server.mjs",
+          url: `${contentApiUrl}/health`,
+          env: { CONTENT_API_FIXTURE_PORT: String(contentApiPort) },
+          reuseExistingServer: !process.env.CI,
+        },
+        {
+          command: webServerCommand,
+          url: `${baseURL}/en`,
+          env: { CONTENT_API_BASE_URL: contentApiUrl },
+          reuseExistingServer: !process.env.CI,
+          timeout: 240_000,
+        },
+      ],
   projects: [
     {
       name: "chromium",

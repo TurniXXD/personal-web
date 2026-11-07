@@ -224,5 +224,112 @@
         "description": "Bezpečnost, výkon a dokončení AI aplikací"
       }
     ]
+  },
+  "events": {
+    "meta": {
+      "title": "Tech & networking akce v Brně | Jakub Vantuch",
+      "description": "Technologické meetupy, startupové akce, konference a networking v Brně přehledně na jednom místě.",
+      "detailTitle": "{title} | Akce v Brně",
+      "detailFallbackDescription": "{title} — tech a networkingová akce v Brně. Datum, místo a registrace na jednom místě."
+    },
+    "listing": {
+      "eyebrow": "AKCE V BRNĚ",
+      "title": "Tech & networking akce v Brně",
+      "subtitle": "Objevuj technologické meetupy, startupové akce, konference a networking v Brně. Vše přehledně na jednom místě.",
+      "resultsLabel": "Seznam akcí",
+      "resultsCount": "{count, plural, =0 {Žádné akce} one {Zobrazena # akce} few {Zobrazeny # akce} other {Zobrazeno # akcí}}",
+      "moreAvailable": "Další akce najdete na následující stránce.",
+      "laterPage": "Pokračování výsledků",
+      "attribution": "Přehled akcí připravuje {brand}. Údaje přebíráme od pořadatelů, před návštěvou je prosím ověřte na stránce akce."
+    },
+    "filters": {
+      "legend": "Hledání a filtry",
+      "searchLabel": "Hledat akce",
+      "searchPlaceholder": "Název, místo nebo pořadatel",
+      "searchHint": "Zadejte alespoň 2 znaky.",
+      "searchSubmit": "Hledat",
+      "categoryLabel": "Kategorie",
+      "categoryAll": "Všechny kategorie",
+      "fromLabel": "Od data",
+      "toLabel": "Do data",
+      "priceLabel": "Vstupné",
+      "priceAll": "Vše",
+      "priceFree": "Zdarma",
+      "pricePaid": "Placené",
+      "freeFoodLabel": "Jídlo zdarma",
+      "sortLabel": "Řazení",
+      "sortNearest": "Nejbližší",
+      "sortLatest": "Nově přidané",
+      "reset": "Zrušit filtry",
+      "updating": "Načítám výsledky…"
+    },
+    "pagination": {
+      "label": "Stránkování akcí",
+      "next": "Další akce",
+      "first": "Zpět na začátek"
+    },
+    "states": {
+      "emptyFilteredTitle": "Filtrům neodpovídá žádná akce",
+      "emptyFilteredText": "Zkuste upravit hledání, rozšířit období nebo filtry zrušit.",
+      "emptyTitle": "Zatím tu nejsou žádné akce",
+      "emptyText": "Nové akce průběžně přidáváme. Podívejte se sem znovu za pár dní.",
+      "unavailableTitle": "Akce se teď nepodařilo načíst",
+      "unavailableText": "Služba s přehledem akcí je dočasně nedostupná. Zkuste stránku za chvíli obnovit.",
+      "invalidTitle": "Odkaz s filtry už neplatí",
+      "invalidText": "Stránkování nebo filtry v odkazu vypršely. Začněte prosím znovu od první stránky.",
+      "retry": "Zkusit znovu",
+      "showAll": "Zobrazit všechny akce"
+    },
+    "card": {
+      "dateUnknown": "Datum neověřeno",
+      "free": "Zdarma",
+      "paid": "Placené",
+      "freeFood": "Jídlo zdarma",
+      "status": {
+        "cancelled": "Zrušeno",
+        "postponed": "Odloženo"
+      },
+      "venue": "Místo",
+      "organizer": "Pořádá",
+      "featured": "Doporučujeme"
+    },
+    "calendar": {
+      "add": "Přidat do kalendáře",
+      "newWindow": "(otevře Google Kalendář v novém okně)",
+      "unavailable": "Termín akce není ověřený, do kalendáře ji zatím nelze přidat.",
+      "cancelled": "Akce je zrušená, do kalendáře ji nelze přidat."
+    },
+    "detail": {
+      "back": "Všechny akce v Brně",
+      "when": "Kdy",
+      "where": "Kde",
+      "organizer": "Pořadatel",
+      "category": "Kategorie",
+      "tags": "Štítky",
+      "price": "Vstupné",
+      "priceUnknown": "Neuvedeno",
+      "food": "Občerstvení",
+      "about": "O akci",
+      "noDescription": "Pořadatel zatím nezveřejnil podrobný popis. Více informací najdete na původní stránce akce.",
+      "register": "Registrovat se na akci",
+      "source": "Původní stránka akce",
+      "sourceNote": "Informace pocházejí ze zdroje pořadatele.",
+      "cancelledNotice": "Tato akce byla zrušena.",
+      "postponedNotice": "Akce byla odložena. Aktuální termín ověřte u pořadatele.",
+      "related": "Další akce v kategorii",
+      "detailsLabel": "Detaily akce"
+    },
+    "notFound": {
+      "eyebrow": "Akce nenalezena",
+      "title": "Tuhle akci jsme nenašli.",
+      "description": "Akce mohla být odstraněna, přesunuta nebo ještě není zveřejněná.",
+      "action": "Zobrazit všechny akce"
+    },
+    "error": {
+      "title": "Detail akce se nepodařilo načíst",
+      "description": "Služba s přehledem akcí je dočasně nedostupná. Zkuste to prosím za chvíli znovu.",
+      "retry": "Zkusit znovu",
+      "back": "Všechny akce"
+    }
   }
 }

@@ -224,5 +224,112 @@
         "description": "Security, performance and AI app completion"
       }
     ]
+  },
+  "events": {
+    "meta": {
+      "title": "Tech & networking events in Brno | Jakub Vantuch",
+      "description": "Tech meetups, startup events, conferences, and networking in Brno, all in one place.",
+      "detailTitle": "{title} | Events in Brno",
+      "detailFallbackDescription": "{title}: a tech and networking event in Brno. Date, venue, and registration in one place."
+    },
+    "listing": {
+      "eyebrow": "EVENTS IN BRNO",
+      "title": "Tech & networking events in Brno",
+      "subtitle": "Discover tech meetups, startup events, conferences, and networking in Brno. Everything clearly in one place.",
+      "resultsLabel": "Event list",
+      "resultsCount": "{count, plural, =0 {No events} one {Showing # event} other {Showing # events}}",
+      "moreAvailable": "More events are on the next page.",
+      "laterPage": "Continued results",
+      "attribution": "This event overview is curated by {brand}. Details come from organisers, so please confirm them on the event page before you go."
+    },
+    "filters": {
+      "legend": "Search and filters",
+      "searchLabel": "Search events",
+      "searchPlaceholder": "Title, venue, or organiser",
+      "searchHint": "Enter at least 2 characters.",
+      "searchSubmit": "Search",
+      "categoryLabel": "Category",
+      "categoryAll": "All categories",
+      "fromLabel": "From",
+      "toLabel": "To",
+      "priceLabel": "Admission",
+      "priceAll": "All",
+      "priceFree": "Free",
+      "pricePaid": "Paid",
+      "freeFoodLabel": "Free food",
+      "sortLabel": "Sort by",
+      "sortNearest": "Soonest",
+      "sortLatest": "Recently added",
+      "reset": "Clear filters",
+      "updating": "Loading results…"
+    },
+    "pagination": {
+      "label": "Event pagination",
+      "next": "More events",
+      "first": "Back to the start"
+    },
+    "states": {
+      "emptyFilteredTitle": "No events match these filters",
+      "emptyFilteredText": "Try a different search, a wider date range, or clear the filters.",
+      "emptyTitle": "No events yet",
+      "emptyText": "New events are added regularly. Check back in a few days.",
+      "unavailableTitle": "Events could not be loaded right now",
+      "unavailableText": "The event service is temporarily unavailable. Please refresh the page in a moment.",
+      "invalidTitle": "This filtered link has expired",
+      "invalidText": "The pagination or filters in this link are no longer valid. Please start again from the first page.",
+      "retry": "Try again",
+      "showAll": "Show all events"
+    },
+    "card": {
+      "dateUnknown": "Date not verified",
+      "free": "Free",
+      "paid": "Paid",
+      "freeFood": "Free food",
+      "status": {
+        "cancelled": "Cancelled",
+        "postponed": "Postponed"
+      },
+      "venue": "Venue",
+      "organizer": "Organised by",
+      "featured": "Featured"
+    },
+    "calendar": {
+      "add": "Add to calendar",
+      "newWindow": "(opens Google Calendar in a new window)",
+      "unavailable": "The event date is not verified yet, so it cannot be added to a calendar.",
+      "cancelled": "This event is cancelled, so it cannot be added to a calendar."
+    },
+    "detail": {
+      "back": "All events in Brno",
+      "when": "When",
+      "where": "Where",
+      "organizer": "Organiser",
+      "category": "Category",
+      "tags": "Tags",
+      "price": "Admission",
+      "priceUnknown": "Not stated",
+      "food": "Refreshments",
+      "about": "About the event",
+      "noDescription": "The organiser has not published a detailed description yet. See the original event page for more information.",
+      "register": "Register for the event",
+      "source": "Original event page",
+      "sourceNote": "Information comes from the organiser's source.",
+      "cancelledNotice": "This event has been cancelled.",
+      "postponedNotice": "This event has been postponed. Please confirm the current date with the organiser.",
+      "related": "More events in this category",
+      "detailsLabel": "Event details"
+    },
+    "notFound": {
+      "eyebrow": "Event not found",
+      "title": "We could not find this event.",
+      "description": "The event may have been removed, moved, or not published yet.",
+      "action": "Show all events"
+    },
+    "error": {
+      "title": "The event could not be loaded",
+      "description": "The event service is temporarily unavailable. Please try again in a moment.",
+      "retry": "Try again",
+      "back": "All events"
+    }
   }
 }

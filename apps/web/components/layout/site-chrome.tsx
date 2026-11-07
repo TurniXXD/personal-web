@@ -18,7 +18,12 @@ import { ScrollReveal } from "@/components/shared/scroll-reveal";
 import { copy, localizedPath, type Locale } from "@/lib/site/content";
 import type { ContactRequestType } from "@/lib/contact/submission";
 import { contactMailto, contactTel, siteConfig } from "@/lib/site/config";
-import { SERVICE_SLUG, SITE_PATH, serviceDetailPath } from "@/lib/site/routes";
+import {
+  SERVICE_SLUG,
+  SITE_PATH,
+  isEventsPath,
+  serviceDetailPath,
+} from "@/lib/site/routes";
 
 const ContactOrbit = dynamic(() =>
   import("@/components/contact/contact-orbit").then(
@@ -59,6 +64,13 @@ export function SiteHeader({ locale, path = "" }: SiteHeaderProps) {
   const languageAriaLabel = chrome("languageAriaLabel");
   const servicesActive =
     path === SITE_PATH.automation || path.startsWith("/sluzby/");
+  // The listing is the current page; a detail page sits inside that section.
+  const eventsCurrent =
+    path === SITE_PATH.events
+      ? ("page" as const)
+      : isEventsPath(path)
+        ? ("true" as const)
+        : undefined;
   const serviceLinkMessages = chrome.raw(
     "serviceLinks",
   ) as ServiceLinkMessage[];
@@ -107,7 +119,7 @@ export function SiteHeader({ locale, path = "" }: SiteHeaderProps) {
           </span>
         </a>
         <nav
-          className="site-header__nav flex items-center gap-[clamp(1.05rem,2.2vw,2rem)] text-[0.78rem] font-bold text-ink-muted [&_a]:transition-colors [&_a]:duration-200 [&_a:hover]:text-primary [&_a[aria-current=page]]:text-primary"
+          className="site-header__nav flex items-center gap-[clamp(1.05rem,2.2vw,2rem)] text-[0.78rem] font-bold text-ink-muted [&_a]:transition-colors [&_a]:duration-200 [&_a:hover]:text-primary! [&_a[aria-current]]:text-primary!"
           aria-label={chrome("mainNavigationLabel")}
         >
           <ServicesDropdown
@@ -126,6 +138,12 @@ export function SiteHeader({ locale, path = "" }: SiteHeaderProps) {
           </a>
           <a href={localizedPath(locale, SITE_PATH.sections.about)}>
             {t.nav.about}
+          </a>
+          <a
+            href={localizedPath(locale, SITE_PATH.events)}
+            aria-current={eventsCurrent}
+          >
+            {t.nav.events}
           </a>
           <a
             href={localizedPath(locale, SITE_PATH.contact)}
@@ -181,6 +199,11 @@ export function SiteHeader({ locale, path = "" }: SiteHeaderProps) {
               {
                 href: localizedPath(locale, SITE_PATH.sections.about),
                 label: t.nav.about,
+              },
+              {
+                href: localizedPath(locale, SITE_PATH.events),
+                label: t.nav.events,
+                ariaCurrent: eventsCurrent,
               },
               {
                 href: localizedPath(locale, SITE_PATH.contact),
@@ -311,6 +334,7 @@ export const SiteFooter = ({ locale }: SiteFooterProps) => {
           <a href={localizedPath(locale, "#work")}>{nav.work}</a>
           <a href={localizedPath(locale, "#process")}>{nav.process}</a>
           <a href={localizedPath(locale, "#about")}>{nav.about}</a>
+          <a href={localizedPath(locale, SITE_PATH.events)}>{nav.events}</a>
           <a href={localizedPath(locale, "/kontakt")}>{nav.contact}</a>
         </nav>
         <div className="site-footer__bottom col-span-full mt-[clamp(1.5rem,3vw,2.5rem)] flex justify-between gap-6 border-t border-[rgba(188,196,255,0.18)] pt-[1.35rem] text-[0.73rem] text-ink-on-dark-soft max-[460px]:flex-col max-[460px]:gap-2">

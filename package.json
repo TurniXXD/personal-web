@@ -12,7 +12,7 @@
     "typecheck": "pnpm --filter @vantuch/portfolio typecheck && pnpm --filter @vantuch/web typecheck",
     "lint": "eslint apps packages",
     "format:check": "prettier --check .",
-    "test": "pnpm --filter @vantuch/portfolio test",
+    "test": "pnpm --filter @vantuch/web test && pnpm --filter @vantuch/portfolio test",
     "test:e2e": "pnpm --filter @vantuch/portfolio test:e2e && pnpm --filter @vantuch/web test:e2e",
     "prepare": "husky"
   },

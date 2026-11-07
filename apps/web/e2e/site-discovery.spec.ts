@@ -13,6 +13,7 @@ test("compact footer keeps core destinations and referrals understated", async (
     "/#process",
     "/#about",
     "/kontakt",
+    "/akce/brno",
     "/doporuceni",
     "/privacy",
     "mailto:hello@vantuch.dev",
@@ -22,7 +23,7 @@ test("compact footer keeps core destinations and referrals understated", async (
   ]) {
     await expect(footer.locator(`a[href="${href}"]`).first()).toBeVisible();
   }
-  await expect(footer.locator(".site-footer__nav a")).toHaveCount(5);
+  await expect(footer.locator(".site-footer__nav a")).toHaveCount(6);
   const footerEmail = footer.locator(".site-footer__email");
   await expect(footerEmail).toBeVisible();
   await expect(footerEmail).toHaveText("hello@vantuch.dev");

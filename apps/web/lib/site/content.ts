@@ -103,6 +103,7 @@ export type SiteCopy = {
     work: string;
     process: string;
     about: string;
+    events: string;
     contact: string;
     consultation: string;
     language: string;

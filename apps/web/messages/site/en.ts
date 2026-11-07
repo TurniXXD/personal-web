@@ -12,6 +12,7 @@ export default {
     work: "Projects",
     process: "Collaboration",
     about: "About",
+    events: "Events",
     contact: "Contact",
     consultation: "Discuss your project",
     language: "Čeština",

@@ -3,7 +3,13 @@ import { test } from "./site-fixture";
 import AxeBuilder from "@axe-core/playwright";
 
 test("public pages pass automated WCAG checks", async ({ page }) => {
-  for (const path of ["/", "/sluzby/audit-ai-aplikaci", "/kontakt"]) {
+  for (const path of [
+    "/",
+    "/sluzby/audit-ai-aplikaci",
+    "/kontakt",
+    "/akce/brno",
+    "/akce/brno/brno-ai-meetup",
+  ]) {
     await page.goto(path);
     const results = await new AxeBuilder({ page })
       .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa"])

@@ -54,6 +54,7 @@ test("Czech homepage presents the offer and contact", async ({ page }) => {
     "Projekty",
     "Spolupráce",
     "O mně",
+    "Akce",
     "Kontakt",
   ]);
   await expect(page.locator(".hero__proof > span")).toHaveText([
@@ -259,6 +260,7 @@ test("English homepage explains the offer and automation categories", async ({
     "Projects",
     "Collaboration",
     "About",
+    "Events",
     "Contact",
   ]);
   await expect(page.locator("#process .process-step h3")).toHaveText([

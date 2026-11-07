@@ -1,3 +1,5 @@
+import type { EventItem } from "@/lib/events/event-model";
+import { toSchemaEventStatus } from "@/lib/events/event-status";
 import type { Locale } from "@/lib/site/content";
 import { localizedPath } from "@/lib/site/content";
 import { siteConfig } from "@/lib/site/config";
@@ -135,6 +137,77 @@ export const createServiceDetailStructuredData = ({
     },
   ],
 });
+
+type EventStructuredDataProps = {
+  event: EventItem;
+  /** Absolute canonical URL of the event detail page. */
+  url: string;
+  imageUrl: string | null;
+};
+
+/**
+ * schema.org/Event built strictly from verified CMS fields. Optional
+ * properties are omitted, never guessed. Returns `null` without a valid start.
+ */
+export const createEventStructuredData = ({
+  event,
+  url,
+  imageUrl,
+}: EventStructuredDataProps): StructuredData | null => {
+  if (!event.startsAt) return null;
+
+  const address: StructuredData = { "@type": "PostalAddress" };
+  if (event.address) address.streetAddress = event.address;
+  if (event.city) address.addressLocality = event.city;
+  const placeName = event.venueName ?? event.address ?? event.city;
+
+  const data: StructuredData = {
+    "@context": "https://schema.org",
+    "@type": "Event",
+    name: event.title,
+    startDate: event.startsAt,
+    eventStatus: toSchemaEventStatus(event.status),
+    url,
+  };
+  if (event.endsAt) data.endDate = event.endsAt;
+  if (event.summary) data.description = event.summary;
+  if (imageUrl) data.image = [imageUrl];
+  if (placeName) {
+    data.location = {
+      "@type": "Place",
+      name: placeName,
+      ...(Object.keys(address).length > 1 ? { address } : {}),
+    };
+  }
+  if (event.organizerName) {
+    data.organizer = { "@type": "Organization", name: event.organizerName };
+  }
+
+  const offerUrl = event.registrationUrl ?? event.sourceUrl ?? url;
+  if (event.isFree === true) {
+    data.isAccessibleForFree = true;
+    data.offers = {
+      "@type": "Offer",
+      price: 0,
+      ...(event.currency ? { priceCurrency: event.currency } : {}),
+      url: offerUrl,
+    };
+  } else if (
+    event.isFree === false &&
+    event.price !== null &&
+    event.price > 0 &&
+    event.currency
+  ) {
+    data.offers = {
+      "@type": "Offer",
+      price: event.price,
+      priceCurrency: event.currency,
+      url: offerUrl,
+    };
+  }
+
+  return data;
+};
 
 export const serializeStructuredData = (data: StructuredData) =>
   JSON.stringify(data).replace(/</g, "\\u003c");
