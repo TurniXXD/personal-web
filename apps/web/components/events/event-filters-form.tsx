@@ -386,7 +386,11 @@ export function EventFiltersForm({
         name={EVENT_FILTER_PARAM.from}
         value={draft.from ?? ""}
       />
-      <input type="hidden" name={EVENT_FILTER_PARAM.to} value={draft.to ?? ""} />
+      <input
+        type="hidden"
+        name={EVENT_FILTER_PARAM.to}
+        value={draft.to ?? ""}
+      />
 
       <Dialog open={rangeOpen} onOpenChange={setRangeOpen}>
         <DialogContent
