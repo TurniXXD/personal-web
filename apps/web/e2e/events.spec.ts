@@ -64,7 +64,12 @@ test("free food filter combines with other filters and keeps unknown food visibl
   await expect(page.locator("[data-free-food-badge]")).toHaveCount(3);
 
   await page.getByRole("button", { name: /Filtry/ }).click();
-  await page.getByLabel("Kategorie", { exact: true }).selectOption("ai");
+  const filtersDialog = page.getByRole("dialog", { name: "Filtry" });
+  await filtersDialog
+    .getByLabel("Kategorie", { exact: true })
+    .selectOption("ai");
+  await filtersDialog.getByRole("button", { name: "Použít" }).click();
+  await expect(filtersDialog).toBeHidden();
   await expect(page).toHaveURL(/freeFood=true/);
   await expect(page).toHaveURL(/category=ai/);
   await expect(page.locator("[data-event-card]")).toHaveCount(1);
@@ -167,7 +172,11 @@ test("search is debounced into the URL and shows an empty state", async ({
   ).toBeVisible();
   await expect(page.getByRole("button", { name: /Filtry/ })).toContainText("1");
   await page.getByRole("button", { name: /Filtry/ }).click();
-  await expect(page.getByLabel("Vstupné", { exact: true })).toHaveValue("paid");
+  await expect(
+    page
+      .getByRole("dialog", { name: "Filtry" })
+      .getByLabel("Vstupné", { exact: true }),
+  ).toHaveValue("paid");
 });
 
 test("compact date presets and custom range preserve URL filters", async ({
@@ -216,21 +225,31 @@ test("compact date presets and custom range preserve URL filters", async ({
   await expect(page).toHaveURL(/city=brno$/);
 });
 
-test("advanced filters disclose, count and clear without losing quick filters", async ({
+test("filters dialog applies, cancels, counts and clears without losing quick filters", async ({
   page,
 }) => {
   await page.goto("/akce?city=brno");
   const toggle = page.getByRole("button", { name: /Filtry/ });
+  const dialog = page.getByRole("dialog", { name: "Filtry" });
   await expect(toggle).toHaveAttribute("aria-expanded", "false");
-  await expect(page.getByLabel("Kategorie", { exact: true })).toBeHidden();
+  await expect(dialog).toBeHidden();
+
+  // Cancelling discards the draft.
   await toggle.click();
-  await expect(toggle).toHaveAttribute("aria-expanded", "true");
-  await page.getByLabel("Kategorie", { exact: true }).selectOption("ai");
-  await page.getByLabel("Vstupné", { exact: true }).selectOption("free");
+  await expect(dialog).toBeVisible();
+  await dialog.getByLabel("Kategorie", { exact: true }).selectOption("ai");
+  await dialog.getByRole("button", { name: "Zrušit" }).click();
+  await expect(dialog).toBeHidden();
+  await expect(page).toHaveURL(/\/akce\?city=brno$/);
+
+  await toggle.click();
+  await expect(dialog.getByLabel("Kategorie", { exact: true })).toHaveValue("");
+  await dialog.getByLabel("Kategorie", { exact: true }).selectOption("ai");
+  await dialog.getByLabel("Vstupné", { exact: true }).selectOption("free");
+  await dialog.getByRole("button", { name: "Použít" }).click();
+  await expect(dialog).toBeHidden();
   await expect(page).toHaveURL(/city=brno.*category=ai.*price=free/);
   await expect(toggle).toContainText("2");
-  await toggle.click();
-  await expect(page.getByLabel("Kategorie", { exact: true })).toBeHidden();
   await expect(
     page.getByRole("button", { name: /Odebrat filtr.*Kategorie/ }),
   ).toBeVisible();
