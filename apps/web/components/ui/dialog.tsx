@@ -39,7 +39,7 @@ function DialogContent({
         {children}
         <DialogPrimitive.Close
           aria-label={closeLabel}
-          className="absolute top-4 right-4 grid size-10 place-items-center rounded-full text-ink-muted transition-colors hover:bg-secondary hover:text-primary focus-visible:outline-[3px] focus-visible:outline-offset-2 focus-visible:outline-[#5f6cff40]"
+          className="absolute top-4 right-4 grid cursor-pointer size-10 place-items-center rounded-full text-ink-muted transition-colors hover:bg-secondary hover:text-primary focus-visible:outline-[3px] focus-visible:outline-offset-2 focus-visible:outline-[#5f6cff40]"
         >
           <X size={18} aria-hidden="true" />
         </DialogPrimitive.Close>

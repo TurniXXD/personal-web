@@ -27,9 +27,9 @@ function Calendar({
         caption_label: "",
         nav: "absolute inset-x-0 top-0 z-[1] flex h-10 items-center justify-between",
         button_previous:
-          "grid size-10 place-items-center rounded-full border border-border-card bg-background text-ink-strong transition-colors hover:border-primary hover:text-primary focus-visible:outline-[3px] focus-visible:outline-offset-2 focus-visible:outline-[#5f6cff40] disabled:opacity-40",
+          "grid size-10 cursor-pointer place-items-center rounded-full border border-border-card bg-background text-ink-strong transition-colors hover:border-primary hover:text-primary focus-visible:outline-[3px] focus-visible:outline-offset-2 focus-visible:outline-[#5f6cff40] disabled:opacity-40",
         button_next:
-          "grid size-10 place-items-center rounded-full border border-border-card bg-background text-ink-strong transition-colors hover:border-primary hover:text-primary focus-visible:outline-[3px] focus-visible:outline-offset-2 focus-visible:outline-[#5f6cff40] disabled:opacity-40",
+          "grid size-10 cursor-pointer place-items-center rounded-full border border-border-card bg-background text-ink-strong transition-colors hover:border-primary hover:text-primary focus-visible:outline-[3px] focus-visible:outline-offset-2 focus-visible:outline-[#5f6cff40] disabled:opacity-40",
         month_grid: "w-full border-collapse",
         weekdays: "flex",
         weekday:
@@ -38,7 +38,7 @@ function Calendar({
         week: "flex",
         day: "group/day relative flex h-10 flex-1 items-center sm:h-11 justify-center p-0 text-center",
         day_button:
-          "relative z-[1] grid size-10 place-items-center sm:size-11 rounded-full text-[0.86rem] text-ink transition-colors hover:bg-secondary hover:text-primary focus-visible:outline-[3px] focus-visible:outline-offset-2 focus-visible:outline-[#5f6cff40] group-data-[selected=true]/day:font-bold",
+          "relative z-[1] grid size-10 cursor-pointer place-items-center sm:size-11 rounded-full text-[0.86rem] text-ink transition-colors hover:bg-secondary hover:text-primary focus-visible:outline-[3px] focus-visible:outline-offset-2 focus-visible:outline-[#5f6cff40] group-data-[selected=true]/day:font-bold",
         today:
           "[&>button]:font-bold [&>button]:text-primary [&>button]:after:absolute [&>button]:after:bottom-1.5 [&>button]:after:size-1 [&>button]:after:rounded-full [&>button]:after:bg-current",
         selected: "",

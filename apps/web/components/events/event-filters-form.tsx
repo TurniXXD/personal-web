@@ -273,7 +273,7 @@ export function EventFiltersForm({
           <button
             type="submit"
             aria-label={t("searchSubmit")}
-            className="absolute top-1/2 right-1 grid size-9 -translate-y-1/2 place-items-center rounded-[0.55rem] bg-secondary text-primary transition-colors hover:bg-primary hover:text-white focus-visible:outline-[3px] focus-visible:outline-offset-2 focus-visible:outline-[#5f6cff40]"
+            className="cursor-pointer absolute top-1/2 right-1 grid size-9 -translate-y-1/2 place-items-center rounded-[0.55rem] bg-secondary text-primary transition-colors hover:bg-primary hover:text-white focus-visible:outline-[3px] focus-visible:outline-offset-2 focus-visible:outline-[#5f6cff40]"
           >
             <ArrowRight size={16} aria-hidden="true" />
           </button>
@@ -283,7 +283,7 @@ export function EventFiltersForm({
           aria-expanded={advancedOpen}
           aria-controls={`${id}-advanced`}
           onClick={() => setAdvancedOpen((open) => !open)}
-          className="inline-flex min-h-11 shrink-0 items-center gap-2 rounded-[0.7rem] border border-border-card bg-background px-3 text-ui-sm font-bold text-ink-strong transition-colors hover:border-primary hover:text-primary focus-visible:outline-[3px] focus-visible:outline-offset-2 focus-visible:outline-[#5f6cff40]"
+          className="inline-flex min-h-11 shrink-0 cursor-pointer items-center gap-2 rounded-[0.7rem] border border-border-card bg-background px-3 text-ui-sm font-bold text-ink-strong transition-colors hover:border-primary hover:text-primary focus-visible:outline-[3px] focus-visible:outline-offset-2 focus-visible:outline-[#5f6cff40]"
         >
           <SlidersHorizontal size={16} aria-hidden="true" />
           {t("advanced")}
@@ -342,7 +342,7 @@ export function EventFiltersForm({
             className={cn(
               controlClasses,
               // Phones show a short overlay label; the full label needs more room.
-              "appearance-none truncate pr-7 pl-8 text-[0.75rem] max-sm:text-transparent sm:pl-9 sm:text-[0.84rem] [&>option]:text-ink",
+              "cursor-pointer appearance-none truncate pr-7 pl-8 text-[0.75rem] max-sm:text-transparent sm:pl-9 sm:text-[0.84rem] [&>option]:text-ink",
             )}
           >
             <option value="all">{t("dateAll")}</option>
@@ -452,14 +452,14 @@ export function EventFiltersForm({
             disabled={{ before: toLocalDate(today)! }}
           />
           <div className="flex items-center justify-end gap-2 border-t border-border-soft pt-4">
-            <DialogClose className="inline-flex min-h-11 items-center rounded-full px-4 text-ui-sm font-bold text-ink-muted transition-colors hover:bg-secondary hover:text-primary focus-visible:outline-[3px] focus-visible:outline-offset-2 focus-visible:outline-[#5f6cff40]">
+            <DialogClose className="cursor-pointer inline-flex min-h-11 items-center rounded-full px-4 text-ui-sm font-bold text-ink-muted transition-colors hover:bg-secondary hover:text-primary focus-visible:outline-[3px] focus-visible:outline-offset-2 focus-visible:outline-[#5f6cff40]">
               {t("rangeCancel")}
             </DialogClose>
             <button
               type="button"
               onClick={applyRange}
               disabled={!rangeDraft?.from}
-              className="inline-flex min-h-11 items-center rounded-full bg-primary px-5 text-ui-sm font-bold text-white transition-colors hover:bg-[#4656cb] focus-visible:outline-[3px] focus-visible:outline-offset-2 focus-visible:outline-[#5f6cff40] disabled:cursor-not-allowed disabled:opacity-45"
+              className="cursor-pointer inline-flex min-h-11 items-center rounded-full bg-primary px-5 text-ui-sm font-bold text-white transition-colors hover:bg-[#4656cb] focus-visible:outline-[3px] focus-visible:outline-offset-2 focus-visible:outline-[#5f6cff40] disabled:cursor-not-allowed disabled:opacity-45"
             >
               {t("rangeApply")}
             </button>
@@ -484,7 +484,7 @@ export function EventFiltersForm({
             name={EVENT_FILTER_PARAM.category}
             value={draft.category ?? ""}
             onChange={(event) => update("category", event.target.value || null)}
-            className={controlClasses}
+            className={cn(controlClasses, "cursor-pointer")}
           >
             <option value="">{t("categoryAll")}</option>
             {categoryOptions.map((category) => (
@@ -508,7 +508,7 @@ export function EventFiltersForm({
                 (event.target.value || null) as EventPriceFilter | null,
               )
             }
-            className={controlClasses}
+            className={cn(controlClasses, "cursor-pointer")}
           >
             <option value="">{t("priceAll")}</option>
             <option value="free">{t("priceFree")}</option>
@@ -526,7 +526,7 @@ export function EventFiltersForm({
             onChange={(event) =>
               update("sort", event.target.value as EventSort)
             }
-            className={controlClasses}
+            className={cn(controlClasses, "cursor-pointer")}
           >
             <option value="nearest">{t("sortNearest")}</option>
             <option value="latest">{t("sortLatest")}</option>
@@ -540,7 +540,7 @@ export function EventFiltersForm({
             type="button"
             onClick={openRangeDialog}
             aria-label={`${t("rangeEdit")}: ${formatDate(draft.from)} – ${formatDate(draft.to)}`}
-            className="inline-flex min-h-9 items-center gap-1.5 rounded-full bg-secondary px-3 text-ui-xs font-bold text-primary focus-visible:outline-[3px] focus-visible:outline-offset-2 focus-visible:outline-[#5f6cff40]"
+            className="cursor-pointer inline-flex min-h-9 items-center gap-1.5 rounded-full bg-secondary px-3 text-ui-xs font-bold text-primary focus-visible:outline-[3px] focus-visible:outline-offset-2 focus-visible:outline-[#5f6cff40]"
           >
             <CalendarDays size={13} aria-hidden="true" />
             {formatDate(draft.from)} – {formatDate(draft.to)}
@@ -551,7 +551,7 @@ export function EventFiltersForm({
             type="button"
             onClick={() => update("category", null)}
             aria-label={`${t("removeFilter")} ${t("categoryLabel")}`}
-            className="inline-flex min-h-9 items-center gap-1.5 rounded-full bg-secondary px-3 text-ui-xs font-bold text-primary focus-visible:outline-[3px] focus-visible:outline-offset-2 focus-visible:outline-[#5f6cff40]"
+            className="inline-flex min-h-9 cursor-pointer items-center gap-1.5 rounded-full bg-secondary px-3 text-ui-xs font-bold text-primary focus-visible:outline-[3px] focus-visible:outline-offset-2 focus-visible:outline-[#5f6cff40]"
           >
             {t("categoryLabel")}: {selectedCategory}
             <X size={12} aria-hidden="true" />
@@ -562,7 +562,7 @@ export function EventFiltersForm({
             type="button"
             onClick={() => update("price", null)}
             aria-label={`${t("removeFilter")} ${t("priceLabel")}`}
-            className="inline-flex min-h-9 items-center gap-1.5 rounded-full bg-secondary px-3 text-ui-xs font-bold text-primary focus-visible:outline-[3px] focus-visible:outline-offset-2 focus-visible:outline-[#5f6cff40]"
+            className="inline-flex min-h-9 cursor-pointer items-center gap-1.5 rounded-full bg-secondary px-3 text-ui-xs font-bold text-primary focus-visible:outline-[3px] focus-visible:outline-offset-2 focus-visible:outline-[#5f6cff40]"
           >
             {t("priceLabel")}:{" "}
             {draft.price === "free" ? t("priceFree") : t("pricePaid")}
@@ -574,7 +574,7 @@ export function EventFiltersForm({
             type="button"
             onClick={() => update("sort", DEFAULT_EVENT_FILTERS.sort)}
             aria-label={`${t("removeFilter")} ${t("sortLabel")}`}
-            className="inline-flex min-h-9 items-center gap-1.5 rounded-full bg-secondary px-3 text-ui-xs font-bold text-primary focus-visible:outline-[3px] focus-visible:outline-offset-2 focus-visible:outline-[#5f6cff40]"
+            className="inline-flex min-h-9 cursor-pointer items-center gap-1.5 rounded-full bg-secondary px-3 text-ui-xs font-bold text-primary focus-visible:outline-[3px] focus-visible:outline-offset-2 focus-visible:outline-[#5f6cff40]"
           >
             {t("sortLabel")}: {t("sortLatest")}
             <X size={12} aria-hidden="true" />
