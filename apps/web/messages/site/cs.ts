@@ -160,7 +160,7 @@ export default {
     socialText:
       "Sdílím své projekty, zkušenosti z vývoje a praktické tipy k webům, automatizacím a AI.",
     linkedinText: "Projekty a zkušenosti",
-    instagramText: "Ze zákulisí vývoje",
+    instagramText: "Praktické tipy",
     githubText: "Kód a open source",
   },
   audit: {

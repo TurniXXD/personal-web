@@ -6,11 +6,10 @@ import { usePathname } from "next/navigation";
 import { useTranslations } from "next-intl";
 import styles from "./card-peek-robot.module.css";
 
-/** Card families the robot can hide behind. */
+/** Card families the robot can hide behind. Project cards are excluded on purpose. */
 const CARD_SELECTOR = [
   '[data-slot="card"]',
   "[data-event-card]",
-  ".case-card",
   ".testimonial-card",
   ".service-detail-card",
 ].join(", ");

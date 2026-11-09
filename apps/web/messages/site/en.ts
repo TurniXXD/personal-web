@@ -162,7 +162,7 @@ export default {
     socialText:
       "I share my projects, development experience, and practical tips about websites, automation, and AI.",
     linkedinText: "Projects and experience",
-    instagramText: "Behind the scenes of development",
+    instagramText: "Practical tips",
     githubText: "Code and open source",
   },
   audit: {

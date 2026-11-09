@@ -154,7 +154,7 @@ test("Czech homepage presents the offer and contact", async ({ page }) => {
     ),
   ).toHaveText([
     "Projekty a zkušenosti",
-    "Ze zákulisí vývoje",
+    "Praktické tipy",
     "Kód a open source",
   ]);
   const socialGrid = page.locator("#newsletter .social-platform-grid");
