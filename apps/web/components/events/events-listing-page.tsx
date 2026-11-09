@@ -79,8 +79,9 @@ export function EventsListingPage({
               />
             </Suspense>
           </section>
+          <hr className="mt-12 mb-0 border-0 border-t border-border-soft" />
           <p
-            className="mt-10 mb-0 max-w-[46rem] text-ui-sm leading-[1.55] text-ink-muted"
+            className="mt-8 mb-0 max-w-[46rem] text-ui-sm leading-[1.55] text-ink-muted"
             data-events-disclaimer
           >
             {t("listing.disclaimer")}

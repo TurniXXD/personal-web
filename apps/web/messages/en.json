@@ -28,36 +28,26 @@
   "homeUi": {
     "portraitAlt": "Portrait of Jakub Vantuch",
     "heroVisual": {
-      "product": "vantuch.dev",
-      "productName": "Your solution",
-      "navigation": {
-        "dashboard": "Overview",
-        "analytics": "Analytics",
-        "automations": "Automation",
-        "integrations": "Integrations"
-      },
-      "title": "Growth",
-      "subtitle": "Results powered by smarter technology.",
-      "period": "Last 30 days",
+      "title": "Overview",
+      "subtitle": "Everything important in one place.",
+      "range": "Last 30 days",
       "metrics": {
-        "users": {
+        "activeUsers": {
           "label": "Active users",
-          "value": "12.5K",
-          "change": "↗ 24%"
+          "value": "12.5k",
+          "trend": "+24%"
         },
         "conversions": {
           "label": "Conversions",
           "value": "8.4%",
-          "change": "↗ 36%"
+          "trend": "+36%"
         },
-        "time": {
+        "timeSaved": {
           "label": "Time saved",
-          "value": "120h",
-          "change": "↗ 52%"
+          "value": "120 h",
+          "trend": "+52%"
         }
       },
-      "chartLabel": "Performance trend",
-      "chartChange": "+36%",
       "cards": {
         "automation": {
           "title": "AI automation",
@@ -81,26 +71,12 @@
     "action": "Back to home"
   },
   "webApplicationVisual": {
-    "title": "Overview",
-    "subtitle": "Everything important in one place.",
-    "range": "Last 30 days",
-    "metrics": {
-      "activeUsers": {
-        "label": "Active users",
-        "value": "12.5k",
-        "trend": "+24%"
-      },
-      "conversions": {
-        "label": "Conversions",
-        "value": "8.4%",
-        "trend": "+36%"
-      },
-      "timeSaved": {
-        "label": "Time saved",
-        "value": "120 h",
-        "trend": "+52%"
-      }
-    }
+    "eyebrow": "ANALYTICS OVERVIEW",
+    "title": "Results in one place",
+    "visits": "Visits",
+    "conversions": "Conversions",
+    "activity": "User activity",
+    "complete": "complete"
   },
   "aiHeroVisual": {
     "inputs": "Inputs",

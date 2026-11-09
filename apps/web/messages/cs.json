@@ -28,36 +28,26 @@
   "homeUi": {
     "portraitAlt": "Portrét Jakuba Vantucha",
     "heroVisual": {
-      "product": "vantuch.dev",
-      "productName": "Vaše řešení",
-      "navigation": {
-        "dashboard": "Přehled",
-        "analytics": "Analytika",
-        "automations": "Automatizace",
-        "integrations": "Integrace"
-      },
-      "title": "Růst",
-      "subtitle": "Výsledky díky chytřejším technologiím.",
-      "period": "Posledních 30 dní",
+      "title": "Přehled",
+      "subtitle": "Vše důležité na jednom místě.",
+      "range": "Posledních 30 dní",
       "metrics": {
-        "users": {
+        "activeUsers": {
           "label": "Aktivní uživatelé",
           "value": "12,5 tis.",
-          "change": "↗ 24 %"
+          "trend": "+24 %"
         },
         "conversions": {
           "label": "Konverze",
           "value": "8,4 %",
-          "change": "↗ 36 %"
+          "trend": "+36 %"
         },
-        "time": {
+        "timeSaved": {
           "label": "Ušetřený čas",
           "value": "120 h",
-          "change": "↗ 52 %"
+          "trend": "+52 %"
         }
       },
-      "chartLabel": "Vývoj výkonu",
-      "chartChange": "+36 %",
       "cards": {
         "automation": {
           "title": "AI automatizace",
@@ -81,26 +71,12 @@
     "action": "Zpět na úvod"
   },
   "webApplicationVisual": {
-    "title": "Přehled",
-    "subtitle": "Vše důležité na jednom místě.",
-    "range": "Posledních 30 dní",
-    "metrics": {
-      "activeUsers": {
-        "label": "Aktivní uživatelé",
-        "value": "12,5 tis.",
-        "trend": "+24 %"
-      },
-      "conversions": {
-        "label": "Konverze",
-        "value": "8,4 %",
-        "trend": "+36 %"
-      },
-      "timeSaved": {
-        "label": "Ušetřený čas",
-        "value": "120 h",
-        "trend": "+52 %"
-      }
-    }
+    "eyebrow": "ANALYTICKÝ PŘEHLED",
+    "title": "Výsledky na jednom místě",
+    "visits": "Návštěvy",
+    "conversions": "Konverze",
+    "activity": "Aktivita uživatelů",
+    "complete": "splněno"
   },
   "aiHeroVisual": {
     "inputs": "Vstupy",
