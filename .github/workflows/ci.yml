@@ -19,6 +19,9 @@ jobs:
         with:
           version: 11.6.0
 
+      - name: Isolate pnpm store for this run
+        run: echo "PNPM_CONFIG_STORE_DIR=$RUNNER_TEMP/pnpm-store-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT" >> "$GITHUB_ENV"
+
       - name: Set up Node
         uses: actions/setup-node@v4
         with:
