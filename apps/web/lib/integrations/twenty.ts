@@ -125,6 +125,11 @@ const isUnknownFieldError = (error: unknown): error is TwentyRequestError =>
   // responseBody is raw JSON text, so the field name's quotes arrive escaped.
   /doesn't have any \\?"\w+\\?" field/.test(error.diagnostic.responseBody);
 
+const isDuplicateEntryError = (error: unknown): error is TwentyRequestError =>
+  error instanceof TwentyRequestError &&
+  error.diagnostic.status === 400 &&
+  /duplicate entry was detected/i.test(error.diagnostic.responseBody);
+
 export class TwentyClient {
   constructor(
     private readonly baseUrl: string,
@@ -314,13 +319,7 @@ export class TwentyClient {
     const normalizedEmail = email.toLowerCase();
     const phones = toTwentyPhones(phone);
     const existing = await this.findPersonByEmail(normalizedEmail);
-    if (existing) {
-      if (phones && !existing.phones?.primaryPhoneNumber) {
-        await this.update("people", existing.id, { phones });
-        return { ...existing, phones };
-      }
-      return existing;
-    }
+    if (existing) return this.withPhones(existing, phones);
 
     const parts = name.trim().split(/\s+/);
     const person = {
@@ -328,6 +327,37 @@ export class TwentyClient {
       emails: { primaryEmail: normalizedEmail, additionalEmails: [] },
       ...(phones ? { phones } : {}),
     };
+    try {
+      return await this.createPerson(person);
+    } catch (error) {
+      // A soft-deleted person still holds the email's unique index but is
+      // hidden from the lookup above, so restore that record instead.
+      if (!isDuplicateEntryError(error)) throw error;
+      const deleted = (await this.find(
+        "people",
+        and(
+          equals("emails.primaryEmail", normalizedEmail),
+          "deletedAt[is]:NOT_NULL",
+        ),
+      )) as Person | undefined;
+      if (!deleted) throw error;
+      await this.request(`people/${encodeURIComponent(deleted.id)}/restore`, {
+        method: "PATCH",
+      });
+      return this.withPhones(deleted, phones);
+    }
+  }
+
+  private async withPhones(
+    person: Person,
+    phones: Phones | undefined,
+  ): Promise<Person> {
+    if (!phones || person.phones?.primaryPhoneNumber) return person;
+    await this.update("people", person.id, { phones });
+    return { ...person, phones };
+  }
+
+  private async createPerson(person: Record<string, unknown>): Promise<Person> {
     if (process.env.TWENTY_APP_FIELDS_ENABLED !== "true") {
       return this.create("people", "person", person) as Promise<Person>;
     }
