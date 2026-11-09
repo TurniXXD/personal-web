@@ -91,7 +91,8 @@ test("robot grabs a card edge, peeks out, and greets on hover", async ({
 
 test("robot stays still for reduced motion", async ({ page }) => {
   await enableRobot(page);
-  await page.setViewportSize({ width: 390, height: 844 });
+  // Tablet width: on phones stacked cards leave no room above for the head.
+  await page.setViewportSize({ width: 768, height: 1024 });
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/akce");
   const robot = page.locator("[data-card-robot]");

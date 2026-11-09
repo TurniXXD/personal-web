@@ -89,6 +89,26 @@ const eventsListingIsEmpty = () =>
 const eventFiltersBusy = () =>
   document.querySelector('[data-event-filters][aria-busy="true"]') !== null;
 
+/**
+ * Stacked cards (typical on phones) leave too small a gap for the head to rise
+ * above the top edge without covering the card above, so skip those.
+ */
+const hasRoomAbove = (card: Element) => {
+  const rect = card.getBoundingClientRect();
+  const clearance = PEEK_HEIGHT + 12;
+  return ![...document.querySelectorAll(CARD_SELECTOR)].some((other) => {
+    if (other === card || other.contains(card) || card.contains(other))
+      return false;
+    const box = other.getBoundingClientRect();
+    const overlapsColumn = box.left < rect.right && box.right > rect.left;
+    return (
+      overlapsColumn &&
+      box.bottom <= rect.top + 1 &&
+      box.bottom > rect.top - clearance
+    );
+  });
+};
+
 const cardEdge = (card: Element): Edge => {
   if (window.innerWidth < 1024) return "top";
   const rect = card.getBoundingClientRect();
@@ -151,9 +171,12 @@ export function CardPeekRobot() {
         card = null;
         return;
       }
-      const cards = [...document.querySelectorAll(CARD_SELECTOR)].filter(
-        isUsableCard,
-      );
+      const cards = [...document.querySelectorAll(CARD_SELECTOR)]
+        .filter(isUsableCard)
+        .filter(
+          (candidate) =>
+            cardEdge(candidate) !== "top" || hasRoomAbove(candidate),
+        );
       const visible = cards.filter(isInViewport);
       const pool = visible.length ? visible : cards;
       const candidates =
