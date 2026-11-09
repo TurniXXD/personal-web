@@ -122,7 +122,8 @@ function toTwentyPhones(value: string): Phones | undefined {
 const isUnknownFieldError = (error: unknown): error is TwentyRequestError =>
   error instanceof TwentyRequestError &&
   error.diagnostic.status === 400 &&
-  /doesn't have any "\w+" field/.test(error.diagnostic.responseBody);
+  // responseBody is raw JSON text, so the field name's quotes arrive escaped.
+  /doesn't have any \\?"\w+\\?" field/.test(error.diagnostic.responseBody);
 
 export class TwentyClient {
   constructor(
