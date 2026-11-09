@@ -24,6 +24,26 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  "/public/v1/event-cards": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * List upcoming events as compact cards
+     * @description Same filters, sorting, and cursor pagination as /events (default limit 20, max 100), but each item carries only the fields an event card renders. Use /events/{slug} for the full record.
+     */
+    get: operations["listEventCards"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   "/public/v1/events/featured": {
     parameters: {
       query?: never;
@@ -219,6 +239,46 @@ export interface components {
           message: string;
         }[];
       };
+    };
+    PublicEventCardList: {
+      data: components["schemas"]["PublicEventCard"][];
+      nextCursor: string | null;
+      meta: {
+        limit: number;
+      };
+    };
+    PublicEventCard: {
+      slug: string;
+      title: string;
+      summary: string | null;
+      /**
+       * Format: date-time
+       * @example 2026-11-20T17:00:00.000Z
+       */
+      startsAt: string;
+      endsAt: string | null;
+      /** @example Europe/Prague */
+      timezone: string;
+      city: string;
+      venueName: string | null;
+      address: string | null;
+      category: string;
+      /**
+       * Format: uri
+       * @description Original organiser/source page (attribution).
+       */
+      sourceUrl: string;
+      registrationUrl: string | null;
+      /** @description Only images with publication rights; never scraped source images. */
+      imageUrl: string | null;
+      /** @description Free admission; null when unknown. */
+      isFree: boolean | null;
+      price: number | null;
+      currency: string | null;
+      /** @enum {string} */
+      freeFood: "yes" | "no" | "unknown";
+      /** @enum {string} */
+      status: "scheduled" | "cancelled" | "postponed";
     };
     EventCategoriesResponse: {
       data: {
@@ -430,6 +490,108 @@ export interface operations {
            *     }
            */
           "application/json": components["schemas"]["PublicEventList"];
+        };
+      };
+      /** @description Invalid request or query parameters */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+      /** @description Rate limit exceeded; see Retry-After */
+      429: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+      /** @description Internal error (details are never exposed) */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+    };
+  };
+  listEventCards: {
+    parameters: {
+      query?: {
+        /** @description City (case and diacritics insensitive). Use `all` for every city. */
+        city?: string;
+        category?: string;
+        /** @description Events starting or still running at/after this point. Dates are calendar days in Europe/Prague. Defaults to now. */
+        from?: string;
+        /** @description Events starting before the end of this day (Europe/Prague) or before this timestamp. */
+        to?: string;
+        /** @description Search in title, summary, venue, and organizer. */
+        q?: string;
+        /** @description Page size (1–100). */
+        limit?: number;
+        /** @description Opaque cursor from `nextCursor` of the previous page. Only valid with the same sort. */
+        cursor?: string;
+        /** @description Default: nearest upcoming first. */
+        sort?: "startsAt" | "-startsAt" | "-updatedAt";
+        /** @description `true`: free admission; `false`: explicitly paid. */
+        free?: "true" | "false";
+        /** @description `true`: only events whose source explicitly confirms free food (`freeFood: yes`). */
+        freeFood?: "true" | "false";
+        featured?: "true" | "false";
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          /** @description Shared caches may keep the response for 300 seconds. */
+          "Cache-Control"?: string;
+          /** @description Weak validator; send If-None-Match for 304 responses. */
+          ETag?: string;
+          [name: string]: unknown;
+        };
+        content: {
+          /**
+           * @example {
+           *       "data": [
+           *         {
+           *           "slug": "example-ai-meetup-2026-11-20",
+           *           "title": "Example AI meetup",
+           *           "summary": "An example listing used in documentation.",
+           *           "startsAt": "2026-11-20T17:00:00.000Z",
+           *           "endsAt": "2026-11-20T19:00:00.000Z",
+           *           "timezone": "Europe/Prague",
+           *           "city": "Brno",
+           *           "venueName": "Example venue",
+           *           "address": null,
+           *           "category": "ai",
+           *           "sourceUrl": "https://example.com/events/ai-meetup",
+           *           "registrationUrl": null,
+           *           "imageUrl": null,
+           *           "isFree": true,
+           *           "price": 0,
+           *           "currency": null,
+           *           "freeFood": "yes",
+           *           "status": "scheduled"
+           *         }
+           *       ],
+           *       "nextCursor": null,
+           *       "meta": {
+           *         "limit": 20
+           *       }
+           *     }
+           */
+          "application/json": components["schemas"]["PublicEventCardList"];
         };
       };
       /** @description Invalid request or query parameters */

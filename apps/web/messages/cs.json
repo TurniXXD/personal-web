@@ -297,7 +297,9 @@
     "pagination": {
       "label": "Stránkování akcí",
       "next": "Další akce",
-      "first": "Zpět na začátek"
+      "first": "Zpět na začátek",
+      "loading": "Načítám…",
+      "loadError": "Další akce se nepodařilo načíst. Zkuste to prosím znovu."
     },
     "states": {
       "emptyFilteredTitle": "Filtrům neodpovídá žádná akce",

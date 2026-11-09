@@ -139,20 +139,20 @@ export function EventCard({ event, locale, categoryLabel }: EventCardProps) {
               ) : null}
             </dl>
           ) : null}
-          <div className="flex flex-col items-start gap-1.5">
-            <EventFreeFoodBadge event={event} />
-            <div className="flex w-full items-center justify-between gap-2">
+          <div className="flex w-full items-center justify-between gap-2">
+            <div className="flex min-w-0 flex-wrap items-center gap-1.5 empty:hidden">
               <EventPriceBadge event={event} locale={locale} />
-              <EventCalendarAction
-                event={event}
-                eventUrl={
-                  href ??
-                  `${SITE_ORIGIN}${localizedPath(locale, SITE_PATH.events)}`
-                }
-                iconOnly
-                className="relative z-10 ml-auto shrink-0"
-              />
+              <EventFreeFoodBadge event={event} />
             </div>
+            <EventCalendarAction
+              event={event}
+              eventUrl={
+                href ??
+                `${SITE_ORIGIN}${localizedPath(locale, SITE_PATH.events)}`
+              }
+              iconOnly
+              className="relative z-10 ml-auto shrink-0"
+            />
           </div>
         </div>
       </div>

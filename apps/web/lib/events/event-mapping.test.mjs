@@ -8,13 +8,11 @@ import {
 } from "./event-mapping.ts";
 import { canAddEventToCalendar } from "./event-status.ts";
 
-/** Mirrors the documented example of `GET /public/v1/events`. */
+/** Mirrors the documented example of `GET /public/v1/event-cards`. */
 const contractExample = {
-  id: "0f8e2a52-7d2c-4c55-9e85-3b7f1f0a9c11",
   slug: "example-ai-meetup-2026-11-20",
   title: "Example AI meetup",
   summary: "An example listing used in documentation.",
-  description: null,
   startsAt: "2026-11-20T17:00:00.000Z",
   endsAt: "2026-11-20T19:00:00.000Z",
   timezone: "Europe/Prague",
@@ -22,8 +20,6 @@ const contractExample = {
   venueName: "Example venue",
   address: null,
   category: "ai",
-  tags: ["meetup"],
-  organizerName: "Example organiser",
   sourceUrl: "https://example.com/events/ai-meetup",
   registrationUrl: null,
   imageUrl: null,
@@ -31,11 +27,7 @@ const contractExample = {
   price: 0,
   currency: null,
   freeFood: "yes",
-  foodDetails: "Free pizza after the talks",
   status: "scheduled",
-  featured: false,
-  lastVerifiedAt: "2026-11-06T08:00:00.000Z",
-  updatedAt: "2026-11-06T08:00:00.000Z",
 };
 
 test("maps the documented contract example", () => {
@@ -43,7 +35,6 @@ test("maps the documented contract example", () => {
     slug: "example-ai-meetup-2026-11-20",
     title: "Example AI meetup",
     summary: "An example listing used in documentation.",
-    description: null,
     startsAt: "2026-11-20T17:00:00.000Z",
     endsAt: "2026-11-20T19:00:00.000Z",
     timezone: "Europe/Prague",
@@ -51,8 +42,6 @@ test("maps the documented contract example", () => {
     venueName: "Example venue",
     address: null,
     category: "ai",
-    tags: ["meetup"],
-    organizerName: "Example organiser",
     sourceUrl: "https://example.com/events/ai-meetup",
     registrationUrl: null,
     imageUrl: null,
@@ -60,10 +49,7 @@ test("maps the documented contract example", () => {
     price: 0,
     currency: null,
     freeFood: "yes",
-    foodDetails: "Free pizza after the talks",
     status: "scheduled",
-    featured: false,
-    updatedAt: "2026-11-06T08:00:00.000Z",
   });
 });
 
@@ -78,7 +64,6 @@ test("keeps missing optional fields as unknown instead of inventing values", () 
   assert.equal(event.endsAt, null);
   assert.equal(event.summary, null);
   assert.equal(event.venueName, null);
-  assert.equal(event.organizerName, null);
   assert.equal(
     event.isFree,
     null,
@@ -92,7 +77,6 @@ test("keeps missing optional fields as unknown instead of inventing values", () 
   assert.equal(event.registrationUrl, null);
   assert.equal(event.imageUrl, null);
   assert.equal(event.timezone, "Europe/Prague");
-  assert.deepEqual(event.tags, []);
   assert.equal(event.status, "scheduled");
 });
 

@@ -9,11 +9,9 @@ import {
 } from "./content-api.ts";
 
 const event = (overrides = {}) => ({
-  id: "id-1",
   slug: "brno-ai-meetup",
   title: "Brno AI meetup",
   summary: null,
-  description: null,
   startsAt: "2026-11-20T17:00:00.000Z",
   endsAt: null,
   timezone: "Europe/Prague",
@@ -21,8 +19,6 @@ const event = (overrides = {}) => ({
   venueName: null,
   address: null,
   category: "ai",
-  tags: [],
-  organizerName: null,
   sourceUrl: "https://example.com/e",
   registrationUrl: null,
   imageUrl: null,
@@ -30,11 +26,7 @@ const event = (overrides = {}) => ({
   price: null,
   currency: null,
   freeFood: "unknown",
-  foodDetails: null,
   status: "scheduled",
-  featured: false,
-  lastVerifiedAt: null,
-  updatedAt: "2026-11-06T08:00:00.000Z",
   ...overrides,
 });
 
@@ -56,7 +48,7 @@ const json = (body, status = 200, headers = {}) =>
 
 test("requests one filtered page with cache tags and revalidation", async () => {
   const { calls, fetcher } = simulatedFetcher(() =>
-    json({ data: [event()], nextCursor: "c2", meta: { limit: 24 } }),
+    json({ data: [event()], nextCursor: "c2", meta: { limit: 20 } }),
   );
   const client = createContentApiClient({
     baseUrl: "https://cms.example.com/",
@@ -77,11 +69,11 @@ test("requests one filtered page with cache tags and revalidation", async () => 
   const { url, init } = calls[0];
   assert.equal(
     url.origin + url.pathname,
-    "https://cms.example.com/api/public/v1/events",
+    "https://cms.example.com/api/public/v1/event-cards",
   );
   assert.deepEqual(Object.fromEntries(url.searchParams), {
     city: "all",
-    limit: "24",
+    limit: "20",
     sort: "startsAt",
     q: "ai",
     free: "true",
@@ -126,12 +118,48 @@ test("follows cursor pagination until nextCursor is null", async () => {
   assert.deepEqual(slugs, ["a", "b", "c"]);
 });
 
+test("shows only events that have not started and advances past ongoing-only pages", async () => {
+  const pages = {
+    "": {
+      data: [
+        event({
+          slug: "ongoing",
+          startsAt: "2020-01-01T00:00:00.000Z",
+          endsAt: "2099-12-31T00:00:00.000Z",
+        }),
+      ],
+      nextCursor: "p2",
+    },
+    p2: {
+      data: [event({ slug: "future", startsAt: "2099-01-01T00:00:00.000Z" })],
+      nextCursor: null,
+    },
+  };
+  const { calls, fetcher } = simulatedFetcher((url) =>
+    json({
+      ...pages[url.searchParams.get("cursor") ?? ""],
+      meta: { limit: 20 },
+    }),
+  );
+
+  const page = await createContentApiClient({ fetcher }).getEvents({
+    filters: DEFAULT_EVENT_FILTERS,
+  });
+
+  assert.deepEqual(
+    page.events.map((item) => item.slug),
+    ["future"],
+  );
+  assert.equal(page.nextCursor, null);
+  assert.equal(calls.length, 2);
+});
+
 test("skips contract-violating items and reports how many", async () => {
   const { fetcher } = simulatedFetcher(() =>
     json({
       data: [event(), { slug: "broken" }, "junk"],
       nextCursor: null,
-      meta: { limit: 24 },
+      meta: { limit: 20 },
     }),
   );
   const page = await createContentApiClient({ fetcher }).getEvents({
@@ -183,7 +211,7 @@ test("turns HTTP failures into redacted ContentApiError values", async () => {
       error.status === 429 &&
       error.code === "rate_limited" &&
       error.requestId === "req-1" &&
-      error.endpoint === "listEvents",
+      error.endpoint === "listEventCards",
   );
 });
 

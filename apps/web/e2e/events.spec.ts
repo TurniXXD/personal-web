@@ -42,12 +42,36 @@ test("listing shows a three-column grid and paginates with filters", async ({
   expect(href.searchParams.get("category")).toBe("networking");
   expect(href.searchParams.get("cursor")).toBeTruthy();
 
+  // The next page appends below the current cards without navigating.
+  await next.scrollIntoViewIfNeeded();
+  const scrollBefore = await page.evaluate(() => window.scrollY);
+  expect(scrollBefore).toBeGreaterThan(0);
   await next.click();
-  await expect(page).toHaveURL(/category=networking.*cursor=/);
-  await expect(page.locator("[data-event-card]")).toHaveCount(2);
+  // 26 networking events at 20 per page leave 6 for the second page.
+  await expect(page.locator("[data-event-card]")).toHaveCount(26);
+  await expect(page).toHaveURL(/\/akce\?category=networking$/);
   await expect(page.locator("[data-event-card]").first()).toContainText(
-    "Networking Brno #25",
+    "Networking Brno #1",
   );
+  await expect(page.locator("[data-event-card]").nth(20)).toContainText(
+    "Networking Brno #21",
+  );
+  expect(await page.evaluate(() => window.scrollY)).toBeGreaterThanOrEqual(
+    scrollBefore - 1,
+  );
+  await expect(page.locator("[data-events-count]")).toHaveAttribute(
+    "data-events-count",
+    "26",
+  );
+  // The last page removes the button and continues on the first new card.
+  await expect(next).toHaveCount(0);
+  await expect(
+    page.locator("[data-event-card]").nth(20).locator("[data-event-card-link]"),
+  ).toBeFocused();
+
+  // Without the click handler the link still paginates by URL.
+  await page.goto(href.pathname + href.search);
+  await expect(page.locator("[data-event-card]")).toHaveCount(6);
 });
 
 test("free food filter combines with other filters and keeps unknown food visible when off", async ({
@@ -375,6 +399,14 @@ test("listing cards keep only the title and show an icon-only calendar action", 
   expect(
     Math.abs(action!.y + action!.height / 2 - (price!.y + price!.height / 2)),
   ).toBeLessThan(8);
+  // Free food sits beside the price badge, before the calendar action.
+  const food = await card.locator("[data-free-food-badge]").boundingBox();
+  expect(food).not.toBeNull();
+  expect(food!.x).toBeGreaterThan(price!.x + price!.width);
+  expect(action!.x).toBeGreaterThan(food!.x + food!.width);
+  expect(
+    Math.abs(food!.y + food!.height / 2 - (price!.y + price!.height / 2)),
+  ).toBeLessThan(4);
   await expect(page.getByText("Přehled akcí připravuje")).toHaveCount(0);
 
   await card.hover();

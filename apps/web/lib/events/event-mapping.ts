@@ -92,7 +92,6 @@ export const mapCmsEvent = (raw: unknown): EventItem | null => {
     slug,
     title,
     summary: text(raw.summary),
-    description: text(raw.description),
     startsAt,
     endsAt,
     timezone: toValidTimeZone(raw.timezone),
@@ -100,10 +99,6 @@ export const mapCmsEvent = (raw: unknown): EventItem | null => {
     venueName: text(raw.venueName),
     address: text(raw.address),
     category: text(raw.category) ?? "",
-    tags: Array.isArray(raw.tags)
-      ? raw.tags.flatMap((tag) => text(tag) ?? [])
-      : [],
-    organizerName: text(raw.organizerName),
     sourceUrl: toSafeHttpUrl(raw.sourceUrl),
     registrationUrl: toSafeHttpUrl(raw.registrationUrl),
     imageUrl: toSafeHttpUrl(raw.imageUrl),
@@ -111,10 +106,7 @@ export const mapCmsEvent = (raw: unknown): EventItem | null => {
     price: finiteNumber(raw.price),
     currency: text(raw.currency)?.toUpperCase() ?? null,
     freeFood: oneOf(raw.freeFood, FREE_FOOD_VALUES, "unknown"),
-    foodDetails: text(raw.foodDetails),
     status: oneOf(raw.status, EVENT_STATUSES, "scheduled"),
-    featured: raw.featured === true,
-    updatedAt: toValidIsoDate(raw.updatedAt),
   };
 };
 
