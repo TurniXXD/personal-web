@@ -288,6 +288,12 @@
   cursor: pointer;
 }
 
+/* A stored choice hides the prerendered banner before hydration (see
+   lib/site/cookie-consent.ts). */
+html[data-cookie-consent-saved] .cookie-consent {
+  display: none;
+}
+
 .cookie-consent {
   position: fixed;
   z-index: 1000;

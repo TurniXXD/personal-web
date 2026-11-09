@@ -7,6 +7,7 @@ import { CookieConsent } from "@/components/layout/cookie-consent";
 import { CardPeekRobot } from "@/components/shared/card-peek-robot";
 import { routing } from "@/i18n/routing";
 import { copy } from "@/lib/site/content";
+import { cookieConsentBootScript } from "@/lib/site/cookie-consent";
 import { SITE_ORIGIN } from "@/lib/site/routes";
 import "@fontsource-variable/sora";
 import "@fontsource/ibm-plex-mono/400.css";
@@ -67,7 +68,10 @@ export default async function LocaleLayout({
   setRequestLocale(locale);
 
   return (
-    <html lang={locale} data-scroll-behavior="smooth">
+    <html lang={locale} data-scroll-behavior="smooth" suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: cookieConsentBootScript }} />
+      </head>
       <body>
         <NextIntlClientProvider>
           {children}

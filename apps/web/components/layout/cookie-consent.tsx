@@ -3,10 +3,13 @@
 import { useEffect, useLayoutEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import { localizedPath, type Locale } from "@/lib/site/content";
+import {
+  COOKIE_CONSENT_LIFETIME_MS as consentLifetime,
+  COOKIE_CONSENT_SAVED_ATTRIBUTE,
+  COOKIE_CONSENT_STORAGE_KEY as storageKey,
+} from "@/lib/site/cookie-consent";
 
-const storageKey = "vantuch_cookie_consent_v1";
 const openEvent = "vantuch:open-cookie-preferences";
-const consentLifetime = 180 * 24 * 60 * 60 * 1000;
 type Consent = "accepted" | "rejected";
 
 type CookieConsentProps = {
@@ -98,6 +101,9 @@ export function CookieConsent({
     const initial = readConsent();
     setConsent(initial);
     setOpen(initial === null);
+    // React state owns visibility from here on, so the preferences button can
+    // reopen the banner. Removing the pre-paint flag happens in the same frame.
+    document.documentElement.removeAttribute(COOKIE_CONSENT_SAVED_ATTRIBUTE);
   }, []);
 
   useEffect(() => {
