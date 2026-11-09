@@ -17,14 +17,20 @@ test("confirmation email addresses the sender in their language and escapes HTML
   );
   assert.ok(confirmation, "confirmation email builder must exist");
 
-  const cs = confirmation.buildContactConfirmation("cs", "Eva <Nováková>");
+  const cs = confirmation.buildContactConfirmation(
+    "cs",
+    "Eva <Nováková>",
+    "Řádek 1\n<b>Řádek 2</b>",
+  );
   assert.equal(cs.subject, "Potvrzení přijetí zprávy");
   assert.match(cs.text, /Dobrý den, Eva <Nováková>/);
   assert.match(cs.text, /Ozvu se vám co nejdříve/);
+  assert.match(cs.text, /Vaše zpráva:\nŘádek 1\n<b>Řádek 2<\/b>/);
   assert.match(cs.html, /Eva &lt;Nováková&gt;/);
   assert.doesNotMatch(cs.html, /Eva <Nováková>/);
+  assert.match(cs.html, /Řádek 1<br \/>&lt;b&gt;Řádek 2&lt;\/b&gt;/);
 
-  const en = confirmation.buildContactConfirmation("en", "Alex");
+  const en = confirmation.buildContactConfirmation("en", "Alex", "Hi");
   assert.equal(en.subject, "Your message has arrived");
   assert.match(en.text, /Hello Alex/);
   assert.match(en.html, /I&#39;ll get back to you soon/);

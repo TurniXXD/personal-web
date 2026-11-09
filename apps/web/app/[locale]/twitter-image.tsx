@@ -1,9 +1,17 @@
+import { hasLocale } from "next-intl";
+import { notFound } from "next/navigation";
+
+import { routing } from "@/i18n/routing";
 import { createSocialImage, socialImageSize } from "@/lib/site/social-image";
 
 export const alt = "Jakub Vantuch — Digital Solutions Consultant";
 export const size = socialImageSize;
 export const contentType = "image/png";
 
-export default function TwitterImage() {
-  return createSocialImage();
+type TwitterImageProps = { params: Promise<{ locale: string }> };
+
+export default async function TwitterImage({ params }: TwitterImageProps) {
+  const { locale } = await params;
+  if (!hasLocale(routing.locales, locale)) notFound();
+  return createSocialImage(locale);
 }

@@ -6,6 +6,7 @@ export const contactConfirmationCopy = {
     preheader: "Děkuji za zprávu přes vantuch.dev.",
     greeting: "Dobrý den,",
     received: "děkuji za zprávu. Vaše poptávka mi dorazila.",
+    messageLabel: "Vaše zpráva",
     reply: "Ozvu se vám co nejdříve.",
     footer:
       "Tento e-mail potvrzuje odeslání kontaktního formuláře na vantuch.dev.",
@@ -15,6 +16,7 @@ export const contactConfirmationCopy = {
     preheader: "Thanks for getting in touch through vantuch.dev.",
     greeting: "Hello",
     received: "thanks for your message. Your enquiry has reached me.",
+    messageLabel: "Your message",
     reply: "I'll get back to you soon.",
     footer: "This email confirms a contact form submission on vantuch.dev.",
   },

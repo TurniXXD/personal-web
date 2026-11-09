@@ -252,10 +252,14 @@ export async function POST(request: Request) {
       });
     }
 
-    const confirmation = buildContactConfirmation(locale, input.name);
+    const confirmation = buildContactConfirmation(
+      locale,
+      input.name,
+      input.message,
+    );
     const confirmationTemplate = resendTemplate(
       locale === "cs" ? "contactConfirmationCs" : "contactConfirmationEn",
-      { NAME: input.name },
+      { NAME: input.name, MESSAGE: input.message },
     );
     try {
       const result = await resend.emails.send(
