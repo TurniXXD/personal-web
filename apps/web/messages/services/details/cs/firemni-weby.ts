@@ -22,7 +22,7 @@ export default {
   },
   benefits: {
     eyebrow: "PŘÍNOS PRO FIRMU",
-    title: "Profesionální prezentace, která má jasný obchodní cíl.",
+    title: "Prezentace s jasným obchodním cílem.",
     description:
       "Web nestavím jen jako vizitku. Struktura, obsah i kontaktní cesta vycházejí z toho, koho chcete oslovit.",
     items: [
@@ -87,16 +87,12 @@ export default {
           description:
             "Kontaktní nebo rezervační cesta napojená na vaše procesy.",
         },
-        {
-          title: "Redakční systém",
-          description: "Úprava obsahu, médií a služeb s odpovídajícími rolemi.",
-        },
       ],
     },
   ],
   useCases: {
     eyebrow: "PŘÍKLADY VYUŽITÍ",
-    title: "Web navržený podle konkrétního způsobu podnikání.",
+    title: "Web podle vašeho podnikání.",
     description:
       "Rozsah se může pohybovat od menší prezentace po obsahově rozsáhlý web.",
     items: [
@@ -146,7 +142,7 @@ export default {
   related: ["shoptet", "webove-aplikace-na-miru"],
   finalCta: {
     eyebrow: "POJĎME TO PROBRAT",
-    title: "Potřebujete web, který jasně vysvětlí vaši nabídku?",
+    title: "Potřebujete srozumitelný web?",
     description:
       "Napište mi, co má web splnit, komu slouží a co dnes nefunguje. Navrhnu další postup od struktury po spuštění.",
     action: "Probrat firemní web",

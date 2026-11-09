@@ -69,7 +69,7 @@ test("web applications service page presents real work and contact flow", async 
         line.getBoundingClientRect().bottom,
     };
   });
-  expect(dividerPosition?.spaceAbove).toBeGreaterThan(80);
+  expect(dividerPosition?.spaceAbove).toBeGreaterThan(32);
   expect(dividerPosition?.spaceBelow).toBeLessThan(1);
   await expect(
     page.locator(".service-hero + .service-pipeline-divider"),
@@ -116,7 +116,7 @@ test("related solutions keep the data line at their end on mobile and in English
     };
   });
 
-  expect(positions?.spaceAbove).toBeGreaterThan(60);
+  expect(positions?.spaceAbove).toBeGreaterThan(24);
   expect(positions?.spaceBelow).toBeLessThan(1);
   expect(
     await page.evaluate(
@@ -392,7 +392,7 @@ test("loyalty programme page omits the interactive card demo", async ({
 
   await page.setViewportSize({ width: 390, height: 844 });
   await expect(page.locator("#administrace .service-detail-card")).toHaveCount(
-    4,
+    1,
   );
   await expect(
     page.getByRole("heading", { name: "Opravy a audit" }),

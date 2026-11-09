@@ -2,6 +2,10 @@
 .service-detail-workflow {
   background: #f7f8ff;
 }
+/* The pipeline divider follows directly, so keep the line close to the steps. */
+.section.service-detail-workflow {
+  padding-bottom: clamp(2rem, 3.5vw, 3rem);
+}
 .service-detail-workflow__grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));

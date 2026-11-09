@@ -71,6 +71,7 @@ export default {
   sections: [
     {
       id: "moznosti",
+      itemLimit: 3,
       eyebrow: "CO LZE ŘEŠIT",
       title: "Vzhled, obsah i provozní návaznosti.",
       items: [

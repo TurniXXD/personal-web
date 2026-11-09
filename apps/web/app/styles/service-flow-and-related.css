@@ -214,7 +214,7 @@
   padding-bottom: 0;
 }
 .service-related--with-divider .service-related__layout {
-  padding-bottom: clamp(7rem, 10vw, 10rem);
+  padding-bottom: clamp(2.5rem, 4vw, 4rem);
 }
 .service-related--with-divider .service-pipeline-divider {
   background: #fff;
@@ -276,6 +276,47 @@
   line-height: 1.35;
   letter-spacing: -0.035em;
 }
+.service-related__points {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+  gap: 0.55rem 1.2rem;
+  margin: 0.9rem 0 0;
+  padding: 1rem 0 0;
+  border-top: 1px solid #e6e9fb;
+  list-style: none;
+}
+.service-related__links .service-related__points li {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #3c4668;
+  font-size: 0.78rem;
+}
+.service-related__points svg {
+  color: var(--brand);
+}
+.service-related--single .service-related__links a {
+  padding: clamp(1.4rem, 2.5vw, 2rem);
+}
+.service-related--single .service-related__links strong {
+  font-size: clamp(1.15rem, 1.6vw, 1.4rem);
+  letter-spacing: -0.03em;
+}
+.service-related--single .service-related__links small {
+  font-size: 0.85rem;
+}
+@media (min-width: 1025px) and (hover: hover) and (pointer: fine) {
+  .service-related__links
+    a:is(:hover, :focus-visible)
+    .service-related__points {
+    border-color: rgba(255, 255, 255, 0.24);
+  }
+  .service-related__links
+    a:is(:hover, :focus-visible)
+    :is(.service-related__points li, .service-related__points svg) {
+    color: #fff;
+  }
+}
 .service-related__note p {
   margin: 0.55rem 0 0;
   color: #687394;
@@ -327,7 +368,7 @@
 }
 @media (max-width: 600px) {
   .service-related--with-divider .service-related__layout {
-    padding-bottom: 5rem;
+    padding-bottom: 2rem;
   }
 }
 @media (max-width: 1000px) {

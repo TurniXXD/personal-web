@@ -44,9 +44,10 @@
 
 @media (max-width: 600px) {
   .service-pipeline-divider {
-    height: 3.25rem;
+    padding-bottom: 2rem;
   }
   .service-pipeline-divider svg {
+    height: 3.25rem;
     width: 170%;
     max-width: none;
     transform: translateX(-14%);

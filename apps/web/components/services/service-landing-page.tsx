@@ -11,6 +11,7 @@ import {
   MessagesSquare,
   Network,
   Settings2,
+  Check,
   ShieldCheck,
   Store,
   type LucideIcon,
@@ -252,13 +253,16 @@ export const ServiceLandingPage = ({
 
         {content.related && (
           <section
-            className={`section service-related${kind === "web" ? " service-related--with-divider" : ""}`}
+            className={`section service-related${kind === "web" ? " service-related--with-divider" : ""}${content.related.items.length === 1 ? " service-related--single" : ""}`}
             aria-labelledby="service-related-title"
           >
             <div className="site-container service-related__layout">
               <ScrollReveal className="service-section-heading">
                 <p className="eyebrow">{content.related.eyebrow}</p>
                 <h2 id="service-related-title">{content.related.title}</h2>
+                {content.related.description && (
+                  <p>{content.related.description}</p>
+                )}
               </ScrollReveal>
               <div className="service-related__content">
                 <ScrollReveal className="service-related__links" stagger>
@@ -273,6 +277,16 @@ export const ServiceLandingPage = ({
                       <span className="service-related__link-content">
                         <strong>{item.title}</strong>
                         <small>{item.description}</small>
+                        {item.points && (
+                          <ul className="service-related__points">
+                            {item.points.map((point) => (
+                              <li key={point}>
+                                <Check size={15} aria-hidden="true" />
+                                {point}
+                              </li>
+                            ))}
+                          </ul>
+                        )}
                         <span className="service-related__action">
                           {common("learnMore")}
                           <ArrowRight size={15} aria-hidden="true" />

@@ -71,6 +71,7 @@ export default {
   sections: [
     {
       id: "options",
+      itemLimit: 3,
       eyebrow: "WHAT CAN BE IMPROVED",
       title: "Design, content and operational links.",
       items: [

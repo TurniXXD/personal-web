@@ -149,26 +149,6 @@ export default {
       tone: "soft",
       items: [
         {
-          title: "Zákazníci a zůstatky",
-          description:
-            "Seznam zákazníků, aktuální stav a historie návštěv nebo transakcí.",
-        },
-        {
-          title: "Odměny a uplatnění",
-          description:
-            "Definice pravidel, dostupné odměny a historie jejich uplatnění.",
-        },
-        {
-          title: "Role zaměstnanců",
-          description:
-            "Každý pracovník má oprávnění odpovídající své činnosti.",
-        },
-        {
-          title: "Základní reporty",
-          description:
-            "Přehled aktivity programu bez slibování konkrétního obchodního výsledku.",
-        },
-        {
           title: "Ochrana před duplicitami",
           description:
             "Ověření omezuje dvojí připsání stejné návštěvy nebo odměny.",

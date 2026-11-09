@@ -88,11 +88,19 @@ export default {
   related: {
     eyebrow: "SOUVISEJÍCÍ SLUŽBA",
     title: "Už máte aplikaci vytvořenou pomocí AI?",
+    description:
+      "Prototyp často funguje na ukázku, ale před ostrým provozem potřebuje kontrolu. Projdu ho a připravím plán oprav.",
     items: [
       {
         title: "Audit AI aplikace",
         description:
           "Pomůžu vám ji zkontrolovat, dokončit a připravit na produkci.",
+        points: [
+          "Bezpečnost aplikace",
+          "Data a soukromí",
+          "Kvalita kódu a architektura",
+          "Nasazení a infrastruktura",
+        ],
         href: "/sluzby/audit-ai-aplikaci",
       },
     ],

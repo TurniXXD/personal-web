@@ -28,7 +28,7 @@ export default {
   },
   benefits: {
     eyebrow: "BUSINESS VALUE",
-    title: "A professional presentation with a clear commercial purpose.",
+    title: "A presentation with a clear business goal.",
     description:
       "I do not treat the website as a digital brochure. Its structure, content and contact journey reflect the people you want to reach.",
     items: [
@@ -92,17 +92,12 @@ export default {
           description:
             "A contact or booking journey connected to your process.",
         },
-        {
-          title: "Content management",
-          description:
-            "Pages, media and services with appropriate editorial roles.",
-        },
       ],
     },
   ],
   useCases: {
     eyebrow: "REAL-WORLD EXAMPLES",
-    title: "A website designed around a specific business model.",
+    title: "A website built around your business.",
     description:
       "The scope can range from a focused presentation to a content-rich website.",
     items: [
@@ -151,7 +146,7 @@ export default {
   },
   finalCta: {
     eyebrow: "LET'S TALK",
-    title: "Need a website that explains your offer clearly?",
+    title: "Need a clearer website?",
     description:
       "Tell me what the website needs to achieve, who it serves and what is not working today. I’ll suggest the next step from structure to launch.",
     action: "Discuss your website",

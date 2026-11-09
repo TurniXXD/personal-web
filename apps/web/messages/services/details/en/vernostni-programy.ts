@@ -148,25 +148,6 @@ export default {
       tone: "soft",
       items: [
         {
-          title: "Customers and balances",
-          description:
-            "Customer list, current balance and visit or transaction history.",
-        },
-        {
-          title: "Rewards and redemption",
-          description: "Reward rules, availability and redemption history.",
-        },
-        {
-          title: "Staff roles",
-          description:
-            "Each employee receives permissions appropriate to their work.",
-        },
-        {
-          title: "Basic reporting",
-          description:
-            "Programme activity without promising a specific commercial outcome.",
-        },
-        {
           title: "Duplicate protection",
           description:
             "Validation limits repeated credit for the same visit or reward.",

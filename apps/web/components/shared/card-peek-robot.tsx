@@ -51,11 +51,24 @@ const isFirstEventCardOnPhone = (element: Element) =>
   window.innerWidth < 640 &&
   element.matches("[data-events-grid] > li:first-child [data-event-card]");
 
+/** The first row of automation examples sits right under the category filters. */
+const isFirstRowAutomationCard = (element: Element) => {
+  const grid = element.closest(".automation-catalog__grid");
+  const first = grid?.firstElementChild;
+  return (
+    first != null &&
+    Math.abs(
+      element.getBoundingClientRect().top - first.getBoundingClientRect().top,
+    ) < 12
+  );
+};
+
 const isUsableCard = (element: Element) => {
   const rect = element.getBoundingClientRect();
   return (
     element instanceof HTMLElement &&
     !isFirstEventCardOnPhone(element) &&
+    !isFirstRowAutomationCard(element) &&
     element.offsetParent !== null &&
     rect.width >= MIN_CARD_WIDTH &&
     rect.height >= 100

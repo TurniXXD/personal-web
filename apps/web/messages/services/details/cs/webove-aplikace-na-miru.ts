@@ -70,6 +70,7 @@ export default {
   sections: [
     {
       id: "funkce",
+      itemLimit: 3,
       eyebrow: "MOŽNOSTI ŘEŠENÍ",
       title: "Aplikace může růst spolu s vaším procesem.",
       items: [
@@ -96,29 +97,6 @@ export default {
       ],
     },
   ],
-  useCases: {
-    eyebrow: "PŘÍKLADY VYUŽITÍ",
-    title: "Když firma potřebuje vlastní pracovní prostředí.",
-    description:
-      "Každý příklad začíná mapováním skutečného procesu, ne seznamem funkcí.",
-    items: [
-      {
-        title: "Klientský portál",
-        description:
-          "Klient sleduje požadavky, dokumenty a postup bez e-mailového chaosu.",
-      },
-      {
-        title: "Interní agenda",
-        description:
-          "Tým spravuje případy, termíny a odpovědnosti v jednotném rozhraní.",
-      },
-      {
-        title: "Provozní přehled",
-        description:
-          "Vedení vidí stav práce a důležité výjimky bez ručního sestavování reportů.",
-      },
-    ],
-  },
   faq: {
     eyebrow: "ČASTÉ DOTAZY",
     title: "Než začneme vyvíjet.",

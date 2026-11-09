@@ -39,7 +39,7 @@
   max-width: 13ch;
   margin: 1.2rem 0 1.55rem;
   font-size: clamp(3.5rem, 5.8vw, 6.3rem);
-  line-height: 0.99;
+  line-height: 1.12;
   letter-spacing: -0.075em;
 }
 .automation-page-hero h1 span {
@@ -258,7 +258,7 @@
   max-width: 14ch;
   margin: 0;
   font-size: clamp(2.85rem, 5vw, 4.75rem);
-  line-height: 1.04;
+  line-height: 1.12;
   letter-spacing: -0.072em;
 }
 .service-hero__description {

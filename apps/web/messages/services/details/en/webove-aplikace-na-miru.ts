@@ -72,6 +72,7 @@ export default {
   sections: [
     {
       id: "features",
+      itemLimit: 3,
       eyebrow: "SOLUTION OPTIONS",
       title: "The application can grow with your process.",
       items: [
@@ -97,29 +98,6 @@ export default {
       ],
     },
   ],
-  useCases: {
-    eyebrow: "REAL-WORLD EXAMPLES",
-    title: "When a business needs its own working environment.",
-    description:
-      "Every example starts with the actual process, not a feature list.",
-    items: [
-      {
-        title: "Customer portal",
-        description:
-          "Customers follow requests and documents without email chaos.",
-      },
-      {
-        title: "Internal casework",
-        description:
-          "The team manages cases, deadlines and responsibilities in one interface.",
-      },
-      {
-        title: "Operations dashboard",
-        description:
-          "Management sees work status and exceptions without manual reporting.",
-      },
-    ],
-  },
   faq: {
     eyebrow: "FREQUENTLY ASKED QUESTIONS",
     title: "Before development starts.",

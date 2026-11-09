@@ -110,7 +110,8 @@
 
 /* Service detail pages */
 .service-pipeline-divider {
-  height: clamp(3.5rem, 7vw, 6rem);
+  /* Breathing room between the line and the next section. */
+  padding-bottom: clamp(2.5rem, 5vw, 4.5rem);
   overflow: hidden;
   background: #fbfcff;
   pointer-events: none;
@@ -118,7 +119,7 @@
 .service-pipeline-divider svg {
   display: block;
   width: 100%;
-  height: 100%;
+  height: clamp(3.5rem, 7vw, 6rem);
 }
 .service-pipeline-divider path {
   fill: none;
@@ -215,7 +216,7 @@
   margin: 1.15rem 0 0;
   color: var(--navy);
   font-size: clamp(3rem, 5.9vw, 6rem);
-  line-height: 0.98;
+  line-height: 1.12;
   letter-spacing: -0.075em;
 }
 .service-detail-hero__content h1 > span {
@@ -225,8 +226,8 @@
 .service-detail--audit-ai-aplikaci .service-detail-hero__content h1 {
   max-width: 17ch;
   font-size: clamp(2.8rem, 5vw, 5rem);
-  line-height: 1.02;
+  line-height: 1.12;
 }
 .service-detail--darkove-poukazy .service-detail-hero__content h1 {
-  line-height: 1.08;
+  line-height: 1.12;
 }

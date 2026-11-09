@@ -17,9 +17,11 @@ test("signed referral lookup shows attribution without exposing referrer details
   await page.goto("/?ref=example-token");
   const form = page.locator(".contact-form");
   await expect(form.locator(".contact-form__referral")).toBeVisible();
-  // Attribution stores nothing on the device and drops the token from the URL.
+  // Attribution stores nothing on the device; the link stays shareable and
+  // lands the visitor on the contact form.
   expect(lookupBody).toEqual({ referralToken: "example-token" });
-  expect(new URL(page.url()).searchParams.has("ref")).toBe(false);
+  expect(new URL(page.url()).searchParams.get("ref")).toBe("example-token");
+  await expect(page.locator("#contact")).toBeInViewport();
   expect(
     (await context.cookies()).some((item) => item.name === "vantuch_referral"),
   ).toBe(false);

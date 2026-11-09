@@ -91,11 +91,19 @@ export default {
   related: {
     eyebrow: "RELATED SERVICE",
     title: "Have you already built an application with AI?",
+    description:
+      "A prototype often works for a demo but needs a review before real users. I go through it and prepare a plan of fixes.",
     items: [
       {
         title: "AI application audit",
         description:
           "I can review it, finish it and prepare it for production.",
+        points: [
+          "Application security",
+          "Data and privacy",
+          "Code quality and architecture",
+          "Deployment and infrastructure",
+        ],
         href: "/sluzby/audit-ai-aplikaci",
       },
     ],

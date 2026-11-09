@@ -102,21 +102,30 @@ function SubmissionFeedback({
 }
 
 let referralToken: string | null | undefined;
+let scrolledToReferralForm = false;
 
 /**
- * The `?ref` token of the landing URL, read once per page load and then removed
- * from the address bar so it is not shared or recorded. Nothing is stored on
- * the device, so attribution applies to forms sent from the landing page.
+ * The `?ref` token of the landing URL, read once per page load. It stays in the
+ * address bar so the recipient can reload or forward the link; nothing is
+ * stored on the device, and Sentry strips it from reported URLs.
  */
 function landingReferralToken() {
   if (referralToken !== undefined) return referralToken ?? undefined;
   const url = new URL(window.location.href);
   referralToken = url.searchParams.get("ref")?.trim() || null;
-  if (url.searchParams.has("ref")) {
-    url.searchParams.delete("ref");
-    window.history.replaceState(window.history.state, "", url);
-  }
   return referralToken ?? undefined;
+}
+
+/** A referral link lands on the contact form once per page load. */
+function scrollToReferralForm() {
+  if (scrolledToReferralForm || window.location.hash) return;
+  scrolledToReferralForm = true;
+  const reduceMotion = window.matchMedia(
+    "(prefers-reduced-motion: reduce)",
+  ).matches;
+  document
+    .getElementById("contact")
+    ?.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth" });
 }
 
 export function ContactForm({
@@ -143,6 +152,7 @@ export function ContactForm({
   useEffect(() => {
     const token = landingReferralToken();
     if (!token) return;
+    scrollToReferralForm();
     const controller = new AbortController();
     async function loadReferrer() {
       try {

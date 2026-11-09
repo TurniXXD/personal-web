@@ -39,6 +39,7 @@ type RelatedLink = {
   title: string;
   description: string;
   href: string;
+  points?: string[];
 };
 
 export type ServicePageCopy = {
@@ -82,6 +83,7 @@ export type ServicePageCopy = {
   related?: {
     eyebrow: string;
     title: string;
+    description?: string;
     note?: {
       title: string;
       description: string;
