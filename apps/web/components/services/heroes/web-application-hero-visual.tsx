@@ -1,5 +1,20 @@
 import styles from "./web-application-hero-visual.module.css";
 import { useTranslations } from "next-intl";
+import {
+  ArrowUpRight,
+  BarChart3,
+  ChevronDown,
+  Layers,
+  LayoutGrid,
+  Settings,
+} from "lucide-react";
+
+const metrics = ["activeUsers", "conversions", "timeSaved"] as const;
+
+// Ends at (592, 22); the live point is placed at the same spot in CSS.
+const chartLine =
+  "M8 128C59 128 59 80 110 80C150 80 150 102 190 102C245 102 245 48 300 48C340 48 340 82 380 82C425 82 425 52 470 52C500 52 500 58 530 58C561 58 561 22 592 22";
+
 export const WebApplicationHeroVisual = () => {
   const t = useTranslations("webApplicationVisual");
 
@@ -9,141 +24,93 @@ export const WebApplicationHeroVisual = () => {
       data-web-visual="animated-charts"
       aria-hidden="true"
     >
-      <div className={styles["web-visual__browser"]}>
-        <div className={styles["web-visual__bar"]}>
-          <span />
-          <span />
-          <span />
-          <div />
-        </div>
-        <div className={styles["web-visual__body"]}>
-          <div className={styles["web-visual__sidebar"]}>
-            <b />
-            <span />
+      <div className={styles["web-visual__stage"]}>
+        <div className={styles["web-visual__browser"]}>
+          <div className={styles["web-visual__bar"]}>
             <span />
             <span />
             <span />
           </div>
-          <div className={styles["web-visual__workspace"]}>
-            <div className={styles["web-visual__heading"]}>
-              <div>
-                <small>{t("eyebrow")}</small>
-                <strong>{t("title")}</strong>
-              </div>
-              <span className={styles["web-visual__live"]}>
-                <i /> LIVE
+          <div className={styles["web-visual__body"]}>
+            <div className={styles["web-visual__sidebar"]}>
+              <span data-active="true">
+                <LayoutGrid />
+              </span>
+              <span>
+                <BarChart3 />
+              </span>
+              <span>
+                <Layers />
+              </span>
+              <span>
+                <Settings />
               </span>
             </div>
-
-            <div className={styles["web-visual__metrics"]}>
-              <div
-                className={styles["web-visual__metric"]}
-                data-web-visual-part="metric"
-              >
-                <span>{t("visits")}</span>
-                <strong>24 680</strong>
-                <small>+18,4 %</small>
-                <svg viewBox="0 0 80 24" preserveAspectRatio="none">
-                  <path
-                    pathLength="1"
-                    d="M2 20 14 15 25 17 38 8 49 12 63 5 78 3"
-                  />
-                </svg>
+            <div className={styles["web-visual__workspace"]}>
+              <div className={styles["web-visual__heading"]}>
+                <div>
+                  <strong>{t("title")}</strong>
+                  <small>{t("subtitle")}</small>
+                </div>
+                <span className={styles["web-visual__range"]}>
+                  {t("range")} <ChevronDown />
+                </span>
               </div>
-              <div
-                className={styles["web-visual__metric"]}
-                data-web-visual-part="metric"
-              >
-                <span>{t("conversions")}</span>
-                <strong>7,8 %</strong>
-                <small>+2,1 %</small>
-                <svg viewBox="0 0 80 24" preserveAspectRatio="none">
-                  <path
-                    pathLength="1"
-                    d="M2 18 14 19 26 13 39 15 51 7 63 10 78 2"
-                  />
-                </svg>
-              </div>
-            </div>
 
-            <div className={styles["web-visual__charts"]}>
+              <div className={styles["web-visual__metrics"]}>
+                {metrics.map((metric) => (
+                  <div
+                    className={styles["web-visual__metric"]}
+                    data-web-visual-part="metric"
+                    key={metric}
+                  >
+                    <span>{t(`metrics.${metric}.label`)}</span>
+                    <strong>{t(`metrics.${metric}.value`)}</strong>
+                    <small data-web-visual-part="trend">
+                      <ArrowUpRight />
+                      {t(`metrics.${metric}.trend`)}
+                    </small>
+                  </div>
+                ))}
+              </div>
+
               <div
                 className={styles["web-visual__line-chart"]}
                 data-web-visual-part="line-chart"
               >
-                <div className={styles["web-visual__chart-heading"]}>
-                  <span>{t("activity")}</span>
-                  <strong>+24,8 %</strong>
-                </div>
-                <svg viewBox="0 0 320 132" preserveAspectRatio="none">
-                  <defs>
-                    <linearGradient
-                      id="web-chart-fill"
-                      x1="0"
-                      y1="0"
-                      x2="0"
-                      y2="1"
-                    >
-                      <stop offset="0" stopColor="#6977ff" stopOpacity="0.22" />
-                      <stop offset="1" stopColor="#6977ff" stopOpacity="0" />
-                    </linearGradient>
-                  </defs>
-                  <g className={styles["web-visual__chart-grid"]}>
-                    <path d="M0 22H320" />
-                    <path d="M0 54H320" />
-                    <path d="M0 86H320" />
-                    <path d="M0 118H320" />
-                  </g>
-                  <path
-                    className={styles["web-visual__chart-area"]}
-                    d="M0 112C25 106 42 96 64 99S101 75 126 78s43-28 67-20 37 20 62 1 42-33 65-41v114H0Z"
-                  />
-                  <path
-                    className={styles["web-visual__chart-line"]}
-                    data-web-visual-part="chart-line"
-                    pathLength="1"
-                    d="M0 112C25 106 42 96 64 99S101 75 126 78s43-28 67-20 37 20 62 1 42-33 65-41"
-                  />
-                  <g className={styles["web-visual__chart-points"]}>
-                    <circle cx="64" cy="99" r="3" />
-                    <circle cx="126" cy="78" r="3" />
-                    <circle cx="193" cy="58" r="3" />
-                    <circle cx="255" cy="59" r="3" />
-                    <circle cx="318" cy="19" r="3" />
-                  </g>
-                </svg>
-              </div>
-
-              <div className={styles["web-visual__chart-stack"]}>
-                <div
-                  className={styles["web-visual__donut-card"]}
-                  data-web-visual-part="donut-card"
-                >
-                  <svg viewBox="0 0 42 42">
-                    <circle cx="21" cy="21" r="16" pathLength="100" />
-                    <circle
-                      className={styles["web-visual__donut-value"]}
-                      cx="21"
-                      cy="21"
-                      r="16"
-                      pathLength="100"
+                <div className={styles["web-visual__plot"]}>
+                  <svg viewBox="0 0 600 150" preserveAspectRatio="none">
+                    <defs>
+                      <linearGradient
+                        id="web-chart-fill"
+                        x1="0"
+                        y1="0"
+                        x2="0"
+                        y2="1"
+                      >
+                        <stop
+                          offset="0"
+                          stopColor="#5b62f0"
+                          stopOpacity="0.24"
+                        />
+                        <stop offset="1" stopColor="#5b62f0" stopOpacity="0" />
+                      </linearGradient>
+                    </defs>
+                    <path
+                      className={styles["web-visual__chart-area"]}
+                      d={`${chartLine}V150H8Z`}
+                    />
+                    <path
+                      className={styles["web-visual__chart-line"]}
+                      data-web-visual-part="chart-line"
+                      pathLength="1"
+                      d={chartLine}
                     />
                   </svg>
-                  <span>
-                    <strong>76 %</strong>
-                    <small>{t("complete")}</small>
-                  </span>
-                </div>
-                <div
-                  className={styles["web-visual__bars"]}
-                  data-web-visual-part="bars"
-                >
-                  <span />
-                  <span />
-                  <span />
-                  <span />
-                  <span />
-                  <span />
+                  <span
+                    className={styles["web-visual__chart-point"]}
+                    data-web-visual-part="chart-point"
+                  />
                 </div>
               </div>
             </div>

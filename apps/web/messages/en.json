@@ -81,12 +81,26 @@
     "action": "Back to home"
   },
   "webApplicationVisual": {
-    "eyebrow": "ANALYTICS OVERVIEW",
-    "title": "Results in one place",
-    "visits": "Visits",
-    "conversions": "Conversions",
-    "activity": "User activity",
-    "complete": "complete"
+    "title": "Overview",
+    "subtitle": "Everything important in one place.",
+    "range": "Last 30 days",
+    "metrics": {
+      "activeUsers": {
+        "label": "Active users",
+        "value": "12.5k",
+        "trend": "+24%"
+      },
+      "conversions": {
+        "label": "Conversions",
+        "value": "8.4%",
+        "trend": "+36%"
+      },
+      "timeSaved": {
+        "label": "Time saved",
+        "value": "120 h",
+        "trend": "+52%"
+      }
+    }
   },
   "aiHeroVisual": {
     "inputs": "Inputs",
@@ -344,8 +358,8 @@
     },
     "cta": {
       "eyebrow": "Want something similar?",
-      "title": "This page is a showcase of what I can build",
-      "description": "A bot that collects events on its own, a CMS with an API, and a fast website on top. If you want a similar solution for your field or business, write to me using the form below.",
+      "title": "What if a similar bot worked for you too?",
+      "description": "This website automatically collects and processes information about events. I can build a similar solution for you – whether you need to track events, collect data, automate processes, or build your own application.",
       "topic": "A solution like the Events page"
     }
   },

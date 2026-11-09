@@ -81,12 +81,26 @@
     "action": "Zpět na úvod"
   },
   "webApplicationVisual": {
-    "eyebrow": "ANALYTICKÝ PŘEHLED",
-    "title": "Výsledky na jednom místě",
-    "visits": "Návštěvy",
-    "conversions": "Konverze",
-    "activity": "Aktivita uživatelů",
-    "complete": "splněno"
+    "title": "Přehled",
+    "subtitle": "Vše důležité na jednom místě.",
+    "range": "Posledních 30 dní",
+    "metrics": {
+      "activeUsers": {
+        "label": "Aktivní uživatelé",
+        "value": "12,5 tis.",
+        "trend": "+24 %"
+      },
+      "conversions": {
+        "label": "Konverze",
+        "value": "8,4 %",
+        "trend": "+36 %"
+      },
+      "timeSaved": {
+        "label": "Ušetřený čas",
+        "value": "120 h",
+        "trend": "+52 %"
+      }
+    }
   },
   "aiHeroVisual": {
     "inputs": "Vstupy",
@@ -344,8 +358,8 @@
     },
     "cta": {
       "eyebrow": "Chcete něco podobného?",
-      "title": "Tahle stránka je ukázka toho, co umím postavit",
-      "description": "Bot, který sám sbírá akce, CMS s API a rychlý web nad tím. Pokud chcete podobné řešení pro svůj obor nebo firmu, napište mi přes formulář níže.",
+      "title": "Co kdyby podobný bot pracoval i pro vás?",
+      "description": "Tento web automaticky sbírá a zpracovává informace o akcích. Podobné řešení můžu vytvořit i pro vás – ať už potřebujete sledovat události, sbírat data, automatizovat procesy nebo postavit vlastní aplikaci.",
       "topic": "Řešení podobné stránce Akce"
     }
   },

@@ -159,17 +159,16 @@ test("web application hero presents animated analytics charts", async ({
 
   const visual = page.locator('[data-web-visual="animated-charts"]');
   await expect(visual.locator('[data-web-visual-part="metric"]')).toHaveCount(
-    2,
+    3,
   );
+  await expect(visual.locator('[data-web-visual-part="metric"]')).toHaveText([
+    /Aktivní uživatelé/,
+    /Konverze/,
+    /Ušetřený čas/,
+  ]);
   await expect(
     visual.locator('[data-web-visual-part="line-chart"]'),
   ).toHaveCount(1);
-  await expect(
-    visual.locator('[data-web-visual-part="donut-card"]'),
-  ).toHaveCount(1);
-  await expect(
-    visual.locator('[data-web-visual-part="bars"] > span'),
-  ).toHaveCount(6);
   await expect(
     visual.locator('[data-web-visual-part="chart-line"]'),
   ).not.toHaveCSS("animation-name", "none");
@@ -178,10 +177,7 @@ test("web application hero presents animated analytics charts", async ({
     "infinite",
   );
   await expect(
-    visual.locator('[data-web-visual-part="bars"] > span').first(),
-  ).not.toHaveCSS("animation-name", "none");
-  await expect(
-    visual.locator('[data-web-visual-part="bars"] > span').first(),
+    visual.locator('[data-web-visual-part="chart-point"]'),
   ).toHaveCSS("animation-iteration-count", "infinite");
   await expect(visual).not.toHaveAttribute("data-scroll-progress");
   await expect(visual.locator("[data-web-visual-tile]")).toHaveCount(0);
@@ -195,7 +191,8 @@ test("web application charts respect reduced motion", async ({ page }) => {
     "animation-name",
     "none",
   );
-  await expect(
-    page.locator('[data-web-visual-part="bars"] > span').first(),
-  ).toHaveCSS("transform", "none");
+  await expect(page.locator('[data-web-visual-part="chart-point"]')).toHaveCSS(
+    "opacity",
+    "1",
+  );
 });
