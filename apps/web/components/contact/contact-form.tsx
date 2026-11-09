@@ -205,6 +205,7 @@ export function ContactForm({
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           ...input,
+          locale,
           fax: fieldValue(data, "fax"),
           submissionId: submissionId.current,
           turnstileToken,

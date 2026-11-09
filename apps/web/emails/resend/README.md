@@ -9,23 +9,29 @@ Apple Mail.
 
 1. Resend → **Templates** → **Create template** → switch the editor to HTML.
 2. Paste the whole file content.
-3. Declare the variables listed below (Resend uses `{{{VARIABLE}}}`).
+3. Declare the variables listed below (Resend uses `{{{VARIABLE}}}`;
+   `EMAIL` is reserved by Resend, hence `SENDER_EMAIL`).
 4. Fill in the subject from the table.
+5. Publish the template and store its ID in the environment variable from
+   the table (`.env.example` and the Vercel project).
 
-Optional fields still render their row, so send `—` instead of an empty
-string when a value is missing.
+The routes escape every value and send `—` for empty optional fields
+(`lib/integrations/resend-templates.ts`). They also send the subject
+themselves, which overrides the template subject. When a template ID is not
+set, the route keeps sending its inline HTML email.
 
-| File                        | Subject                           | Variables                                                                                                 |
-| --------------------------- | --------------------------------- | --------------------------------------------------------------------------------------------------------- |
-| `contact-notification.html` | `New website contact: {{{NAME}}}` | `NAME`, `EMAIL`, `PHONE`, `REQUEST_TYPE`, `REQUESTED_SERVICE`, `SOURCE_PAGE`, `REFERRER_EMAIL`, `MESSAGE` |
-| `partnership-inquiry.html`  | `Partnership enquiry: {{{NAME}}}` | `NAME`, `EMAIL`, `COMPANY`, `MESSAGE`                                                                     |
-| `referral-link.cs.html`     | `Váš osobní doporučovací odkaz`   | `NAME`, `REFERRAL_URL`                                                                                    |
-| `referral-link.en.html`     | `Your personal referral link`     | `NAME`, `REFERRAL_URL`                                                                                    |
+| File                           | Environment variable                         | Subject                           | Variables                                                                                                        |
+| ------------------------------ | -------------------------------------------- | --------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
+| `contact-notification.html`    | `RESEND_TEMPLATE_CONTACT_NOTIFICATION_ID`    | `New website contact: {{{NAME}}}` | `NAME`, `SENDER_EMAIL`, `PHONE`, `REQUEST_TYPE`, `REQUESTED_SERVICE`, `SOURCE_PAGE`, `REFERRER_EMAIL`, `MESSAGE` |
+| `contact-confirmation.cs.html` | `RESEND_TEMPLATE_CONTACT_CONFIRMATION_CS_ID` | `Potvrzení přijetí zprávy`        | `NAME`                                                                                                           |
+| `contact-confirmation.en.html` | `RESEND_TEMPLATE_CONTACT_CONFIRMATION_EN_ID` | `Your message has arrived`        | `NAME`                                                                                                           |
+| `partnership-inquiry.html`     | `RESEND_TEMPLATE_PARTNERSHIP_INQUIRY_ID`     | `Partnership enquiry: {{{NAME}}}` | `NAME`, `SENDER_EMAIL`, `COMPANY`, `MESSAGE`                                                                     |
+| `referral-link.cs.html`        | `RESEND_TEMPLATE_REFERRAL_LINK_CS_ID`        | `Váš osobní doporučovací odkaz`   | `NAME`, `REFERRAL_URL`                                                                                           |
+| `referral-link.en.html`        | `RESEND_TEMPLATE_REFERRAL_LINK_EN_ID`        | `Your personal referral link`     | `NAME`, `REFERRAL_URL`                                                                                           |
 
-The copy mirrors the emails sent today by `app/api/contact/route.ts` and
-`app/api/referral-request/route.ts` (and `messages/referrals/email.ts`).
-Those routes still send their own inline HTML; switching them to Resend
-templates is a separate change.
+The copy mirrors the inline emails in `app/api/contact/route.ts`,
+`app/api/referral-request/route.ts`, `messages/contact/email.ts` and
+`messages/referrals/email.ts`.
 
 Keep these files out of Prettier (see the root `.prettierignore`): the
 message box uses `white-space: pre-line`, so reflowed markup would add

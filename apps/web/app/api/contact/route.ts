@@ -2,9 +2,11 @@ import { Resend } from "resend";
 import { randomUUID } from "node:crypto";
 import { apiErrorResponse } from "@/lib/api/error-response";
 import {
+  readContactLocale,
   readContactRequestContext,
   validateContactInput,
 } from "@/lib/contact/submission";
+import { buildContactConfirmation } from "@/lib/contact/confirmation-email";
 import { readReferralToken } from "@/lib/referrals/token";
 import { resolveContactReferral } from "@/lib/referrals/contact-attribution";
 import { rateLimit } from "@/lib/api/rate-limit";
@@ -14,6 +16,7 @@ import {
   twentyErrorContext,
   twentyErrorTags,
 } from "@/lib/integrations/twenty";
+import { resendTemplate } from "@/lib/integrations/resend-templates";
 import { verifyTurnstile } from "@/lib/contact/turnstile";
 import { sentryLogger } from "@/lib/observability/sentry-logger";
 
@@ -64,6 +67,7 @@ export async function POST(request: Request) {
   }
 
   const { input, errors } = validateContactInput(body);
+  const locale = readContactLocale(body);
   const requestContext = readContactRequestContext(body);
   if (Object.keys(errors).length > 0) {
     return apiErrorResponse({
@@ -187,6 +191,17 @@ export async function POST(request: Request) {
     )
     .join("")}</dl>`;
 
+  const template = resendTemplate("contactNotification", {
+    NAME: input.name,
+    SENDER_EMAIL: input.email,
+    PHONE: input.phone,
+    REQUEST_TYPE: requestContext.type ?? "",
+    REQUESTED_SERVICE: requestContext.subject ?? "",
+    SOURCE_PAGE: requestContext.sourcePath ?? "",
+    REFERRER_EMAIL: referrer?.emails?.primaryEmail ?? "",
+    MESSAGE: input.message,
+  });
+
   try {
     const resend = new Resend(apiKey);
     const subjectName = input.name.replaceAll(/[\r\n]+/g, " ");
@@ -196,8 +211,7 @@ export async function POST(request: Request) {
         to: [process.env.RESEND_TO_EMAIL ?? siteConfig.contact.email],
         replyTo: input.email,
         subject: `New website contact: ${subjectName}`,
-        text,
-        html,
+        ...(template ? { template } : { text, html }),
       },
       { idempotencyKey: `web-contact/${submissionId}` },
     );
@@ -209,6 +223,36 @@ export async function POST(request: Request) {
         endpoint,
         message: "Contact email delivery failed",
         error: new Error("Resend rejected contact email delivery"),
+      });
+    }
+
+    const confirmation = buildContactConfirmation(locale, input.name);
+    const confirmationTemplate = resendTemplate(
+      locale === "cs" ? "contactConfirmationCs" : "contactConfirmationEn",
+      { NAME: input.name },
+    );
+    try {
+      const result = await resend.emails.send(
+        {
+          from: process.env.RESEND_FROM_EMAIL ?? defaultFrom,
+          to: [input.email],
+          replyTo: siteConfig.contact.email,
+          ...(confirmationTemplate
+            ? { subject: confirmation.subject, template: confirmationTemplate }
+            : confirmation),
+        },
+        { idempotencyKey: `web-contact-confirmation/${submissionId}` },
+      );
+      if (result.error) throw new Error("Resend rejected contact confirmation");
+    } catch {
+      // The enquiry was saved and the owner was notified. A retry would
+      // duplicate the submission, so report the confirmation failure only.
+      sentryLogger({
+        type: "warning",
+        message: "Contact confirmation email delivery failed",
+        context: { endpoint },
+        tags: { endpoint, operation: "contact-confirmation" },
+        fingerprint: ["contact", "confirmation-delivery"],
       });
     }
   } catch (error) {

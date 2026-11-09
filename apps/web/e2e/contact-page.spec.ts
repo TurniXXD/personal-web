@@ -71,6 +71,7 @@ test("contact form validates and sends only contact details", async ({
     expect(payload).toMatchObject({
       name: "Jakub Vantuch",
       email: "hello@vantuch.dev",
+      locale: "cs",
       phone: "+420 735 023 812",
       message: "Potřebuji nový firemní web.",
       request: {

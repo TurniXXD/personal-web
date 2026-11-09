@@ -12,6 +12,7 @@ import {
   twentyErrorContext,
   twentyErrorTags,
 } from "@/lib/integrations/twenty";
+import { resendTemplate } from "@/lib/integrations/resend-templates";
 import { verifyTurnstile } from "@/lib/contact/turnstile";
 
 const defaultFrom = "Jakub Vantuch <onboarding@resend.dev>";
@@ -179,6 +180,10 @@ export async function POST(request: Request) {
     const subject = emailCopy.subject;
     const text = `${emailCopy.greeting}, ${input.name},\n\n${emailCopy.introduction}\n${referralUrl}\n\n${emailCopy.instructions}\n\nJakub Vantuch`;
     const html = `<p>${emailCopy.greeting}, ${escapeHtml(input.name)},</p><p>${emailCopy.introduction}</p><p><a href="${escapeHtml(referralUrl)}">${escapeHtml(referralUrl)}</a></p><p>${emailCopy.instructions}</p><p>Jakub Vantuch</p>`;
+    const template = resendTemplate(
+      input.locale === "cs" ? "referralLinkCs" : "referralLinkEn",
+      { NAME: input.name, REFERRAL_URL: referralUrl },
+    );
 
     try {
       const { error } = await resend.emails.send(
@@ -187,8 +192,7 @@ export async function POST(request: Request) {
           to: [input.email],
           replyTo: siteConfig.contact.email,
           subject,
-          text,
-          html,
+          ...(template ? { template } : { text, html }),
         },
         { idempotencyKey: `referral-link/${submissionId}` },
       );
@@ -261,6 +265,12 @@ export async function POST(request: Request) {
         `<dt><strong>${escapeHtml(label)}</strong></dt><dd>${escapeHtml(value).replaceAll("\n", "<br />")}</dd>`,
     )
     .join("")}</dl>`;
+  const template = resendTemplate("partnershipInquiry", {
+    NAME: input.name,
+    SENDER_EMAIL: input.email,
+    COMPANY: input.company,
+    MESSAGE: input.message,
+  });
 
   try {
     const subjectName = input.name.replaceAll(/[\r\n]+/g, " ");
@@ -270,8 +280,7 @@ export async function POST(request: Request) {
         to: [process.env.RESEND_TO_EMAIL ?? siteConfig.contact.email],
         replyTo: input.email,
         subject: `Partnership inquiry: ${subjectName}`,
-        text,
-        html,
+        ...(template ? { template } : { text, html }),
       },
       { idempotencyKey: `partnership/${submissionId}` },
     );

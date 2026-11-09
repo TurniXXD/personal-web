@@ -11,6 +11,7 @@ export type ContactInput = {
 };
 
 export type ContactRequestType = "general" | "service" | "automation";
+export type ContactLocale = "cs" | "en";
 
 export type ContactRequestContext = {
   type: ContactRequestType;
@@ -37,6 +38,11 @@ function validPhone(value: string): boolean {
     digits.length >= 7 &&
     digits.length <= 15
   );
+}
+
+export function readContactLocale(value: unknown): ContactLocale {
+  if (!value || typeof value !== "object" || Array.isArray(value)) return "cs";
+  return (value as Record<string, unknown>).locale === "en" ? "en" : "cs";
 }
 
 export function validateContactInput(value: unknown): {
