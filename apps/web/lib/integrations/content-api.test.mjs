@@ -180,7 +180,7 @@ test("loads categories with a one hour revalidation", async () => {
   const categories = await createContentApiClient({
     fetcher,
   }).getEventCategories();
-  assert.deepEqual(categories, [{ slug: "ai", label: "Ai" }]);
+  assert.deepEqual(categories, [{ slug: "ai", label: "Ai", labelCs: null }]);
   assert.equal(calls[0].url.pathname, "/api/public/v1/events/categories");
   assert.equal(calls[0].url.searchParams.get("city"), "all");
   assert.deepEqual(calls[0].init.next, {

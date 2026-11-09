@@ -8,7 +8,6 @@ import {
   EventStatusBadge,
 } from "@/components/events/event-badges";
 import { EventCalendarAction } from "@/components/events/event-calendar-action";
-import { EventCover } from "@/components/events/event-cover";
 import type { EventItem } from "@/lib/events/event-model";
 import {
   formatEventCardDateBadge,
@@ -16,21 +15,24 @@ import {
   formatEventCardTime,
   type EventLocale,
 } from "@/lib/events/event-format";
-import { optimizableEventImage } from "@/lib/events/event-images";
 import { localizedPath } from "@/lib/site/content";
 import { SITE_ORIGIN, SITE_PATH } from "@/lib/site/routes";
 
 type EventCardProps = {
   event: EventItem;
   locale: EventLocale;
-  categoryLabel: string;
+  /** Localized labels keyed by category slug (from the CMS categories endpoint). */
+  categoryLabels: Record<string, string>;
 };
+
+/** Cards stay compact; the remaining categories are still filterable. */
+const MAX_CATEGORY_BADGES = 3;
 
 /**
  * Whole-card navigation uses a stretched title link (`after:inset-0`), so the
  * calendar action stays a sibling link instead of nesting inside an anchor.
  */
-export function EventCard({ event, locale, categoryLabel }: EventCardProps) {
+export function EventCard({ event, locale, categoryLabels }: EventCardProps) {
   const t = useTranslations("events.card");
   // Cards open the organiser's page directly: registration when published,
   // otherwise the source page. Without either the card is not a link.
@@ -43,12 +45,15 @@ export function EventCard({ event, locale, categoryLabel }: EventCardProps) {
   const sourceHost = event.sourceUrl
     ? new URL(event.sourceUrl).hostname.replace(/^www\./, "")
     : null;
-  const label =
-    event.category === "ai"
-      ? "AI"
-      : categoryLabel
-        ? categoryLabel[0].toLocaleUpperCase(locale) + categoryLabel.slice(1)
-        : "";
+  const categoryBadges = event.categories
+    .slice(0, MAX_CATEGORY_BADGES)
+    .map((slug) => {
+      const label = slug === "ai" ? "AI" : (categoryLabels[slug] ?? slug);
+      return {
+        slug,
+        label: label[0].toLocaleUpperCase(locale) + label.slice(1),
+      };
+    });
 
   return (
     <article
@@ -56,15 +61,6 @@ export function EventCard({ event, locale, categoryLabel }: EventCardProps) {
       data-event-status={event.status}
       className="group relative flex h-full min-w-0 flex-col overflow-hidden rounded-[1.35rem] border border-border-card bg-card shadow-[0_16px_40px_rgba(47,59,125,0.045)] transition-[background-color,border-color,box-shadow] duration-300 hover:border-primary hover:bg-[#625bdf] hover:shadow-[0_1.4rem_3.4rem_rgba(66,58,164,0.24)] has-[:focus-visible]:border-primary has-[:focus-visible]:bg-[#625bdf] has-[:focus-visible]:shadow-[0_1.4rem_3.4rem_rgba(66,58,164,0.24)] has-[[data-event-card-link]:focus-visible]:outline-[3px] has-[[data-event-card-link]:focus-visible]:outline-offset-4 has-[[data-event-card-link]:focus-visible]:outline-[#5f6cff45]"
     >
-      {optimizableEventImage(event.imageUrl) ? (
-        <EventCover
-          event={event}
-          locale={locale}
-          alt=""
-          sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-          className="aspect-[16/7]"
-        />
-      ) : null}
       <div className="flex flex-1 flex-col gap-3 p-5 max-[600px]:p-[1.1rem]">
         <div className="flex flex-wrap items-center justify-between gap-2">
           {date && event.startsAt ? (
@@ -81,7 +77,9 @@ export function EventCard({ event, locale, categoryLabel }: EventCardProps) {
             </span>
           )}
           <div className="flex flex-wrap items-center gap-1.5">
-            {label ? <EventCategoryBadge label={label} /> : null}
+            {categoryBadges.map((category) => (
+              <EventCategoryBadge key={category.slug} label={category.label} />
+            ))}
             <EventStatusBadge status={event.status} />
           </div>
         </div>

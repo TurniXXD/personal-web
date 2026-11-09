@@ -5,7 +5,7 @@ import {
   type ListEventsParams,
 } from "@/lib/integrations/content-api";
 import { sentryLogger } from "@/lib/observability/sentry-logger";
-import type { EventCategory, EventListPage } from "@/lib/events/event-model";
+import type { CmsEventCategory, EventListPage } from "@/lib/events/event-model";
 
 let client: ContentApiClient | undefined;
 
@@ -66,7 +66,7 @@ export const getEvents = async (
 /** Categories of upcoming events, optionally narrowed to one city. */
 export const getEventCategories = async (
   city: string | null = null,
-): Promise<EventCategory[]> => {
+): Promise<CmsEventCategory[]> => {
   try {
     return await contentApi().getEventCategories(city);
   } catch (error) {

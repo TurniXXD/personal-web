@@ -8,6 +8,7 @@ import {
   hasActiveEventFilters,
   parseEventListQuery,
 } from "@/lib/events/event-filters";
+import { localizeEventCategory } from "@/lib/events/event-mapping";
 import type { EventCategory } from "@/lib/events/event-model";
 import { getEventCategories } from "@/lib/events/events-data";
 import { localizedPath } from "@/lib/site/content";
@@ -69,9 +70,9 @@ export default async function EventsRoute({
   const query = parseEventListQuery(await searchParams);
   // Categories only enrich the filter; their failure is reported by the data
   // layer and must not hide the events themselves.
-  const categories: EventCategory[] = await getEventCategories(
-    query.filters.city,
-  ).catch(() => []);
+  const categories: EventCategory[] = (
+    await getEventCategories(query.filters.city).catch(() => [])
+  ).map((category) => localizeEventCategory(category, locale));
 
   return (
     <EventsListingPage locale={locale} query={query} categories={categories} />

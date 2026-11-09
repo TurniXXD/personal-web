@@ -22,7 +22,7 @@ export function EventListItems({
         <EventCard
           event={event}
           locale={locale}
-          categoryLabel={categoryLabels[event.category] ?? event.category}
+          categoryLabels={categoryLabels}
         />
       </ScrollReveal>
     </li>

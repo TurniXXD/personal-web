@@ -25,6 +25,7 @@ const base = {
   sourceUrl: "https://example.com/events",
   registrationUrl: null,
   imageUrl: null,
+  imageSource: null,
   isFree: null,
   price: null,
   currency: null,
@@ -62,6 +63,7 @@ const named = [
     startsAt: at(8),
     venueName: "Red Hat Brno",
     category: "development",
+    categories: ["development", "workshop"],
     organizerName: "Brno JS",
     isFree: false,
     price: 250,
@@ -133,7 +135,10 @@ const CATEGORY_LABELS = {
   development: "Development",
   startups: "Startups",
   networking: "Networking",
+  workshop: "Workshop",
 };
+
+const CATEGORY_LABELS_CS = { development: "Vývoj", networking: "Networking" };
 
 const fold = (value) =>
   value
@@ -176,9 +181,11 @@ const CARD_FIELDS = [
   "venueName",
   "address",
   "category",
+  "categories",
   "sourceUrl",
   "registrationUrl",
   "imageUrl",
+  "imageSource",
   "isFree",
   "price",
   "currency",
@@ -186,8 +193,15 @@ const CARD_FIELDS = [
   "status",
 ];
 
+const categoriesOf = (event) => event.categories ?? [event.category];
+
 const toCard = (event) =>
-  Object.fromEntries(CARD_FIELDS.map((field) => [field, event[field]]));
+  Object.fromEntries(
+    CARD_FIELDS.map((field) => [
+      field,
+      field === "categories" ? categoriesOf(event) : event[field],
+    ]),
+  );
 
 const listEvents = (params) => {
   const limit = Number(params.get("limit") ?? 20);
@@ -207,7 +221,10 @@ const listEvents = (params) => {
     if (to && start >= dayEnd(to)) return false;
     const city = params.get("city") ?? "brno";
     if (city !== "all" && fold(event.city) !== fold(city)) return false;
-    if (params.get("category") && event.category !== params.get("category"))
+    if (
+      params.get("category") &&
+      !categoriesOf(event).includes(params.get("category"))
+    )
       return false;
     if (params.get("free") === "true" && event.isFree !== true) return false;
     if (params.get("free") === "false" && event.isFree !== false) return false;
@@ -250,9 +267,13 @@ createServer((request, response) => {
   if (url.pathname === "/health") return send(response, 200, { ok: true });
 
   if (url.pathname === "/api/public/v1/events/categories") {
-    const slugs = [...new Set(events.map((event) => event.category))];
+    const slugs = [...new Set(events.flatMap(categoriesOf))];
     return send(response, 200, {
-      data: slugs.map((slug) => ({ slug, label: CATEGORY_LABELS[slug] })),
+      data: slugs.map((slug) => ({
+        slug,
+        label: CATEGORY_LABELS[slug],
+        labelCs: CATEGORY_LABELS_CS[slug] ?? null,
+      })),
       meta: { city: url.searchParams.get("city") ?? "brno" },
     });
   }

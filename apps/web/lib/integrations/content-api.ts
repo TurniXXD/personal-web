@@ -5,7 +5,7 @@ import {
   type EventFilters,
 } from "../events/event-filters.ts";
 import { mapCmsCategory, mapCmsEvent } from "../events/event-mapping.ts";
-import type { EventCategory, EventListPage } from "../events/event-model.ts";
+import type { CmsEventCategory, EventListPage } from "../events/event-model.ts";
 
 export const DEFAULT_CONTENT_API_BASE_URL = "https://cms.vantuch.dev";
 
@@ -220,7 +220,7 @@ export const createContentApiClient = ({
 
     async getEventCategories(
       city: string | null = null,
-    ): Promise<EventCategory[]> {
+    ): Promise<CmsEventCategory[]> {
       const endpoint = "listEventCategories";
       const body = await request<CategoriesResponse>(
         endpoint,

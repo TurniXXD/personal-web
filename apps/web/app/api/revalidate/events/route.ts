@@ -7,8 +7,11 @@ const endpoint = "revalidate-events";
 const headers = { "Cache-Control": "no-store" };
 
 const authorized = (request: Request, secret: string) => {
+  // The CMS sends `X-Revalidate-Secret`; a Bearer token is accepted as well.
   const header = request.headers.get("authorization") ?? "";
-  const token = header.startsWith("Bearer ") ? header.slice(7).trim() : "";
+  const token =
+    request.headers.get("x-revalidate-secret")?.trim() ||
+    (header.startsWith("Bearer ") ? header.slice(7).trim() : "");
   const expected = Buffer.from(secret);
   const received = Buffer.from(token);
   return (
@@ -21,7 +24,8 @@ const authorized = (request: Request, secret: string) => {
  * and important updates do not wait for the 15 minute revalidation window.
  *
  * POST /api/revalidate/events
- * Authorization: Bearer <CONTENT_REVALIDATE_SECRET>
+ * X-Revalidate-Secret: <CONTENT_REVALIDATE_SECRET>
+ * (or Authorization: Bearer <CONTENT_REVALIDATE_SECRET>)
  */
 export async function POST(request: Request) {
   const secret = process.env.CONTENT_REVALIDATE_SECRET?.trim();

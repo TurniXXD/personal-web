@@ -34,7 +34,7 @@ test("automation page filters non-clickable examples", async ({ page }) => {
     "Automatizace procesů a AI řešení na míru | Jakub Vantuch",
   );
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
-    "Rutinu nechte běžet. Věnujte se práci, která potřebuje vás.",
+    "Méně ruční práce. Více výsledků.",
   );
   await expect(page.locator(".automation-scroll-story")).toHaveCount(0);
   await expect(page.locator(".automation-page-hero__visual li")).toHaveCount(3);

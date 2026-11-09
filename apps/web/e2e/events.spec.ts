@@ -381,7 +381,7 @@ test("listing cards keep only the title and show an icon-only calendar action", 
   await expect(
     card.getByRole("heading", { name: "Brno AI meetup" }),
   ).toBeVisible();
-  await expect(card.locator("[data-event-cover-fallback]")).toHaveCount(0);
+  await expect(card.locator("img")).toHaveCount(0);
   await expect(card.locator("[data-event-date-badge]")).toBeVisible();
   await expect(card.getByText("AI", { exact: true })).toBeVisible();
   await expect(card.getByText("Impact Hub Brno")).toBeVisible();
@@ -508,4 +508,22 @@ test("events pages reflow on phones without horizontal overflow", async ({
     );
     expect(overflow, `${width}px`).toBe(false);
   }
+});
+
+test("cards show every category in the locale and no images", async ({
+  page,
+}) => {
+  await page.goto("/akce");
+  const card = page.locator('[data-event-card="typescript-night"]');
+
+  await expect(card.locator("img")).toHaveCount(0);
+  await expect(card.getByText("Vývoj", { exact: true })).toBeVisible();
+  await expect(card.getByText("Workshop", { exact: true })).toBeVisible();
+
+  await page.goto("/en/events");
+  await expect(
+    page
+      .locator('[data-event-card="typescript-night"]')
+      .getByText("Development", { exact: true }),
+  ).toBeVisible();
 });

@@ -3,12 +3,6 @@ import type { NextConfig } from "next";
 import createNextIntlPlugin from "next-intl/plugin";
 import { withSentryConfig } from "@sentry/nextjs/config";
 
-// CMS media is optimized through next/image; only the Content API host is
-// allowed so arbitrary third-party images cannot use the optimizer.
-const contentApiHostname = new URL(
-  process.env.CONTENT_API_BASE_URL?.trim() || "https://cms.vantuch.dev",
-).hostname;
-
 const developmentScriptPolicy =
   process.env.NODE_ENV === "development" ? " 'unsafe-eval'" : "";
 
@@ -44,9 +38,11 @@ const nextConfig: NextConfig = {
   allowedDevOrigins: ["127.0.0.1"],
   devIndicators: false,
   poweredByHeader: false,
-  images: {
-    remotePatterns: [
-      { protocol: "https", hostname: contentApiHostname, pathname: "/**" },
+  // Social images read Sora from disk via computed paths, which file tracing
+  // cannot follow; ship the font files with those functions explicitly.
+  outputFileTracingIncludes: {
+    "/\\[locale\\]/{opengraph,twitter}-image*": [
+      "./node_modules/@fontsource/sora/files/sora-latin*-{500,700,800}-normal.woff",
     ],
   },
   async headers() {

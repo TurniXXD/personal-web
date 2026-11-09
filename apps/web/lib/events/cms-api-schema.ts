@@ -33,7 +33,7 @@ export interface paths {
     };
     /**
      * List upcoming events as compact cards
-     * @description Same filters, sorting, and cursor pagination as /events (default limit 20, max 100), but each item carries only the fields an event card renders. Use /events/{slug} for the full record.
+     * @description Only upcoming events including all of today: anything starting or still running at/after midnight today (Europe/Prague). An earlier `from` is raised to that point and `to` alone never reaches into the past. Otherwise the same filters, sorting, and cursor pagination as /events (default limit 20, max 100), but each item carries only the fields an event card renders. Use /events/{slug} for the full record.
      */
     get: operations["listEventCards"];
     put?: never;
@@ -201,6 +201,7 @@ export interface components {
       venueName: string | null;
       address: string | null;
       category: string;
+      categories: string[];
       tags: string[];
       organizerName: string | null;
       /**
@@ -209,8 +210,10 @@ export interface components {
        */
       sourceUrl: string;
       registrationUrl: string | null;
-      /** @description Only images with publication rights; never scraped source images. */
+      /** @description Licensed public media when available, otherwise a link to the image found at the source page (never copied to the CMS). */
       imageUrl: string | null;
+      /** @description `media`: CMS media with publication rights. `source`: hotlinked image from the source page; credit it with a link to `sourceUrl`. Null when there is no image. */
+      imageSource: ("media" | "source") | null;
       /** @description Free admission; null when unknown. */
       isFree: boolean | null;
       price: number | null;
@@ -263,14 +266,17 @@ export interface components {
       venueName: string | null;
       address: string | null;
       category: string;
+      categories: string[];
       /**
        * Format: uri
        * @description Original organiser/source page (attribution).
        */
       sourceUrl: string;
       registrationUrl: string | null;
-      /** @description Only images with publication rights; never scraped source images. */
+      /** @description Licensed public media when available, otherwise a link to the image found at the source page (never copied to the CMS). */
       imageUrl: string | null;
+      /** @description `media`: CMS media with publication rights. `source`: hotlinked image from the source page; credit it with a link to `sourceUrl`. Null when there is no image. */
+      imageSource: ("media" | "source") | null;
       /** @description Free admission; null when unknown. */
       isFree: boolean | null;
       price: number | null;
@@ -284,6 +290,7 @@ export interface components {
       data: {
         slug: string;
         label: string;
+        labelCs: string | null;
       }[];
       meta: {
         city: string;
@@ -465,6 +472,10 @@ export interface operations {
            *           "venueName": "Example venue",
            *           "address": null,
            *           "category": "ai",
+           *           "categories": [
+           *             "ai",
+           *             "workshop"
+           *           ],
            *           "tags": [
            *             "meetup"
            *           ],
@@ -472,6 +483,7 @@ export interface operations {
            *           "sourceUrl": "https://example.com/events/ai-meetup",
            *           "registrationUrl": null,
            *           "imageUrl": null,
+           *           "imageSource": null,
            *           "isFree": true,
            *           "price": 0,
            *           "currency": null,
@@ -575,9 +587,14 @@ export interface operations {
            *           "venueName": "Example venue",
            *           "address": null,
            *           "category": "ai",
+           *           "categories": [
+           *             "ai",
+           *             "workshop"
+           *           ],
            *           "sourceUrl": "https://example.com/events/ai-meetup",
            *           "registrationUrl": null,
            *           "imageUrl": null,
+           *           "imageSource": null,
            *           "isFree": true,
            *           "price": 0,
            *           "currency": null,
@@ -679,6 +696,10 @@ export interface operations {
            *           "venueName": "Example venue",
            *           "address": null,
            *           "category": "ai",
+           *           "categories": [
+           *             "ai",
+           *             "workshop"
+           *           ],
            *           "tags": [
            *             "meetup"
            *           ],
@@ -686,6 +707,7 @@ export interface operations {
            *           "sourceUrl": "https://example.com/events/ai-meetup",
            *           "registrationUrl": null,
            *           "imageUrl": null,
+           *           "imageSource": null,
            *           "isFree": true,
            *           "price": 0,
            *           "currency": null,
@@ -838,6 +860,10 @@ export interface operations {
            *         "venueName": "Example venue",
            *         "address": null,
            *         "category": "ai",
+           *         "categories": [
+           *           "ai",
+           *           "workshop"
+           *         ],
            *         "tags": [
            *           "meetup"
            *         ],
@@ -845,6 +871,7 @@ export interface operations {
            *         "sourceUrl": "https://example.com/events/ai-meetup",
            *         "registrationUrl": null,
            *         "imageUrl": null,
+           *         "imageSource": null,
            *         "isFree": true,
            *         "price": 0,
            *         "currency": null,

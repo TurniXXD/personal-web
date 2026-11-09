@@ -22,6 +22,7 @@ export type EventItem = Pick<
   | "venueName"
   | "address"
   | "category"
+  | "categories"
   | "isFree"
   | "price"
   | "currency"
@@ -36,10 +37,10 @@ export type EventItem = Pick<
   timezone: string;
   sourceUrl: string | null;
   registrationUrl: string | null;
-  imageUrl: string | null;
 };
 
-export type EventCategory = CmsEventCategory;
+/** Category with its label already resolved for the current locale. */
+export type EventCategory = Pick<CmsEventCategory, "slug" | "label">;
 
 export type EventListPage = {
   events: EventItem[];

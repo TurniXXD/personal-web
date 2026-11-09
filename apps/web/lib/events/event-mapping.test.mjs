@@ -3,6 +3,7 @@ import test from "node:test";
 
 import {
   hasVerifiedFreeFood,
+  localizeEventCategory,
   mapCmsCategory,
   mapCmsEvent,
 } from "./event-mapping.ts";
@@ -20,9 +21,11 @@ const contractExample = {
   venueName: "Example venue",
   address: null,
   category: "ai",
+  categories: ["ai", "workshop"],
   sourceUrl: "https://example.com/events/ai-meetup",
   registrationUrl: null,
   imageUrl: null,
+  imageSource: null,
   isFree: true,
   price: 0,
   currency: null,
@@ -42,9 +45,9 @@ test("maps the documented contract example", () => {
     venueName: "Example venue",
     address: null,
     category: "ai",
+    categories: ["ai", "workshop"],
     sourceUrl: "https://example.com/events/ai-meetup",
     registrationUrl: null,
-    imageUrl: null,
     isFree: true,
     price: 0,
     currency: null,
@@ -75,7 +78,6 @@ test("keeps missing optional fields as unknown instead of inventing values", () 
     "missing food info must not become 'no'",
   );
   assert.equal(event.registrationUrl, null);
-  assert.equal(event.imageUrl, null);
   assert.equal(event.timezone, "Europe/Prague");
   assert.equal(event.status, "scheduled");
 });
@@ -112,12 +114,10 @@ test("drops unsafe URLs and unknown time zones", () => {
     ...contractExample,
     registrationUrl: "javascript:alert(1)",
     sourceUrl: "not a url",
-    imageUrl: "data:image/png;base64,AAAA",
     timezone: "Nowhere/City",
   });
   assert.equal(event.registrationUrl, null);
   assert.equal(event.sourceUrl, null);
-  assert.equal(event.imageUrl, null);
   assert.equal(event.timezone, "Europe/Prague");
 
   const valid = mapCmsEvent({
@@ -158,13 +158,42 @@ test("shows free food only when explicitly confirmed", () => {
 });
 
 test("maps categories and falls back to the slug as label", () => {
-  assert.deepEqual(mapCmsCategory({ slug: "ai", label: "Ai" }), {
-    slug: "ai",
-    label: "Ai",
-  });
+  assert.deepEqual(
+    mapCmsCategory({ slug: "maker", label: "Maker", labelCs: "Tvůrci" }),
+    { slug: "maker", label: "Maker", labelCs: "Tvůrci" },
+  );
   assert.deepEqual(mapCmsCategory({ slug: "dev", label: "" }), {
     slug: "dev",
     label: "dev",
+    labelCs: null,
   });
   assert.equal(mapCmsCategory({ label: "No slug" }), null);
+});
+
+test("localizes category labels from the CMS translation", () => {
+  const maker = { slug: "maker", label: "Maker", labelCs: "Tvůrci" };
+  assert.deepEqual(localizeEventCategory(maker, "cs"), {
+    slug: "maker",
+    label: "Tvůrci",
+  });
+  assert.deepEqual(localizeEventCategory(maker, "en"), {
+    slug: "maker",
+    label: "Maker",
+  });
+  assert.equal(
+    localizeEventCategory({ ...maker, labelCs: null }, "cs").label,
+    "Maker",
+  );
+});
+
+test("keeps all categories and falls back to the primary one", () => {
+  assert.deepEqual(
+    mapCmsEvent({ ...contractExample, categories: ["ai", " ", "ai", "maker"] })
+      .categories,
+    ["ai", "maker"],
+  );
+  assert.deepEqual(
+    mapCmsEvent({ ...contractExample, categories: undefined }).categories,
+    ["ai"],
+  );
 });

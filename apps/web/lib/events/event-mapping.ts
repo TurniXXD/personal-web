@@ -1,5 +1,6 @@
 import {
   DEFAULT_EVENT_TIME_ZONE,
+  type CmsEventCategory,
   type EventCategory,
   type EventItem,
   type EventStatus,
@@ -88,6 +89,15 @@ export const mapCmsEvent = (raw: unknown): EventItem | null => {
       ? endsAtCandidate
       : null;
 
+  const category = text(raw.category) ?? "";
+  const categories = [
+    ...new Set(
+      (Array.isArray(raw.categories) ? raw.categories : []).flatMap(
+        (value) => text(value) ?? [],
+      ),
+    ),
+  ];
+
   return {
     slug,
     title,
@@ -98,10 +108,11 @@ export const mapCmsEvent = (raw: unknown): EventItem | null => {
     city: text(raw.city) ?? "",
     venueName: text(raw.venueName),
     address: text(raw.address),
-    category: text(raw.category) ?? "",
+    category,
+    // Older payloads carry only the primary category.
+    categories: categories.length ? categories : category ? [category] : [],
     sourceUrl: toSafeHttpUrl(raw.sourceUrl),
     registrationUrl: toSafeHttpUrl(raw.registrationUrl),
-    imageUrl: toSafeHttpUrl(raw.imageUrl),
     isFree: booleanOrNull(raw.isFree),
     price: finiteNumber(raw.price),
     currency: text(raw.currency)?.toUpperCase() ?? null,
@@ -110,12 +121,21 @@ export const mapCmsEvent = (raw: unknown): EventItem | null => {
   };
 };
 
-export const mapCmsCategory = (raw: unknown): EventCategory | null => {
+export const mapCmsCategory = (raw: unknown): CmsEventCategory | null => {
   if (!isRecord(raw)) return null;
   const slug = text(raw.slug);
   if (!slug) return null;
-  return { slug, label: text(raw.label) ?? slug };
+  return { slug, label: text(raw.label) ?? slug, labelCs: text(raw.labelCs) };
 };
+
+/** Picks the CMS translation for the locale, falling back to the English label. */
+export const localizeEventCategory = (
+  category: CmsEventCategory,
+  locale: string,
+): EventCategory => ({
+  slug: category.slug,
+  label: (locale === "cs" ? category.labelCs : null) ?? category.label,
+});
 
 /** Free food is shown only when the source explicitly confirms it. */
 export const hasVerifiedFreeFood = (event: Pick<EventItem, "freeFood">) =>

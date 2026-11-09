@@ -4,6 +4,7 @@ import type {
 } from "@/lib/contact/submission";
 import { parsePhoneNumberFromString } from "libphonenumber-js/min";
 import { createHash } from "node:crypto";
+import { sentryLogger } from "@/lib/observability/sentry-logger";
 
 type RecordData = { id: string; [key: string]: unknown };
 type Phones = {
@@ -117,6 +118,11 @@ function toTwentyPhones(value: string): Phones | undefined {
     additionalPhones: [],
   };
 }
+
+const isUnknownFieldError = (error: unknown): error is TwentyRequestError =>
+  error instanceof TwentyRequestError &&
+  error.diagnostic.status === 400 &&
+  /doesn't have any "\w+" field/.test(error.diagnostic.responseBody);
 
 export class TwentyClient {
   constructor(
@@ -316,14 +322,34 @@ export class TwentyClient {
     }
 
     const parts = name.trim().split(/\s+/);
-    return this.create("people", "person", {
+    const person = {
       name: { firstName: parts[0], lastName: parts.slice(1).join(" ") },
       emails: { primaryEmail: normalizedEmail, additionalEmails: [] },
       ...(phones ? { phones } : {}),
-      ...(process.env.TWENTY_APP_FIELDS_ENABLED === "true"
-        ? { personType: "LEAD", leadSource: "WEBSITE_CONTACT" }
-        : {}),
-    }) as Promise<Person>;
+    };
+    if (process.env.TWENTY_APP_FIELDS_ENABLED !== "true") {
+      return this.create("people", "person", person) as Promise<Person>;
+    }
+    try {
+      return (await this.create("people", "person", {
+        ...person,
+        personType: "LEAD",
+        leadSource: "WEBSITE_CONTACT",
+      })) as Person;
+    } catch (error) {
+      // The workspace schema can lag behind the flag (custom fields not
+      // installed). Saving the person matters more than lead metadata.
+      if (!isUnknownFieldError(error)) throw error;
+      sentryLogger({
+        error,
+        type: "warning",
+        message: "Twenty person custom fields are missing; saved without them",
+        context: { twenty: error.diagnostic },
+        tags: { source: "twenty", operation: "ensurePerson" },
+        fingerprint: ["twenty", "person-custom-fields-missing"],
+      });
+      return this.create("people", "person", person) as Promise<Person>;
+    }
   }
 
   async saveContact(
