@@ -187,11 +187,17 @@
   color: #5363d9;
   text-decoration: none;
 }
-.service-breadcrumbs a:hover,
 .service-breadcrumbs a:focus-visible {
   color: var(--brand);
   text-decoration: underline;
   text-underline-offset: 0.25rem;
+}
+@media (hover: hover) and (pointer: fine) {
+  .service-breadcrumbs a:hover {
+    color: var(--brand);
+    text-decoration: underline;
+    text-underline-offset: 0.25rem;
+  }
 }
 .service-detail-hero__grid {
   position: relative;

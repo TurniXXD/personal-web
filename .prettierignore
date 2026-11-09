@@ -1,2 +1,4 @@
 **/.env.example
 pnpm-lock.yaml
+# Paste-ready Resend templates keep compact inline markup.
+apps/web/emails/resend/*.html

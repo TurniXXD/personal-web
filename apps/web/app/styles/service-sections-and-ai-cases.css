@@ -232,10 +232,15 @@
     background-color 180ms ease,
     color 180ms ease;
 }
-.ai-use-case-carousel__tabs button:hover,
 .ai-use-case-carousel__tabs button:focus-visible {
   border-color: rgba(174, 184, 255, 0.45);
   color: #fff;
+}
+@media (hover: hover) and (pointer: fine) {
+  .ai-use-case-carousel__tabs button:hover {
+    border-color: rgba(174, 184, 255, 0.45);
+    color: #fff;
+  }
 }
 .ai-use-case-carousel__tabs button[aria-pressed="true"] {
   border-color: #8d99ff;

@@ -52,7 +52,7 @@ export const ProjectGrid = ({
 
         const card = (
           <article
-            className="case-card group self-start overflow-hidden rounded-[1.35rem] border border-border-card bg-white shadow-[0_16px_40px_rgba(47,59,125,0.055)] transition-[border-color,box-shadow] duration-[180ms] hover:border-primary hover:shadow-[0_18px_44px_rgba(62,72,156,0.12)] focus-within:border-primary"
+            className="case-card group self-start overflow-hidden rounded-[1.35rem] border border-border-card bg-white shadow-[0_16px_40px_rgba(47,59,125,0.055)] transition-[border-color,box-shadow] duration-[180ms] hover:border-primary hover:shadow-[0_18px_44px_rgba(62,72,156,0.12)] has-[:focus-visible]:border-primary"
             data-project={slug}
             key={slug}
           >

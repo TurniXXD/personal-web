@@ -332,14 +332,23 @@
 .service-detail-related__card strong svg {
   transition: transform 180ms ease;
 }
-.service-detail-related__card:hover,
 .service-detail-related__card:focus-visible {
   border-color: rgba(95, 108, 255, 0.55);
   box-shadow: 0 1.25rem 3rem rgba(47, 59, 125, 0.1);
 }
-.service-detail-related__card:hover strong svg,
+@media (hover: hover) and (pointer: fine) {
+  .service-detail-related__card:hover {
+    border-color: rgba(95, 108, 255, 0.55);
+    box-shadow: 0 1.25rem 3rem rgba(47, 59, 125, 0.1);
+  }
+}
 .service-detail-related__card:focus-visible strong svg {
   transform: translateX(0.2rem);
+}
+@media (hover: hover) and (pointer: fine) {
+  .service-detail-related__card:hover strong svg {
+    transform: translateX(0.2rem);
+  }
 }
 .service-detail-related__card:focus-visible {
   outline: 3px solid rgba(95, 108, 255, 0.25);

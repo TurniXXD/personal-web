@@ -86,18 +86,30 @@
     opacity 180ms ease;
 }
 
-.ui-action--primary:hover,
 .ui-action--primary:focus-visible {
   background-position: 100% 50%;
   box-shadow:
     0 10px 24px rgba(77, 89, 220, 0.22),
     0 0 20px rgba(111, 124, 255, 0.12);
 }
+@media (hover: hover) and (pointer: fine) {
+  .ui-action--primary:hover {
+    background-position: 100% 50%;
+    box-shadow:
+      0 10px 24px rgba(77, 89, 220, 0.22),
+      0 0 20px rgba(111, 124, 255, 0.12);
+  }
+}
 
-.ui-action--primary:hover::after,
 .ui-action--primary:focus-visible::after {
   opacity: 1;
   transform: skewX(-18deg) translateX(680%);
+}
+@media (hover: hover) and (pointer: fine) {
+  .ui-action--primary:hover::after {
+    opacity: 1;
+    transform: skewX(-18deg) translateX(680%);
+  }
 }
 
 .ui-action--secondary {
@@ -121,13 +133,21 @@
   color: var(--ink);
 }
 
-.ui-action--secondary:hover,
 .ui-action--secondary:focus-visible {
   background-position:
     100% 50%,
     100% 50%;
   box-shadow: 0 6px 16px rgba(72, 85, 180, 0.08);
   color: #3644b0;
+}
+@media (hover: hover) and (pointer: fine) {
+  .ui-action--secondary:hover {
+    background-position:
+      100% 50%,
+      100% 50%;
+    box-shadow: 0 6px 16px rgba(72, 85, 180, 0.08);
+    color: #3644b0;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

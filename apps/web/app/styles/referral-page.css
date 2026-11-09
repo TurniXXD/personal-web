@@ -255,12 +255,17 @@
 .referral-request-form__field textarea {
   resize: vertical;
 }
-.referral-request-form__field input:hover,
-.referral-request-form__field textarea:hover,
 .referral-request-form__field input:focus,
 .referral-request-form__field textarea:focus {
   border-color: var(--brand);
   outline: none;
+}
+@media (hover: hover) and (pointer: fine) {
+  .referral-request-form__field input:hover,
+  .referral-request-form__field textarea:hover {
+    border-color: var(--brand);
+    outline: none;
+  }
 }
 .referral-request-form__field input:focus,
 .referral-request-form__field textarea:focus {
@@ -309,9 +314,13 @@
     box-shadow 180ms ease,
     opacity 180ms ease;
 }
-.referral-request-form button:hover,
 .referral-request-form button:focus-visible {
   box-shadow: 0 10px 24px rgba(77, 89, 220, 0.24);
+}
+@media (hover: hover) and (pointer: fine) {
+  .referral-request-form button:hover {
+    box-shadow: 0 10px 24px rgba(77, 89, 220, 0.24);
+  }
 }
 .referral-request-form button:disabled {
   cursor: wait;

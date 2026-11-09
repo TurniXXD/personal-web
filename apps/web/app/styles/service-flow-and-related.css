@@ -240,10 +240,15 @@
     border-color 200ms ease,
     background-color 200ms ease;
 }
-.service-related__links a:hover,
 .service-related__links a:focus-visible {
   border-color: rgba(95, 108, 255, 0.48);
   background: #f4f6ff;
+}
+@media (hover: hover) and (pointer: fine) {
+  .service-related__links a:hover {
+    border-color: rgba(95, 108, 255, 0.48);
+    background: #f4f6ff;
+  }
 }
 .service-related__links span {
   display: grid;

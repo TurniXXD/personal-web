@@ -107,10 +107,15 @@
     font-size: 0.82rem;
     font-weight: 700;
   }
-  .site-header__mobile nav a:hover,
   .site-header__mobile nav a[aria-current] {
     background: #f4f5ff;
     color: var(--brand);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .site-header__mobile nav a:hover {
+      background: #f4f5ff;
+      color: var(--brand);
+    }
   }
   .site-header__mobile-services {
     display: grid;

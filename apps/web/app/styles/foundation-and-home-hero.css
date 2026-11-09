@@ -85,10 +85,12 @@ summary:focus-visible {
     background-color 200ms ease,
     color 200ms ease;
 }
-.site-header__language-toggle:hover {
-  border-color: #cbd2ff;
-  background: #f3f4ff;
-  color: var(--brand);
+@media (hover: hover) and (pointer: fine) {
+  .site-header__language-toggle:hover {
+    border-color: #cbd2ff;
+    background: #f3f4ff;
+    color: var(--brand);
+  }
 }
 
 .eyebrow {

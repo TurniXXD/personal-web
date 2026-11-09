@@ -50,10 +50,15 @@
     filter 180ms ease,
     border-color 180ms ease;
 }
-.service-demo__button:hover,
 .service-demo__button:focus-visible {
   filter: saturate(1.12);
   box-shadow: 0 0.9rem 2.1rem rgba(95, 91, 255, 0.3);
+}
+@media (hover: hover) and (pointer: fine) {
+  .service-demo__button:hover {
+    filter: saturate(1.12);
+    box-shadow: 0 0.9rem 2.1rem rgba(95, 91, 255, 0.3);
+  }
 }
 .service-demo__button:disabled {
   cursor: wait;

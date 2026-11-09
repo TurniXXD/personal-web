@@ -106,9 +106,13 @@
   font: inherit;
   transition: border-color 160ms ease;
 }
-.newsletter-card input[type="email"]:hover,
 .newsletter-card input[type="email"]:focus {
   border-color: var(--brand);
+}
+@media (hover: hover) and (pointer: fine) {
+  .newsletter-card input[type="email"]:hover {
+    border-color: var(--brand);
+  }
 }
 .newsletter-card button {
   min-height: 3rem;
@@ -122,8 +126,10 @@
   cursor: pointer;
   transition: background-color 180ms ease;
 }
-.newsletter-card button:hover:not(:disabled) {
-  background: var(--brand-hover);
+@media (hover: hover) and (pointer: fine) {
+  .newsletter-card button:hover:not(:disabled) {
+    background: var(--brand-hover);
+  }
 }
 .newsletter-card button:disabled,
 .newsletter-card input:disabled {
@@ -291,8 +297,10 @@
 .contact-section__actions > a:not(.ui-action) svg {
   flex: 0 0 auto;
 }
-.contact-section__actions > a:not(.ui-action):hover {
-  color: #fff;
+@media (hover: hover) and (pointer: fine) {
+  .contact-section__actions > a:not(.ui-action):hover {
+    color: #fff;
+  }
 }
 
 .contact-page {

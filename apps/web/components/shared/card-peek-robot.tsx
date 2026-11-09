@@ -46,10 +46,16 @@ const robotDisabled = () => {
   }
 };
 
+/** On phones the first event card sits right under the filters. */
+const isFirstEventCardOnPhone = (element: Element) =>
+  window.innerWidth < 640 &&
+  element.matches("[data-events-grid] > li:first-child [data-event-card]");
+
 const isUsableCard = (element: Element) => {
   const rect = element.getBoundingClientRect();
   return (
     element instanceof HTMLElement &&
+    !isFirstEventCardOnPhone(element) &&
     element.offsetParent !== null &&
     rect.width >= MIN_CARD_WIDTH &&
     rect.height >= 100

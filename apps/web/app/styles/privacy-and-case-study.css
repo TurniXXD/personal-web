@@ -13,21 +13,32 @@
     background-color 180ms ease,
     color 180ms ease;
 }
-.cookie-consent__actions button:hover,
 .cookie-consent__actions button:focus-visible {
   border-color: var(--brand);
   color: var(--brand);
+}
+@media (hover: hover) and (pointer: fine) {
+  .cookie-consent__actions button:hover {
+    border-color: var(--brand);
+    color: var(--brand);
+  }
 }
 .cookie-consent__actions .cookie-consent__accept {
   border-color: var(--brand-hover);
   background: var(--brand-hover);
   color: #fff;
 }
-.cookie-consent__actions .cookie-consent__accept:hover,
 .cookie-consent__actions .cookie-consent__accept:focus-visible {
   border-color: #4753d2;
   background: #4753d2;
   color: #fff;
+}
+@media (hover: hover) and (pointer: fine) {
+  .cookie-consent__actions .cookie-consent__accept:hover {
+    border-color: #4753d2;
+    background: #4753d2;
+    color: #fff;
+  }
 }
 
 @media (max-width: 760px) {

@@ -98,8 +98,10 @@
 .text-link svg {
   flex: 0 0 auto;
 }
-.text-link:hover {
-  color: var(--brand-hover);
+@media (hover: hover) and (pointer: fine) {
+  .text-link:hover {
+    color: var(--brand-hover);
+  }
 }
 
 .process-section {

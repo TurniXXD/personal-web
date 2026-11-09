@@ -179,10 +179,12 @@
   font: 0.84rem/1.5 var(--sans);
   transition: border-color 160ms ease;
 }
-.contact-form__field input:hover,
-.contact-form__field select:hover,
-.contact-form__field textarea:hover {
-  border-color: var(--brand);
+@media (hover: hover) and (pointer: fine) {
+  .contact-form__field input:hover,
+  .contact-form__field select:hover,
+  .contact-form__field textarea:hover {
+    border-color: var(--brand);
+  }
 }
 .contact-form__field textarea {
   resize: vertical;
@@ -214,8 +216,10 @@
   text-decoration: underline;
   text-underline-offset: 0.18em;
 }
-.form-privacy-notice a:hover {
-  color: var(--brand);
+@media (hover: hover) and (pointer: fine) {
+  .form-privacy-notice a:hover {
+    color: var(--brand);
+  }
 }
 .contact-form__honeypot {
   position: absolute;
@@ -269,9 +273,11 @@
   font-size: 0.79rem;
   line-height: 1.45;
 }
-.cookie-preferences-button:hover {
-  color: #fff;
-  text-decoration-color: #fff;
+@media (hover: hover) and (pointer: fine) {
+  .cookie-preferences-button:hover {
+    color: #fff;
+    text-decoration-color: #fff;
+  }
 }
 .cookie-preferences-button {
   padding: 0;
