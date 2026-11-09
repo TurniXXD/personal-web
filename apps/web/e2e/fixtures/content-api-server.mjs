@@ -1,5 +1,6 @@
 // Test-only stand-in for the public Content API (cms.vantuch.dev). It follows
-// the OpenAPI contract of /api/public/v1/events* so E2E tests never contact
+// the OpenAPI contract of /api/public/v1/event-cards and /events/categories so
+// E2E tests never contact
 // the production CMS. Never used as a runtime fallback.
 import { createServer } from "node:http";
 
@@ -162,6 +163,32 @@ const error = (response, status, code) =>
     error: { code, message: code, requestId: "fixture" },
   });
 
+// Fields of the `PublicEventCard` DTO; the fixture keeps full records only for
+// filtering (search also matches the organiser, as the CMS does).
+const CARD_FIELDS = [
+  "slug",
+  "title",
+  "summary",
+  "startsAt",
+  "endsAt",
+  "timezone",
+  "city",
+  "venueName",
+  "address",
+  "category",
+  "sourceUrl",
+  "registrationUrl",
+  "imageUrl",
+  "isFree",
+  "price",
+  "currency",
+  "freeFood",
+  "status",
+];
+
+const toCard = (event) =>
+  Object.fromEntries(CARD_FIELDS.map((field) => [field, event[field]]));
+
 const listEvents = (params) => {
   const limit = Number(params.get("limit") ?? 20);
   if (!Number.isInteger(limit) || limit < 1 || limit > 100) return null;
@@ -208,7 +235,7 @@ const listEvents = (params) => {
     ? Number(Buffer.from(cursor, "base64url").toString())
     : 0;
   if (!Number.isInteger(offset) || offset < 0) return "invalid_cursor";
-  const page = items.slice(offset, offset + limit);
+  const page = items.slice(offset, offset + limit).map(toCard);
   const next = offset + limit < items.length ? offset + limit : null;
   return {
     data: page,
@@ -230,7 +257,7 @@ createServer((request, response) => {
     });
   }
 
-  if (url.pathname === "/api/public/v1/events") {
+  if (url.pathname === "/api/public/v1/event-cards") {
     const result = listEvents(url.searchParams);
     if (result === null) return error(response, 400, "validation_failed");
     if (result === "invalid_cursor")

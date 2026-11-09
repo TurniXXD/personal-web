@@ -1,6 +1,6 @@
 /** Content API value for "every city"; the listing is not limited to one city. */
 export const ALL_CITIES = "all";
-export const EVENTS_PAGE_SIZE = 24;
+export const EVENTS_PAGE_SIZE = 20;
 
 export const EVENT_SORTS = ["nearest", "latest"] as const;
 export type EventSort = (typeof EVENT_SORTS)[number];
@@ -219,7 +219,7 @@ type EventsApiQueryParams = {
   limit?: number;
 };
 
-/** Builds the documented `GET /public/v1/events` query. */
+/** Builds the documented `GET /public/v1/event-cards` query. */
 export const toEventsApiQuery = (
   filters: EventFilters,
   { cursor = null, limit = EVENTS_PAGE_SIZE }: EventsApiQueryParams = {},

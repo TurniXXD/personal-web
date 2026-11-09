@@ -71,6 +71,13 @@ const toDateValue = (date: Date | undefined) =>
     ? `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`
     : null;
 
+type AdvancedFilters = Pick<EventFilters, "category" | "price" | "sort">;
+const pickAdvanced = ({ category, price, sort }: EventFilters) => ({
+  category,
+  price,
+  sort,
+});
+
 const DATE_SHORT_LABEL = {
   all: "dateAllShort",
   week: "dateWeekShort",
@@ -110,6 +117,9 @@ export function EventFiltersForm({
   );
   const [rangeOpen, setRangeOpen] = useState(false);
   const [rangeDraft, setRangeDraft] = useState<DateRange | undefined>();
+  const [advancedDraft, setAdvancedDraft] = useState<AdvancedFilters>(() =>
+    pickAdvanced(filters),
+  );
   const filtersKey = eventListHref(basePath, filters);
   const today = todayInPrague();
 
@@ -205,6 +215,16 @@ export function EventFiltersForm({
     });
   };
 
+  const openAdvancedDialog = () => {
+    setAdvancedDraft(pickAdvanced(draft));
+    setAdvancedOpen(true);
+  };
+
+  const applyAdvanced = () => {
+    setAdvancedOpen(false);
+    navigate({ ...draft, q: typedQuery, ...advancedDraft });
+  };
+
   const formatDate = (value: Date | string | null | undefined) => {
     const date = typeof value === "string" ? toLocalDate(value) : value;
     return date
@@ -280,9 +300,9 @@ export function EventFiltersForm({
         </div>
         <button
           type="button"
+          aria-haspopup="dialog"
           aria-expanded={advancedOpen}
-          aria-controls={`${id}-advanced`}
-          onClick={() => setAdvancedOpen((open) => !open)}
+          onClick={openAdvancedDialog}
           className="inline-flex min-h-11 shrink-0 cursor-pointer items-center gap-2 rounded-[0.7rem] border border-border-card bg-background px-3 text-ui-sm font-bold text-ink-strong transition-colors hover:border-primary hover:text-primary focus-visible:outline-[3px] focus-visible:outline-offset-2 focus-visible:outline-[#5f6cff40]"
         >
           <SlidersHorizontal size={16} aria-hidden="true" />
@@ -391,6 +411,18 @@ export function EventFiltersForm({
         name={EVENT_FILTER_PARAM.to}
         value={draft.to ?? ""}
       />
+      {/* The dialog selects are portaled out of the form; these carry them. */}
+      <input
+        type="hidden"
+        name={EVENT_FILTER_PARAM.category}
+        value={draft.category ?? ""}
+      />
+      <input
+        type="hidden"
+        name={EVENT_FILTER_PARAM.price}
+        value={draft.price ?? ""}
+      />
+      <input type="hidden" name={EVENT_FILTER_PARAM.sort} value={draft.sort} />
 
       <Dialog open={rangeOpen} onOpenChange={setRangeOpen}>
         <DialogContent
@@ -467,72 +499,95 @@ export function EventFiltersForm({
         </DialogContent>
       </Dialog>
 
-      <div
-        id={`${id}-advanced`}
-        hidden={!advancedOpen}
-        className={cn(
-          "grid gap-3 border-t border-border-soft pt-3 sm:grid-cols-3",
-          !advancedOpen && "hidden",
-        )}
-      >
-        <div className={fieldClasses}>
-          <label htmlFor={`${id}-category`} className={labelClasses}>
-            {t("categoryLabel")}
-          </label>
-          <select
-            id={`${id}-category`}
-            name={EVENT_FILTER_PARAM.category}
-            value={draft.category ?? ""}
-            onChange={(event) => update("category", event.target.value || null)}
-            className={cn(controlClasses, "cursor-pointer")}
-          >
-            <option value="">{t("categoryAll")}</option>
-            {categoryOptions.map((category) => (
-              <option key={category.slug} value={category.slug}>
-                {category.label}
-              </option>
-            ))}
-          </select>
-        </div>
-        <div className={fieldClasses}>
-          <label htmlFor={`${id}-price`} className={labelClasses}>
-            {t("priceLabel")}
-          </label>
-          <select
-            id={`${id}-price`}
-            name={EVENT_FILTER_PARAM.price}
-            value={draft.price ?? ""}
-            onChange={(event) =>
-              update(
-                "price",
-                (event.target.value || null) as EventPriceFilter | null,
-              )
-            }
-            className={cn(controlClasses, "cursor-pointer")}
-          >
-            <option value="">{t("priceAll")}</option>
-            <option value="free">{t("priceFree")}</option>
-            <option value="paid">{t("pricePaid")}</option>
-          </select>
-        </div>
-        <div className={fieldClasses}>
-          <label htmlFor={`${id}-sort`} className={labelClasses}>
-            {t("sortLabel")}
-          </label>
-          <select
-            id={`${id}-sort`}
-            name={EVENT_FILTER_PARAM.sort}
-            value={draft.sort}
-            onChange={(event) =>
-              update("sort", event.target.value as EventSort)
-            }
-            className={cn(controlClasses, "cursor-pointer")}
-          >
-            <option value="nearest">{t("sortNearest")}</option>
-            <option value="latest">{t("sortLatest")}</option>
-          </select>
-        </div>
-      </div>
+      <Dialog open={advancedOpen} onOpenChange={setAdvancedOpen}>
+        <DialogContent closeLabel={t("advancedClose")} data-advanced-filters>
+          <div className="grid gap-1 pr-10">
+            <DialogTitle className="m-0 text-[1.2rem] leading-[1.25] font-bold tracking-[-0.03em] text-ink-strong">
+              {t("advancedTitle")}
+            </DialogTitle>
+            <DialogDescription className="m-0 text-ui-sm text-ink-muted">
+              {t("advancedDescription")}
+            </DialogDescription>
+          </div>
+          <div className="grid gap-3">
+            <div className={fieldClasses}>
+              <label htmlFor={`${id}-category`} className={labelClasses}>
+                {t("categoryLabel")}
+              </label>
+              <select
+                id={`${id}-category`}
+                value={advancedDraft.category ?? ""}
+                onChange={(event) =>
+                  setAdvancedDraft((current) => ({
+                    ...current,
+                    category: event.target.value || null,
+                  }))
+                }
+                className={cn(controlClasses, "cursor-pointer")}
+              >
+                <option value="">{t("categoryAll")}</option>
+                {categoryOptions.map((category) => (
+                  <option key={category.slug} value={category.slug}>
+                    {category.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className={fieldClasses}>
+              <label htmlFor={`${id}-price`} className={labelClasses}>
+                {t("priceLabel")}
+              </label>
+              <select
+                id={`${id}-price`}
+                value={advancedDraft.price ?? ""}
+                onChange={(event) =>
+                  setAdvancedDraft((current) => ({
+                    ...current,
+                    price: (event.target.value ||
+                      null) as EventPriceFilter | null,
+                  }))
+                }
+                className={cn(controlClasses, "cursor-pointer")}
+              >
+                <option value="">{t("priceAll")}</option>
+                <option value="free">{t("priceFree")}</option>
+                <option value="paid">{t("pricePaid")}</option>
+              </select>
+            </div>
+            <div className={fieldClasses}>
+              <label htmlFor={`${id}-sort`} className={labelClasses}>
+                {t("sortLabel")}
+              </label>
+              <select
+                id={`${id}-sort`}
+                value={advancedDraft.sort}
+                onChange={(event) =>
+                  setAdvancedDraft((current) => ({
+                    ...current,
+                    sort: event.target.value as EventSort,
+                  }))
+                }
+                className={cn(controlClasses, "cursor-pointer")}
+              >
+                <option value="nearest">{t("sortNearest")}</option>
+                <option value="latest">{t("sortLatest")}</option>
+              </select>
+            </div>
+          </div>
+          <div className="flex items-center justify-end gap-2 border-t border-border-soft pt-4">
+            <DialogClose className="cursor-pointer inline-flex min-h-11 items-center rounded-full px-4 text-ui-sm font-bold text-ink-muted transition-colors hover:bg-secondary hover:text-primary focus-visible:outline-[3px] focus-visible:outline-offset-2 focus-visible:outline-[#5f6cff40]">
+              {t("advancedCancel")}
+            </DialogClose>
+            <button
+              type="button"
+              onClick={applyAdvanced}
+              className="cursor-pointer inline-flex min-h-11 items-center rounded-full bg-primary px-5 text-ui-sm font-bold text-white transition-colors hover:bg-[#4656cb] focus-visible:outline-[3px] focus-visible:outline-offset-2 focus-visible:outline-[#5f6cff40]"
+            >
+              {t("advancedApply")}
+            </button>
+          </div>
+        </DialogContent>
+      </Dialog>
 
       <div className="flex flex-wrap items-center gap-2 empty:hidden">
         {dateMode === "custom" && (draft.from || draft.to) ? (

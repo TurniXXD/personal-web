@@ -42,12 +42,36 @@ test("listing shows a three-column grid and paginates with filters", async ({
   expect(href.searchParams.get("category")).toBe("networking");
   expect(href.searchParams.get("cursor")).toBeTruthy();
 
+  // The next page appends below the current cards without navigating.
+  await next.scrollIntoViewIfNeeded();
+  const scrollBefore = await page.evaluate(() => window.scrollY);
+  expect(scrollBefore).toBeGreaterThan(0);
   await next.click();
-  await expect(page).toHaveURL(/category=networking.*cursor=/);
-  await expect(page.locator("[data-event-card]")).toHaveCount(2);
+  // 26 networking events at 20 per page leave 6 for the second page.
+  await expect(page.locator("[data-event-card]")).toHaveCount(26);
+  await expect(page).toHaveURL(/\/akce\?category=networking$/);
   await expect(page.locator("[data-event-card]").first()).toContainText(
-    "Networking Brno #25",
+    "Networking Brno #1",
   );
+  await expect(page.locator("[data-event-card]").nth(20)).toContainText(
+    "Networking Brno #21",
+  );
+  expect(await page.evaluate(() => window.scrollY)).toBeGreaterThanOrEqual(
+    scrollBefore - 1,
+  );
+  await expect(page.locator("[data-events-count]")).toHaveAttribute(
+    "data-events-count",
+    "26",
+  );
+  // The last page removes the button and continues on the first new card.
+  await expect(next).toHaveCount(0);
+  await expect(
+    page.locator("[data-event-card]").nth(20).locator("[data-event-card-link]"),
+  ).toBeFocused();
+
+  // Without the click handler the link still paginates by URL.
+  await page.goto(href.pathname + href.search);
+  await expect(page.locator("[data-event-card]")).toHaveCount(6);
 });
 
 test("free food filter combines with other filters and keeps unknown food visible when off", async ({
@@ -64,7 +88,12 @@ test("free food filter combines with other filters and keeps unknown food visibl
   await expect(page.locator("[data-free-food-badge]")).toHaveCount(3);
 
   await page.getByRole("button", { name: /Filtry/ }).click();
-  await page.getByLabel("Kategorie", { exact: true }).selectOption("ai");
+  const filtersDialog = page.getByRole("dialog", { name: "Filtry" });
+  await filtersDialog
+    .getByLabel("Kategorie", { exact: true })
+    .selectOption("ai");
+  await filtersDialog.getByRole("button", { name: "Použít" }).click();
+  await expect(filtersDialog).toBeHidden();
   await expect(page).toHaveURL(/freeFood=true/);
   await expect(page).toHaveURL(/category=ai/);
   await expect(page.locator("[data-event-card]")).toHaveCount(1);
@@ -167,7 +196,11 @@ test("search is debounced into the URL and shows an empty state", async ({
   ).toBeVisible();
   await expect(page.getByRole("button", { name: /Filtry/ })).toContainText("1");
   await page.getByRole("button", { name: /Filtry/ }).click();
-  await expect(page.getByLabel("Vstupné", { exact: true })).toHaveValue("paid");
+  await expect(
+    page
+      .getByRole("dialog", { name: "Filtry" })
+      .getByLabel("Vstupné", { exact: true }),
+  ).toHaveValue("paid");
 });
 
 test("compact date presets and custom range preserve URL filters", async ({
@@ -216,21 +249,31 @@ test("compact date presets and custom range preserve URL filters", async ({
   await expect(page).toHaveURL(/city=brno$/);
 });
 
-test("advanced filters disclose, count and clear without losing quick filters", async ({
+test("filters dialog applies, cancels, counts and clears without losing quick filters", async ({
   page,
 }) => {
   await page.goto("/akce?city=brno");
   const toggle = page.getByRole("button", { name: /Filtry/ });
+  const dialog = page.getByRole("dialog", { name: "Filtry" });
   await expect(toggle).toHaveAttribute("aria-expanded", "false");
-  await expect(page.getByLabel("Kategorie", { exact: true })).toBeHidden();
+  await expect(dialog).toBeHidden();
+
+  // Cancelling discards the draft.
   await toggle.click();
-  await expect(toggle).toHaveAttribute("aria-expanded", "true");
-  await page.getByLabel("Kategorie", { exact: true }).selectOption("ai");
-  await page.getByLabel("Vstupné", { exact: true }).selectOption("free");
+  await expect(dialog).toBeVisible();
+  await dialog.getByLabel("Kategorie", { exact: true }).selectOption("ai");
+  await dialog.getByRole("button", { name: "Zrušit" }).click();
+  await expect(dialog).toBeHidden();
+  await expect(page).toHaveURL(/\/akce\?city=brno$/);
+
+  await toggle.click();
+  await expect(dialog.getByLabel("Kategorie", { exact: true })).toHaveValue("");
+  await dialog.getByLabel("Kategorie", { exact: true }).selectOption("ai");
+  await dialog.getByLabel("Vstupné", { exact: true }).selectOption("free");
+  await dialog.getByRole("button", { name: "Použít" }).click();
+  await expect(dialog).toBeHidden();
   await expect(page).toHaveURL(/city=brno.*category=ai.*price=free/);
   await expect(toggle).toContainText("2");
-  await toggle.click();
-  await expect(page.getByLabel("Kategorie", { exact: true })).toBeHidden();
   await expect(
     page.getByRole("button", { name: /Odebrat filtr.*Kategorie/ }),
   ).toBeVisible();
@@ -356,6 +399,14 @@ test("listing cards keep only the title and show an icon-only calendar action", 
   expect(
     Math.abs(action!.y + action!.height / 2 - (price!.y + price!.height / 2)),
   ).toBeLessThan(8);
+  // Free food sits beside the price badge, before the calendar action.
+  const food = await card.locator("[data-free-food-badge]").boundingBox();
+  expect(food).not.toBeNull();
+  expect(food!.x).toBeGreaterThan(price!.x + price!.width);
+  expect(action!.x).toBeGreaterThan(food!.x + food!.width);
+  expect(
+    Math.abs(food!.y + food!.height / 2 - (price!.y + price!.height / 2)),
+  ).toBeLessThan(4);
   await expect(page.getByText("Přehled akcí připravuje")).toHaveCount(0);
 
   await card.hover();

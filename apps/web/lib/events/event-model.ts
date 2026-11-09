@@ -1,7 +1,7 @@
 import type { components } from "./cms-api-schema.ts";
 
-/** Event exactly as the public Content API returns it (generated contract). */
-export type CmsEvent = components["schemas"]["PublicEvent"];
+/** Event card exactly as `GET /public/v1/event-cards` returns it (generated contract). */
+export type CmsEvent = components["schemas"]["PublicEventCard"];
 export type CmsEventCategory =
   components["schemas"]["EventCategoriesResponse"]["data"][number];
 
@@ -18,20 +18,15 @@ export type EventItem = Pick<
   | "slug"
   | "title"
   | "summary"
-  | "description"
   | "city"
   | "venueName"
   | "address"
   | "category"
-  | "tags"
-  | "organizerName"
   | "isFree"
   | "price"
   | "currency"
   | "freeFood"
-  | "foodDetails"
   | "status"
-  | "featured"
 > & {
   /** ISO instant; `null` when the CMS value is not a valid date. */
   startsAt: string | null;
@@ -42,7 +37,6 @@ export type EventItem = Pick<
   sourceUrl: string | null;
   registrationUrl: string | null;
   imageUrl: string | null;
-  updatedAt: string | null;
 };
 
 export type EventCategory = CmsEventCategory;

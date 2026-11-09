@@ -259,6 +259,11 @@
       "dateMonthShort": "Month",
       "dateCustomShort": "Custom",
       "advanced": "Filters",
+      "advancedTitle": "Filters",
+      "advancedDescription": "Narrow events down by category, admission and sort order.",
+      "advancedApply": "Apply",
+      "advancedCancel": "Cancel",
+      "advancedClose": "Close",
       "removeFilter": "Remove filter",
       "categoryLabel": "Category",
       "categoryAll": "All categories",
@@ -292,7 +297,9 @@
     "pagination": {
       "label": "Event pagination",
       "next": "More events",
-      "first": "Back to the start"
+      "first": "Back to the start",
+      "loading": "Loading…",
+      "loadError": "Couldn't load more events. Please try again."
     },
     "states": {
       "emptyFilteredTitle": "No events match these filters",

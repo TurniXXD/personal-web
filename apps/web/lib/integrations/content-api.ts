@@ -24,11 +24,11 @@ export const CONTENT_CACHE_TAG = {
 const REQUEST_TIMEOUT_MS = 8_000;
 
 type ListEventsResponse =
-  paths["/public/v1/events"]["get"]["responses"]["200"]["content"]["application/json"];
+  paths["/public/v1/event-cards"]["get"]["responses"]["200"]["content"]["application/json"];
 type CategoriesResponse =
   paths["/public/v1/events/categories"]["get"]["responses"]["200"]["content"]["application/json"];
 type ApiErrorBody =
-  paths["/public/v1/events"]["get"]["responses"]["400"]["content"]["application/json"];
+  paths["/public/v1/event-cards"]["get"]["responses"]["400"]["content"]["application/json"];
 
 export type ContentApiFetchInit = RequestInit & {
   next?: { revalidate?: number | false; tags?: string[] };
@@ -181,28 +181,41 @@ export const createContentApiClient = ({
       cursor = null,
       limit,
     }: ListEventsParams): Promise<EventListPage> {
-      const endpoint = "listEvents";
-      const body = await request<ListEventsResponse>(
-        endpoint,
-        "/public/v1/events",
-        toEventsApiQuery(filters, { cursor, limit }),
-        {
-          revalidate: CONTENT_API_REVALIDATE.events,
-          tags: [CONTENT_CACHE_TAG.events],
-        },
-      );
-      if (!isRecord(body) || !Array.isArray(body.data)) {
-        throw invalidShape(endpoint);
-      }
-      const events = body.data.flatMap((item) => mapCmsEvent(item) ?? []);
-      return {
-        events,
-        nextCursor:
+      const endpoint = "listEventCards";
+      const now = Date.now();
+      const visitedCursors = new Set<string | null>();
+      let pageCursor = cursor;
+      let skipped = 0;
+
+      while (!visitedCursors.has(pageCursor)) {
+        visitedCursors.add(pageCursor);
+        const body = await request<ListEventsResponse>(
+          endpoint,
+          "/public/v1/event-cards",
+          toEventsApiQuery(filters, { cursor: pageCursor, limit }),
+          {
+            revalidate: CONTENT_API_REVALIDATE.events,
+            tags: [CONTENT_CACHE_TAG.events],
+          },
+        );
+        if (!isRecord(body) || !Array.isArray(body.data)) {
+          throw invalidShape(endpoint);
+        }
+        const mapped = body.data.flatMap((item) => mapCmsEvent(item) ?? []);
+        skipped += body.data.length - mapped.length;
+        const events = mapped.filter(
+          (event) => event.startsAt && Date.parse(event.startsAt) >= now,
+        );
+        const nextCursor =
           typeof body.nextCursor === "string" && body.nextCursor
             ? body.nextCursor
-            : null,
-        skipped: body.data.length - events.length,
-      };
+            : null;
+        if (events.length > 0 || !nextCursor) {
+          return { events, nextCursor, skipped };
+        }
+        pageCursor = nextCursor;
+      }
+      throw invalidShape(endpoint);
     },
 
     async getEventCategories(

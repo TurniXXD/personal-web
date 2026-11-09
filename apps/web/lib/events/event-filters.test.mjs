@@ -94,7 +94,7 @@ test("combines every filter into one API query", () => {
   const query = toEventsApiQuery(filters, { cursor });
   assert.deepEqual(Object.fromEntries(query), {
     city: "praha",
-    limit: "24",
+    limit: "20",
     sort: "-updatedAt",
     q: "rust",
     category: "development",
