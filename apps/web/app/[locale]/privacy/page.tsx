@@ -61,6 +61,7 @@ export default async function PrivacyPage({ params }: PrivacyPageProps) {
             {t.contactLabel}{" "}
             <a href={contactMailto()}>{siteConfig.contact.email}</a>
           </p>
+          <p className="privacy-page__contact">{t.updated}</p>
           <div className="privacy-page__sections">
             {t.sections.map((section, index) => (
               <section key={section.title} aria-labelledby={`privacy-${index}`}>

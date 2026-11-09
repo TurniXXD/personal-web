@@ -1,12 +1,11 @@
 import { Resend } from "resend";
 import { randomUUID } from "node:crypto";
-import { cookies } from "next/headers";
 import { apiErrorResponse } from "@/lib/api/error-response";
 import {
   readContactRequestContext,
   validateContactInput,
 } from "@/lib/contact/submission";
-import { referralCookie } from "@/lib/referrals/token";
+import { readReferralToken } from "@/lib/referrals/token";
 import { resolveContactReferral } from "@/lib/referrals/contact-attribution";
 import { rateLimit } from "@/lib/api/rate-limit";
 import { siteConfig } from "@/lib/site/config";
@@ -118,7 +117,7 @@ export async function POST(request: Request) {
     });
   }
 
-  const token = (await cookies()).get(referralCookie)?.value;
+  const token = readReferralToken(body);
   const referral = await resolveContactReferral({
     token,
     secret: process.env.TWENTY_REFERRAL_SECRET,

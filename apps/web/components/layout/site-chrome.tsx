@@ -329,7 +329,10 @@ export const SiteFooter = ({ locale }: SiteFooterProps) => {
         </nav>
         <div className="site-footer__bottom col-span-full mt-[clamp(1.5rem,3vw,2.5rem)] flex justify-between gap-6 border-t border-[rgba(188,196,255,0.18)] pt-[1.35rem] text-[0.73rem] text-ink-on-dark-soft max-[460px]:flex-col max-[460px]:gap-2">
           <span>
-            © {new Date().getFullYear()} {chrome("brandName")}. {t.copyright}
+            © {new Date().getFullYear()} {chrome("brandName")}. {t.copyright}{" "}
+            {chrome("registrationNumber", {
+              number: siteConfig.business.registrationNumber,
+            })}
           </span>
           <div className="site-footer__secondary flex flex-wrap gap-x-[1.4rem] gap-y-[0.65rem] [&_a]:text-[0.73rem] [&_a]:leading-[1.45] [&_a]:text-ink-on-dark [&_a:hover]:text-white">
             <a href={localizedPath(locale, "/privacy")}>{t.privacy}</a>

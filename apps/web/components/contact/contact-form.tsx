@@ -101,6 +101,24 @@ function SubmissionFeedback({
   );
 }
 
+let referralToken: string | null | undefined;
+
+/**
+ * The `?ref` token of the landing URL, read once per page load and then removed
+ * from the address bar so it is not shared or recorded. Nothing is stored on
+ * the device, so attribution applies to forms sent from the landing page.
+ */
+function landingReferralToken() {
+  if (referralToken !== undefined) return referralToken ?? undefined;
+  const url = new URL(window.location.href);
+  referralToken = url.searchParams.get("ref")?.trim() || null;
+  if (url.searchParams.has("ref")) {
+    url.searchParams.delete("ref");
+    window.history.replaceState(window.history.state, "", url);
+  }
+  return referralToken ?? undefined;
+}
+
 export function ContactForm({
   emailHref,
   locale,
@@ -123,10 +141,15 @@ export function ContactForm({
     errors[field] ? t.errors[errors[field]] : undefined;
 
   useEffect(() => {
+    const token = landingReferralToken();
+    if (!token) return;
     const controller = new AbortController();
     async function loadReferrer() {
       try {
         const response = await fetch("/api/referrer", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ referralToken: token }),
           signal: controller.signal,
           cache: "no-store",
         });
@@ -134,7 +157,7 @@ export function ContactForm({
         const result = await response.json();
         setReferralApplied(result.referralApplied === true);
       } catch {
-        // The server still verifies any referral cookie on submission.
+        // The server verifies the token again on submission.
       }
     }
     void loadReferrer();
@@ -185,6 +208,7 @@ export function ContactForm({
           fax: fieldValue(data, "fax"),
           submissionId: submissionId.current,
           turnstileToken,
+          referralToken: landingReferralToken(),
           request: {
             type: resolvedRequestType,
             subject: requestSubject,

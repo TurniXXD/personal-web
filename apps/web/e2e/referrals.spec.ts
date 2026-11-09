@@ -5,7 +5,9 @@ test("signed referral lookup shows attribution without exposing referrer details
   page,
   context,
 }) => {
+  let lookupBody: unknown;
   await page.route("**/api/referrer", async (route) => {
+    lookupBody = route.request().postDataJSON();
     await route.fulfill({
       status: 200,
       contentType: "application/json",
@@ -13,15 +15,14 @@ test("signed referral lookup shows attribution without exposing referrer details
     });
   });
   await page.goto("/?ref=example-token");
-  const cookie = (await context.cookies()).find(
-    (item) => item.name === "vantuch_referral",
-  );
-  expect(cookie).toMatchObject({
-    value: "example-token",
-    httpOnly: true,
-    sameSite: "Lax",
-  });
   const form = page.locator(".contact-form");
+  await expect(form.locator(".contact-form__referral")).toBeVisible();
+  // Attribution stores nothing on the device and drops the token from the URL.
+  expect(lookupBody).toEqual({ referralToken: "example-token" });
+  expect(new URL(page.url()).searchParams.has("ref")).toBe(false);
+  expect(
+    (await context.cookies()).some((item) => item.name === "vantuch_referral"),
+  ).toBe(false);
   await expect(form.locator(".contact-form__referral")).toContainText(
     "Doporučení z odkazu je přiřazeno",
   );

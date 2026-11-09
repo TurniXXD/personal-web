@@ -1,6 +1,13 @@
 import { createHmac, timingSafeEqual } from "node:crypto";
 
-export const referralCookie = "vantuch_referral";
+/** Reads the `referralToken` field of a JSON body; tokens are at most 128 chars. */
+export function readReferralToken(body: unknown): string | undefined {
+  if (!body || typeof body !== "object" || Array.isArray(body)) return;
+  const token = (body as Record<string, unknown>).referralToken;
+  return typeof token === "string" && token && token.length <= 128
+    ? token
+    : undefined;
+}
 const uuidPattern =
   /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 

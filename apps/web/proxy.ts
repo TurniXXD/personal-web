@@ -4,6 +4,7 @@ import createMiddleware from "next-intl/middleware";
 import { routing } from "@/i18n/routing";
 
 const intlMiddleware = createMiddleware(routing);
+const legacyReferralCookie = "vantuch_referral";
 
 export default function proxy(request: NextRequest) {
   // Public pages have no Server Actions. Forms submit to /api/*, which the
@@ -15,7 +16,6 @@ export default function proxy(request: NextRequest) {
     });
   }
 
-  const token = request.nextUrl.searchParams.get("ref");
   let response: NextResponse;
   if (request.nextUrl.pathname === "/") {
     const url = request.nextUrl.clone();
@@ -24,14 +24,10 @@ export default function proxy(request: NextRequest) {
   } else {
     response = intlMiddleware(request);
   }
-  if (token !== null) {
-    response.cookies.set("vantuch_referral", token, {
-      httpOnly: true,
-      sameSite: "lax",
-      secure: process.env.NODE_ENV === "production",
-      path: "/",
-      maxAge: token && token.length <= 128 ? 60 * 60 * 24 * 30 : 0,
-    });
+  // Referral attribution no longer stores anything on the device (the token
+  // travels with the contact form); remove the cookie earlier versions set.
+  if (request.cookies.has(legacyReferralCookie)) {
+    response.cookies.delete(legacyReferralCookie);
   }
   return response;
 }

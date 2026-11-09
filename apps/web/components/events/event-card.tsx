@@ -1,4 +1,4 @@
-import { Clock3, ExternalLink, MapPin } from "lucide-react";
+import { Clock3, ExternalLink, Globe, MapPin } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { cn } from "cn";
 import {
@@ -38,6 +38,11 @@ export function EventCard({ event, locale, categoryLabel }: EventCardProps) {
   const date = formatEventCardDateBadge(event, locale);
   const time = formatEventCardTime(event, locale);
   const location = formatEventCardLocation(event);
+  // The organiser's source page is always credited; it gets its own link when
+  // the card itself opens the registration page instead.
+  const sourceHost = event.sourceUrl
+    ? new URL(event.sourceUrl).hostname.replace(/^www\./, "")
+    : null;
   const label =
     event.category === "ai"
       ? "AI"
@@ -49,7 +54,7 @@ export function EventCard({ event, locale, categoryLabel }: EventCardProps) {
     <article
       data-event-card={event.slug}
       data-event-status={event.status}
-      className="group relative flex h-full min-w-0 flex-col overflow-hidden rounded-[1.35rem] border border-border-card bg-card shadow-[0_16px_40px_rgba(47,59,125,0.045)] transition-[background-color,border-color,box-shadow] duration-300 hover:border-primary hover:bg-[#625bdf] hover:shadow-[0_1.4rem_3.4rem_rgba(66,58,164,0.24)] focus-within:border-primary focus-within:bg-[#625bdf] focus-within:shadow-[0_1.4rem_3.4rem_rgba(66,58,164,0.24)] has-[[data-event-card-link]:focus-visible]:outline-[3px] has-[[data-event-card-link]:focus-visible]:outline-offset-4 has-[[data-event-card-link]:focus-visible]:outline-[#5f6cff45]"
+      className="group relative flex h-full min-w-0 flex-col overflow-hidden rounded-[1.35rem] border border-border-card bg-card shadow-[0_16px_40px_rgba(47,59,125,0.045)] transition-[background-color,border-color,box-shadow] duration-300 hover:border-primary hover:bg-[#625bdf] hover:shadow-[0_1.4rem_3.4rem_rgba(66,58,164,0.24)] has-[:focus-visible]:border-primary has-[:focus-visible]:bg-[#625bdf] has-[:focus-visible]:shadow-[0_1.4rem_3.4rem_rgba(66,58,164,0.24)] has-[[data-event-card-link]:focus-visible]:outline-[3px] has-[[data-event-card-link]:focus-visible]:outline-offset-4 has-[[data-event-card-link]:focus-visible]:outline-[#5f6cff45]"
     >
       {optimizableEventImage(event.imageUrl) ? (
         <EventCover
@@ -82,7 +87,7 @@ export function EventCard({ event, locale, categoryLabel }: EventCardProps) {
         </div>
         <h3
           className={cn(
-            "m-0 line-clamp-3 text-[1.12rem] leading-[1.35] font-semibold tracking-[-0.03em] text-ink-strong transition-colors duration-300 group-hover:text-white group-focus-within:text-white",
+            "m-0 line-clamp-3 text-[1.12rem] leading-[1.35] font-semibold tracking-[-0.03em] text-ink-strong transition-colors duration-300 group-hover:text-white group-has-[:focus-visible]:text-white",
             event.status === "cancelled" && "line-through decoration-1",
           )}
         >
@@ -99,7 +104,7 @@ export function EventCard({ event, locale, categoryLabel }: EventCardProps) {
               <ExternalLink
                 size={14}
                 aria-hidden="true"
-                className="ml-1.5 inline-block align-[-0.08em] text-ink-muted transition-colors duration-300 group-focus-within:text-white group-hover:text-white"
+                className="ml-1.5 inline-block align-[-0.08em] text-ink-muted transition-colors duration-300 group-hover:text-white group-has-[:focus-visible]:text-white"
               />
               <span className="sr-only"> {t("newWindow")}</span>
             </a>
@@ -108,8 +113,8 @@ export function EventCard({ event, locale, categoryLabel }: EventCardProps) {
           )}
         </h3>
         <div className="mt-auto flex flex-col gap-3">
-          {time || location ? (
-            <dl className="m-0 grid gap-1.5 text-ui-sm leading-[1.45] text-ink-muted transition-colors duration-300 group-hover:text-white group-focus-within:text-white">
+          {time || location || sourceHost ? (
+            <dl className="m-0 grid gap-1.5 text-ui-sm leading-[1.45] text-ink-muted transition-colors duration-300 group-hover:text-white group-has-[:focus-visible]:text-white">
               {time && event.startsAt ? (
                 <div className="flex min-w-0 items-start gap-1.5">
                   <dt className="shrink-0 pt-px">
@@ -134,6 +139,29 @@ export function EventCard({ event, locale, categoryLabel }: EventCardProps) {
                     title={location}
                   >
                     {location}
+                  </dd>
+                </div>
+              ) : null}
+              {sourceHost && event.sourceUrl ? (
+                <div className="flex min-w-0 items-start gap-1.5">
+                  <dt className="shrink-0 pt-px">
+                    <Globe size={14} aria-hidden="true" />
+                    <span className="sr-only">{t("source")}</span>
+                  </dt>
+                  <dd className="m-0 min-w-0 truncate" data-event-source>
+                    {event.sourceUrl === href ? (
+                      sourceHost
+                    ) : (
+                      <a
+                        href={event.sourceUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="relative z-10 underline decoration-[rgba(95,108,255,0.35)] underline-offset-2 hover:decoration-current"
+                      >
+                        {sourceHost}
+                        <span className="sr-only"> {t("newWindow")}</span>
+                      </a>
+                    )}
                   </dd>
                 </div>
               ) : null}

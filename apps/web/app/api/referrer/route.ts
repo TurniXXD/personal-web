@@ -1,6 +1,5 @@
-import { cookies } from "next/headers";
 import { apiErrorResponse } from "@/lib/api/error-response";
-import { referralCookie, verifyReferralToken } from "@/lib/referrals/token";
+import { readReferralToken, verifyReferralToken } from "@/lib/referrals/token";
 import {
   configuredTwenty,
   twentyErrorContext,
@@ -9,9 +8,13 @@ import {
 
 const endpoint = "referrer";
 
-export async function GET() {
-  const token = (await cookies()).get(referralCookie)?.value;
+/**
+ * Confirms a referral token from the visitor's `?ref` link. The token arrives
+ * in the request body (never a cookie or query string) and is only verified.
+ */
+export async function POST(request: Request) {
   const headers = { "Cache-Control": "no-store" };
+  const token = readReferralToken(await request.json().catch(() => null));
   if (!token) return Response.json({ referralApplied: false }, { headers });
   const secret = process.env.TWENTY_REFERRAL_SECRET;
   const client = configuredTwenty();
@@ -30,7 +33,7 @@ export async function GET() {
     });
   const id = verifyReferralToken(token, secret);
   if (!id) {
-    const response = apiErrorResponse({
+    return apiErrorResponse({
       body: { referralApplied: false, message: "invalidReferral" },
       status: 400,
       code: "invalid_referral",
@@ -38,17 +41,12 @@ export async function GET() {
       message: "Referrer token is invalid",
       headers,
     });
-    response.headers.append(
-      "Set-Cookie",
-      `${referralCookie}=; Path=/; Max-Age=0; HttpOnly; SameSite=Lax`,
-    );
-    return response;
   }
   try {
     const person = await client.findPersonById(id);
     const email = person?.emails?.primaryEmail;
     if (!email) {
-      const response = apiErrorResponse({
+      return apiErrorResponse({
         body: { referralApplied: false, message: "invalidReferral" },
         status: 404,
         code: "referrer_not_found",
@@ -56,11 +54,6 @@ export async function GET() {
         message: "Referrer was not found",
         headers,
       });
-      response.headers.append(
-        "Set-Cookie",
-        `${referralCookie}=; Path=/; Max-Age=0; HttpOnly; SameSite=Lax`,
-      );
-      return response;
     }
     return Response.json({ referralApplied: true }, { headers });
   } catch (error) {

@@ -187,6 +187,7 @@
     "brandName": "Jakub Vantuch",
     "brandRole": "Digital Solutions Consultant",
     "footerNavigationLabel": "Footer navigation",
+    "registrationNumber": "Company ID {number}",
     "languageAriaLabel": "CZ – Switch to Czech",
     "languageShortLabel": "CZ",
     "mainNavigationLabel": "Main navigation",
@@ -233,6 +234,7 @@
     "listing": {
       "title": "Events",
       "subtitle": "Selected events I found with my bot, ones that caught my eye, or ones that are less known but definitely deserve more attention.",
+      "disclaimer": "A bot collects these events automatically from organisers' public pages. I do not organise them, and details may change or contain errors. Please check the event page before you go.",
       "resultsLabel": "Event list",
       "resultsCount": "{count, plural, =0 {No events} one {Showing # event} other {Showing # events}}",
       "moreAvailable": "More events are on the next page.",
@@ -324,7 +326,7 @@
       },
       "venue": "Venue",
       "time": "Time",
-      "organizer": "Organised by",
+      "source": "Source",
       "featured": "Featured",
       "newWindow": "(opens the event page in a new window)"
     },
@@ -339,6 +341,12 @@
       "description": "The event service is temporarily unavailable. Please try again in a moment.",
       "retry": "Try again",
       "back": "All events"
+    },
+    "cta": {
+      "eyebrow": "Want something similar?",
+      "title": "This page is a showcase of what I can build",
+      "description": "A bot that collects events on its own, a CMS with an API, and a fast website on top. If you want a similar solution for your field or business, write to me using the form below.",
+      "topic": "A solution like the Events page"
     }
   },
   "cardRobot": {

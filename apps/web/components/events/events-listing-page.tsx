@@ -1,6 +1,10 @@
 import { Suspense } from "react";
 import { useTranslations } from "next-intl";
-import { SiteFooter, SiteHeader } from "@/components/layout/site-chrome";
+import {
+  ContactBlock,
+  SiteFooter,
+  SiteHeader,
+} from "@/components/layout/site-chrome";
 import { EventGridSkeleton } from "@/components/events/event-card-skeleton";
 import { EventsBackdrop } from "@/components/events/events-backdrop";
 import { ScrollReveal } from "@/components/shared/scroll-reveal";
@@ -46,6 +50,12 @@ export function EventsListingPage({
               <p className="mt-4 mb-0 max-w-[46rem] text-[clamp(1rem,1.6vw,1.15rem)] leading-[1.6] text-ink-muted">
                 {t("listing.subtitle")}
               </p>
+              <p
+                className="mt-3 mb-0 max-w-[46rem] text-ui-sm leading-[1.55] text-ink-muted"
+                data-events-disclaimer
+              >
+                {t("listing.disclaimer")}
+              </p>
             </ScrollReveal>
             <ScrollReveal delay={90} className="relative z-10">
               <EventFiltersForm
@@ -76,6 +86,14 @@ export function EventsListingPage({
             </Suspense>
           </section>
         </div>
+        <ContactBlock
+          locale={locale}
+          eyebrow={t("cta.eyebrow")}
+          title={t("cta.title")}
+          description={t("cta.description")}
+          topic={t("cta.topic")}
+          requestType="service"
+        />
       </main>
       <SiteFooter locale={locale} />
     </>

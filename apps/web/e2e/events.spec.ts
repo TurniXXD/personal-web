@@ -320,6 +320,10 @@ test("card opens the organiser's event page while the calendar link stays indepe
   expect(calendarUrl.searchParams.get("details")).toContain(
     "https://example.com/register/brno-ai-meetup",
   );
+  // The source page stays credited next to the registration link.
+  const source = card.locator("[data-event-source] a");
+  await expect(source).toHaveText(/example\.com/);
+  await expect(source).toHaveAttribute("rel", "noopener noreferrer");
   // No interactive element is nested inside another.
   await expect(card.locator("a a, a button")).toHaveCount(0);
 
@@ -341,10 +345,19 @@ test("cards fall back to the source page and stay links when cancelled", async (
   page,
 }) => {
   await page.goto("/akce");
+  await expect(page.locator("[data-events-disclaimer]")).toContainText(
+    "Nejsem jejich pořadatelem",
+  );
   // No registration URL: the card links to the organiser's source page.
+  const typescriptNight = page.locator('[data-event-card="typescript-night"]');
   await expect(
-    page.locator('[data-event-card="typescript-night"] [data-event-card-link]'),
+    typescriptNight.locator("[data-event-card-link]"),
   ).toHaveAttribute("href", "https://example.com/events");
+  // The source is then named as text, not as a duplicate link.
+  await expect(typescriptNight.locator("[data-event-source]")).toHaveText(
+    "example.com",
+  );
+  await expect(typescriptNight.locator("[data-event-source] a")).toHaveCount(0);
 
   const cancelled = page.locator('[data-event-card="startup-pitch-evening"]');
   await expect(cancelled.locator("[data-event-card-link]")).toHaveAttribute(
