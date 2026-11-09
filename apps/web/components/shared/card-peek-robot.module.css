@@ -124,6 +124,40 @@
   animation: wobble 1.6s ease-in-out 520ms 2;
 }
 
+/* Hover greeting: the robot grins with happy eyes and waves one hand. */
+.happyEyes,
+.grin {
+  opacity: 0;
+  transition: opacity 120ms ease-out;
+}
+.eyes,
+.mouth {
+  transition: opacity 120ms ease-out;
+}
+.root[data-greeting="true"][data-phase="peek"] :is(.happyEyes, .grin) {
+  opacity: 1;
+}
+.root[data-greeting="true"][data-phase="peek"] :is(.eyes, .mouth) {
+  opacity: 0;
+}
+/* The waving hand lets go of the card edge and rises beside the face.
+   `translate`/`rotate` compose with the edge-specific `transform`. */
+.root[data-greeting="true"][data-phase="peek"] .handRight {
+  translate: 0.35rem -1.45rem;
+  transition: translate 260ms var(--robot-ease);
+  animation: hand-wave 900ms ease-in-out 260ms infinite;
+}
+.root[data-greeting="true"][data-phase="peek"]:is(
+    [data-edge="left"],
+    [data-edge="right"]
+  )
+  .handRight {
+  translate: 0 -2.6rem;
+}
+.root[data-greeting="true"][data-phase="peek"][data-edge="top"] .handRight {
+  transform-origin: 50% 100%;
+}
+
 .bubble {
   position: absolute;
   bottom: calc(100% + 0.45rem);
@@ -201,6 +235,18 @@
     transform: rotate(9deg);
   }
 }
+@keyframes hand-wave {
+  0%,
+  100% {
+    rotate: 0deg;
+  }
+  25% {
+    rotate: -22deg;
+  }
+  75% {
+    rotate: 22deg;
+  }
+}
 @keyframes wave {
   0%,
   60%,
@@ -224,7 +270,8 @@
   }
   .eyes,
   .antenna,
-  .wave {
+  .wave,
+  .hand {
     animation: none !important;
   }
 }

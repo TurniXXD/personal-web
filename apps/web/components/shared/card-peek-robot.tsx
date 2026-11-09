@@ -404,15 +404,39 @@ export function CardPeekRobot() {
               <circle cx="21.6" cy="29.6" r="1" fill="#fff" />
               <circle cx="35.6" cy="29.6" r="1" fill="#fff" />
             </g>
+            <g
+              className={styles.happyEyes}
+              fill="none"
+              stroke="#fff"
+              strokeWidth="2.6"
+              strokeLinecap="round"
+            >
+              <path d="M18 33 Q22 26.5 26 33" />
+              <path d="M32 33 Q36 26.5 40 33" />
+            </g>
             <circle cx="14.5" cy="44" r="2.6" fill="#ff8fc7" opacity="0.75" />
             <circle cx="43.5" cy="44" r="2.6" fill="#ff8fc7" opacity="0.75" />
             <path
+              className={styles.mouth}
               d="M25 43.5 Q29 47 33 43.5"
               fill="none"
               stroke="#2a2457"
               strokeWidth="1.8"
               strokeLinecap="round"
             />
+            <g className={styles.grin}>
+              <path
+                d="M24 42.2 Q29 48.6 34 42.2 Z"
+                fill="#2a2457"
+                stroke="#2a2457"
+                strokeWidth="1.2"
+                strokeLinejoin="round"
+              />
+              <path
+                d="M27 45.6 Q29 44.4 31 45.6 Q29 46.9 27 45.6 Z"
+                fill="#ff8fc7"
+              />
+            </g>
           </svg>
         </div>
       </div>
