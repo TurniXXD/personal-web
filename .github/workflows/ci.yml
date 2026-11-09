@@ -1,14 +1,35 @@
 name: CI
 
 on:
-  push:
   pull_request:
+  push:
+    branches:
+      - main
 
 permissions:
   contents: read
 
 jobs:
+  workspace-state:
+    name: Detect workspace state
+    runs-on: [self-hosted, linux, x64]
+    timeout-minutes: 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Validate workspace files
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f package.json
+          test -f pnpm-lock.yaml
+          test -f pnpm-workspace.yaml
+          test -f apps/web/package.json
+          test -f apps/portfolio/package.json
   checks:
+    needs: workspace-state
+    if: github.event_name != 'pull_request'
     runs-on: [self-hosted, linux, x64]
     steps:
       - name: Checkout
