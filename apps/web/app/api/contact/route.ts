@@ -101,32 +101,47 @@ export async function POST(request: Request) {
     });
   }
 
+  // Resend is the required delivery channel. Twenty is best effort: when it
+  // is missing or failing, the lead still reaches the owner by email.
   const apiKey = process.env.RESEND_API_KEY;
-  const twenty = configuredTwenty();
-  if (!apiKey || !twenty) {
-    const missing = [
-      "RESEND_API_KEY",
-      "TWENTY_BASE_URL",
-      "TWENTY_API_KEY",
-      "TWENTY_CF_ACCESS_CLIENT_ID",
-      "TWENTY_CF_ACCESS_CLIENT_SECRET",
-    ].filter((name) => !process.env[name]?.trim());
+  if (!apiKey) {
     return apiErrorResponse({
       body: { ok: false, message: "notConfigured" },
       status: 503,
       code: "delivery_not_configured",
       endpoint,
       message: "Contact delivery is not configured",
-      context: { missingEnvironmentVariables: missing },
+      context: { missingEnvironmentVariables: ["RESEND_API_KEY"] },
+    });
+  }
+
+  const twenty = configuredTwenty();
+  if (!twenty) {
+    sentryLogger({
+      type: "warning",
+      message: "Twenty is not configured; contact is delivered by email only",
+      context: {
+        endpoint,
+        missingEnvironmentVariables: [
+          "TWENTY_BASE_URL",
+          "TWENTY_API_KEY",
+          "TWENTY_CF_ACCESS_CLIENT_ID",
+          "TWENTY_CF_ACCESS_CLIENT_SECRET",
+        ].filter((name) => !process.env[name]?.trim()),
+      },
+      tags: { endpoint, operation: "contact-crm" },
+      fingerprint: ["contact", "crm-not-configured"],
     });
   }
 
   const token = readReferralToken(body);
-  const referral = await resolveContactReferral({
-    token,
-    secret: process.env.TWENTY_REFERRAL_SECRET,
-    findPersonById: (id) => twenty.findPersonById(id),
-  });
+  const referral = twenty
+    ? await resolveContactReferral({
+        token,
+        secret: process.env.TWENTY_REFERRAL_SECRET,
+        findPersonById: (id) => twenty.findPersonById(id),
+      })
+    : {};
   const referrer = referral.referrer;
   if (referral.issue) {
     sentryLogger({
@@ -154,19 +169,26 @@ export async function POST(request: Request) {
     )
       ? requestedId
       : randomUUID();
-  try {
-    await twenty.saveContact(input, submissionId, referrer, requestContext);
-  } catch (error) {
-    return apiErrorResponse({
-      body: { ok: false, message: "sendFailed" },
-      status: 502,
-      code: "contact_persistence_failed",
-      endpoint,
-      message: "Twenty contact persistence failed",
-      error,
-      context: twentyErrorContext(error),
-      tags: twentyErrorTags(error),
-    });
+  let savedToCrm = false;
+  if (twenty) {
+    try {
+      await twenty.saveContact(input, submissionId, referrer, requestContext);
+      savedToCrm = true;
+    } catch (error) {
+      // A CRM outage must not block the enquiry; it is still emailed below.
+      sentryLogger({
+        type: "error",
+        error,
+        message: "Twenty contact persistence failed; delivering by email only",
+        context: { endpoint, ...twentyErrorContext(error) },
+        tags: {
+          endpoint,
+          operation: "contact-crm",
+          ...twentyErrorTags(error),
+        },
+        fingerprint: ["contact", "crm-persistence"],
+      });
+    }
   }
 
   const entries = [
@@ -177,6 +199,7 @@ export async function POST(request: Request) {
     ["Requested service", requestContext.subject],
     ["Source page", requestContext.sourcePath],
     ["Referrer's email", referrer?.emails?.primaryEmail ?? ""],
+    ["CRM", savedToCrm ? "" : "Not saved to Twenty – add the lead manually"],
     ["Message", input.message],
   ] as const;
   const text = entries
@@ -205,13 +228,16 @@ export async function POST(request: Request) {
   try {
     const resend = new Resend(apiKey);
     const subjectName = input.name.replaceAll(/[\r\n]+/g, " ");
+    const subjectPrefix = savedToCrm ? "" : "[Not in CRM] ";
     const { error } = await resend.emails.send(
       {
         from: process.env.RESEND_FROM_EMAIL ?? defaultFrom,
         to: [process.env.RESEND_TO_EMAIL ?? siteConfig.contact.email],
         replyTo: input.email,
-        subject: `New website contact: ${subjectName}`,
-        ...(template ? { template } : { text, html }),
+        subject: `${subjectPrefix}New website contact: ${subjectName}`,
+        // The Resend template cannot show the CRM state, so a lead missing
+        // from Twenty uses the inline body that lists it.
+        ...(template && savedToCrm ? { template } : { text, html }),
       },
       { idempotencyKey: `web-contact/${submissionId}` },
     );
@@ -245,7 +271,7 @@ export async function POST(request: Request) {
       );
       if (result.error) throw new Error("Resend rejected contact confirmation");
     } catch {
-      // The enquiry was saved and the owner was notified. A retry would
+      // The owner was notified (and the enquiry saved when Twenty is up). A retry would
       // duplicate the submission, so report the confirmation failure only.
       sentryLogger({
         type: "warning",

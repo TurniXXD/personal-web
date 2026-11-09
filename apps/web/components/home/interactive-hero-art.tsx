@@ -3,18 +3,10 @@
 import styles from "./interactive-hero-art.module.css";
 
 import { useEffect, useRef } from "react";
-import {
-  BarChart3,
-  Bot,
-  Boxes,
-  Code2,
-  Gauge,
-  LayoutDashboard,
-  ShieldCheck,
-  Sparkles,
-  Workflow,
-} from "lucide-react";
+import { Bot, Code2, Gauge, ShieldCheck } from "lucide-react";
 import { useTranslations } from "next-intl";
+
+import { HeroDashboard } from "@/components/home/hero-dashboard";
 
 type ClampParams = {
   max: number;
@@ -131,6 +123,7 @@ export function InteractiveHeroArt() {
         "--hero-float-bottom-y",
         `${currentFloatY * -10 - currentScroll * 30}px`,
       );
+
       art.style.setProperty("--hero-sidebar-y", `${currentScroll * -16}px`);
       art.style.setProperty("--hero-stats-y", `${currentScroll * 8}px`);
       art.style.setProperty("--hero-chart-y", `${currentScroll * 18}px`);
@@ -250,154 +243,8 @@ export function InteractiveHeroArt() {
         className={`${styles["hero-art__window-layer"]} relative z-[2] grid w-full place-items-center will-change-transform`}
         data-home-hero-window
       >
-        <div className="relative w-[min(94%,31rem)] -rotate-2 overflow-hidden rounded-[1.25rem] border border-border-card bg-card shadow-[0_2rem_4.5rem_rgba(36,46,94,0.15),0_0.25rem_1rem_rgba(36,46,94,0.06)]">
-          <div className="flex min-h-10 items-center gap-1.5 border-b border-border-soft bg-background/80 px-4 [&>span]:size-1.5 [&>span]:rounded-full [&>span]:bg-border [&>span:first-child]:bg-primary/60">
-            <span />
-            <span />
-            <span />
-            <i className="ml-auto font-mono text-ui-2xs not-italic text-ink-soft">
-              {t("product")}
-            </i>
-          </div>
-
-          <div className="grid min-h-[21rem] grid-cols-[7rem_minmax(0,1fr)]">
-            <aside
-              className={`${styles["hero-art__sidebar"]} border-r border-border-soft bg-background/75 px-2.5 py-4 will-change-transform`}
-            >
-              <div className="mb-5 flex items-center gap-2 px-1.5 text-[0.62rem] font-extrabold text-ink-strong">
-                <span className="grid size-6 place-items-center rounded-lg bg-primary text-primary-foreground">
-                  <Sparkles size={12} strokeWidth={2.2} />
-                </span>
-                {t("productName")}
-              </div>
-              <div className="grid gap-1 text-[0.57rem] font-semibold text-ink-soft">
-                <span className="flex items-center gap-2 rounded-lg bg-secondary px-2 py-2 text-primary">
-                  <LayoutDashboard size={12} />
-                  {t("navigation.dashboard")}
-                </span>
-                <span className="flex items-center gap-2 px-2 py-2">
-                  <BarChart3 size={12} />
-                  {t("navigation.analytics")}
-                </span>
-                <span className="flex items-center gap-2 px-2 py-2">
-                  <Workflow size={12} />
-                  {t("navigation.automations")}
-                </span>
-                <span className="flex items-center gap-2 px-2 py-2">
-                  <Boxes size={12} />
-                  {t("navigation.integrations")}
-                </span>
-              </div>
-            </aside>
-
-            <div className="min-w-0 bg-card px-4 py-4">
-              <div className="flex items-start justify-between gap-3">
-                <div>
-                  <p className="text-[1rem] font-extrabold tracking-[-0.035em] text-ink-strong">
-                    {t("title")}
-                  </p>
-                  <p className="mt-1 text-[0.56rem] text-ink-soft">
-                    {t("subtitle")}
-                  </p>
-                </div>
-                <span className="rounded-lg border border-border-soft bg-background px-2.5 py-1.5 text-[0.53rem] font-semibold text-ink-muted">
-                  {t("period")}
-                </span>
-              </div>
-
-              <div
-                className={`${styles["hero-art__stats"]} mt-4 grid grid-cols-3 gap-2 will-change-transform`}
-              >
-                <div className="rounded-xl border border-border-soft bg-background/65 p-2.5">
-                  <span className="text-[0.52rem] text-ink-soft">
-                    {t("metrics.users.label")}
-                  </span>
-                  <strong className="mt-1.5 block text-[0.95rem] tracking-[-0.04em] text-ink-strong">
-                    {t("metrics.users.value")}
-                  </strong>
-                  <small className="mt-1 block text-[0.5rem] font-bold text-emerald-500">
-                    {t("metrics.users.change")}
-                  </small>
-                </div>
-                <div className="rounded-xl border border-border-soft bg-background/65 p-2.5">
-                  <span className="text-[0.52rem] text-ink-soft">
-                    {t("metrics.conversions.label")}
-                  </span>
-                  <strong className="mt-1.5 block text-[0.95rem] tracking-[-0.04em] text-ink-strong">
-                    {t("metrics.conversions.value")}
-                  </strong>
-                  <small className="mt-1 block text-[0.5rem] font-bold text-emerald-500">
-                    {t("metrics.conversions.change")}
-                  </small>
-                </div>
-                <div className="rounded-xl border border-border-soft bg-background/65 p-2.5">
-                  <span className="text-[0.52rem] text-ink-soft">
-                    {t("metrics.time.label")}
-                  </span>
-                  <strong className="mt-1.5 block text-[0.95rem] tracking-[-0.04em] text-ink-strong">
-                    {t("metrics.time.value")}
-                  </strong>
-                  <small className="mt-1 block text-[0.5rem] font-bold text-emerald-500">
-                    {t("metrics.time.change")}
-                  </small>
-                </div>
-              </div>
-
-              <div
-                className={`${styles["hero-art__chart"]} mt-3 rounded-xl border border-border-soft bg-background/55 px-3 pt-3 pb-2 will-change-transform`}
-              >
-                <div className="flex items-center justify-between">
-                  <span className="text-[0.52rem] font-semibold text-ink-muted">
-                    {t("chartLabel")}
-                  </span>
-                  <span className="rounded-full bg-primary px-2 py-1 text-[0.49rem] font-bold text-primary-foreground shadow-sm">
-                    {t("chartChange")}
-                  </span>
-                </div>
-                <svg
-                  className="mt-1 h-[5.6rem] w-full overflow-visible"
-                  viewBox="0 0 320 112"
-                  fill="none"
-                >
-                  <defs>
-                    <linearGradient
-                      id="hero-chart-fill"
-                      x1="0"
-                      y1="0"
-                      x2="0"
-                      y2="1"
-                    >
-                      <stop stopColor="var(--brand)" stopOpacity="0.22" />
-                      <stop
-                        offset="1"
-                        stopColor="var(--brand)"
-                        stopOpacity="0"
-                      />
-                    </linearGradient>
-                  </defs>
-                  <path
-                    d="M6 94C31 91 34 63 60 70C82 76 88 98 112 86C135 74 143 42 169 48C189 53 191 73 211 70C235 66 235 41 261 48C279 53 292 40 314 31V108H6V94Z"
-                    fill="url(#hero-chart-fill)"
-                  />
-                  <path
-                    className={styles["hero-art__chart-line"]}
-                    d="M6 94C31 91 34 63 60 70C82 76 88 98 112 86C135 74 143 42 169 48C189 53 191 73 211 70C235 66 235 41 261 48C279 53 292 40 314 31"
-                    stroke="var(--brand)"
-                    strokeWidth="3"
-                    strokeLinecap="round"
-                  />
-                  <circle cx="314" cy="31" r="4" fill="var(--brand)" />
-                  <circle
-                    cx="314"
-                    cy="31"
-                    r="8"
-                    fill="var(--brand)"
-                    fillOpacity="0.14"
-                  />
-                </svg>
-              </div>
-            </div>
-          </div>
+        <div className="relative w-[min(94%,31rem)] -rotate-2">
+          <HeroDashboard />
         </div>
       </div>
 

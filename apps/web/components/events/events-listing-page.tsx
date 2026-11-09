@@ -50,12 +50,6 @@ export function EventsListingPage({
               <p className="mt-4 mb-0 max-w-[46rem] text-[clamp(1rem,1.6vw,1.15rem)] leading-[1.6] text-ink-muted">
                 {t("listing.subtitle")}
               </p>
-              <p
-                className="mt-3 mb-0 max-w-[46rem] text-ui-sm leading-[1.55] text-ink-muted"
-                data-events-disclaimer
-              >
-                {t("listing.disclaimer")}
-              </p>
             </ScrollReveal>
             <ScrollReveal delay={90} className="relative z-10">
               <EventFiltersForm
@@ -85,6 +79,13 @@ export function EventsListingPage({
               />
             </Suspense>
           </section>
+          <hr className="mt-12 mb-0 border-0 border-t border-border-soft" />
+          <p
+            className="mt-8 mb-0 max-w-[46rem] text-ui-sm leading-[1.55] text-ink-muted"
+            data-events-disclaimer
+          >
+            {t("listing.disclaimer")}
+          </p>
         </div>
         <ContactBlock
           locale={locale}

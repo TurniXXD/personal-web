@@ -28,36 +28,26 @@
   "homeUi": {
     "portraitAlt": "Portrét Jakuba Vantucha",
     "heroVisual": {
-      "product": "vantuch.dev",
-      "productName": "Vaše řešení",
-      "navigation": {
-        "dashboard": "Přehled",
-        "analytics": "Analytika",
-        "automations": "Automatizace",
-        "integrations": "Integrace"
-      },
-      "title": "Růst",
-      "subtitle": "Výsledky díky chytřejším technologiím.",
-      "period": "Posledních 30 dní",
+      "title": "Přehled",
+      "subtitle": "Vše důležité na jednom místě.",
+      "range": "Posledních 30 dní",
       "metrics": {
-        "users": {
+        "activeUsers": {
           "label": "Aktivní uživatelé",
           "value": "12,5 tis.",
-          "change": "↗ 24 %"
+          "trend": "+24 %"
         },
         "conversions": {
           "label": "Konverze",
           "value": "8,4 %",
-          "change": "↗ 36 %"
+          "trend": "+36 %"
         },
-        "time": {
+        "timeSaved": {
           "label": "Ušetřený čas",
           "value": "120 h",
-          "change": "↗ 52 %"
+          "trend": "+52 %"
         }
       },
-      "chartLabel": "Vývoj výkonu",
-      "chartChange": "+36 %",
       "cards": {
         "automation": {
           "title": "AI automatizace",
@@ -344,8 +334,8 @@
     },
     "cta": {
       "eyebrow": "Chcete něco podobného?",
-      "title": "Tahle stránka je ukázka toho, co umím postavit",
-      "description": "Bot, který sám sbírá akce, CMS s API a rychlý web nad tím. Pokud chcete podobné řešení pro svůj obor nebo firmu, napište mi přes formulář níže.",
+      "title": "Co kdyby podobný bot pracoval i pro vás?",
+      "description": "Tento web automaticky sbírá a zpracovává informace o akcích. Podobné řešení můžu vytvořit i pro vás – ať už potřebujete sledovat události, sbírat data, automatizovat procesy nebo postavit vlastní aplikaci.",
       "topic": "Řešení podobné stránce Akce"
     }
   },
