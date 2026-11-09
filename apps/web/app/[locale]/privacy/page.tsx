@@ -30,6 +30,7 @@ export async function generateMetadata({
       languages: { cs: "/privacy", en: "/en/privacy", "x-default": "/privacy" },
     },
     openGraph: {
+      siteName: "Jakub Vantuch",
       title: `${t.title} | Jakub Vantuch`,
       description: t.description,
       url: canonical,

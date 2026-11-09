@@ -43,6 +43,7 @@ export async function generateMetadata({
       languages: { cs: "/", en: "/en", "x-default": "/" },
     },
     openGraph: {
+      siteName: "Jakub Vantuch",
       title: content.meta.title,
       description: content.meta.description,
       type: "website",

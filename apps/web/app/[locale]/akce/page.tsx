@@ -44,6 +44,7 @@ export async function generateMetadata({
     },
     robots: faceted ? { index: false, follow: true } : undefined,
     openGraph: {
+      siteName: "Jakub Vantuch",
       title: t("title"),
       description: t("description"),
       url: canonical,

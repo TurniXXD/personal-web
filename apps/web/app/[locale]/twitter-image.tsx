@@ -8,6 +8,13 @@ export const alt = "Jakub Vantuch — Digital Solutions Consultant";
 export const size = socialImageSize;
 export const contentType = "image/png";
 
+// Render at build time so the deployed function never reads font files at runtime.
+export const dynamic = "force-static";
+
+export function generateStaticParams() {
+  return routing.locales.map((locale) => ({ locale }));
+}
+
 type TwitterImageProps = { params: Promise<{ locale: string }> };
 
 export default async function TwitterImage({ params }: TwitterImageProps) {

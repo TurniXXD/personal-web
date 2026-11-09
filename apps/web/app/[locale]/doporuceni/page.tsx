@@ -48,6 +48,7 @@ export async function generateMetadata({
       },
     },
     openGraph: {
+      siteName: "Jakub Vantuch",
       title: meta.title,
       description: meta.description,
       url: canonical,
