@@ -1,8 +1,9 @@
 import type { Locale } from "@/lib/site/content";
 import { localizedPath } from "@/lib/site/content";
 import { siteConfig } from "@/lib/site/config";
+import { SITE_ORIGIN } from "@/lib/site/routes";
 
-const SITE_URL = "https://vantuch.dev";
+const SITE_URL = SITE_ORIGIN;
 const PERSON_ID = `${SITE_URL}/#person`;
 
 type HomeStructuredDataProps = {

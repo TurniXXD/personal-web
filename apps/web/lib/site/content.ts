@@ -2,6 +2,7 @@ import cs from "@/messages/site/cs";
 import en from "@/messages/site/en";
 
 import { projectImages } from "@vantuch/ui/project-images";
+import { englishPath } from "@/lib/site/routes";
 
 export type Locale = "cs" | "en";
 export const caseStudySlugs = [
@@ -196,5 +197,5 @@ export function localizedPath(locale: Locale, path = "") {
   const home = locale === "en" ? "/en" : "/";
   if (!path) return home;
   if (path.startsWith("#")) return home + path;
-  return (locale === "en" ? "/en" : "") + path;
+  return locale === "en" ? "/en" + englishPath(path) : path;
 }

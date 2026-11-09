@@ -31,7 +31,7 @@ export async function generateMetadata({
       canonical,
       languages: {
         cs: "/kontakt",
-        en: "/en/kontakt",
+        en: localizedPath("en", "/kontakt"),
         "x-default": "/kontakt",
       },
     },

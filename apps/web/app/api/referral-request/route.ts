@@ -171,7 +171,7 @@ export async function POST(request: Request) {
       });
     }
 
-    const siteUrl = (process.env.SITE_URL ?? "https://vantuch.dev").replace(
+    const siteUrl = (process.env.SITE_URL ?? "https://www.vantuch.dev").replace(
       /\/$/,
       "",
     );

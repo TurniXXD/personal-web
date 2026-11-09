@@ -25,7 +25,7 @@ export async function generateMetadata({
       canonical,
       languages: {
         cs: "/sluzby/ai-reseni",
-        en: "/en/sluzby/ai-reseni",
+        en: localizedPath("en", "/sluzby/ai-reseni"),
         "x-default": "/sluzby/ai-reseni",
       },
     },

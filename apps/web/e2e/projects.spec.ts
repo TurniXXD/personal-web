@@ -82,7 +82,7 @@ test("English case study has localized metadata and language alternate", async (
   for (const height of tagHeights) expect(height).toBeLessThanOrEqual(32);
   await expect(
     page.locator('link[rel="alternate"][hreflang="cs"]'),
-  ).toHaveAttribute("href", "https://vantuch.dev/work/robe");
+  ).toHaveAttribute("href", "https://www.vantuch.dev/work/robe");
 
   await page.goto("/en/work/my213");
   await expect(page.locator(".case-detail__partner a")).toHaveAttribute(

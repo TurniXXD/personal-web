@@ -153,13 +153,13 @@ test("Czech referral page directs referrers to share a link, not contacts", asyn
   ).toBeVisible();
   await expect(
     page.locator('link[rel="alternate"][hreflang="en"]'),
-  ).toHaveAttribute("href", "https://vantuch.dev/en/doporuceni");
+  ).toHaveAttribute("href", "https://www.vantuch.dev/en/referrals");
 });
 
 test("English referral page and locale switch are available", async ({
   page,
 }) => {
-  await page.goto("/en/doporuceni");
+  await page.goto("/en/referrals");
 
   await expect(page.locator("html")).toHaveAttribute("lang", "en");
   await expect(page).toHaveTitle("Refer a client | Jakub Vantuch");

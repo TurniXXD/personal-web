@@ -27,7 +27,7 @@ export async function generateMetadata({
       canonical,
       languages: {
         cs: "/automatizace",
-        en: "/en/automatizace",
+        en: localizedPath("en", "/automatizace"),
         "x-default": "/automatizace",
       },
     },

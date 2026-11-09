@@ -7,14 +7,13 @@ import { CookieConsent } from "@/components/layout/cookie-consent";
 import { CardPeekRobot } from "@/components/shared/card-peek-robot";
 import { routing } from "@/i18n/routing";
 import { copy } from "@/lib/site/content";
+import { SITE_ORIGIN } from "@/lib/site/routes";
 import "@fontsource-variable/sora";
 import "@fontsource/ibm-plex-mono/400.css";
 import "@fontsource/ibm-plex-mono/600.css";
 import "@fontsource/ibm-plex-mono/700.css";
 import "@vantuch/ui/styles.css";
 import "@/app/globals.css";
-
-const siteUrl = "https://vantuch.dev";
 
 type LocaleLayoutProps = {
   children: ReactNode;
@@ -35,7 +34,7 @@ export async function generateMetadata({
   const canonical = locale === "en" ? "/en" : "/";
 
   return {
-    metadataBase: new URL(siteUrl),
+    metadataBase: new URL(SITE_ORIGIN),
     title: content.meta.title,
     description: content.meta.description,
     alternates: {

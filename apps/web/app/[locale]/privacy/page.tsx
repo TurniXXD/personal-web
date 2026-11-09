@@ -27,7 +27,11 @@ export async function generateMetadata({
     description: t.description,
     alternates: {
       canonical,
-      languages: { cs: "/privacy", en: "/en/privacy", "x-default": "/privacy" },
+      languages: {
+        cs: "/privacy",
+        en: localizedPath("en", "/privacy"),
+        "x-default": "/privacy",
+      },
     },
     openGraph: {
       siteName: "Jakub Vantuch",

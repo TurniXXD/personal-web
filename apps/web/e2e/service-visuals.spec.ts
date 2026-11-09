@@ -126,27 +126,27 @@ test("service detail pages use distinct localized hero visuals", async ({
     await expect(page.locator(".service-detail-visual__window")).toHaveCount(0);
   }
 
-  await page.goto("/en/sluzby/firemni-weby");
+  await page.goto("/en/services/company-websites");
   await expect(page.locator(".service-core-hero--company")).toContainText(
     "Start an enquiry",
   );
-  await page.goto("/en/sluzby/webove-aplikace-na-miru");
+  await page.goto("/en/services/custom-web-applications");
   await expect(page.locator(".service-core-hero--web-app")).toContainText(
     "Operations overview",
   );
-  await page.goto("/en/sluzby/shoptet");
+  await page.goto("/en/services/shoptet");
   await expect(page.locator(".service-core-hero--shoptet")).toContainText(
     "Add to basket",
   );
-  await page.goto("/en/sluzby/vernostni-programy");
+  await page.goto("/en/services/loyalty-programmes");
   await expect(page.locator(".service-custom-hero--loyalty")).toContainText(
     "My loyalty card",
   );
-  await page.goto("/en/sluzby/darkove-poukazy");
+  await page.goto("/en/services/gift-vouchers");
   await expect(page.locator(".service-custom-hero--voucher")).toContainText(
     "Voucher issued",
   );
-  await page.goto("/en/sluzby/audit-ai-aplikaci");
+  await page.goto("/en/services/ai-application-audit");
   await expect(page.locator(".service-custom-hero--audit")).toContainText(
     "Technical review",
   );

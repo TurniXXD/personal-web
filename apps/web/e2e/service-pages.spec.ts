@@ -4,6 +4,7 @@ import {
   serviceDetailCopy,
   serviceDetailSlugs,
 } from "../lib/services/detail-content";
+import { englishPath } from "../lib/site/routes";
 
 test("web applications service page presents real work and contact flow", async ({
   page,
@@ -87,7 +88,7 @@ test("web applications service page presents real work and contact flow", async 
   await expect(page.locator("#contact .contact-form")).toBeVisible();
   await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
     "href",
-    "https://vantuch.dev/sluzby/webove-aplikace",
+    "https://www.vantuch.dev/sluzby/webove-aplikace",
   );
 });
 
@@ -95,7 +96,7 @@ test("related solutions keep the data line at their end on mobile and in English
   page,
 }) => {
   await page.setViewportSize({ width: 390, height: 844 });
-  await page.goto("/en/sluzby/webove-aplikace", {
+  await page.goto("/en/services/web-applications", {
     waitUntil: "domcontentloaded",
   });
 
@@ -225,7 +226,10 @@ test("all web service cards are stable accessible links to valid detail pages", 
     "Zjistit více",
   );
 
-  const localizedPaths = expectedPaths.flatMap((path) => [path, `/en${path}`]);
+  const localizedPaths = expectedPaths.flatMap((path) => [
+    path,
+    `/en${englishPath(path)}`,
+  ]);
   const responses = await Promise.all(
     localizedPaths.map((path) => request.get(path)),
   );
@@ -240,8 +244,10 @@ test("all web service cards are stable accessible links to valid detail pages", 
   expect(sitemap.ok()).toBe(true);
   const sitemapXml = await sitemap.text();
   expectedPaths.forEach((path) => {
-    expect(sitemapXml).toContain(`https://vantuch.dev${path}`);
-    expect(sitemapXml).toContain(`https://vantuch.dev/en${path}`);
+    expect(sitemapXml).toContain(`https://www.vantuch.dev${path}`);
+    expect(sitemapXml).toContain(
+      `https://www.vantuch.dev/en${englishPath(path)}`,
+    );
   });
   for (const removedPath of [
     "/sluzby/cms",
@@ -249,16 +255,20 @@ test("all web service cards are stable accessible links to valid detail pages", 
     "/sluzby/webova-analytika",
     "/sluzby/crm",
   ]) {
-    expect(sitemapXml).not.toContain(`https://vantuch.dev${removedPath}`);
-    expect(sitemapXml).not.toContain(`https://vantuch.dev/en${removedPath}`);
+    expect(sitemapXml).not.toContain(`https://www.vantuch.dev${removedPath}`);
+    expect(sitemapXml).not.toContain(
+      `https://www.vantuch.dev/en${englishPath(removedPath)}`,
+    );
     expect((await request.get(removedPath)).status()).toBe(404);
-    expect((await request.get(`/en${removedPath}`)).status()).toBe(404);
+    expect((await request.get(`/en${englishPath(removedPath)}`)).status()).toBe(
+      404,
+    );
   }
 
   const robots = await request.get("/robots.txt");
   expect(robots.ok()).toBe(true);
   expect(await robots.text()).toContain(
-    "Sitemap: https://vantuch.dev/sitemap.xml",
+    "Sitemap: https://www.vantuch.dev/sitemap.xml",
   );
 });
 
@@ -293,7 +303,7 @@ test("AI application audit page is complete, localized and production-oriented",
   );
   await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
     "href",
-    "https://vantuch.dev/sluzby/audit-ai-aplikaci",
+    "https://www.vantuch.dev/sluzby/audit-ai-aplikaci",
   );
   await expect
     .poll(() =>
@@ -331,7 +341,7 @@ test("AI application audit page is complete, localized and production-oriented",
       },
     });
 
-  await page.goto("/en/sluzby/audit-ai-aplikaci");
+  await page.goto("/en/services/ai-application-audit");
   await expect(page).toHaveTitle("AI-built application audits | Jakub Vantuch");
   await expect(page.locator(".service-detail-section article")).toHaveCount(3);
   await expect(page.getByRole("heading", { level: 1 })).toContainText(

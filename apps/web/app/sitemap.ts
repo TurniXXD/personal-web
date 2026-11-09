@@ -1,9 +1,9 @@
 import type { MetadataRoute } from "next";
-import { caseStudySlugs } from "@/lib/site/content";
+import { caseStudySlugs, localizedPath } from "@/lib/site/content";
 import { serviceDetailSlugs } from "@/lib/services/detail-content";
-import { SITE_PATH, serviceDetailPath } from "@/lib/site/routes";
+import { SITE_ORIGIN, SITE_PATH, serviceDetailPath } from "@/lib/site/routes";
 
-const siteUrl = "https://vantuch.dev";
+const siteUrl = SITE_ORIGIN;
 type SitemapEntryParams = {
   path: string;
   changeFrequency: "daily" | "monthly";
@@ -17,7 +17,7 @@ const localizedEntries = ({
 }: SitemapEntryParams): MetadataRoute.Sitemap => {
   const languages = {
     cs: `${siteUrl}${path || "/"}`,
-    en: `${siteUrl}/en${path}`,
+    en: `${siteUrl}${localizedPath("en", path)}`,
     "x-default": `${siteUrl}${path || "/"}`,
   };
   const shared = {

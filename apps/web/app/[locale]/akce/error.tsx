@@ -3,7 +3,7 @@
 import { RotateCcw } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import { ActionLink } from "@vantuch/ui";
-import { SITE_PATH } from "@/lib/site/routes";
+import { englishPath, SITE_PATH } from "@/lib/site/routes";
 
 type EventsErrorProps = {
   reset: () => void;
@@ -14,7 +14,9 @@ export default function EventsError({ reset }: EventsErrorProps) {
   const t = useTranslations("events.error");
   // Built inline: importing the site copy module would ship every catalog.
   const listingHref =
-    useLocale() === "en" ? `/en${SITE_PATH.events}` : SITE_PATH.events;
+    useLocale() === "en"
+      ? `/en${englishPath(SITE_PATH.events)}`
+      : SITE_PATH.events;
 
   return (
     <main id="main-content" className="not-found-page" data-events-error>

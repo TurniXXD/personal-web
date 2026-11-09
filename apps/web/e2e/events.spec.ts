@@ -472,7 +472,7 @@ test("listing cards anchor venue details and reveal the calendar tooltip", async
 });
 
 test("event detail pages no longer exist", async ({ page }) => {
-  for (const path of ["/akce/brno-ai-meetup", "/en/akce/brno-ai-meetup"]) {
+  for (const path of ["/akce/brno-ai-meetup", "/en/events/brno-ai-meetup"]) {
     const response = await page.goto(path);
     expect(response?.status(), path).toBe(404);
   }

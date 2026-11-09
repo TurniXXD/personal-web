@@ -43,7 +43,7 @@ export async function generateMetadata({
       canonical,
       languages: {
         cs: "/doporuceni",
-        en: "/en/doporuceni",
+        en: localizedPath("en", "/doporuceni"),
         "x-default": "/doporuceni",
       },
     },

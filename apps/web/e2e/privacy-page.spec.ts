@@ -15,7 +15,7 @@ test("privacy page is localized and reflects client-submitted referrals", async 
   ).toBeVisible();
   await expect(
     page.locator('link[rel="alternate"][hreflang="en"]'),
-  ).toHaveAttribute("href", "https://vantuch.dev/en/privacy");
+  ).toHaveAttribute("href", "https://www.vantuch.dev/en/privacy");
   const turnstilePrivacy = page.getByRole("link", {
     name: "Cloudflare Turnstile Privacy Addendum",
   });
@@ -55,11 +55,11 @@ test("privacy page fits mobile width and appears in sitemap", async ({
   expect(overflow).toBe(0);
   const sitemap = await request.get("/sitemap.xml");
   expect(sitemap.ok()).toBe(true);
-  expect(await sitemap.text()).toContain("https://vantuch.dev/en/privacy");
+  expect(await sitemap.text()).toContain("https://www.vantuch.dev/en/privacy");
   expect(await sitemap.text()).toContain(
-    "https://vantuch.dev/sluzby/webove-aplikace",
+    "https://www.vantuch.dev/sluzby/webove-aplikace",
   );
   expect(await sitemap.text()).toContain(
-    "https://vantuch.dev/en/sluzby/ai-reseni",
+    "https://www.vantuch.dev/en/services/ai-solutions",
   );
 });

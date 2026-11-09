@@ -179,7 +179,7 @@ test("contact page combines direct and business details with the shared form", a
   );
   await expect(page.locator(".site-header__lang")).toHaveAttribute(
     "href",
-    "/en/kontakt",
+    "/en/contact",
   );
 
   await expect(
@@ -195,7 +195,7 @@ test("contact page combines direct and business details with the shared form", a
   expect(directContactBox).not.toBeNull();
   expect(formBox!.y + formBox!.height).toBeLessThan(directContactBox!.y);
 
-  await page.goto("/en/kontakt");
+  await page.goto("/en/contact");
   await expect(
     page.getByRole("heading", { level: 1, name: "Contact" }),
   ).toBeVisible();

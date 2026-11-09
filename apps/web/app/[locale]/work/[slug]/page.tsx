@@ -53,7 +53,7 @@ export async function generateMetadata({
       canonical,
       languages: {
         cs: "/work/" + slug,
-        en: "/en/work/" + slug,
+        en: localizedPath("en", "/work/" + slug),
         "x-default": "/work/" + slug,
       },
     },

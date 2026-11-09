@@ -101,7 +101,7 @@ test("automation page is localized, indexed and fits mobile width", async ({
   request,
 }) => {
   await page.setViewportSize({ width: 375, height: 844 });
-  await page.goto("/en/automatizace");
+  await page.goto("/en/automation");
   await expect(page.locator("html")).toHaveAttribute("lang", "en");
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
     "Less Routine. More Impact.",
@@ -121,5 +121,7 @@ test("automation page is localized, indexed and fits mobile width", async ({
   expect(overflow).toBe(0);
 
   const sitemap = await request.get("/sitemap.xml");
-  expect(await sitemap.text()).toContain("https://vantuch.dev/en/automatizace");
+  expect(await sitemap.text()).toContain(
+    "https://www.vantuch.dev/en/automation",
+  );
 });

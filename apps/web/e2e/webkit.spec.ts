@@ -40,7 +40,7 @@ test("mobile Safari keeps contact inputs readable and usable", async ({
 });
 
 test("mobile Safari exposes localized form validation", async ({ page }) => {
-  await page.goto("/en/kontakt");
+  await page.goto("/en/contact");
 
   const form = page.locator(".contact-form");
   await form.getByRole("button", { name: "Send message" }).click();

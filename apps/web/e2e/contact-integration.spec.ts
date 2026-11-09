@@ -155,7 +155,7 @@ test("contact is saved to Twenty with person, note and SalesReferral", async () 
       {
         type: "service",
         subject: "Websites and applications",
-        sourcePath: "/en/sluzby/webove-aplikace",
+        sourcePath: "/en/services/web-applications",
       },
     );
     expect(
@@ -185,7 +185,7 @@ test("contact is saved to Twenty with person, note and SalesReferral", async () 
     ).toMatchObject({
       bodyV2: {
         markdown: expect.stringMatching(
-          /Request type: service[\s\S]*Requested service: Websites and applications[\s\S]*Source page: \/en\/sluzby\/webove-aplikace[\s\S]*Referrer email: jan@example.com/,
+          /Request type: service[\s\S]*Requested service: Websites and applications[\s\S]*Source page: \/en\/services\/web-applications[\s\S]*Referrer email: jan@example.com/,
         ),
       },
     });

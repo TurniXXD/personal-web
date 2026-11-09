@@ -25,7 +25,7 @@ export async function generateMetadata({
       canonical,
       languages: {
         cs: "/sluzby/webove-aplikace",
-        en: "/en/sluzby/webove-aplikace",
+        en: localizedPath("en", "/sluzby/webove-aplikace"),
         "x-default": "/sluzby/webove-aplikace",
       },
     },

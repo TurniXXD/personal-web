@@ -38,7 +38,7 @@ export async function generateMetadata({
       canonical,
       languages: {
         cs: SITE_PATH.events,
-        en: `/en${SITE_PATH.events}`,
+        en: localizedPath("en", SITE_PATH.events),
         "x-default": SITE_PATH.events,
       },
     },

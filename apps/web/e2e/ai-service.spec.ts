@@ -149,7 +149,7 @@ test("AI use-case carousel keeps only compact text content on mobile", async ({
 });
 
 test("AI use-case carousel is localized in English", async ({ page }) => {
-  await page.goto("/en/sluzby/ai-reseni");
+  await page.goto("/en/services/ai-solutions");
 
   const carousel = page.locator(".ai-use-case-carousel");
   await expect(

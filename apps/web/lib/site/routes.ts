@@ -1,6 +1,6 @@
 import type { Locale } from "@/lib/site/content";
 
-export const SITE_ORIGIN = "https://vantuch.dev";
+export const SITE_ORIGIN = "https://www.vantuch.dev";
 
 export const SITE_PATH = {
   home: "",
@@ -75,3 +75,63 @@ export const SERVICE_SECTION_ID = {
 } as const;
 
 export const serviceDetailPath = (slug: ServiceSlug) => `/sluzby/${slug}`;
+
+/**
+ * English URL segments for the Czech route folders. Routes are authored with
+ * Czech paths (`SITE_PATH`); `localizedPath` and the next-intl pathnames map
+ * both read these so links, canonicals and rewrites stay in sync.
+ */
+const EN_SEGMENT: Record<string, string> = {
+  akce: "events",
+  automatizace: "automation",
+  doporuceni: "referrals",
+  kontakt: "contact",
+  sluzby: "services",
+};
+
+const EN_SERVICE_SEGMENT: Record<string, string> = {
+  "ai-reseni": "ai-solutions",
+  "webove-aplikace": "web-applications",
+  ...SERVICE_SLUG_BY_LOCALE.en,
+};
+
+/** Translates a Czech route path (optionally with `?query` or `#hash`) to English. */
+export function englishPath(path: string) {
+  const suffixStart = path.search(/[?#]/);
+  const pathname = suffixStart === -1 ? path : path.slice(0, suffixStart);
+  const suffix = suffixStart === -1 ? "" : path.slice(suffixStart);
+  const segments = pathname.split("/");
+  const [, first, second] = segments;
+  if (first && EN_SEGMENT[first]) segments[1] = EN_SEGMENT[first];
+  if (first === "sluzby" && second && EN_SERVICE_SEGMENT[second]) {
+    segments[2] = EN_SERVICE_SEGMENT[second];
+  }
+  return segments.join("/") + suffix;
+}
+
+/** Resolves an English service slug from the URL back to its stable slug. */
+export function serviceSlugFromEnglish(slug: string): ServiceSlug | undefined {
+  return (Object.keys(SERVICE_SLUG_BY_LOCALE.en) as ServiceSlug[]).find(
+    (key) => SERVICE_SLUG_BY_LOCALE.en[key] === slug,
+  );
+}
+
+/** next-intl pathnames: internal (Czech folder) path → public path per locale. */
+export const LOCALIZED_PATHNAMES = {
+  "/": "/",
+  "/privacy": "/privacy",
+  "/work/[slug]": "/work/[slug]",
+  "/akce": { cs: "/akce", en: "/events" },
+  "/automatizace": { cs: "/automatizace", en: "/automation" },
+  "/doporuceni": { cs: "/doporuceni", en: "/referrals" },
+  "/kontakt": { cs: "/kontakt", en: "/contact" },
+  "/sluzby/ai-reseni": {
+    cs: "/sluzby/ai-reseni",
+    en: "/services/ai-solutions",
+  },
+  "/sluzby/webove-aplikace": {
+    cs: "/sluzby/webove-aplikace",
+    en: "/services/web-applications",
+  },
+  "/sluzby/[slug]": { cs: "/sluzby/[slug]", en: "/services/[slug]" },
+} as const;
