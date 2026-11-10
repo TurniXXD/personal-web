@@ -34,7 +34,7 @@ test("robot grabs a card edge, peeks out, and greets on hover", async ({
 
   const robot = page.locator("[data-card-robot]");
   await expect(robot).toHaveAttribute("data-phase", "peek", {
-    timeout: 10_000,
+    timeout: 18_000,
   });
   await expect(robot).toHaveAttribute("aria-hidden", "true");
   const edge = await robot.getAttribute("data-edge");
@@ -105,7 +105,7 @@ test("robot stays still for reduced motion", async ({ page }) => {
 test("robot moves to another visible card on the next peek", async ({
   page,
 }) => {
-  test.setTimeout(35_000);
+  test.setTimeout(80_000);
   await page.setViewportSize({ width: 1600, height: 900 });
   await page.addInitScript(() => {
     localStorage.removeItem("vantuch_card_robot");
@@ -115,14 +115,16 @@ test("robot moves to another visible card on the next peek", async ({
 
   const robot = page.locator("[data-card-robot]");
   await expect(robot).toHaveAttribute("data-phase", "peek", {
-    timeout: 10_000,
+    timeout: 18_000,
   });
   const first = await robot.boundingBox();
   await expect(robot).toHaveAttribute("data-phase", "hidden", {
     timeout: 7_000,
   });
+  await page.waitForTimeout(15_000);
+  await expect(robot).toHaveAttribute("data-phase", "hidden");
   await expect(robot).toHaveAttribute("data-phase", "peek", {
-    timeout: 12_000,
+    timeout: 40_000,
   });
   const second = await robot.boundingBox();
 
@@ -141,7 +143,7 @@ test("robot peeks from the outer side of a desktop card", async ({ page }) => {
 
   const robot = page.locator("[data-card-robot]");
   await expect(robot).toHaveAttribute("data-phase", "peek", {
-    timeout: 10_000,
+    timeout: 18_000,
   });
   await expect(robot).toHaveAttribute("data-edge", "left");
   const robotBox = await robot.boundingBox();
@@ -174,7 +176,7 @@ test("robot can peek from the right edge of a desktop card", async ({
 
   const robot = page.locator("[data-card-robot]");
   await expect(robot).toHaveAttribute("data-phase", "peek", {
-    timeout: 10_000,
+    timeout: 18_000,
   });
   await expect(robot).toHaveAttribute("data-edge", "right");
   const robotBox = await robot.boundingBox();
@@ -192,7 +194,7 @@ test("robot disappears when filters leave no events", async ({ page }) => {
 
   const robot = page.locator("[data-card-robot]");
   await expect(robot).toHaveAttribute("data-phase", "peek", {
-    timeout: 10_000,
+    timeout: 18_000,
   });
   await page.getByRole("checkbox", { name: "Jídlo zdarma" }).check();
   await expect(

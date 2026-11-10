@@ -20,7 +20,9 @@ export const ROBOT_STORAGE_KEY = "vantuch_card_robot";
 const ROBOT_WIDTH = 58;
 const PEEK_HEIGHT = 52;
 const MIN_CARD_WIDTH = 160;
-const FIRST_PEEK_DELAY_MS = 1600;
+const FIRST_PEEK_DELAY_MS = 10000;
+const NEXT_PEEK_DELAY_MIN_MS = 30000;
+const NEXT_PEEK_DELAY_MAX_MS = 45000;
 const GRAB_MS = 520;
 const PEEK_MS = 4200;
 const HIDE_MS = 600;
@@ -238,7 +240,9 @@ export function CardPeekRobot() {
       setPhase("hide");
       later(() => {
         setPhase("hidden");
-        scheduleNext(randomBetween(7000, 13000));
+        scheduleNext(
+          randomBetween(NEXT_PEEK_DELAY_MIN_MS, NEXT_PEEK_DELAY_MAX_MS),
+        );
       }, HIDE_MS);
     };
 
@@ -282,7 +286,9 @@ export function CardPeekRobot() {
         later(() => {
           setPhase("hidden");
           setPosition(null);
-          scheduleNext(randomBetween(4000, 8000));
+          scheduleNext(
+            randomBetween(NEXT_PEEK_DELAY_MIN_MS, NEXT_PEEK_DELAY_MAX_MS),
+          );
         }, HIDE_MS);
       } else if (card && (!card.isConnected || eventsListingIsEmpty())) {
         card = null;
