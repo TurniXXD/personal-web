@@ -160,17 +160,19 @@
   gap: 0.7rem;
 }
 .case-detail__image {
-  position: relative;
-  aspect-ratio: 16 / 8;
+  max-width: 55rem;
+  margin-inline: auto;
   overflow: hidden;
   border: 0.8rem solid #fff;
   border-radius: 1.5rem;
-  background: #e8eaf5;
+  background: #fff;
   box-shadow: 0 24px 55px rgba(47, 59, 125, 0.12);
 }
 .case-detail__image img {
-  object-fit: contain;
-  object-position: top;
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 0.8rem;
 }
 .case-detail__closing {
   display: grid;

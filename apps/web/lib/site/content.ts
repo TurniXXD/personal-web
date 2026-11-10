@@ -41,14 +41,14 @@ export const caseStudyProjects = {
     image: projectImages.my213,
     website: "https://www.my213.cz/",
     stack: ["React", "TypeScript", "APIs"],
-    partner: { name: "Pro Rocketeers", url: "https://www.prorocketeers.com/" },
+    partner: { name: "ProRocketeers", url: "https://www.prorocketeers.com/" },
   },
   ondrasek: {
     name: "Ondrášek",
     image: projectImages.ondrasek,
     website: "https://www.ondrasek.cz/",
     stack: ["Next.js", "TypeScript", "CMS"],
-    partner: { name: "Pro Rocketeers", url: "https://www.prorocketeers.com/" },
+    partner: { name: "ProRocketeers", url: "https://www.prorocketeers.com/" },
   },
 } as const;
 

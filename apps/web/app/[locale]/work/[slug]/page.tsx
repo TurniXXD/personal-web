@@ -127,8 +127,7 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
               <Image
                 src={project.image}
                 alt={project.name + " website preview"}
-                fill
-                sizes="(max-width: 720px) 92vw, 1100px"
+                sizes="(max-width: 960px) 92vw, 880px"
                 priority
               />
             </div>
