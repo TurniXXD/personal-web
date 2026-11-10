@@ -78,10 +78,6 @@ export default async function ReferralPage({ params }: ReferralPageProps) {
         >
           <div className="site-container referral-hero__inner">
             <div className="referral-hero__content">
-              <p className="eyebrow">
-                <span className="eyebrow__line" />
-                {t.hero.eyebrow}
-              </p>
               <h1 id="referral-title">{t.hero.title}</h1>
               <p className="hero__description">{t.hero.description}</p>
               <div className="hero__actions">
@@ -161,7 +157,6 @@ export default async function ReferralPage({ params }: ReferralPageProps) {
           <div className="site-container">
             <div className="section-heading">
               <div>
-                <p className="eyebrow">{t.how.eyebrow}</p>
                 <h2 id="referral-how-title">{t.how.title}</h2>
               </div>
             </div>
@@ -183,7 +178,6 @@ export default async function ReferralPage({ params }: ReferralPageProps) {
         >
           <div className="site-container referral-reward__grid">
             <div>
-              <p className="eyebrow">{t.reward.eyebrow}</p>
               <h2 id="referral-reward-title">{t.reward.title}</h2>
               <p>{t.reward.description}</p>
               <a
@@ -219,7 +213,6 @@ export default async function ReferralPage({ params }: ReferralPageProps) {
               <p>{t.who.text}</p>
             </div>
             <div>
-              <p className="eyebrow">{t.fit.eyebrow}</p>
               <h2 id="referral-fit-title">{t.fit.title}</h2>
               <p>{t.fit.intro}</p>
               <ul>
@@ -241,7 +234,6 @@ export default async function ReferralPage({ params }: ReferralPageProps) {
         >
           <div className="site-container referral-link-section__grid">
             <div className="referral-link-section__intro">
-              <p className="eyebrow">{t.link.eyebrow}</p>
               <h2 id="referral-link-title">{t.link.title}</h2>
               <p>{t.link.intro}</p>
             </div>
@@ -249,7 +241,6 @@ export default async function ReferralPage({ params }: ReferralPageProps) {
               <span className="referral-link-card__icon">
                 <Mail size={23} aria-hidden="true" />
               </span>
-              <p className="eyebrow">{t.link.cardEyebrow}</p>
               <h3>{t.link.cardTitle}</h3>
               <p>{t.link.cardText}</p>
               <ReferralRequestForm locale={locale} intent="link" />
@@ -277,7 +268,6 @@ export default async function ReferralPage({ params }: ReferralPageProps) {
           <div className="site-container">
             <div className="section-heading">
               <div>
-                <p className="eyebrow">{t.faq.eyebrow}</p>
                 <h2 id="referral-faq-title">{t.faq.title}</h2>
               </div>
             </div>
@@ -299,7 +289,6 @@ export default async function ReferralPage({ params }: ReferralPageProps) {
         >
           <div className="site-container referral-partner__inner">
             <div className="referral-partner__intro">
-              <p className="eyebrow eyebrow--light">{t.partner.eyebrow}</p>
               <h2 id="referral-partner-title">{t.partner.title}</h2>
               <p>{t.partner.text}</p>
             </div>

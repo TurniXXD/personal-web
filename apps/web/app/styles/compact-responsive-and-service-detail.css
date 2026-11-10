@@ -78,8 +78,7 @@
   .hero__content > .eyebrow,
   .hero__content > h1,
   .hero__description,
-  .hero__actions,
-  .hero__proof {
+  .hero__actions {
     animation: none;
   }
   .service-hero__content > *,

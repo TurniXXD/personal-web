@@ -52,39 +52,6 @@ export default {
       },
     ],
   },
-  process: {
-    eyebrow: "JAK PROBÍHÁ SPOLUPRÁCE",
-    title: "Od problému k ověřenému řešení",
-    description:
-      "Nejdřív ověřím přínos, kvalitu dat a místa, kde musí zůstat lidská kontrola.",
-    steps: [
-      {
-        number: "01",
-        title: "Identifikace problému",
-        description: "Určíme problém a očekávaný výsledek.",
-      },
-      {
-        number: "02",
-        title: "Analýza možností",
-        description: "Prověříme data, rizika a vhodný postup.",
-      },
-      {
-        number: "03",
-        title: "Prototyp a ověření",
-        description: "Na vzorku ověříme kvalitu a použitelnost.",
-      },
-      {
-        number: "04",
-        title: "Integrace",
-        description: "Řešení bezpečně propojím s vašimi systémy.",
-      },
-      {
-        number: "05",
-        title: "Monitoring a zlepšování",
-        description: "Sledujeme kvalitu a průběžně řešení ladíme.",
-      },
-    ],
-  },
   related: {
     eyebrow: "SOUVISEJÍCÍ SLUŽBA",
     title: "Už máte aplikaci vytvořenou pomocí AI?",

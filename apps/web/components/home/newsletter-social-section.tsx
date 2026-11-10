@@ -81,7 +81,6 @@ export function NewsletterSocialSection({
       <div className="site-container">
         <ScrollReveal className="section-heading community-section__heading">
           <div>
-            <p className="eyebrow">{t.eyebrow}</p>
             <h2 id="community-title">{t.title}</h2>
             <p className="section-intro">{t.description}</p>
           </div>

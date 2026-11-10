@@ -57,11 +57,7 @@ test("Czech homepage presents the offer and contact", async ({ page }) => {
     "Akce",
     "Kontakt",
   ]);
-  await expect(page.locator(".hero__proof > span")).toHaveText([
-    "Spolupráce přímo se mnou",
-    "Od zadání po spuštění",
-    "Podpora i po spuštění",
-  ]);
+  await expect(page.locator(".hero__proof")).toHaveCount(0);
   await expect(page.locator(".private-ai-section")).toHaveCount(0);
   await expect(
     page.getByRole("heading", { name: "Co můžete automatizovat?" }),
@@ -269,11 +265,7 @@ test("English homepage explains the offer and automation categories", async ({
     "Development and feedback",
     "Launch and further development",
   ]);
-  await expect(page.locator(".hero__proof > span")).toHaveText([
-    "Work directly with me",
-    "One partner from idea to launch",
-    "Support after launch",
-  ]);
+  await expect(page.locator(".hero__proof")).toHaveCount(0);
   await expect(page.locator("#about .about-section__intro")).toHaveText(
     "Hello, I am Jakub Vantuch.",
   );

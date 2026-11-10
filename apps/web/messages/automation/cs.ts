@@ -39,35 +39,5 @@ export default {
       "data-reporting": "Data a přehledy",
     },
   },
-  process: {
-    eyebrow: "POSTUP",
-    title: "Jak spolupráce probíhá?",
-    steps: [
-      {
-        number: "01",
-        title: "Probereme váš proces",
-        description:
-          "Zjistíme, co dnes řešíte ručně a kde vznikají zbytečné komplikace.",
-      },
-      {
-        number: "02",
-        title: "Navrhnu řešení",
-        description:
-          "Vybereme automatizace, které dávají smysl vzhledem k vašim potřebám a rozpočtu.",
-      },
-      {
-        number: "03",
-        title: "Automatizaci vytvořím",
-        description:
-          "Propojím potřebné systémy, připravím logiku a řešení otestuji.",
-      },
-      {
-        number: "04",
-        title: "Spustíme a doladíme",
-        description:
-          "Ověříme fungování v praxi a případně upravíme další kroky.",
-      },
-    ],
-  },
   contactTitle: "Nevíte, co by šlo automatizovat právě u vás?",
 } satisfies AutomationPageCopy;

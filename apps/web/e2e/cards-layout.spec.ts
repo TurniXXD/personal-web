@@ -281,7 +281,6 @@ test("every user-facing card title uses regular font weight", async ({
   await page.goto("/sluzby/webove-aplikace");
   await expectRegularTitles([
     ".service-offering-card h3",
-    ".service-process-step h3",
     ".service-related__links strong",
   ]);
 

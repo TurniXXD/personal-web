@@ -95,7 +95,6 @@ export const ServiceLandingPage = ({
         <section className="service-hero" aria-labelledby="service-hero-title">
           <div className="site-container service-hero__grid">
             <div className="service-hero__content">
-              <p className="eyebrow">{content.hero.eyebrow}</p>
               <h1 id="service-hero-title">{content.hero.title}</h1>
               <p className="service-hero__description">
                 {content.hero.description}
@@ -123,9 +122,6 @@ export const ServiceLandingPage = ({
         >
           <div className="site-container">
             <ScrollReveal className="service-section-heading">
-              {kind === "web" && (
-                <p className="eyebrow">{content.offering.eyebrow}</p>
-              )}
               <h2 id="service-offering-title">{content.offering.title}</h2>
               {content.offering.description && (
                 <p>{content.offering.description}</p>
@@ -168,7 +164,6 @@ export const ServiceLandingPage = ({
           >
             <div className="site-container service-benefits__layout">
               <ScrollReveal className="service-section-heading">
-                <p className="eyebrow">{content.benefits.eyebrow}</p>
                 <h2 id="service-benefits-title">{content.benefits.title}</h2>
                 <p>{content.benefits.description}</p>
               </ScrollReveal>
@@ -192,7 +187,6 @@ export const ServiceLandingPage = ({
           >
             <div className="site-container">
               <ScrollReveal className="service-section-heading">
-                <p className="eyebrow">{content.projects.eyebrow}</p>
                 <h2 id="service-projects-title">{content.projects.title}</h2>
                 <p>{content.projects.description}</p>
               </ScrollReveal>
@@ -208,7 +202,6 @@ export const ServiceLandingPage = ({
           >
             <div className="site-container">
               <ScrollReveal className="service-section-heading">
-                <p className="eyebrow">{content.flow.eyebrow}</p>
                 <h2 id="service-flow-title">{content.flow.title}</h2>
                 <p>{content.flow.description}</p>
               </ScrollReveal>
@@ -229,28 +222,6 @@ export const ServiceLandingPage = ({
 
         {kind === "ai" && <AiUseCaseCarousel locale={locale} />}
 
-        <section
-          className={`section service-process${kind === "ai" ? " service-process--ai" : ""}`}
-          aria-labelledby="service-process-title"
-        >
-          <div className="site-container">
-            <ScrollReveal className="service-section-heading">
-              <p className="eyebrow">{content.process.eyebrow}</p>
-              <h2 id="service-process-title">{content.process.title}</h2>
-              <p>{content.process.description}</p>
-            </ScrollReveal>
-            <ScrollReveal className="service-process__grid" stagger>
-              {content.process.steps.map((step) => (
-                <article className="service-process-step" key={step.number}>
-                  <span>{step.number}</span>
-                  <h3>{step.title}</h3>
-                  <p>{step.description}</p>
-                </article>
-              ))}
-            </ScrollReveal>
-          </div>
-        </section>
-
         {content.related && (
           <section
             className={`section service-related${kind === "web" ? " service-related--with-divider" : ""}${content.related.items.length === 1 ? " service-related--single" : ""}`}
@@ -258,7 +229,6 @@ export const ServiceLandingPage = ({
           >
             <div className="site-container service-related__layout">
               <ScrollReveal className="service-section-heading">
-                <p className="eyebrow">{content.related.eyebrow}</p>
                 <h2 id="service-related-title">{content.related.title}</h2>
                 {content.related.description && (
                   <p>{content.related.description}</p>

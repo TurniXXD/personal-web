@@ -116,9 +116,6 @@ export type SiteCopy = {
     description: string;
     primary: string;
     secondary: string;
-    experience: string;
-    availability: string;
-    casesProof: string;
   };
   services: {
     eyebrow: string;
@@ -173,6 +170,7 @@ export type SiteCopy = {
     role: string;
     result: string;
     stack: string;
+    period: string;
     visit: string;
     partner: string;
     next: string;

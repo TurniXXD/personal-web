@@ -43,7 +43,6 @@ export const AutomationPage = ({ locale }: AutomationPageProps) => {
         >
           <div className="site-container automation-page-hero__grid">
             <div className="automation-page-hero__content">
-              <p className="eyebrow">{content.hero.eyebrow}</p>
               <h1 id="automation-page-hero-title">
                 {content.hero.title} <span>{content.hero.highlight}</span>
               </h1>
@@ -62,7 +61,6 @@ export const AutomationPage = ({ locale }: AutomationPageProps) => {
             </div>
             <div className="automation-page-hero__visual">
               <div className="automation-page-hero__visual-head">
-                <p className="eyebrow">{content.hero.visualEyebrow}</p>
                 <h2>{content.hero.visualTitle}</h2>
               </div>
               <ul>
@@ -95,34 +93,10 @@ export const AutomationPage = ({ locale }: AutomationPageProps) => {
         >
           <div className="site-container">
             <div className="automation-catalog__heading">
-              <p className="eyebrow">{content.catalog.eyebrow}</p>
               <h2 id="automation-catalog-title">{content.catalog.title}</h2>
               <p>{content.catalog.description}</p>
             </div>
             <AutomationCatalog examples={examples} content={content.catalog} />
-          </div>
-        </section>
-
-        <section
-          className="section automation-process"
-          aria-labelledby="automation-process-title"
-        >
-          <div className="site-container">
-            <div className="section-heading">
-              <div>
-                <p className="eyebrow">{content.process.eyebrow}</p>
-                <h2 id="automation-process-title">{content.process.title}</h2>
-              </div>
-            </div>
-            <div className="process-grid">
-              {content.process.steps.map((step) => (
-                <article className="process-step" key={step.number}>
-                  <span className="process-step__number">{step.number}</span>
-                  <h3>{step.title}</h3>
-                  <p>{step.description}</p>
-                </article>
-              ))}
-            </div>
           </div>
         </section>
 

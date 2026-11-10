@@ -32,7 +32,7 @@ test("hero animations on every page resolve to real keyframes", async ({
       minimumAnimatedParts: 5,
     },
     { path: "/kontakt", selector: ".contact-page", minimumAnimatedParts: 2 },
-    { path: "/privacy", selector: ".privacy-page", minimumAnimatedParts: 3 },
+    { path: "/privacy", selector: ".privacy-page", minimumAnimatedParts: 2 },
     { path: "/work/robe", selector: ".case-detail", minimumAnimatedParts: 2 },
     {
       path: "/sluzby/firemni-weby",

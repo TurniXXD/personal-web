@@ -25,9 +25,6 @@ export default {
       "I design and build websites, internal tools, automation and practical AI integrations around the way your business works — from the first analysis to launch and ongoing support.",
     primary: "Discuss your project",
     secondary: "Explore my work",
-    experience: "Work directly with me",
-    availability: "One partner from idea to launch",
-    casesProof: "Support after launch",
   },
   services: {
     eyebrow: "WHAT WE CAN IMPROVE",
@@ -184,6 +181,7 @@ export default {
     role: "My role",
     result: "Result",
     stack: "Technology",
+    period: "Period",
     visit: "Visit website",
     partner: "In collaboration with",
     next: "Next project",

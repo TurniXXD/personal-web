@@ -89,7 +89,6 @@ export function EventsListingPage({
         </div>
         <ContactBlock
           locale={locale}
-          eyebrow={t("cta.eyebrow")}
           title={t("cta.title")}
           description={t("cta.description")}
           topic={t("cta.topic")}

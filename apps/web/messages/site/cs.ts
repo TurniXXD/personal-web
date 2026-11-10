@@ -25,9 +25,6 @@ export default {
       "Navrhuji a stavím firemní weby, interní nástroje, automatizace a praktická propojení s AI podle toho, jak vaše firma skutečně funguje — od úvodní analýzy po spuštění a další podporu.",
     primary: "Probrat projekt",
     secondary: "Prohlédnout realizace",
-    experience: "Spolupráce přímo se mnou",
-    availability: "Od zadání po spuštění",
-    casesProof: "Podpora i po spuštění",
   },
   services: {
     eyebrow: "CO MŮŽEME ZLEPŠIT",
@@ -182,6 +179,7 @@ export default {
     role: "Moje role",
     result: "Výsledek",
     stack: "Technologie",
+    period: "Období",
     visit: "Navštívit web",
     partner: "Ve spolupráci s",
     next: "Další projekt",

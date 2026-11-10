@@ -43,7 +43,6 @@ type ServiceLinkMessage = {
 
 type ContactBlockProps = {
   description?: string;
-  eyebrow?: string;
   locale: Locale;
   requestType?: ContactRequestType;
   title?: string;
@@ -210,7 +209,6 @@ export function SiteHeader({ locale, path = "" }: SiteHeaderProps) {
 
 export function ContactBlock({
   locale,
-  eyebrow,
   title,
   description,
   topic,
@@ -227,7 +225,6 @@ export function ContactBlock({
       <ContactOrbit />
       <div className="site-container contact-section__inner">
         <ScrollReveal className="contact-section__intro">
-          <p className="eyebrow eyebrow--light">{eyebrow ?? t.eyebrow}</p>
           <h2 id="contact-title">{title ?? t.title}</h2>
           <p>{description ?? t.text}</p>
         </ScrollReveal>

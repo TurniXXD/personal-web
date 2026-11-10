@@ -170,23 +170,6 @@ summary:focus-visible {
   gap: 0.7rem;
   margin-top: 2rem;
 }
-.hero__proof {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.7rem 1.3rem;
-  margin-top: 2.4rem;
-}
-.hero__proof span {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.43rem;
-  color: #59617d;
-  font-size: 0.75rem;
-  font-weight: 700;
-}
-.hero__proof svg {
-  color: var(--brand);
-}
 .hero__scroll {
   position: absolute;
   left: 50%;

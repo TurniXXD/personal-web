@@ -39,34 +39,5 @@ export default {
       "data-reporting": "Data and reporting",
     },
   },
-  process: {
-    eyebrow: "PROCESS",
-    title: "How does the collaboration work?",
-    steps: [
-      {
-        number: "01",
-        title: "We discuss your process",
-        description:
-          "We identify what is handled manually today and where avoidable complications arise.",
-      },
-      {
-        number: "02",
-        title: "I propose a solution",
-        description: "We choose automation that fits your needs and budget.",
-      },
-      {
-        number: "03",
-        title: "I build the automation",
-        description:
-          "I connect the required systems, implement the logic and test the solution.",
-      },
-      {
-        number: "04",
-        title: "We launch and refine it",
-        description:
-          "We verify the flow in practice and adjust the next steps where needed.",
-      },
-    ],
-  },
   contactTitle: "Not sure what your company could automate?",
 } satisfies AutomationPageCopy;

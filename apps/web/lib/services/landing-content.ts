@@ -29,12 +29,6 @@ type ServiceItem = {
   href?: string;
 };
 
-type ProcessStep = {
-  number: string;
-  title: string;
-  description: string;
-};
-
 type RelatedLink = {
   title: string;
   description: string;
@@ -73,12 +67,6 @@ export type ServicePageCopy = {
     title: string;
     description: string;
     steps: string[];
-  };
-  process: {
-    eyebrow: string;
-    title: string;
-    description: string;
-    steps: ProcessStep[];
   };
   related?: {
     eyebrow: string;

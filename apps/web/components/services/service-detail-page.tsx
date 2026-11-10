@@ -250,7 +250,6 @@ export const ServiceDetailPage = ({ locale, slug }: ServiceDetailPageProps) => {
             </nav>
             <div className="service-detail-hero__grid">
               <div className="service-detail-hero__content">
-                <p className="eyebrow">{content.hero.eyebrow}</p>
                 <h1 id="service-detail-title">
                   {content.hero.title}
                   {content.hero.highlight ? (
@@ -447,7 +446,6 @@ export const ServiceDetailPage = ({ locale, slug }: ServiceDetailPageProps) => {
                       strokeWidth={1.1}
                       aria-hidden="true"
                     />
-                    <span>{related.hero.eyebrow}</span>
                     <h3>{related.name}</h3>
                     <p>{related.meta.description}</p>
                     <strong>
@@ -463,7 +461,6 @@ export const ServiceDetailPage = ({ locale, slug }: ServiceDetailPageProps) => {
 
         <ContactBlock
           locale={locale}
-          eyebrow={content.finalCta.eyebrow}
           title={content.finalCta.title}
           description={content.finalCta.description}
           topic={content.name}

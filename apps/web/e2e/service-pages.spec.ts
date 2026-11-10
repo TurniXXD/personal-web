@@ -78,7 +78,7 @@ test("web applications service page presents real work and contact flow", async 
     "background-color",
     "rgb(23, 30, 60)",
   );
-  await expect(page.locator(".service-process-step")).toHaveCount(5);
+  await expect(page.locator(".service-process-step")).toHaveCount(0);
   await expect(page.locator(".service-related__links a")).toHaveCount(3);
   await expect(
     page.getByRole("heading", {

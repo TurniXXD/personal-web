@@ -56,44 +56,6 @@ export default {
     description:
       "Ukázky webů, aplikací a portálů, na jejichž vývoji jsem se podílel.",
   },
-  process: {
-    eyebrow: "JAK PROBÍHÁ SPOLUPRÁCE",
-    title: "Jak probíhá spolupráce",
-    description:
-      "Od prvního rozhovoru po spuštění máte přehled o postupu i dalších krocích.",
-    steps: [
-      {
-        number: "01",
-        title: "Konzultace a pochopení potřeb",
-        description:
-          "Ujasníme si cíle, uživatele, obsah a návaznosti projektu.",
-      },
-      {
-        number: "02",
-        title: "Návrh řešení",
-        description:
-          "Navrhnu strukturu, rozsah, technologie a postup realizace.",
-      },
-      {
-        number: "03",
-        title: "Vývoj a průběžná zpětná vazba",
-        description:
-          "Projekt vzniká po částech a průběžně společně ladíme výsledek.",
-      },
-      {
-        number: "04",
-        title: "Testování a nasazení",
-        description:
-          "Ověřím funkčnost, responzivitu a připravím bezpečné spuštění.",
-      },
-      {
-        number: "05",
-        title: "Další rozvoj a podpora",
-        description:
-          "Po spuštění mohu řešení spravovat a rozvíjet podle nových potřeb.",
-      },
-    ],
-  },
   related: {
     eyebrow: "SOUVISEJÍCÍ SLUŽBY",
     title: "Řešení lze propojit i s dalšími oblastmi.",

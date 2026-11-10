@@ -55,39 +55,6 @@ export default {
       },
     ],
   },
-  process: {
-    eyebrow: "HOW WE WORK TOGETHER",
-    title: "From a problem to a verified solution",
-    description:
-      "First, I verify the potential benefit, data quality and where human oversight must remain.",
-    steps: [
-      {
-        number: "01",
-        title: "Problem identification",
-        description: "We define the problem and intended result.",
-      },
-      {
-        number: "02",
-        title: "Feasibility analysis",
-        description: "We review the data, risks and suitable approach.",
-      },
-      {
-        number: "03",
-        title: "Prototype and validation",
-        description: "We verify quality and usefulness on a sample.",
-      },
-      {
-        number: "04",
-        title: "Integration",
-        description: "I safely connect the solution to your systems.",
-      },
-      {
-        number: "05",
-        title: "Monitoring and improvement",
-        description: "We monitor quality and refine the solution.",
-      },
-    ],
-  },
   related: {
     eyebrow: "RELATED SERVICE",
     title: "Have you already built an application with AI?",

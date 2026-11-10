@@ -58,44 +58,6 @@ export default {
     description:
       "A selection of websites, applications and portals I have helped develop.",
   },
-  process: {
-    eyebrow: "HOW WE WORK TOGETHER",
-    title: "How the collaboration works",
-    description:
-      "From the first conversation to launch, you have a clear view of progress and next steps.",
-    steps: [
-      {
-        number: "01",
-        title: "Consultation and discovery",
-        description:
-          "We clarify the goals, users, content and project dependencies.",
-      },
-      {
-        number: "02",
-        title: "Solution design",
-        description:
-          "I propose the structure, scope, technology and delivery plan.",
-      },
-      {
-        number: "03",
-        title: "Development and feedback",
-        description:
-          "The project takes shape in stages, with regular feedback along the way.",
-      },
-      {
-        number: "04",
-        title: "Testing and launch",
-        description:
-          "I verify functionality and responsiveness and prepare a safe launch.",
-      },
-      {
-        number: "05",
-        title: "Ongoing development and support",
-        description:
-          "After launch, I can maintain and extend the solution as needs change.",
-      },
-    ],
-  },
   related: {
     eyebrow: "RELATED SERVICES",
     title: "The solution can connect with other areas too.",

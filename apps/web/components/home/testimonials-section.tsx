@@ -25,7 +25,6 @@ export function TestimonialsSection({ locale }: TestimonialsSectionProps) {
       <div className="site-container">
         <div className="section-heading">
           <div>
-            <p className="eyebrow">{t("eyebrow")}</p>
             <h2 id="testimonials-title">{t("title")}</h2>
           </div>
         </div>

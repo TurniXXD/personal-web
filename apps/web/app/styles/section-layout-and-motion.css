@@ -60,8 +60,7 @@
 .hero__content > .eyebrow,
 .hero__content > h1,
 .hero__description,
-.hero__actions,
-.hero__proof {
+.hero__actions {
   animation: hero-content-enter 620ms cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 .hero__content > .eyebrow {
@@ -76,9 +75,6 @@
 }
 .hero__actions {
   animation-delay: 185ms;
-}
-.hero__proof {
-  animation-delay: 235ms;
 }
 @keyframes hero-content-enter {
   from {

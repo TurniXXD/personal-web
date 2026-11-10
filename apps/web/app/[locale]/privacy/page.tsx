@@ -59,7 +59,6 @@ export default async function PrivacyPage({ params }: PrivacyPageProps) {
       <SiteHeader locale={locale} path="/privacy" />
       <main id="main-content" className="privacy-page">
         <div className="site-container privacy-page__inner">
-          <p className="eyebrow">{t.eyebrow}</p>
           <h1>{t.title}</h1>
           <p className="privacy-page__lead">{t.description}</p>
           <p className="privacy-page__contact">

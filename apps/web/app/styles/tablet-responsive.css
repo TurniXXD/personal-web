@@ -203,9 +203,6 @@
     font-size: clamp(2.55rem, 8.5vw, 4rem);
     letter-spacing: -0.055em;
   }
-  .hero__proof {
-    display: none;
-  }
   .hero__scroll {
     display: none;
   }
@@ -214,7 +211,6 @@
   .community-grid,
   .contact-section__inner,
   .contact-page__layout,
-  .case-detail__content,
   .service-benefits__layout,
   .service-approach__layout,
   .service-related__layout {
@@ -339,12 +335,6 @@
   .case-detail__image {
     aspect-ratio: 4 / 3;
     border-width: 0.4rem;
-  }
-  .case-detail__content {
-    padding-top: 2.5rem;
-  }
-  .case-detail__closing {
-    grid-template-columns: 1fr;
   }
   .referral-reward__grid,
   .referral-fit__grid,

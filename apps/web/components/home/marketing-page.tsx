@@ -11,9 +11,7 @@ import {
   MessageCircle,
   Mouse,
   Share2,
-  ShieldCheck,
   ShoppingCart,
-  UserRoundCheck,
   Workflow,
 } from "lucide-react";
 import { ActionLink } from "@vantuch/ui";
@@ -70,10 +68,6 @@ export const MarketingPage = ({ locale }: MarketingPageProps) => {
         <section className="hero" aria-labelledby="hero-title">
           <div className="site-container hero__grid">
             <div className="hero__content">
-              <p className="eyebrow">
-                <span className="eyebrow__line" />
-                {t.hero.eyebrow}
-              </p>
               <h1 id="hero-title">
                 {t.hero.title} <span>{t.hero.highlight}</span>
               </h1>
@@ -93,20 +87,6 @@ export const MarketingPage = ({ locale }: MarketingPageProps) => {
                 >
                   {t.hero.secondary} <Layers3 size={18} aria-hidden="true" />
                 </ActionLink>
-              </div>
-              <div className="hero__proof">
-                <span>
-                  <UserRoundCheck size={17} aria-hidden="true" />
-                  {t.hero.experience}
-                </span>
-                <span>
-                  <Workflow size={17} aria-hidden="true" />
-                  {t.hero.availability}
-                </span>
-                <span>
-                  <ShieldCheck size={17} aria-hidden="true" />
-                  {t.hero.casesProof}
-                </span>
               </div>
             </div>
             <InteractiveHeroArt />
@@ -129,7 +109,6 @@ export const MarketingPage = ({ locale }: MarketingPageProps) => {
           <div className="site-container">
             <ScrollReveal className="section-heading">
               <div>
-                <p className="eyebrow">{t.services.eyebrow}</p>
                 <h2 id="services-title">{t.services.title}</h2>
               </div>
             </ScrollReveal>
@@ -169,7 +148,6 @@ export const MarketingPage = ({ locale }: MarketingPageProps) => {
           <TechnicalBackground variant="automation" />
           <div className="site-container">
             <ScrollReveal className="automation-section__intro">
-              <p className="eyebrow">{t.automation.eyebrow}</p>
               <h2 id="automation-title">{t.automation.title}</h2>
               <p>{t.automation.description}</p>
             </ScrollReveal>
@@ -210,7 +188,6 @@ export const MarketingPage = ({ locale }: MarketingPageProps) => {
           <div className="site-container">
             <ScrollReveal className="section-heading">
               <div>
-                <p className="eyebrow">{t.work.eyebrow}</p>
                 <h2 id="work-title">
                   {t.work.title} <span>{t.work.titleHighlight}</span>
                 </h2>
@@ -228,7 +205,6 @@ export const MarketingPage = ({ locale }: MarketingPageProps) => {
           <div className="site-container">
             <ScrollReveal className="section-heading">
               <div>
-                <p className="eyebrow">{t.process.eyebrow}</p>
                 <h2 id="process-title">{t.process.title}</h2>
               </div>
             </ScrollReveal>
@@ -264,7 +240,6 @@ export const MarketingPage = ({ locale }: MarketingPageProps) => {
               </figure>
             </ScrollReveal>
             <ScrollReveal className="about-section__body" delay={60}>
-              <p className="eyebrow">{t.about.eyebrow}</p>
               <h2 id="about-title">{t.about.title}</h2>
               {t.about.intro ? (
                 <p className="about-section__intro">{t.about.intro}</p>

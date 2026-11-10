@@ -62,7 +62,7 @@ test("AI service page presents an interactive use-case carousel", async ({
       name: "Proměňte příchozí poptávky v přehledné obchodní příležitosti",
     }),
   ).toBeVisible();
-  await expect(page.locator(".service-process-step")).toHaveCount(5);
+  await expect(page.locator(".service-process-step")).toHaveCount(0);
   await expect(page.locator(".service-hero__actions .ui-action")).toHaveCount(
     1,
   );

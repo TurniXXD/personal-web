@@ -74,11 +74,6 @@ export type AutomationPageCopy = {
     showMore: string;
     categories: Record<AutomationCategoryId, string>;
   };
-  process: {
-    eyebrow: string;
-    title: string;
-    steps: Array<{ number: string; title: string; description: string }>;
-  };
   contactTitle: string;
 };
 
