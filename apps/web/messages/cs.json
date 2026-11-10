@@ -223,8 +223,8 @@
     },
     "listing": {
       "title": "Akce",
-      "subtitle": "Vybrané akce, které jsem našel pomocí bota, zaujaly mě, nebo o kterých se tolik neví, ale rozhodně stojí za větší zmínku.",
-      "disclaimer": "Akce automaticky vyhledává bot z veřejných stránek pořadatelů. Nejsem jejich pořadatelem a údaje se mohou změnit nebo obsahovat chyby. Před návštěvou si je ověřte na stránce akce.",
+      "subtitle": "Meetupy, konference a workshopy, které automaticky vyhledává můj bot na veřejných stránkách pořadatelů.",
+      "disclaimer": "Akce vyhledává bot na veřejných stránkách pořadatelů. Před zveřejněním kontroluji, že údaje odpovídají zdroji, ale nejsem pořadatelem a údaje se mohou změnit. Před návštěvou si je ověřte na stránce akce.",
       "resultsLabel": "Seznam akcí",
       "resultsCount": "{count, plural, =0 {Žádné akce} one {Zobrazena # akce} few {Zobrazeny # akce} other {Zobrazeno # akcí}}",
       "moreAvailable": "Další akce najdete na následující stránce.",
@@ -297,7 +297,7 @@
       "emptyFilteredTitle": "Filtrům neodpovídá žádná akce",
       "emptyFilteredText": "Zkuste upravit hledání, rozšířit období nebo filtry zrušit.",
       "emptyTitle": "Zatím tu nejsou žádné akce",
-      "emptyText": "Nové akce průběžně přidáváme. Podívejte se sem znovu za pár dní.",
+      "emptyText": "Bot nové akce průběžně doplňuje. Podívejte se sem znovu za pár dní.",
       "unavailableTitle": "Akce se teď nepodařilo načíst",
       "unavailableText": "Služba s přehledem akcí je dočasně nedostupná. Zkuste stránku za chvíli obnovit.",
       "invalidTitle": "Odkaz s filtry už neplatí",
@@ -317,7 +317,6 @@
       "venue": "Místo",
       "time": "Čas",
       "source": "Zdroj",
-      "featured": "Doporučujeme",
       "newWindow": "(otevře stránku akce v novém okně)"
     },
     "calendar": {

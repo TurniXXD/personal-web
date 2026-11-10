@@ -23,10 +23,10 @@ export const privacyCopy: Record<Locale, PrivacyCopy> = {
   cs: {
     title: "Zpracování osobních údajů",
     description:
-      "Informace o tom, jak Jakub Vantuch zpracovává údaje z poptávek, newsletteru a doporučovacích odkazů na vantuch.dev.",
+      "Informace o tom, jak Jakub Vantuch zpracovává údaje z poptávek, partnerských dotazů, newsletteru, doporučovacích odkazů a analytiky na vantuch.dev.",
     eyebrow: "SOUKROMÍ A ÚDAJE",
     contactLabel: "Dotazy k osobním údajům:",
-    updated: "Účinné od 9. 11. 2026",
+    updated: "Účinné od 10. 11. 2026",
     sections: [
       {
         title: "Kdo údaje zpracovává",
@@ -37,7 +37,7 @@ export const privacyCopy: Record<Locale, PrivacyCopy> = {
       {
         title: "Poptávky a komunikace",
         paragraphs: [
-          "Když mi napíšete přes kontaktní formulář, zpracuji vaše jméno, e-mail, případně telefon a text zprávy, abych mohl odpovědět, probrat zadání a připravit případnou nabídku. Tyto údaje se ukládají do mého CRM Twenty; o nové poptávce mi může přijít také e-mailové upozornění přes službu Resend.",
+          "Když mi napíšete přes kontaktní formulář, zpracuji vaše jméno, e-mail, případně telefon a text zprávy, abych mohl odpovědět, probrat zadání a připravit případnou nabídku. Spolu s nimi zaznamenám, ze které stránky webu jste psali a o jakou službu nebo typ poptávky jde. Tyto údaje se ukládají do mého CRM Twenty; o nové poptávce mi přijde e-mailové upozornění přes službu Resend a vám přes ni pošlu potvrzení o přijetí s kopií zprávy.",
           "Právním základem je jednání o možné smlouvě na vaši žádost (čl. 6 odst. 1 písm. b GDPR); u firemní komunikace a správy obchodní korespondence také můj oprávněný zájem (čl. 6 odst. 1 písm. f GDPR). Povinné je pouze jméno, e-mail a zpráva. Bez nich nemohu na poptávku odpovědět.",
         ],
       },
@@ -55,6 +55,7 @@ export const privacyCopy: Record<Locale, PrivacyCopy> = {
           "Pokud si formulářem vyžádáte osobní doporučovací odkaz, zpracuji vaše jméno a e-mail k vytvoření odkazu, jeho automatickému doručení a správě doporučení. Poptávku odesílá sám zájemce a jeho údaje zpracovávám podle oddílu Poptávky a komunikace.",
           "Pokud zájemce použije doporučovací odkaz, mohu k jeho poptávce v CRM přiřadit ověřený identifikátor doporučitele, abych mohl posoudit doporučení a případnou odměnu. Bez odkazu může zájemce doporučitele sám uvést při úvodním hovoru.",
           "Pro evidenci doporučení se opírám o oprávněný zájem (čl. 6 odst. 1 písm. f GDPR).",
+          "Pokud mi přes formulář pro partnery na stejné stránce pošlete dotaz na dlouhodobou spolupráci, zpracuji vaše jméno, e-mail, případně název firmy a text zprávy, abych mohl odpovědět a spolupráci domluvit. Údaje se ukládají do CRM Twenty a e-mailové upozornění mi přijde přes Resend. Právním základem je jednání o možné smlouvě na vaši žádost (čl. 6 odst. 1 písm. b GDPR) a můj oprávněný zájem na správě obchodní komunikace (čl. 6 odst. 1 písm. f GDPR). Povinné je jméno, e-mail a zpráva.",
           "Pokud vznikne nárok na odměnu, zpracuji také údaje potřebné k její výplatě, například jméno nebo obchodní firmu, adresu, IČO, číslo bankovního účtu a údaje z vystaveného dokladu. Právním základem je plnění dohody o odměně (čl. 6 odst. 1 písm. b GDPR) a splnění účetních a daňových povinností (čl. 6 odst. 1 písm. c GDPR).",
         ],
       },
@@ -64,7 +65,7 @@ export const privacyCopy: Record<Locale, PrivacyCopy> = {
           "Pokud přijdete na web s parametrem ?ref, prohlížeč identifikátor doporučení přečte, odstraní ho z adresy stránky a odešle ho jen spolu s ověřením doporučení a s kontaktním formulářem na této stránce. Do vašeho zařízení se neukládá žádná cookie ani jiný záznam, proto se doporučení přiřadí jen k poptávce odeslané ze stránky, na kterou odkaz vedl.",
           "Identifikátor ověřuji na serveru. Zpracování slouží k evidenci doporučení a opírá se o oprávněný zájem (čl. 6 odst. 1 písm. f GDPR).",
           "Při návštěvě webu může poskytovatel hostingu Vercel zpracovávat technické údaje potřebné pro doručení stránky a zabezpečení provozu, například IP adresu a údaje o požadavku. Cloudflare Turnstile chrání formuláře před zneužitím a při ověření může zpracovat technické údaje o zařízení a požadavku.",
-          "Stránku Akce plní automaticky bot z veřejných stránek pořadatelů. Při jejím prohlížení nezpracovávám žádné další údaje o vás; odkazy na akce vedou na stránky pořadatelů, kde platí jejich vlastní podmínky.",
+          "Stránku Akce plní bot z veřejných stránek pořadatelů. Hledaný text a filtry se předávají mé vlastní službě s přehledem akcí jen kvůli zobrazení výsledků a s vaší osobou je nespojuji. Odkazy na akce vedou na stránky pořadatelů a tlačítko Přidat do kalendáře otevře Google Kalendář s údaji o akci; na těchto stránkách platí podmínky jejich provozovatelů.",
         ],
         links: [
           {
@@ -128,10 +129,10 @@ export const privacyCopy: Record<Locale, PrivacyCopy> = {
   en: {
     title: "Privacy notice",
     description:
-      "How Jakub Vantuch processes enquiry, newsletter, and referral-link data on vantuch.dev.",
+      "How Jakub Vantuch processes enquiry, partnership, newsletter, referral-link, and analytics data on vantuch.dev.",
     eyebrow: "PRIVACY AND DATA",
     contactLabel: "Questions about your data:",
-    updated: "Effective from 9 November 2026",
+    updated: "Effective from 10 November 2026",
     sections: [
       {
         title: "Who processes your data",
@@ -142,7 +143,7 @@ export const privacyCopy: Record<Locale, PrivacyCopy> = {
       {
         title: "Enquiries and communication",
         paragraphs: [
-          "When you use the contact form, I process your name, email, optional phone number, and message to reply, discuss your project, and potentially prepare an offer. These details are stored in my Twenty CRM; I may also receive an email notification through Resend.",
+          "When you use the contact form, I process your name, email, optional phone number, and message to reply, discuss your project, and potentially prepare an offer. I also record which page of the site you wrote from and the service or type of enquiry. These details are stored in my Twenty CRM; I receive an email notification through Resend, and Resend also sends you a confirmation of receipt with a copy of your message.",
           "The legal basis is taking steps towards a possible contract at your request (GDPR Article 6(1)(b)); for business correspondence and its management, I also rely on legitimate interests (Article 6(1)(f)). Only your name, email, and message are required. Without them, I cannot respond.",
         ],
       },
@@ -160,6 +161,7 @@ export const privacyCopy: Record<Locale, PrivacyCopy> = {
           "If you request a personal referral link through the form, I process your name and email to create the link, deliver it automatically, and manage referrals. The prospective client submits their own enquiry; I process their details as described under Enquiries and communication.",
           "If a prospective client uses a referral link, I may attach the verified referrer identifier to their enquiry in the CRM to assess the referral and any reward. Without a link, the client may name the referrer during the introductory call.",
           "I rely on legitimate interests for referral records (GDPR Article 6(1)(f)).",
+          "If you send a long-term partnership enquiry through the partner form on the same page, I process your name, email, optional company name, and message to reply and arrange the partnership. The details are stored in Twenty CRM and I receive an email notification through Resend. The legal basis is taking steps towards a possible contract at your request (GDPR Article 6(1)(b)) and my legitimate interest in managing business correspondence (Article 6(1)(f)). Your name, email, and message are required.",
           "If a reward becomes due, I also process the details needed to pay it, such as your name or business name, address, company ID, bank account number, and invoice details. The legal basis is performing the reward arrangement (GDPR Article 6(1)(b)) and meeting accounting and tax obligations (Article 6(1)(c)).",
         ],
       },
@@ -169,7 +171,7 @@ export const privacyCopy: Record<Locale, PrivacyCopy> = {
           "If you arrive with a ?ref URL parameter, your browser reads the referral identifier, removes it from the page address, and sends it only to verify the referral and with the contact form on that page. No cookie or other record is stored on your device, so the referral applies only to an enquiry sent from the page the link opened.",
           "I verify the identifier on the server. This processing supports referral records and is based on legitimate interests (GDPR Article 6(1)(f)).",
           "The hosting provider Vercel may process technical details needed to deliver and secure the site, such as an IP address and request data. Cloudflare Turnstile protects forms from abuse and may process technical device and request details during verification.",
-          "A bot fills the Events page automatically from organisers' public pages. Browsing it involves no further processing of your data; event links lead to the organisers' own pages, where their terms apply.",
+          "A bot fills the Events page from organisers' public pages. Your search text and filters are passed to my own events service only to show results, and I do not link them to you. Event links lead to the organisers' pages, and the Add to calendar button opens Google Calendar with the event details; the operators' own terms apply on those pages.",
         ],
         links: [
           {

@@ -223,8 +223,8 @@
     },
     "listing": {
       "title": "Events",
-      "subtitle": "Selected events I found with my bot, ones that caught my eye, or ones that are less known but definitely deserve more attention.",
-      "disclaimer": "A bot collects these events automatically from organisers' public pages. I do not organise them, and details may change or contain errors. Please check the event page before you go.",
+      "subtitle": "Meetups, conferences and workshops found automatically by my bot on organisers' public pages.",
+      "disclaimer": "A bot finds these events on organisers' public pages. I check the details against the source before publishing, but I'm not the organiser and details may change. Please confirm them on the event page before you go.",
       "resultsLabel": "Event list",
       "resultsCount": "{count, plural, =0 {No events} one {Showing # event} other {Showing # events}}",
       "moreAvailable": "More events are on the next page.",
@@ -297,7 +297,7 @@
       "emptyFilteredTitle": "No events match these filters",
       "emptyFilteredText": "Try a different search, a wider date range, or clear the filters.",
       "emptyTitle": "No events yet",
-      "emptyText": "New events are added regularly. Check back in a few days.",
+      "emptyText": "My bot keeps adding new events. Check back in a few days.",
       "unavailableTitle": "Events could not be loaded right now",
       "unavailableText": "The event service is temporarily unavailable. Please refresh the page in a moment.",
       "invalidTitle": "This filtered link has expired",
@@ -317,7 +317,6 @@
       "venue": "Venue",
       "time": "Time",
       "source": "Source",
-      "featured": "Featured",
       "newWindow": "(opens the event page in a new window)"
     },
     "calendar": {
