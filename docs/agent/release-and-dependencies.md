@@ -3,7 +3,7 @@
 Read this document for dependency, build, CI, environment-contract, or deployment changes.
 
 - `.github/workflows/ci.yml` is the source of truth for merge checks. Keep local scripts and CI commands aligned.
-- CI uses Node.js 22, pnpm 11.6.0, a frozen lockfile, lint, Prettier, strict type checking, unit tests, production builds, and Chromium/WebKit Playwright tests.
+- CI uses Node.js 22, pnpm 11.6.0, a frozen lockfile, lint, Prettier, strict type checking, unit tests, and production builds.
 - Add or update a dependency in the correct workspace package and commit the root `pnpm-lock.yaml`.
 - Do not duplicate a dependency across packages without a real consumer in each package.
 - Keep the development server on `.next-dev` and production or E2E builds on `.next`.
