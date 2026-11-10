@@ -8,6 +8,7 @@ import {
   EventStatusBadge,
 } from "@/components/events/event-badges";
 import { EventCalendarAction } from "@/components/events/event-calendar-action";
+import { EventInteractionLink } from "@/components/events/event-interaction-link";
 import type { EventItem } from "@/lib/events/event-model";
 import {
   formatEventCardDateBadge,
@@ -90,7 +91,9 @@ export function EventCard({ event, locale, categoryLabels }: EventCardProps) {
           )}
         >
           {href ? (
-            <a
+            <EventInteractionLink
+              eventSlug={event.slug}
+              interactionType="outbound_click"
               href={href}
               target="_blank"
               rel="noopener noreferrer"
@@ -105,7 +108,7 @@ export function EventCard({ event, locale, categoryLabels }: EventCardProps) {
                 className="ml-1.5 inline-block align-[-0.08em] text-ink-muted transition-colors duration-300 group-hover:text-white group-has-[:focus-visible]:text-white"
               />
               <span className="sr-only"> {t("newWindow")}</span>
-            </a>
+            </EventInteractionLink>
           ) : (
             event.title
           )}
@@ -150,7 +153,9 @@ export function EventCard({ event, locale, categoryLabels }: EventCardProps) {
                     {event.sourceUrl === href ? (
                       sourceHost
                     ) : (
-                      <a
+                      <EventInteractionLink
+                        eventSlug={event.slug}
+                        interactionType="outbound_click"
                         href={event.sourceUrl}
                         target="_blank"
                         rel="noopener noreferrer"
@@ -158,7 +163,7 @@ export function EventCard({ event, locale, categoryLabels }: EventCardProps) {
                       >
                         {sourceHost}
                         <span className="sr-only"> {t("newWindow")}</span>
-                      </a>
+                      </EventInteractionLink>
                     )}
                   </dd>
                 </div>

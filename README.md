@@ -64,7 +64,7 @@ Production builds on Vercel validate the complete form, monitoring, source-map, 
 
 ## Commercial site: events directory (`/akce`)
 
-The events listing reads published events from the public, read-only Payload Content API (`GET /api/public/v1/events` and `/events/categories`, documented at `https://cms.vantuch.dev/api/public/docs`). No CMS credentials are used; all requests run server-side. There are no event detail pages: each card links straight to the organiser's registration URL, or to the event's source page when registration is not published, in a new window.
+The events listing reads published events from the public Payload Content API (`GET /api/public/v1/events` and `/events/categories`, documented at `https://cms.vantuch.dev/api/public/docs`). No CMS credentials are used for content reads, which run server-side. There are no event detail pages: each card links straight to the organiser's registration URL, or to the event's source page when registration is not published, in a new window. A small client-side request counts external-link and Google Calendar clicks through the CMS interaction endpoint; failures never delay navigation. The CMS stores daily aggregate counts without visitor identifiers.
 
 - **Configuration:** `CONTENT_API_BASE_URL` (defaults to `https://cms.vantuch.dev`; HTTPS only). Its hostname is also the only remote pattern allowed for `next/image`; cover images from other hosts fall back to the design-system placeholder.
 - **Types:** `apps/web/lib/events/cms-api-schema.ts` is generated from the live OpenAPI contract. Regenerate after CMS contract changes with `pnpm --filter @vantuch/web generate:cms-types`.

@@ -76,8 +76,8 @@ test("Czech homepage presents the offer and contact", async ({ page }) => {
     "Ondrášek",
   ]);
   await expect(page.locator("#work .project-timeline__milestone")).toHaveText([
-    "2025 – dosud",
-    "2024 – dosud",
+    "2025 – současnost",
+    "2024 – současnost",
     "2023 – 2025",
     "2022 – 2023",
     "2021 – 2022",

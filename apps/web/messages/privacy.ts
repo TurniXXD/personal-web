@@ -66,6 +66,7 @@ export const privacyCopy: Record<Locale, PrivacyCopy> = {
           "Identifikátor ověřuji na serveru. Zpracování slouží k evidenci doporučení a opírá se o oprávněný zájem (čl. 6 odst. 1 písm. f GDPR).",
           "Při návštěvě webu může poskytovatel hostingu Vercel zpracovávat technické údaje potřebné pro doručení stránky a zabezpečení provozu, například IP adresu a údaje o požadavku. Cloudflare Turnstile chrání formuláře před zneužitím a při ověření může zpracovat technické údaje o zařízení a požadavku.",
           "Stránku Akce plní bot z veřejných stránek pořadatelů. Hledaný text a filtry se předávají mé vlastní službě s přehledem akcí jen kvůli zobrazení výsledků a s vaší osobou je nespojuji. Odkazy na akce vedou na stránky pořadatelů a tlačítko Přidat do kalendáře otevře Google Kalendář s údaji o akci; na těchto stránkách platí podmínky jejich provozovatelů.",
+          "Při kliknutí na odkaz akce nebo na Přidat do kalendáře započítám interakci, abych poznal, o které akce je zájem. V databázi ukládám jen identifikátor akce, den, typ interakce a denní počet; neukládám IP adresu, identifikátor návštěvníka ani jednotlivá kliknutí. Měření nepoužívá cookies. Denní součty starší než 13 měsíců odstraním při následujícím zaznamenání interakce. Opírám se o oprávněný zájem zlepšovat výběr akcí (čl. 6 odst. 1 písm. f GDPR).",
         ],
         links: [
           {
@@ -172,6 +173,7 @@ export const privacyCopy: Record<Locale, PrivacyCopy> = {
           "I verify the identifier on the server. This processing supports referral records and is based on legitimate interests (GDPR Article 6(1)(f)).",
           "The hosting provider Vercel may process technical details needed to deliver and secure the site, such as an IP address and request data. Cloudflare Turnstile protects forms from abuse and may process technical device and request details during verification.",
           "A bot fills the Events page from organisers' public pages. Your search text and filters are passed to my own events service only to show results, and I do not link them to you. Event links lead to the organisers' pages, and the Add to calendar button opens Google Calendar with the event details; the operators' own terms apply on those pages.",
+          "When you click an event link or Add to calendar, I count the interaction to understand which events attract interest. The database stores only the event ID, day, interaction type, and daily count; it does not store your IP address, a visitor identifier, or individual clicks. This measurement uses no cookies. I remove daily totals older than 13 months when the next interaction is recorded. I rely on my legitimate interest in improving the selection of events (GDPR Article 6(1)(f)).",
         ],
         links: [
           {

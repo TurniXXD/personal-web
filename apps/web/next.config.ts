@@ -16,7 +16,7 @@ const contentSecurityPolicy = [
   "style-src 'self' 'unsafe-inline'",
   "font-src 'self' data:",
   "img-src 'self' data: blob: https://www.clarity.ms https://*.clarity.ms",
-  "connect-src 'self' https://challenges.cloudflare.com https://cloudflareinsights.com https://*.cloudflareinsights.com https://www.clarity.ms https://*.clarity.ms https://*.ingest.sentry.io",
+  "connect-src 'self' https://cms.vantuch.dev https://challenges.cloudflare.com https://cloudflareinsights.com https://*.cloudflareinsights.com https://www.clarity.ms https://*.clarity.ms https://*.ingest.sentry.io",
   "frame-src https://challenges.cloudflare.com",
   "worker-src 'self' blob:",
 ].join("; ");

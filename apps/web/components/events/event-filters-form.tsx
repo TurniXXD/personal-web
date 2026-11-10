@@ -241,16 +241,20 @@ export function EventFiltersForm({
     Number(Boolean(draft.category)) +
     Number(Boolean(draft.price)) +
     Number(draft.sort !== DEFAULT_EVENT_FILTERS.sort);
+  const collator = new Intl.Collator(locale, { sensitivity: "base" });
   const cityOptions = EVENT_CITIES.map((city) => ({
     value: city,
     label: tCities(city),
-  }));
+  })).sort((a, b) => collator.compare(a.label, b.label));
   // Keep a category that is selected but missing from the CMS list usable.
-  const categoryOptions =
+  const categoryOptions = [...categories];
+  if (
     draft.category &&
     !categories.some((category) => category.slug === draft.category)
-      ? [...categories, { slug: draft.category, label: draft.category }]
-      : categories;
+  ) {
+    categoryOptions.push({ slug: draft.category, label: draft.category });
+  }
+  categoryOptions.sort((a, b) => collator.compare(a.label, b.label));
   const selectedCategory = categoryOptions.find(
     (category) => category.slug === draft.category,
   )?.label;

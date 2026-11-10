@@ -115,6 +115,48 @@ test("free food filter combines with other filters and keeps unknown food visibl
   ).toHaveCount(0);
 });
 
+test("city and category filters use alphabetical labels in each locale", async ({
+  page,
+}) => {
+  for (const [
+    path,
+    cityLabel,
+    allCities,
+    cities,
+    categoryLabel,
+    categories,
+  ] of [
+    [
+      "/akce",
+      "Město",
+      "Všechna města",
+      ["Brno", "Olomouc", "Ostrava", "Praha", "Zlín"],
+      "Kategorie",
+      ["Ai", "Networking", "Startups", "Vývoj", "Workshop"],
+    ],
+    [
+      "/en/events",
+      "City",
+      "All cities",
+      ["Brno", "Olomouc", "Ostrava", "Prague", "Zlín"],
+      "Category",
+      ["Ai", "Development", "Networking", "Startups", "Workshop"],
+    ],
+  ] as const) {
+    await page.goto(path);
+    await page.getByRole("combobox", { name: cityLabel }).click();
+    await expect(
+      page.getByRole("listbox", { name: cityLabel }).getByRole("option"),
+    ).toHaveText([allCities, ...cities]);
+
+    await page.getByRole("button", { name: /Filtry|Filters/ }).click();
+    const dialog = page.getByRole("dialog", { name: /Filtry|Filters/ });
+    await expect(dialog.getByLabel(categoryLabel).locator("option")).toHaveText(
+      [/Všechny kategorie|All categories/, ...categories],
+    );
+  }
+});
+
 test("city autocomplete offers only the supported cities and filters by URL", async ({
   page,
 }) => {
@@ -135,9 +177,9 @@ test("city autocomplete offers only the supported cities and filters by URL", as
   await expect(cityOptions).toHaveText([
     "Všechna města",
     "Brno",
-    "Praha",
-    "Ostrava",
     "Olomouc",
+    "Ostrava",
+    "Praha",
     "Zlín",
   ]);
 
@@ -287,6 +329,17 @@ test("card opens the organiser's event page while the calendar link stays indepe
   page,
   context,
 }) => {
+  const interactions: Array<{ url: string; type: string }> = [];
+  await context.route(
+    "https://cms.vantuch.dev/api/public/v1/events/**/interactions",
+    (route) => {
+      interactions.push({
+        url: route.request().url(),
+        type: JSON.parse(route.request().postData() ?? "{}").type,
+      });
+      return route.fulfill({ status: 503 });
+    },
+  );
   // Never leave the test environment: answer organiser URLs locally.
   await context.route("https://example.com/**", (route) =>
     route.fulfill({
@@ -330,6 +383,11 @@ test("card opens the organiser's event page while the calendar link stays indepe
   const calendarPopup = page.waitForEvent("popup");
   await calendar.click();
   await (await calendarPopup).close();
+  await expect.poll(() => interactions.length).toBe(1);
+  expect(interactions[0]).toEqual({
+    url: "https://cms.vantuch.dev/api/public/v1/events/brno-ai-meetup/interactions",
+    type: "calendar_click",
+  });
   await expect(page).toHaveURL(/\/akce$/);
 
   const eventPopup = page.waitForEvent("popup");
@@ -338,6 +396,8 @@ test("card opens the organiser's event page while the calendar link stays indepe
   const organiser = await eventPopup;
   expect(organiser.url()).toBe("https://example.com/register/brno-ai-meetup");
   await organiser.close();
+  await expect.poll(() => interactions.length).toBe(2);
+  expect(interactions[1].type).toBe("outbound_click");
   await expect(page).toHaveURL(/\/akce$/);
 });
 
@@ -346,7 +406,7 @@ test("cards fall back to the source page and stay links when cancelled", async (
 }) => {
   await page.goto("/akce");
   await expect(page.locator("[data-events-disclaimer]")).toContainText(
-    "Nejsem jejich pořadatelem",
+    "nejsem pořadatelem",
   );
   // No registration URL: the card links to the organiser's source page.
   const typescriptNight = page.locator('[data-event-card="typescript-night"]');
