@@ -177,7 +177,7 @@ test("card time hides end-of-day placeholders", () => {
   );
 });
 
-test("card location uses structured venue and city without full address", () => {
+test("card location uses venue and city without full address", () => {
   assert.equal(
     formatEventCardLocation({
       venueName: "Hotel International Brno",
@@ -196,47 +196,17 @@ test("card location uses structured venue and city without full address", () => 
   );
 });
 
-test("describes price only from verified fields", () => {
-  assert.deepEqual(
-    describeEventPrice({ isFree: true, price: 0, currency: null }, "cs"),
-    { kind: "free" },
-  );
-  assert.deepEqual(
-    describeEventPrice({ isFree: null, price: 200, currency: "CZK" }, "cs"),
-    { kind: "unknown" },
-  );
-  assert.deepEqual(
-    describeEventPrice({ isFree: false, price: null, currency: null }, "cs"),
-    { kind: "paid", amount: null },
-  );
-  assert.equal(
-    plain(
-      describeEventPrice({ isFree: false, price: 250, currency: "CZK" }, "cs")
-        .amount,
-    ),
-    "250 Kč",
-  );
-  assert.equal(
-    plain(
-      describeEventPrice({ isFree: false, price: 12.5, currency: "EUR" }, "en")
-        .amount,
-    ),
-    "€12.50",
-  );
-  assert.equal(
-    plain(
-      describeEventPrice({ isFree: false, price: 300, currency: null }, "cs")
-        .amount,
-    ),
-    "300",
-  );
-  assert.equal(
-    plain(
-      describeEventPrice({ isFree: false, price: 5, currency: "XX1" }, "cs")
-        .amount,
-    ),
-    "5 XX1",
-  );
+test("describes admission from the free flag", () => {
+  assert.deepEqual(describeEventPrice({ isFree: true }), {
+    kind: "free",
+  });
+  assert.deepEqual(describeEventPrice({ isFree: null }), {
+    kind: "unknown",
+  });
+  assert.deepEqual(describeEventPrice({ isFree: false }), {
+    kind: "paid",
+    amount: null,
+  });
 });
 
 test("joins location parts without duplicates", () => {

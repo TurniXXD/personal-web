@@ -9,9 +9,7 @@ import {
 } from "./content-api.ts";
 
 const event = (overrides = {}) => ({
-  slug: "brno-ai-meetup",
   title: "Brno AI meetup",
-  summary: null,
   startsAt: "2026-11-20T17:00:00.000Z",
   endsAt: null,
   timezone: "Europe/Prague",
@@ -20,11 +18,7 @@ const event = (overrides = {}) => ({
   address: null,
   category: "ai",
   sourceUrl: "https://example.com/e",
-  registrationUrl: null,
-  imageUrl: null,
   isFree: null,
-  price: null,
-  currency: null,
   freeFood: "unknown",
   status: "scheduled",
   ...overrides,
@@ -86,15 +80,15 @@ test("requests one filtered page with cache tags and revalidation", async () => 
   });
   assert.ok(init.signal instanceof AbortSignal);
   assert.equal(page.nextCursor, "c2");
-  assert.equal(page.events[0].slug, "brno-ai-meetup");
+  assert.equal(page.events[0].title, "Brno AI meetup");
   assert.equal(page.skipped, 0);
 });
 
 test("follows cursor pagination until nextCursor is null", async () => {
   const pages = {
-    "": { data: [event({ slug: "a" })], nextCursor: "p2" },
-    p2: { data: [event({ slug: "b" })], nextCursor: "p3" },
-    p3: { data: [event({ slug: "c" })], nextCursor: null },
+    "": { data: [event({ title: "a" })], nextCursor: "p2" },
+    p2: { data: [event({ title: "b" })], nextCursor: "p3" },
+    p3: { data: [event({ title: "c" })], nextCursor: null },
   };
   const { fetcher } = simulatedFetcher((url) =>
     json({
@@ -104,7 +98,7 @@ test("follows cursor pagination until nextCursor is null", async () => {
   );
   const client = createContentApiClient({ fetcher });
 
-  const slugs = [];
+  const titles = [];
   let cursor = null;
   do {
     const page = await client.getEvents({
@@ -112,10 +106,10 @@ test("follows cursor pagination until nextCursor is null", async () => {
       cursor,
       limit: 1,
     });
-    slugs.push(...page.events.map((item) => item.slug));
+    titles.push(...page.events.map((item) => item.title));
     cursor = page.nextCursor;
   } while (cursor);
-  assert.deepEqual(slugs, ["a", "b", "c"]);
+  assert.deepEqual(titles, ["a", "b", "c"]);
 });
 
 test("keeps events that already started or are still running", async () => {
@@ -123,12 +117,12 @@ test("keeps events that already started or are still running", async () => {
     json({
       data: [
         event({
-          slug: "ongoing",
+          title: "ongoing",
           startsAt: "2020-01-01T00:00:00.000Z",
           endsAt: "2099-12-31T00:00:00.000Z",
         }),
-        event({ slug: "started-today", startsAt: "2020-01-01T08:00:00.000Z" }),
-        event({ slug: "future", startsAt: "2099-01-01T00:00:00.000Z" }),
+        event({ title: "started-today", startsAt: "2020-01-01T08:00:00.000Z" }),
+        event({ title: "future", startsAt: "2099-01-01T00:00:00.000Z" }),
       ],
       nextCursor: "p2",
       meta: { limit: 15 },
@@ -140,7 +134,7 @@ test("keeps events that already started or are still running", async () => {
   });
 
   assert.deepEqual(
-    page.events.map((item) => item.slug),
+    page.events.map((item) => item.title),
     ["ongoing", "started-today", "future"],
   );
   assert.equal(page.nextCursor, "p2");

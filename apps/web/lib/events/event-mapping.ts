@@ -29,9 +29,6 @@ const text = (value: unknown): string | null => {
   return trimmed ? trimmed : null;
 };
 
-const finiteNumber = (value: unknown): number | null =>
-  typeof value === "number" && Number.isFinite(value) ? value : null;
-
 const booleanOrNull = (value: unknown): boolean | null =>
   typeof value === "boolean" ? value : null;
 
@@ -74,13 +71,12 @@ const oneOf = <Value extends string>(
 
 /**
  * Maps one CMS event to the UI model. Returns `null` when the item lacks the
- * identity required to render or link it (slug, title).
+ * title required to render it.
  */
 export const mapCmsEvent = (raw: unknown): EventItem | null => {
   if (!isRecord(raw)) return null;
-  const slug = text(raw.slug);
   const title = text(raw.title);
-  if (!slug || !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug) || !title) return null;
+  if (!title) return null;
 
   const startsAt = toValidIsoDate(raw.startsAt);
   const endsAtCandidate = toValidIsoDate(raw.endsAt);
@@ -99,9 +95,7 @@ export const mapCmsEvent = (raw: unknown): EventItem | null => {
   ];
 
   return {
-    slug,
     title,
-    summary: text(raw.summary),
     startsAt,
     endsAt,
     timezone: toValidTimeZone(raw.timezone),
@@ -112,10 +106,7 @@ export const mapCmsEvent = (raw: unknown): EventItem | null => {
     // Older payloads carry only the primary category.
     categories: categories.length ? categories : category ? [category] : [],
     sourceUrl: toSafeHttpUrl(raw.sourceUrl),
-    registrationUrl: toSafeHttpUrl(raw.registrationUrl),
     isFree: booleanOrNull(raw.isFree),
-    price: finiteNumber(raw.price),
-    currency: text(raw.currency)?.toUpperCase() ?? null,
     freeFood: oneOf(raw.freeFood, FREE_FOOD_VALUES, "unknown"),
     status: oneOf(raw.status, EVENT_STATUSES, "scheduled"),
   };

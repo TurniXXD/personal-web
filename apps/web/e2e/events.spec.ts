@@ -47,7 +47,7 @@ test("listing shows a three-column grid and paginates with filters", async ({
   const scrollBefore = await page.evaluate(() => window.scrollY);
   expect(scrollBefore).toBeGreaterThan(0);
   await next.click();
-  // 26 networking events at 20 per page leave 6 for the second page.
+  // 26 networking events at 15 per page leave 11 for the second page.
   await expect(page.locator("[data-event-card]")).toHaveCount(26);
   await expect(page).toHaveURL(/\/akce\?category=networking$/);
   await expect(page.locator("[data-event-card]").first()).toContainText(
@@ -66,12 +66,12 @@ test("listing shows a three-column grid and paginates with filters", async ({
   // The last page removes the button and continues on the first new card.
   await expect(next).toHaveCount(0);
   await expect(
-    page.locator("[data-event-card]").nth(20).locator("[data-event-card-link]"),
+    page.locator("[data-event-card]").nth(15).locator("[data-event-card-link]"),
   ).toBeFocused();
 
   // Without the click handler the link still paginates by URL.
   await page.goto(href.pathname + href.search);
-  await expect(page.locator("[data-event-card]")).toHaveCount(6);
+  await expect(page.locator("[data-event-card]")).toHaveCount(11);
 });
 
 test("free food filter combines with other filters and keeps unknown food visible when off", async ({
@@ -79,7 +79,7 @@ test("free food filter combines with other filters and keeps unknown food visibl
 }) => {
   await page.goto("/akce");
   await expect(
-    page.locator('[data-event-card="data-breakfast"]'),
+    page.locator('[data-event-card="Data breakfast"]'),
   ).toBeVisible();
 
   await page.getByRole("checkbox", { name: "Jídlo zdarma" }).check();
@@ -98,20 +98,20 @@ test("free food filter combines with other filters and keeps unknown food visibl
   await expect(page).toHaveURL(/category=ai/);
   await expect(page.locator("[data-event-card]")).toHaveCount(1);
   await expect(
-    page.locator('[data-event-card="brno-ai-meetup"]'),
+    page.locator('[data-event-card="Brno AI meetup"]'),
   ).toBeVisible();
 
   await page.getByRole("link", { name: "Zrušit filtry" }).click();
   await expect(page).toHaveURL(/\/akce$/);
   await expect(
-    page.locator('[data-event-card="data-breakfast"]'),
+    page.locator('[data-event-card="Data breakfast"]'),
   ).toBeVisible();
   // Only verified free food shows the badge.
   await expect(
-    page.locator('[data-event-card="typescript-night"] [data-free-food-badge]'),
+    page.locator('[data-event-card="TypeScript night"] [data-free-food-badge]'),
   ).toHaveCount(0);
   await expect(
-    page.locator('[data-event-card="data-breakfast"] [data-free-food-badge]'),
+    page.locator('[data-event-card="Data breakfast"] [data-free-food-badge]'),
   ).toHaveCount(0);
 });
 
@@ -163,10 +163,10 @@ test("city autocomplete offers only the supported cities and filters by URL", as
   await page.goto("/akce");
   // Without a city the listing covers every city.
   await expect(
-    page.locator('[data-event-card="praha-product-meetup"]'),
+    page.locator('[data-event-card="Praha product meetup"]'),
   ).toBeVisible();
   await expect(
-    page.locator('[data-event-card="brno-ai-meetup"]'),
+    page.locator('[data-event-card="Brno AI meetup"]'),
   ).toBeVisible();
 
   const city = page.getByRole("combobox", { name: "Město" });
@@ -217,10 +217,10 @@ test("city autocomplete offers only the supported cities and filters by URL", as
   await page.goto("/akce?city=brno&category=ai");
   await expect(city).toHaveValue("Brno");
   await expect(
-    page.locator('[data-event-card="brno-ai-meetup"]'),
+    page.locator('[data-event-card="Brno AI meetup"]'),
   ).toBeVisible();
   await expect(
-    page.locator('[data-event-card="praha-product-meetup"]'),
+    page.locator('[data-event-card="Praha product meetup"]'),
   ).toHaveCount(0);
 });
 
@@ -329,17 +329,6 @@ test("card opens the organiser's event page while the calendar link stays indepe
   page,
   context,
 }) => {
-  const interactions: Array<{ url: string; type: string }> = [];
-  await context.route(
-    "https://cms.vantuch.dev/api/public/v1/events/**/interactions",
-    (route) => {
-      interactions.push({
-        url: route.request().url(),
-        type: JSON.parse(route.request().postData() ?? "{}").type,
-      });
-      return route.fulfill({ status: 503 });
-    },
-  );
   // Never leave the test environment: answer organiser URLs locally.
   await context.route("https://example.com/**", (route) =>
     route.fulfill({
@@ -348,15 +337,12 @@ test("card opens the organiser's event page while the calendar link stays indepe
     }),
   );
   await page.goto("/akce");
-  const card = page.locator('[data-event-card="brno-ai-meetup"]');
+  const card = page.locator('[data-event-card="Brno AI meetup"]');
   const link = card.locator("[data-event-card-link]");
   const calendar = card.locator("[data-calendar-action]");
 
-  // Registration URL wins over the source page.
-  await expect(link).toHaveAttribute(
-    "href",
-    "https://example.com/register/brno-ai-meetup",
-  );
+  // The compact listing links to the source page.
+  await expect(link).toHaveAttribute("href", "https://example.com/events");
   await expect(link).toHaveAttribute("target", "_blank");
   await expect(link).toHaveAttribute("rel", "noopener noreferrer");
   await expect(link).toContainText("v novém okně");
@@ -371,33 +357,25 @@ test("card opens the organiser's event page while the calendar link stays indepe
   expect(calendarUrl.searchParams.get("text")).toBe("Brno AI meetup");
   expect(calendarUrl.searchParams.get("ctz")).toBe("Europe/Prague");
   expect(calendarUrl.searchParams.get("details")).toContain(
-    "https://example.com/register/brno-ai-meetup",
+    "https://example.com/events",
   );
-  // The source page stays credited next to the registration link.
-  const source = card.locator("[data-event-source] a");
+  // The source page stays credited on the card.
+  const source = card.locator("[data-event-source]");
   await expect(source).toHaveText(/example\.com/);
-  await expect(source).toHaveAttribute("rel", "noopener noreferrer");
   // No interactive element is nested inside another.
   await expect(card.locator("a a, a button")).toHaveCount(0);
 
   const calendarPopup = page.waitForEvent("popup");
   await calendar.click();
   await (await calendarPopup).close();
-  await expect.poll(() => interactions.length).toBe(1);
-  expect(interactions[0]).toEqual({
-    url: "https://cms.vantuch.dev/api/public/v1/events/brno-ai-meetup/interactions",
-    type: "calendar_click",
-  });
   await expect(page).toHaveURL(/\/akce$/);
 
   const eventPopup = page.waitForEvent("popup");
   await link.focus();
   await page.keyboard.press("Enter");
   const organiser = await eventPopup;
-  expect(organiser.url()).toBe("https://example.com/register/brno-ai-meetup");
+  expect(organiser.url()).toBe("https://example.com/events");
   await organiser.close();
-  await expect.poll(() => interactions.length).toBe(2);
-  expect(interactions[1].type).toBe("outbound_click");
   await expect(page).toHaveURL(/\/akce$/);
 });
 
@@ -409,7 +387,7 @@ test("cards fall back to the source page and stay links when cancelled", async (
     "nejsem pořadatelem",
   );
   // No registration URL: the card links to the organiser's source page.
-  const typescriptNight = page.locator('[data-event-card="typescript-night"]');
+  const typescriptNight = page.locator('[data-event-card="TypeScript night"]');
   await expect(
     typescriptNight.locator("[data-event-card-link]"),
   ).toHaveAttribute("href", "https://example.com/events");
@@ -419,7 +397,7 @@ test("cards fall back to the source page and stay links when cancelled", async (
   );
   await expect(typescriptNight.locator("[data-event-source] a")).toHaveCount(0);
 
-  const cancelled = page.locator('[data-event-card="startup-pitch-evening"]');
+  const cancelled = page.locator('[data-event-card="Startup pitch evening"]');
   await expect(cancelled.locator("[data-event-card-link]")).toHaveAttribute(
     "href",
     "https://example.com/events",
@@ -435,7 +413,7 @@ test("listing cards keep only the title and show an icon-only calendar action", 
   page,
 }) => {
   await page.goto("/akce");
-  const card = page.locator('[data-event-card="brno-ai-meetup"]');
+  const card = page.locator('[data-event-card="Brno AI meetup"]');
   const calendar = card.locator("[data-calendar-action]");
 
   await expect(
@@ -515,7 +493,7 @@ test("listing cards anchor venue details and reveal the calendar tooltip", async
   expect(gaps.length).toBeGreaterThan(0);
   expect(gaps.every((gap) => gap < 80)).toBe(true);
 
-  const card = page.locator('[data-event-card="brno-ai-meetup"]');
+  const card = page.locator('[data-event-card="Brno AI meetup"]');
   const calendar = card.locator("[data-calendar-action]");
   const tooltip = card.locator("[data-calendar-tooltip]");
   await expect(card.locator("[data-event-date-badge]")).toContainText(
@@ -574,7 +552,7 @@ test("cards show every category in the locale and no images", async ({
   page,
 }) => {
   await page.goto("/akce");
-  const card = page.locator('[data-event-card="typescript-night"]');
+  const card = page.locator('[data-event-card="TypeScript night"]');
 
   await expect(card.locator("img")).toHaveCount(0);
   await expect(card.getByText("Vývoj", { exact: true })).toBeVisible();
@@ -583,7 +561,7 @@ test("cards show every category in the locale and no images", async ({
   await page.goto("/en/events");
   await expect(
     page
-      .locator('[data-event-card="typescript-night"]')
+      .locator('[data-event-card="TypeScript night"]')
       .getByText("Development", { exact: true }),
   ).toBeVisible();
 });

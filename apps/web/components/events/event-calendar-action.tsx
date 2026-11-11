@@ -4,7 +4,6 @@ import type { EventItem } from "@/lib/events/event-model";
 import { formatEventLocation } from "@/lib/events/event-format";
 import { canAddEventToCalendar } from "@/lib/events/event-status";
 import { buildGoogleCalendarUrl } from "@/lib/events/google-calendar";
-import { EventInteractionLink } from "@/components/events/event-interaction-link";
 
 // Plain join: tailwind-merge treats the custom `text-ui-*` size tokens as
 // colors and would drop them next to a text color utility.
@@ -41,7 +40,7 @@ export function EventCalendarAction({
         startsAt: event.startsAt,
         endsAt: event.endsAt,
         timezone: event.timezone,
-        summary: event.summary,
+        summary: null,
         eventUrl,
         location: formatEventLocation(event),
       })
@@ -70,9 +69,7 @@ export function EventCalendarAction({
   }
 
   return (
-    <EventInteractionLink
-      eventSlug={event.slug}
-      interactionType="calendar_click"
+    <a
       href={href}
       target="_blank"
       rel="noopener noreferrer"
@@ -98,6 +95,6 @@ export function EventCalendarAction({
           {t("add")}
         </span>
       ) : null}
-    </EventInteractionLink>
+    </a>
   );
 }

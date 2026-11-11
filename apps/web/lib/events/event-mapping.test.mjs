@@ -11,9 +11,7 @@ import { canAddEventToCalendar } from "./event-status.ts";
 
 /** Mirrors the documented example of `GET /public/v1/event-cards`. */
 const contractExample = {
-  slug: "example-ai-meetup-2026-11-20",
   title: "Example AI meetup",
-  summary: "An example listing used in documentation.",
   startsAt: "2026-11-20T17:00:00.000Z",
   endsAt: "2026-11-20T19:00:00.000Z",
   timezone: "Europe/Prague",
@@ -23,21 +21,16 @@ const contractExample = {
   category: "ai",
   categories: ["ai", "workshop"],
   sourceUrl: "https://example.com/events/ai-meetup",
-  registrationUrl: null,
   imageUrl: null,
   imageSource: null,
   isFree: true,
-  price: 0,
-  currency: null,
   freeFood: "yes",
   status: "scheduled",
 };
 
 test("maps the documented contract example", () => {
   assert.deepEqual(mapCmsEvent(contractExample), {
-    slug: "example-ai-meetup-2026-11-20",
     title: "Example AI meetup",
-    summary: "An example listing used in documentation.",
     startsAt: "2026-11-20T17:00:00.000Z",
     endsAt: "2026-11-20T19:00:00.000Z",
     timezone: "Europe/Prague",
@@ -47,10 +40,7 @@ test("maps the documented contract example", () => {
     category: "ai",
     categories: ["ai", "workshop"],
     sourceUrl: "https://example.com/events/ai-meetup",
-    registrationUrl: null,
     isFree: true,
-    price: 0,
-    currency: null,
     freeFood: "yes",
     status: "scheduled",
   });
@@ -58,14 +48,12 @@ test("maps the documented contract example", () => {
 
 test("keeps missing optional fields as unknown instead of inventing values", () => {
   const event = mapCmsEvent({
-    slug: "minimal-event",
     title: "  Minimal event  ",
     startsAt: "2026-11-20T17:00:00.000Z",
   });
   assert.ok(event);
   assert.equal(event.title, "Minimal event");
   assert.equal(event.endsAt, null);
-  assert.equal(event.summary, null);
   assert.equal(event.venueName, null);
   assert.equal(
     event.isFree,
@@ -77,16 +65,13 @@ test("keeps missing optional fields as unknown instead of inventing values", () 
     "unknown",
     "missing food info must not become 'no'",
   );
-  assert.equal(event.registrationUrl, null);
   assert.equal(event.timezone, "Europe/Prague");
   assert.equal(event.status, "scheduled");
 });
 
-test("rejects items without a usable slug or title", () => {
+test("rejects items without a usable title", () => {
   assert.equal(mapCmsEvent(null), null);
   assert.equal(mapCmsEvent([]), null);
-  assert.equal(mapCmsEvent({ ...contractExample, slug: "../admin" }), null);
-  assert.equal(mapCmsEvent({ ...contractExample, slug: "" }), null);
   assert.equal(mapCmsEvent({ ...contractExample, title: " " }), null);
 });
 
@@ -112,22 +97,11 @@ test("invalidates bad dates and end times before the start", () => {
 test("drops unsafe URLs and unknown time zones", () => {
   const event = mapCmsEvent({
     ...contractExample,
-    registrationUrl: "javascript:alert(1)",
     sourceUrl: "not a url",
     timezone: "Nowhere/City",
   });
-  assert.equal(event.registrationUrl, null);
   assert.equal(event.sourceUrl, null);
   assert.equal(event.timezone, "Europe/Prague");
-
-  const valid = mapCmsEvent({
-    ...contractExample,
-    registrationUrl: "https://tickets.example.com/e/1?ref=a b",
-  });
-  assert.equal(
-    valid.registrationUrl,
-    "https://tickets.example.com/e/1?ref=a%20b",
-  );
 });
 
 test("handles every documented event status", () => {

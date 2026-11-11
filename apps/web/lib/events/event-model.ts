@@ -15,17 +15,13 @@ export type FreeFoodAvailability = CmsEvent["freeFood"];
  */
 export type EventItem = Pick<
   CmsEvent,
-  | "slug"
   | "title"
-  | "summary"
   | "city"
   | "venueName"
   | "address"
   | "category"
   | "categories"
   | "isFree"
-  | "price"
-  | "currency"
   | "freeFood"
   | "status"
 > & {
@@ -36,7 +32,6 @@ export type EventItem = Pick<
   /** Valid IANA time zone, defaulting to Europe/Prague. */
   timezone: string;
   sourceUrl: string | null;
-  registrationUrl: string | null;
 };
 
 /** Category with its label already resolved for the current locale. */

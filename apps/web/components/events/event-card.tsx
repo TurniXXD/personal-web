@@ -8,7 +8,6 @@ import {
   EventStatusBadge,
 } from "@/components/events/event-badges";
 import { EventCalendarAction } from "@/components/events/event-calendar-action";
-import { EventInteractionLink } from "@/components/events/event-interaction-link";
 import type { EventItem } from "@/lib/events/event-model";
 import {
   formatEventCardDateBadge,
@@ -35,14 +34,10 @@ const MAX_CATEGORY_BADGES = 3;
  */
 export function EventCard({ event, locale, categoryLabels }: EventCardProps) {
   const t = useTranslations("events.card");
-  // Cards open the organiser's page directly: registration when published,
-  // otherwise the source page. Without either the card is not a link.
-  const href = event.registrationUrl ?? event.sourceUrl;
+  const href = event.sourceUrl;
   const date = formatEventCardDateBadge(event, locale);
   const time = formatEventCardTime(event, locale);
   const location = formatEventCardLocation(event);
-  // The organiser's source page is always credited; it gets its own link when
-  // the card itself opens the registration page instead.
   const sourceHost = event.sourceUrl
     ? new URL(event.sourceUrl).hostname.replace(/^www\./, "")
     : null;
@@ -58,7 +53,7 @@ export function EventCard({ event, locale, categoryLabels }: EventCardProps) {
 
   return (
     <article
-      data-event-card={event.slug}
+      data-event-card={event.title}
       data-event-status={event.status}
       className="group relative flex h-full min-w-0 flex-col overflow-hidden rounded-[1.35rem] border border-border-card bg-card shadow-[0_16px_40px_rgba(47,59,125,0.045)] transition-[background-color,border-color,box-shadow] duration-300 hover:border-primary hover:bg-[#625bdf] hover:shadow-[0_1.4rem_3.4rem_rgba(66,58,164,0.24)] has-[:focus-visible]:border-primary has-[:focus-visible]:bg-[#625bdf] has-[:focus-visible]:shadow-[0_1.4rem_3.4rem_rgba(66,58,164,0.24)] has-[[data-event-card-link]:focus-visible]:outline-[3px] has-[[data-event-card-link]:focus-visible]:outline-offset-4 has-[[data-event-card-link]:focus-visible]:outline-[#5f6cff45]"
     >
@@ -91,9 +86,7 @@ export function EventCard({ event, locale, categoryLabels }: EventCardProps) {
           )}
         >
           {href ? (
-            <EventInteractionLink
-              eventSlug={event.slug}
-              interactionType="outbound_click"
+            <a
               href={href}
               target="_blank"
               rel="noopener noreferrer"
@@ -108,7 +101,7 @@ export function EventCard({ event, locale, categoryLabels }: EventCardProps) {
                 className="ml-1.5 inline-block align-[-0.08em] text-ink-muted transition-colors duration-300 group-hover:text-white group-has-[:focus-visible]:text-white"
               />
               <span className="sr-only"> {t("newWindow")}</span>
-            </EventInteractionLink>
+            </a>
           ) : (
             event.title
           )}
@@ -156,21 +149,7 @@ export function EventCard({ event, locale, categoryLabels }: EventCardProps) {
                     <span className="sr-only">{t("source")}</span>
                   </dt>
                   <dd className="m-0 min-w-0 truncate" data-event-source>
-                    {event.sourceUrl === href ? (
-                      sourceHost
-                    ) : (
-                      <EventInteractionLink
-                        eventSlug={event.slug}
-                        interactionType="outbound_click"
-                        href={event.sourceUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="relative z-10 underline decoration-[rgba(95,108,255,0.35)] underline-offset-2 hover:decoration-current"
-                      >
-                        {sourceHost}
-                        <span className="sr-only"> {t("newWindow")}</span>
-                      </EventInteractionLink>
-                    )}
+                    {sourceHost}
                   </dd>
                 </div>
               ) : null}
@@ -178,7 +157,7 @@ export function EventCard({ event, locale, categoryLabels }: EventCardProps) {
           ) : null}
           <div className="flex w-full items-center justify-between gap-2">
             <div className="flex min-w-0 flex-wrap items-center gap-1.5 empty:hidden">
-              <EventPriceBadge event={event} locale={locale} />
+              <EventPriceBadge event={event} />
               <EventFreeFoodBadge event={event} />
             </div>
             <EventCalendarAction

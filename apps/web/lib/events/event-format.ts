@@ -209,35 +209,11 @@ export type EventPrice =
 
 /** Pricing as stated by the CMS; never inferred from missing data. */
 export const describeEventPrice = (
-  event: Pick<EventItem, "isFree" | "price" | "currency">,
-  locale: EventLocale,
+  event: Pick<EventItem, "isFree">,
 ): EventPrice => {
   if (event.isFree === true) return { kind: "free" };
   if (event.isFree !== false) return { kind: "unknown" };
-  if (event.price === null || event.price <= 0) {
-    return { kind: "paid", amount: null };
-  }
-  if (!event.currency) {
-    return {
-      kind: "paid",
-      amount: new Intl.NumberFormat(intlLocale(locale)).format(event.price),
-    };
-  }
-  try {
-    return {
-      kind: "paid",
-      amount: new Intl.NumberFormat(intlLocale(locale), {
-        style: "currency",
-        currency: event.currency,
-        maximumFractionDigits: Number.isInteger(event.price) ? 0 : 2,
-      }).format(event.price),
-    };
-  } catch {
-    return {
-      kind: "paid",
-      amount: `${new Intl.NumberFormat(intlLocale(locale)).format(event.price)} ${event.currency}`,
-    };
-  }
+  return { kind: "paid", amount: null };
 };
 
 /** Venue, address, and city without repeating identical parts. */

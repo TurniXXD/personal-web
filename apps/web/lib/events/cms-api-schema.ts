@@ -33,7 +33,7 @@ export interface paths {
     };
     /**
      * List upcoming events as compact cards
-     * @description Only upcoming events including all of today: anything starting or still running at/after midnight today (Europe/Prague). An earlier `from` is raised to that point and `to` alone never reaches into the past. Otherwise the same filters, sorting, and cursor pagination as /events (default limit 20, max 100), but each item carries only the fields an event card renders. Use /events/{slug} for the full record.
+     * @description Only upcoming events including all of today: events starting at/after midnight today (Europe/Prague); events that started earlier are left out even while still running. An earlier `from` is raised to that point and `to` alone never reaches into the past. Otherwise the same filters, sorting, and cursor pagination as /events (default limit 20, max 100), but each item carries only the fields an event card renders. Use /events for full records.
      */
     get: operations["listEventCards"];
     put?: never;
@@ -95,6 +95,26 @@ export interface paths {
     get: operations["getEvent"];
     put?: never;
     post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/public/v1/events/{slug}/interactions": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * Count an event link or Google Calendar click
+     * @description Accepts only approved, published event slugs. No visitor identifier or redirect URL is accepted. Counts are aggregated by event, UTC day, and interaction type.
+     */
+    post: operations["trackEventInteraction"];
     delete?: never;
     options?: never;
     head?: never;
@@ -251,9 +271,7 @@ export interface components {
       };
     };
     PublicEventCard: {
-      slug: string;
       title: string;
-      summary: string | null;
       /**
        * Format: date-time
        * @example 2026-11-20T17:00:00.000Z
@@ -272,15 +290,8 @@ export interface components {
        * @description Original organiser/source page (attribution).
        */
       sourceUrl: string;
-      registrationUrl: string | null;
-      /** @description Licensed public media when available, otherwise a link to the image found at the source page (never copied to the CMS). */
-      imageUrl: string | null;
-      /** @description `media`: CMS media with publication rights. `source`: hotlinked image from the source page; credit it with a link to `sourceUrl`. Null when there is no image. */
-      imageSource: ("media" | "source") | null;
       /** @description Free admission; null when unknown. */
       isFree: boolean | null;
-      price: number | null;
-      currency: string | null;
       /** @enum {string} */
       freeFood: "yes" | "no" | "unknown";
       /** @enum {string} */
@@ -298,6 +309,10 @@ export interface components {
     };
     PublicEventDetail: {
       data: components["schemas"]["PublicEvent"];
+    };
+    EventInteractionBody: {
+      /** @enum {string} */
+      type: "outbound_click" | "calendar_click";
     };
     PublicArticleList: {
       data: components["schemas"]["PublicArticle"][];
@@ -577,9 +592,7 @@ export interface operations {
            * @example {
            *       "data": [
            *         {
-           *           "slug": "example-ai-meetup-2026-11-20",
            *           "title": "Example AI meetup",
-           *           "summary": "An example listing used in documentation.",
            *           "startsAt": "2026-11-20T17:00:00.000Z",
            *           "endsAt": "2026-11-20T19:00:00.000Z",
            *           "timezone": "Europe/Prague",
@@ -592,12 +605,7 @@ export interface operations {
            *             "workshop"
            *           ],
            *           "sourceUrl": "https://example.com/events/ai-meetup",
-           *           "registrationUrl": null,
-           *           "imageUrl": null,
-           *           "imageSource": null,
            *           "isFree": true,
-           *           "price": 0,
-           *           "currency": null,
            *           "freeFood": "yes",
            *           "status": "scheduled"
            *         }
@@ -907,6 +915,84 @@ export interface operations {
       };
       /** @description Internal error (details are never exposed) */
       500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+    };
+  };
+  trackEventInteraction: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        slug: string;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        "text/plain": components["schemas"]["EventInteractionBody"];
+      };
+    };
+    responses: {
+      /** @description Interaction counted */
+      204: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Invalid request or query parameters */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+      /** @description Credential lacks the required scope */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+      /** @description Not found (also returned for unpublished content) */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+      /** @description Request body or batch too large */
+      413: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+      /** @description Rate limit exceeded; see Retry-After */
+      429: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+      /** @description Error */
+      503: {
         headers: {
           [name: string]: unknown;
         };

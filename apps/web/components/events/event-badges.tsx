@@ -1,10 +1,7 @@
 import { Ban, Clock, Ticket } from "lucide-react";
 import { useTranslations } from "next-intl";
 import type { EventItem } from "@/lib/events/event-model";
-import {
-  describeEventPrice,
-  type EventLocale,
-} from "@/lib/events/event-format";
+import { describeEventPrice } from "@/lib/events/event-format";
 import { hasVerifiedFreeFood } from "@/lib/events/event-mapping";
 
 // Plain join: tailwind-merge treats the custom `text-ui-*` size tokens as
@@ -48,14 +45,13 @@ export function EventStatusBadge({ status }: EventStatusBadgeProps) {
 }
 
 type EventPriceBadgeProps = {
-  event: Pick<EventItem, "isFree" | "price" | "currency">;
-  locale: EventLocale;
+  event: Pick<EventItem, "isFree">;
 };
 
 /** Cards only highlight free admission; paid or unknown pricing shows nothing. */
-export function EventPriceBadge({ event, locale }: EventPriceBadgeProps) {
+export function EventPriceBadge({ event }: EventPriceBadgeProps) {
   const t = useTranslations("events.card");
-  if (describeEventPrice(event, locale).kind !== "free") return null;
+  if (describeEventPrice(event).kind !== "free") return null;
   return (
     <span
       data-event-price="free"

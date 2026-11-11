@@ -16,7 +16,10 @@ export function EventListItems({
   categoryLabels,
 }: EventListItemsProps) {
   return events.map((event, index) => (
-    <li key={event.slug} className="min-w-0">
+    <li
+      key={`${event.sourceUrl ?? ""}:${event.startsAt}:${event.title}`}
+      className="min-w-0"
+    >
       {/* Cards reveal per row, staggered by column (max four columns). */}
       <ScrollReveal className="h-full" delay={(index % 4) * 70}>
         <EventCard

@@ -171,9 +171,7 @@ const error = (response, status, code) =>
 // Fields of the `PublicEventCard` DTO; the fixture keeps full records only for
 // filtering (search also matches the organiser, as the CMS does).
 const CARD_FIELDS = [
-  "slug",
   "title",
-  "summary",
   "startsAt",
   "endsAt",
   "timezone",
@@ -183,12 +181,7 @@ const CARD_FIELDS = [
   "category",
   "categories",
   "sourceUrl",
-  "registrationUrl",
-  "imageUrl",
-  "imageSource",
   "isFree",
-  "price",
-  "currency",
   "freeFood",
   "status",
 ];
