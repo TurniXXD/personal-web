@@ -117,8 +117,64 @@ test("card badges omit the current year and keep the event time zone", () => {
     formatEventCardDateBadge(event, "cs", new Date("2027-01-01T12:00:00Z")),
     "20.11.2026",
   );
-  assert.equal(formatEventCardTime(event, "cs"), "18:00–20:00");
-  assert.equal(formatEventCardTime({ ...event, endsAt: null }, "cs"), "18:00");
+  assert.deepEqual(formatEventCardTime(event, "cs"), {
+    kind: "range",
+    start: "18:00",
+    end: "20:00",
+  });
+  assert.deepEqual(formatEventCardTime({ ...event, endsAt: null }, "cs"), {
+    kind: "at",
+    start: "18:00",
+  });
+});
+
+// A course from 14 Sep 12:00 until the end of 30 Nov (Prague time).
+const course = {
+  startsAt: "2026-09-14T10:00:00.000Z",
+  endsAt: "2026-11-30T22:59:00.000Z",
+  timezone: "Europe/Prague",
+};
+
+test("card time hides end-of-day placeholders", () => {
+  const allDay = {
+    startsAt: "2026-11-19T23:00:00.000Z",
+    endsAt: "2026-11-20T22:59:00.000Z",
+    timezone: "Europe/Prague",
+  };
+  assert.deepEqual(formatEventCardTime(allDay, "cs"), { kind: "allDay" });
+  assert.deepEqual(
+    formatEventCardTime(
+      { ...allDay, endsAt: "2026-11-20T23:00:00.000Z" },
+      "cs",
+    ),
+    { kind: "allDay" },
+  );
+  assert.deepEqual(
+    formatEventCardTime({ ...event, endsAt: "2026-11-20T22:59:00.000Z" }, "cs"),
+    { kind: "from", start: "18:00" },
+  );
+  assert.deepEqual(
+    formatEventCardTime(course, "cs", new Date("2026-09-01T12:00:00Z")),
+    { kind: "from", start: "12:00" },
+  );
+  assert.equal(
+    formatEventCardTime(course, "cs", new Date("2026-11-11T12:00:00Z")),
+    null,
+  );
+  // Matching start and end times across days are not daily hours.
+  const exhibition = {
+    startsAt: "2026-10-21T13:03:00.000Z",
+    endsAt: "2026-12-07T14:03:00.000Z",
+    timezone: "Europe/Prague",
+  };
+  assert.deepEqual(
+    formatEventCardTime(exhibition, "cs", new Date("2026-10-01T12:00:00Z")),
+    { kind: "from", start: "15:03" },
+  );
+  assert.equal(
+    formatEventCardTime(exhibition, "cs", new Date("2026-11-11T12:00:00Z")),
+    null,
+  );
 });
 
 test("card location uses structured venue and city without full address", () => {

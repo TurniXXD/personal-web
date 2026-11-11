@@ -195,7 +195,9 @@ test("cookie choices persist, can be reopened, and block analytics before consen
   request,
 }) => {
   const initialDocument = await request.get("/");
-  expect(await initialDocument.text()).toContain("Cookies a analytika");
+  expect(await initialDocument.text()).toContain(
+    "Souhlas s používáním cookies",
+  );
 
   const analytics: string[] = [];
   await page.route(/clarity\.ms|cloudflareinsights\.com/, (route) => {
@@ -209,11 +211,12 @@ test("cookie choices persist, can be reopened, and block analytics before consen
   await page.goto("/");
   const banner = page.getByRole("complementary", { name: "Nastavení cookies" });
   await expect(banner).toBeVisible();
-  await expect(
-    banner.getByRole("button", { name: "Povolit analytiku" }),
-  ).toHaveCSS("background-color", "rgb(67, 81, 204)");
+  await expect(banner.getByRole("button", { name: "Povolit vše" })).toHaveCSS(
+    "background-color",
+    "rgb(67, 81, 204)",
+  );
   expect(analytics).toEqual([]);
-  await banner.getByRole("button", { name: "Pouze nezbytné" }).click();
+  await banner.getByRole("button", { name: "Jen nezbytné" }).click();
   await page.reload();
   await expect(banner).toHaveCount(0);
   expect(analytics).toEqual([]);
@@ -221,7 +224,7 @@ test("cookie choices persist, can be reopened, and block analytics before consen
     .getByRole("button", { name: "Nastavení cookies", exact: true })
     .click();
   await expect(banner).toBeVisible();
-  await banner.getByRole("button", { name: "Povolit analytiku" }).click();
+  await banner.getByRole("button", { name: "Povolit vše" }).click();
   await expect(banner).toHaveCount(0);
   const preference = await page.evaluate(() =>
     JSON.parse(localStorage.getItem("vantuch_cookie_consent_v1")!),
@@ -230,7 +233,7 @@ test("cookie choices persist, can be reopened, and block analytics before consen
   await page
     .getByRole("button", { name: "Nastavení cookies", exact: true })
     .click();
-  await banner.getByRole("button", { name: "Pouze nezbytné" }).click();
+  await banner.getByRole("button", { name: "Jen nezbytné" }).click();
   await expect(banner).toHaveCount(0);
   await expect
     .poll(() =>

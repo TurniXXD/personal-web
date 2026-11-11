@@ -5,11 +5,12 @@
     "present": "současnost"
   },
   "cookieSettings": {
-    "title": "Cookies a analytika",
-    "description": "Nezbytné funkce webu běží vždy. Volitelně můžete povolit analytiku Microsoft Clarity a Cloudflare, která mi pomáhá web zlepšovat.",
+    "title": "Souhlas s používáním cookies",
+    "description": "Nezbytné cookies drží web v chodu. S vaším souhlasem použiju i analytické, které mi ukážou, co na webu funguje a co můžu zlepšit.",
     "details": "Více o soukromí",
-    "essentialOnly": "Pouze nezbytné",
-    "allowAnalytics": "Povolit analytiku",
+    "essentialOnly": "Jen nezbytné",
+    "allowAll": "Povolit vše",
+    "privacyAction": "Změnit nastavení cookies",
     "settings": "Nastavení cookies"
   },
   "turnstile": {
@@ -230,6 +231,12 @@
       "moreAvailable": "Další akce najdete na následující stránce.",
       "laterPage": "Pokračování výsledků"
     },
+    "instagram": {
+      "title": "Tipy na akce sdílím na Instagramu",
+      "description": "Nejzajímavější akce, které bot najde, dávám i na Instagram. Sledujte mě a nic vám neuteče.",
+      "action": "Sledovat na Instagramu",
+      "newWindow": "(otevře Instagram v novém okně)"
+    },
     "filters": {
       "legend": "Hledání a filtry",
       "searchLabel": "Hledat akce",
@@ -308,7 +315,8 @@
     "card": {
       "dateUnknown": "Datum neověřeno",
       "free": "Zdarma",
-      "paid": "Placené",
+      "allDay": "Celý den",
+      "from": "od {time}",
       "freeFood": "Jídlo zdarma",
       "status": {
         "cancelled": "Zrušeno",

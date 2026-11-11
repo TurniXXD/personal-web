@@ -8,6 +8,7 @@ type PrivacySection = {
   title: string;
   paragraphs: string[];
   links?: { href: string; label: string }[];
+  cookieSettings?: boolean;
 };
 type PrivacyCopy = {
   title: string;
@@ -26,7 +27,7 @@ export const privacyCopy: Record<Locale, PrivacyCopy> = {
       "Informace o tom, jak Jakub Vantuch zpracovává údaje z poptávek, partnerských dotazů, newsletteru, doporučovacích odkazů a analytiky na vantuch.dev.",
     eyebrow: "SOUKROMÍ A ÚDAJE",
     contactLabel: "Dotazy k osobním údajům:",
-    updated: "Účinné od 10. 11. 2026",
+    updated: "Účinné od 11. 11. 2026",
     sections: [
       {
         title: "Kdo údaje zpracovává",
@@ -77,8 +78,9 @@ export const privacyCopy: Record<Locale, PrivacyCopy> = {
       },
       {
         title: "Cookies, analytika a diagnostika",
+        cookieSettings: true,
         paragraphs: [
-          "Po vašem souhlasu používám Microsoft Clarity a Cloudflare Web Analytics k pochopení používání webu a jeho zlepšování. Clarity zaznamenává interakce se stránkou (pohyb, kliknutí, posouvání) s maskováním obsahu formulářů. Právním základem je váš souhlas (čl. 6 odst. 1 písm. a GDPR), který můžete kdykoli změnit nebo odvolat přes odkaz Nastavení cookies v patičce.",
+          "Po vašem souhlasu používám Microsoft Clarity a Cloudflare Web Analytics k pochopení používání webu a jeho zlepšování. Clarity zaznamenává interakce se stránkou (pohyb, kliknutí, posouvání) s maskováním obsahu formulářů. Jako samostatnou událost v Clarity zaznamenávám také kliknutí na tlačítko Sledovat na Instagramu na stránce Akce, abych věděl, kolik lidí z webu přejde na můj Instagram. Právním základem je váš souhlas (čl. 6 odst. 1 písm. a GDPR), který můžete kdykoli změnit nebo odvolat tlačítkem níže nebo odkazem Nastavení cookies v patičce.",
           "Nezbytný záznam: vantuch_cookie_consent_v1 v místním úložišti prohlížeče uchovává vaši volbu cookies po dobu 180 dní, poté se vás web zeptá znovu.",
           "Analytické cookies (jen po souhlasu): _clck (Microsoft Clarity, 1 rok) a _clsk (Microsoft Clarity, 1 den) v doméně vantuch.dev a cookies Microsoftu v doméně clarity.ms, například MUID (1 rok). Clarity uchovává záznamy relací 30 dní a souhrnné statistiky nejvýše 13 měsíců. Cloudflare Web Analytics cookies nepoužívá. Při odvolání souhlasu cookies _clck a _clsk smažu a analytika se přestane načítat.",
           "Pro diagnostiku chyb používám Sentry s vypnutým výchozím odesíláním osobních údajů. Služba může zpracovat technické informace o chybě, prohlížeči a požadavku, které jsou nutné pro nalezení a opravu problémů, a nepoužívá cookies. Opírám se o oprávněný zájem na bezpečném a funkčním webu (čl. 6 odst. 1 písm. f GDPR).",
@@ -133,7 +135,7 @@ export const privacyCopy: Record<Locale, PrivacyCopy> = {
       "How Jakub Vantuch processes enquiry, partnership, newsletter, referral-link, and analytics data on vantuch.dev.",
     eyebrow: "PRIVACY AND DATA",
     contactLabel: "Questions about your data:",
-    updated: "Effective from 10 November 2026",
+    updated: "Effective from 11 November 2026",
     sections: [
       {
         title: "Who processes your data",
@@ -184,8 +186,9 @@ export const privacyCopy: Record<Locale, PrivacyCopy> = {
       },
       {
         title: "Cookies, analytics and diagnostics",
+        cookieSettings: true,
         paragraphs: [
-          "With your consent, I use Microsoft Clarity and Cloudflare Web Analytics to understand how the website is used and improve it. Clarity records interactions with the page (movement, clicks, scrolling) with form content masked. The legal basis is your consent (GDPR Article 6(1)(a)), which you can change or withdraw at any time through Cookie settings in the footer.",
+          "With your consent, I use Microsoft Clarity and Cloudflare Web Analytics to understand how the website is used and improve it. Clarity records interactions with the page (movement, clicks, scrolling) with form content masked. I also record clicks on the Follow on Instagram button on the Events page as a separate Clarity event, to see how many people go from the website to my Instagram. The legal basis is your consent (GDPR Article 6(1)(a)), which you can change or withdraw at any time with the button below or through Cookie settings in the footer.",
           "Essential record: vantuch_cookie_consent_v1 in your browser's local storage keeps your cookie choice for 180 days, after which the website asks again.",
           "Analytics cookies (only with consent): _clck (Microsoft Clarity, 1 year) and _clsk (Microsoft Clarity, 1 day) on vantuch.dev, and Microsoft cookies on clarity.ms such as MUID (1 year). Clarity keeps session recordings for 30 days and aggregated statistics for up to 13 months. Cloudflare Web Analytics does not use cookies. When you withdraw consent, I delete _clck and _clsk and analytics stops loading.",
           "I use Sentry to diagnose errors, with default personal-data transmission disabled. The service may process technical details about an error, browser, and request that are needed to find and fix problems, and it does not use cookies. I rely on my legitimate interest in a secure, working website (GDPR Article 6(1)(f)).",

@@ -61,6 +61,57 @@ export const formatEventCardDateRange = (
     "$1.",
   ) ?? null;
 
+type ZonedParts = { dayKey: string; time: string };
+
+/** Calendar day and wall-clock time of an instant in the event time zone. */
+const zonedParts = (date: Date, timeZone: string): ZonedParts => {
+  const parts = new Intl.DateTimeFormat("en-GB", {
+    timeZone,
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    hourCycle: "h23",
+  }).formatToParts(date);
+  const get = (type: string) => parts.find((part) => part.type === type)!.value;
+  return {
+    dayKey: `${get("year")}-${get("month")}-${get("day")}`,
+    time: `${get("hour")}:${get("minute")}`,
+  };
+};
+
+/** Verified start and end; an end at midnight belongs to the previous day. */
+const cardSchedule = (event: EventDateInput) => {
+  if (!event.startsAt) return null;
+  const start = new Date(event.startsAt);
+  if (Number.isNaN(start.getTime())) return null;
+  const startParts = zonedParts(start, event.timezone);
+  const rawEnd = event.endsAt ? new Date(event.endsAt) : null;
+  const end =
+    rawEnd && !Number.isNaN(rawEnd.getTime()) && rawEnd > start ? rawEnd : null;
+  if (!end) return { start, startParts, end: null, endParts: null };
+  const endTime = zonedParts(end, event.timezone).time;
+  const endParts = zonedParts(
+    endTime === "00:00" ? new Date(end.getTime() - 60_000) : end,
+    event.timezone,
+  );
+  return { start, startParts, end, endParts: { ...endParts, time: endTime } };
+};
+
+const isMultiDay = (schedule: NonNullable<ReturnType<typeof cardSchedule>>) =>
+  schedule.endParts !== null &&
+  schedule.endParts.dayKey !== schedule.startParts.dayKey;
+
+const isOngoing = (
+  schedule: NonNullable<ReturnType<typeof cardSchedule>>,
+  now: Date,
+) =>
+  schedule.end !== null &&
+  isMultiDay(schedule) &&
+  schedule.start <= now &&
+  now < schedule.end;
+
 /** Short date badge; show the year only when it differs in the event zone. */
 export const formatEventCardDateBadge = (
   event: EventDateInput,
@@ -84,24 +135,35 @@ export const formatEventCardDateBadge = (
   return `${get("day")}.${get("month")}.${get("year") === currentYear ? "" : get("year")}`;
 };
 
-/** Compact time for the card, with an end only when it follows the start. */
+export type EventCardTime =
+  | { kind: "allDay" }
+  | { kind: "at"; start: string }
+  | { kind: "from"; start: string }
+  | { kind: "range"; start: string; end: string };
+
+/**
+ * Compact card time. Sources mark "until the end of the day" as 23:59 or
+ * midnight, so such an end is never shown as a real closing time.
+ */
 export const formatEventCardTime = (
   event: EventDateInput,
-  locale: EventLocale,
-): string | null => {
-  if (!event.startsAt) return null;
-  const start = new Date(event.startsAt);
-  if (Number.isNaN(start.getTime())) return null;
-  const format = new Intl.DateTimeFormat(intlLocale(locale), {
-    timeZone: event.timezone,
-    hour: "2-digit",
-    minute: "2-digit",
-    hourCycle: "h23",
-  });
-  const end = event.endsAt ? new Date(event.endsAt) : null;
-  if (!end || Number.isNaN(end.getTime()) || end <= start)
-    return format.format(start);
-  return `${format.format(start)}–${format.format(end)}`;
+  _locale: EventLocale,
+  now: Date = new Date(),
+): EventCardTime | null => {
+  const schedule = cardSchedule(event);
+  if (!schedule) return null;
+  const start = schedule.startParts.time;
+  if (!schedule.endParts) return { kind: "at", start };
+  const end = schedule.endParts.time;
+  const openEnded = end === "23:59" || end === "00:00";
+  if (start === "00:00" && openEnded) return { kind: "allDay" };
+  // Across several days the end time is not a daily closing time, and the
+  // opening hours of a running exhibition or course are not known.
+  if (isMultiDay(schedule)) {
+    return isOngoing(schedule, now) ? null : { kind: "from", start };
+  }
+  if (openEnded) return { kind: "from", start };
+  return { kind: "range", start, end };
 };
 
 /** Short venue and city label; the detail page retains the full address. */

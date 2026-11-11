@@ -123,8 +123,14 @@ export function EventCard({ event, locale, categoryLabels }: EventCardProps) {
                     <span className="sr-only">{t("time")}</span>
                   </dt>
                   <dd className="m-0 min-w-0">
-                    <time dateTime={event.startsAt} data-event-time>
-                      {time}
+                    <time dateTime={event.startsAt} data-event-time={time.kind}>
+                      {time.kind === "allDay"
+                        ? t("allDay")
+                        : time.kind === "from"
+                          ? t("from", { time: time.start })
+                          : time.kind === "range"
+                            ? `${time.start}–${time.end}`
+                            : time.start}
                     </time>
                   </dd>
                 </div>

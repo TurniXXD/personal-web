@@ -361,3 +361,63 @@
     gap: 1.5rem;
   }
 }
+
+/* Tablet only: roomier gutters and compact cards, so single cards do not
+   stretch across the whole viewport. */
+@media (min-width: 601px) and (max-width: 900px) {
+  .site-container {
+    width: min(100% - 5rem, 1160px);
+  }
+
+  /* Services: two columns, an odd last card is centred at the same width. */
+  .service-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .service-grid > .service-card:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+    justify-self: center;
+    width: calc(50% - 0.5rem);
+  }
+
+  /* Projects: image beside the text instead of a full-width screenshot. */
+  .work-section .case-grid--timeline .case-card__link {
+    display: grid;
+    grid-template-columns: minmax(0, 0.95fr) minmax(0, 1fr);
+    align-items: center;
+  }
+  .work-section .case-grid--timeline .case-card__body {
+    padding-inline: 0.6rem 1rem;
+  }
+
+  /* Social links: three compact tiles in one row. */
+  .social-platform-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .social-platform-card {
+    min-height: 0;
+    grid-template-columns: minmax(0, 1fr) 1.25rem;
+    grid-template-rows: auto auto auto;
+    row-gap: 0;
+    padding: 1rem;
+  }
+  .social-platform-card .social-platform-card__icon {
+    grid-column: 1;
+    grid-row: 1;
+    width: 2.5rem;
+    height: 2.5rem;
+    margin-bottom: 0.85rem;
+  }
+  .social-platform-card .social-platform-card__action {
+    grid-column: 2;
+    grid-row: 1;
+    align-self: start;
+  }
+  .social-platform-card > strong {
+    grid-column: 1 / -1;
+    grid-row: 2;
+  }
+  .social-platform-card .social-platform-card__description {
+    grid-column: 1 / -1;
+    grid-row: 3;
+  }
+}

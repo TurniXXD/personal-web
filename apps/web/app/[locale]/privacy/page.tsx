@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { hasLocale } from "next-intl";
 import { setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
+import { CookiePreferencesButton } from "@/components/layout/cookie-consent";
 import { SiteFooter, SiteHeader } from "@/components/layout/site-chrome";
 import { routing } from "@/i18n/routing";
 import { localizedPath } from "@/lib/site/content";
@@ -80,6 +81,9 @@ export default async function PrivacyPage({ params }: PrivacyPageProps) {
                     </a>
                   </p>
                 ))}
+                {section.cookieSettings && (
+                  <CookiePreferencesButton variant="privacy" />
+                )}
               </section>
             ))}
           </div>

@@ -1,12 +1,13 @@
 /* Cookie controls, privacy page, and case-study detail layout. */
 .cookie-consent__actions button {
-  min-height: 2.7rem;
-  padding: 0.65rem 0.85rem;
+  min-height: 2.75rem;
+  padding: 0.65rem 1.1rem;
   border: 1px solid #d6dcf5;
-  border-radius: 0.75rem;
+  border-radius: 999px;
   background: #fff;
   color: #475274;
-  font: 750 0.72rem var(--sans);
+  font: 750 0.8rem var(--sans);
+  white-space: nowrap;
   cursor: pointer;
   transition:
     border-color 180ms ease,

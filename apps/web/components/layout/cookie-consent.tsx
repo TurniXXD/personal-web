@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useLayoutEffect, useState } from "react";
+import { Cookie } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { localizedPath, type Locale } from "@/lib/site/content";
 import {
@@ -72,15 +73,24 @@ function loadCloudflareAnalytics(token: string) {
   document.head.append(script);
 }
 
-export function CookiePreferencesButton() {
+export function CookiePreferencesButton({
+  variant = "footer",
+}: {
+  variant?: "footer" | "privacy";
+}) {
   const t = useTranslations("cookieSettings");
   return (
     <button
-      className="cookie-preferences-button"
+      className={
+        variant === "privacy"
+          ? "cookie-preferences-button cookie-preferences-button--privacy"
+          : "cookie-preferences-button"
+      }
       type="button"
       onClick={() => window.dispatchEvent(new Event(openEvent))}
     >
-      {t("settings")}
+      {variant === "privacy" && <Cookie size={16} aria-hidden="true" />}
+      {t(variant === "privacy" ? "privacyAction" : "settings")}
     </button>
   );
 }
@@ -156,7 +166,10 @@ export function CookieConsent({
 
   return (
     <aside className="cookie-consent" aria-label={t("settings")}>
-      <div>
+      <span className="cookie-consent__icon" aria-hidden="true">
+        <Cookie size={22} strokeWidth={1.8} />
+      </span>
+      <div className="cookie-consent__body">
         <strong>{t("title")}</strong>
         <p>
           {t("description")}{" "}
@@ -172,7 +185,7 @@ export function CookieConsent({
           type="button"
           onClick={() => saveConsent("accepted")}
         >
-          {t("allowAnalytics")}
+          {t("allowAll")}
         </button>
       </div>
     </aside>

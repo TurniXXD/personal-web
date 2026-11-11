@@ -278,6 +278,10 @@
     color: #fff;
     text-decoration-color: #fff;
   }
+  .cookie-preferences-button--privacy:hover {
+    border-color: var(--brand);
+    color: var(--brand);
+  }
 }
 .cookie-preferences-button {
   padding: 0;
@@ -286,6 +290,26 @@
   font: inherit;
   font-size: 0.73rem;
   cursor: pointer;
+}
+.cookie-preferences-button--privacy {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 2.75rem;
+  margin-top: 1.2rem;
+  padding: 0.6rem 1rem;
+  border: 1px solid #d6dcf5;
+  border-radius: 0.75rem;
+  background: #fff;
+  color: #3f4fc6;
+  font: 750 0.82rem var(--sans);
+  transition:
+    border-color 180ms ease,
+    color 180ms ease;
+}
+.cookie-preferences-button--privacy:focus-visible {
+  border-color: var(--brand);
+  color: var(--brand);
 }
 
 /* A stored choice hides the prerendered banner before hydration (see
@@ -302,26 +326,42 @@ html[data-cookie-consent-saved] .cookie-consent {
   left: 1rem;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 1.5rem;
-  width: min(54rem, calc(100% - 2rem));
+  gap: 1rem 1.25rem;
+  width: min(52rem, calc(100% - 2rem));
   margin-inline: auto;
-  padding: 1.15rem;
-  border: 1px solid #d8def8;
-  border-radius: 1.15rem;
-  background: #fff;
-  box-shadow: 0 1.25rem 4rem rgba(23, 30, 60, 0.22);
+  padding: 1.1rem 1.15rem 1.1rem 1.1rem;
+  border: 1px solid #e3e7fb;
+  border-radius: 1.4rem;
+  background: linear-gradient(135deg, #fff 55%, #f5f6ff);
+  box-shadow:
+    0 0.25rem 0.75rem rgba(23, 30, 60, 0.06),
+    0 1.5rem 3.5rem rgba(23, 30, 60, 0.16);
   color: var(--ink);
 }
+.cookie-consent__icon {
+  display: grid;
+  flex: 0 0 auto;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 999px;
+  background: #eef0ff;
+  color: var(--brand);
+}
+.cookie-consent__body {
+  flex: 1 1 auto;
+  min-width: 0;
+}
 .cookie-consent strong {
-  font-size: 0.95rem;
+  font-size: 1rem;
+  letter-spacing: -0.02em;
 }
 .cookie-consent p {
-  max-width: 38rem;
-  margin: 0.35rem 0 0;
-  color: #606b8c;
-  font-size: 0.74rem;
-  line-height: 1.6;
+  max-width: 34rem;
+  margin: 0.25rem 0 0;
+  color: #5b6688;
+  font-size: 0.82rem;
+  line-height: 1.55;
 }
 .cookie-consent p a {
   color: #3f4fc6;

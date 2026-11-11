@@ -52,23 +52,17 @@ type EventPriceBadgeProps = {
   locale: EventLocale;
 };
 
-/** Rendered only when the CMS states the admission; unknown stays hidden. */
+/** Cards only highlight free admission; paid or unknown pricing shows nothing. */
 export function EventPriceBadge({ event, locale }: EventPriceBadgeProps) {
   const t = useTranslations("events.card");
-  const price = describeEventPrice(event, locale);
-  if (price.kind === "unknown") return null;
+  if (describeEventPrice(event, locale).kind !== "free") return null;
   return (
     <span
-      data-event-price={price.kind}
-      className={classes(
-        badgeClasses,
-        price.kind === "free"
-          ? "bg-[#e8f7ef] text-[#17673d]"
-          : "border border-border-soft bg-card text-ink-muted",
-      )}
+      data-event-price="free"
+      className={classes(badgeClasses, "bg-[#e8f7ef] text-[#17673d]")}
     >
       <Ticket size={12} aria-hidden="true" />
-      {price.kind === "free" ? t("free") : (price.amount ?? t("paid"))}
+      {t("free")}
     </span>
   );
 }

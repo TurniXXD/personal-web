@@ -5,11 +5,12 @@
     "present": "present"
   },
   "cookieSettings": {
-    "title": "Cookies and analytics",
-    "description": "Essential website features always run. You can optionally allow Microsoft Clarity and Cloudflare analytics to help me improve the website.",
+    "title": "Cookie consent",
+    "description": "Essential cookies keep the site running. With your consent, I also use analytics cookies that show me what works on the site and what to improve.",
     "details": "Privacy details",
     "essentialOnly": "Essential only",
-    "allowAnalytics": "Allow analytics",
+    "allowAll": "Allow all",
+    "privacyAction": "Change cookie settings",
     "settings": "Cookie settings"
   },
   "turnstile": {
@@ -230,6 +231,12 @@
       "moreAvailable": "More events are on the next page.",
       "laterPage": "Continued results"
     },
+    "instagram": {
+      "title": "I share event tips on Instagram",
+      "description": "I post the most interesting events the bot finds on Instagram too. Follow me so you never miss one.",
+      "action": "Follow on Instagram",
+      "newWindow": "(opens Instagram in a new window)"
+    },
     "filters": {
       "legend": "Search and filters",
       "searchLabel": "Search events",
@@ -308,7 +315,8 @@
     "card": {
       "dateUnknown": "Date not verified",
       "free": "Free",
-      "paid": "Paid",
+      "allDay": "All day",
+      "from": "from {time}",
       "freeFood": "Free food",
       "status": {
         "cancelled": "Cancelled",
