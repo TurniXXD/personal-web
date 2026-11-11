@@ -73,7 +73,7 @@ test("requests one filtered page with cache tags and revalidation", async () => 
   );
   assert.deepEqual(Object.fromEntries(url.searchParams), {
     city: "all",
-    limit: "20",
+    limit: "15",
     sort: "startsAt",
     q: "ai",
     free: "true",
@@ -118,27 +118,20 @@ test("follows cursor pagination until nextCursor is null", async () => {
   assert.deepEqual(slugs, ["a", "b", "c"]);
 });
 
-test("shows only events that have not started and advances past ongoing-only pages", async () => {
-  const pages = {
-    "": {
+test("keeps events that already started or are still running", async () => {
+  const { calls, fetcher } = simulatedFetcher(() =>
+    json({
       data: [
         event({
           slug: "ongoing",
           startsAt: "2020-01-01T00:00:00.000Z",
           endsAt: "2099-12-31T00:00:00.000Z",
         }),
+        event({ slug: "started-today", startsAt: "2020-01-01T08:00:00.000Z" }),
+        event({ slug: "future", startsAt: "2099-01-01T00:00:00.000Z" }),
       ],
       nextCursor: "p2",
-    },
-    p2: {
-      data: [event({ slug: "future", startsAt: "2099-01-01T00:00:00.000Z" })],
-      nextCursor: null,
-    },
-  };
-  const { calls, fetcher } = simulatedFetcher((url) =>
-    json({
-      ...pages[url.searchParams.get("cursor") ?? ""],
-      meta: { limit: 20 },
+      meta: { limit: 15 },
     }),
   );
 
@@ -148,10 +141,10 @@ test("shows only events that have not started and advances past ongoing-only pag
 
   assert.deepEqual(
     page.events.map((item) => item.slug),
-    ["future"],
+    ["ongoing", "started-today", "future"],
   );
-  assert.equal(page.nextCursor, null);
-  assert.equal(calls.length, 2);
+  assert.equal(page.nextCursor, "p2");
+  assert.equal(calls.length, 1);
 });
 
 test("skips contract-violating items and reports how many", async () => {

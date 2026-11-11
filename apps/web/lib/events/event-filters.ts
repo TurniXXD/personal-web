@@ -1,6 +1,6 @@
 /** Content API value for "every city"; the listing is not limited to one city. */
 export const ALL_CITIES = "all";
-export const EVENTS_PAGE_SIZE = 20;
+export const EVENTS_PAGE_SIZE = 15;
 
 export const EVENT_SORTS = ["nearest", "latest"] as const;
 export type EventSort = (typeof EVENT_SORTS)[number];

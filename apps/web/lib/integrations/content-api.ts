@@ -182,40 +182,27 @@ export const createContentApiClient = ({
       limit,
     }: ListEventsParams): Promise<EventListPage> {
       const endpoint = "listEventCards";
-      const now = Date.now();
-      const visitedCursors = new Set<string | null>();
-      let pageCursor = cursor;
-      let skipped = 0;
-
-      while (!visitedCursors.has(pageCursor)) {
-        visitedCursors.add(pageCursor);
-        const body = await request<ListEventsResponse>(
-          endpoint,
-          "/public/v1/event-cards",
-          toEventsApiQuery(filters, { cursor: pageCursor, limit }),
-          {
-            revalidate: CONTENT_API_REVALIDATE.events,
-            tags: [CONTENT_CACHE_TAG.events],
-          },
-        );
-        if (!isRecord(body) || !Array.isArray(body.data)) {
-          throw invalidShape(endpoint);
-        }
-        const mapped = body.data.flatMap((item) => mapCmsEvent(item) ?? []);
-        skipped += body.data.length - mapped.length;
-        const events = mapped.filter(
-          (event) => event.startsAt && Date.parse(event.startsAt) >= now,
-        );
-        const nextCursor =
+      const body = await request<ListEventsResponse>(
+        endpoint,
+        "/public/v1/event-cards",
+        toEventsApiQuery(filters, { cursor, limit }),
+        {
+          revalidate: CONTENT_API_REVALIDATE.events,
+          tags: [CONTENT_CACHE_TAG.events],
+        },
+      );
+      if (!isRecord(body) || !Array.isArray(body.data)) {
+        throw invalidShape(endpoint);
+      }
+      const events = body.data.flatMap((item) => mapCmsEvent(item) ?? []);
+      return {
+        events,
+        nextCursor:
           typeof body.nextCursor === "string" && body.nextCursor
             ? body.nextCursor
-            : null;
-        if (events.length > 0 || !nextCursor) {
-          return { events, nextCursor, skipped };
-        }
-        pageCursor = nextCursor;
-      }
-      throw invalidShape(endpoint);
+            : null,
+        skipped: body.data.length - events.length,
+      };
     },
 
     async getEventCategories(
