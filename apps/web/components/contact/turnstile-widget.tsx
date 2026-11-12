@@ -88,14 +88,12 @@ export function TurnstileWidget({
   const onTokenChangeRef = useRef(onTokenChange);
   onTokenChangeRef.current = onTokenChange;
 
-  // The Turnstile iframe keeps the main thread and compositor busy in
-  // Firefox and Safari (every iOS browser is WebKit), so there it loads only
-  // once the form is about to be used. Chromium handles it fine and renders
-  // eagerly; only Chromium exposes `navigator.userAgentData`.
+  // The Turnstile iframe keeps the main thread and compositor busy (badly in
+  // Firefox and Safari), so it loads only once the form is about to be used.
   useEffect(() => {
     const container = containerRef.current;
     if (!siteKey || !container || nearViewport) return;
-    if ("userAgentData" in navigator || !("IntersectionObserver" in window)) {
+    if (!("IntersectionObserver" in window)) {
       setNearViewport(true);
       return;
     }
