@@ -183,7 +183,7 @@
 .automation-page-hero__visual-check,
 .service-detail-visual__signal i,
 .audit-hero__code-heading > i {
-  animation: hero-accent-glow 3s ease-in-out infinite;
+  animation: hero-accent-glow 3s ease-in-out both;
 }
 .automation-page-hero__visual
   li:nth-child(2)
@@ -197,10 +197,10 @@
 }
 .loyalty-hero__glow,
 .voucher-hero__backdrop {
-  animation: hero-backdrop-breathe 7s ease-in-out infinite;
+  animation: hero-backdrop-breathe 7s ease-in-out both;
 }
 .service-detail-hero .service-detail-visual__flow > div {
-  animation: hero-detail-step 5.4s ease-in-out infinite;
+  animation: hero-detail-step 5.4s ease-in-out both;
 }
 .service-detail-hero .service-detail-visual__flow > div:nth-child(2) {
   animation-delay: -3.6s;
@@ -209,7 +209,7 @@
   animation-delay: -1.8s;
 }
 .service-detail-hero .loyalty-hero__stamps i.is-active {
-  animation: hero-loyalty-stamp 4.2s ease-in-out infinite;
+  animation: hero-loyalty-stamp 4.2s ease-in-out both;
 }
 .service-detail-hero .loyalty-hero__stamps i.is-active:nth-child(2) {
   animation-delay: -3.95s;
@@ -230,13 +230,13 @@
   animation-delay: -2.7s;
 }
 .service-detail-hero .voucher-hero__status > span {
-  animation: hero-voucher-confirmed 2.8s ease-in-out infinite;
+  animation: hero-voucher-confirmed 2.8s ease-in-out both;
 }
 .service-detail-hero .audit-hero__code ol::before {
-  animation: hero-audit-code-scan 6s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+  animation: hero-audit-code-scan 6s cubic-bezier(0.65, 0, 0.35, 1) both;
 }
 .service-detail-hero .audit-hero__findings > div {
-  animation: hero-audit-finding 6s ease-in-out infinite;
+  animation: hero-audit-finding 6s ease-in-out both;
 }
 .service-detail-hero .audit-hero__findings > div:nth-of-type(2) {
   animation-delay: -4s;
@@ -245,10 +245,10 @@
   animation-delay: -2s;
 }
 .referral-hero__percentage strong {
-  animation: hero-referral-reward 4s ease-in-out infinite;
+  animation: hero-referral-reward 4s ease-in-out both;
 }
 .referral-hero__flow > svg {
-  animation: hero-referral-progress 3.6s ease-in-out infinite;
+  animation: hero-referral-progress 3.6s ease-in-out both;
 }
 .referral-hero__flow > svg:nth-of-type(2) {
   animation-delay: -1.8s;

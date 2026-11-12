@@ -52,14 +52,6 @@
     scale(var(--hero-orbit-two-scale));
 }
 
-.hero-art__orbit--one {
-  animation: hero-orbit-spin 28s linear infinite;
-}
-
-.hero-art__orbit--two {
-  animation: hero-orbit-spin 44s linear infinite reverse;
-}
-
 .hero-art__window-layer {
   transform: translate3d(var(--hero-window-x), var(--hero-window-y), 0)
     rotateX(var(--hero-window-rotate-x)) rotateY(var(--hero-window-rotate-y));
@@ -100,15 +92,8 @@
   }
 }
 
-@keyframes hero-orbit-spin {
-  to {
-    transform: rotate(1turn);
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
-  .hero-art,
-  .hero-art__orbit {
+  .hero-art {
     animation: none;
   }
 

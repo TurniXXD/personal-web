@@ -222,7 +222,7 @@ export function InteractiveHeroArt() {
         className={`${styles["hero-art__orbit-layer"]} ${styles["hero-art__orbit-layer--one"]} pointer-events-none absolute inset-0 z-[1] grid place-items-center will-change-transform`}
       >
         <div
-          className={`${styles["hero-art__orbit"]} ${styles["hero-art__orbit--one"]} relative size-[29rem] rounded-full border border-primary/15 max-[1100px]:size-[26rem]`}
+          className={`relative size-[29rem] rounded-full border border-primary/15 max-[1100px]:size-[26rem]`}
           data-home-hero-orbit
         >
           <span className="absolute top-[-0.25rem] left-[calc(50%-0.25rem)] size-2 rounded-full bg-primary shadow-[0_0_0_0.32rem_rgba(79,93,224,0.1)]" />
@@ -232,7 +232,7 @@ export function InteractiveHeroArt() {
         className={`${styles["hero-art__orbit-layer"]} ${styles["hero-art__orbit-layer--two"]} pointer-events-none absolute inset-0 z-[1] grid place-items-center will-change-transform`}
       >
         <div
-          className={`${styles["hero-art__orbit"]} ${styles["hero-art__orbit--two"]} relative size-[38rem] rounded-full border border-primary/15 max-[1100px]:size-[34rem]`}
+          className={`relative size-[38rem] rounded-full border border-primary/15 max-[1100px]:size-[34rem]`}
           data-home-hero-orbit
         >
           <span className="absolute top-[-0.25rem] left-[calc(50%-0.25rem)] size-2 rounded-full bg-primary shadow-[0_0_0_0.32rem_rgba(79,93,224,0.1)]" />

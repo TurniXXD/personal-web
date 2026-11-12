@@ -283,7 +283,8 @@ test("the audit code scan and finding highlights stay synchronized", async ({
   expect(scanStates).toEqual({
     animationName: "hero-audit-code-scan",
     duration: "6s",
-    iterationCount: "infinite",
+    // A single pass: endless hero loops froze Firefox and Safari.
+    iterationCount: "1",
     transforms: ["translateY(0px)", "translateY(100%)", "translateY(200%)"],
   });
 

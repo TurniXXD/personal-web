@@ -123,7 +123,7 @@
   border-radius: 50%;
   background: #4bb58d;
   box-shadow: 0 0 0 0 rgba(75, 181, 141, 0.28);
-  animation: web-chart-live 1.8s ease-out infinite;
+  animation: web-chart-live 1.8s ease-out both;
 }
 .web-visual__metrics {
   display: grid;
@@ -176,7 +176,7 @@
   stroke-dasharray: 1;
   stroke-dashoffset: 1;
   vector-effect: non-scaling-stroke;
-  animation: web-chart-draw 4.8s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+  animation: web-chart-draw 4.8s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 .web-visual__metric:nth-child(2) path {
   animation-delay: 350ms;
@@ -229,7 +229,7 @@
 .web-visual__chart-area {
   fill: url(#web-chart-fill);
   opacity: 0;
-  animation: web-chart-area 5.2s ease-in-out 700ms infinite;
+  animation: web-chart-area 5.2s ease-in-out 700ms both;
 }
 .web-visual__chart-line {
   fill: none;
@@ -239,7 +239,7 @@
   stroke-dasharray: 1;
   stroke-dashoffset: 1;
   vector-effect: non-scaling-stroke;
-  animation: web-chart-draw 5.2s cubic-bezier(0.22, 1, 0.36, 1) 260ms infinite;
+  animation: web-chart-draw 5.2s cubic-bezier(0.22, 1, 0.36, 1) 260ms both;
 }
 .web-visual__chart-points circle {
   fill: #fff;
@@ -248,7 +248,7 @@
   opacity: 0;
   transform-box: fill-box;
   transform-origin: center;
-  animation: web-chart-point 5.2s ease-in-out infinite;
+  animation: web-chart-point 5.2s ease-in-out both;
 }
 .web-visual__chart-points circle:nth-child(1) {
   animation-delay: 700ms;
@@ -293,7 +293,7 @@
   stroke-linecap: round;
   stroke-dasharray: 76 24;
   stroke-dashoffset: 100;
-  animation: web-chart-donut 4.6s cubic-bezier(0.22, 1, 0.36, 1) 400ms infinite;
+  animation: web-chart-donut 4.6s cubic-bezier(0.22, 1, 0.36, 1) 400ms both;
 }
 .web-visual__donut-card > span {
   display: grid;
@@ -321,7 +321,7 @@
   background: linear-gradient(180deg, #7d89ff, #b5bcff);
   transform: scaleY(0);
   transform-origin: bottom;
-  animation: web-chart-bar 3.2s ease-in-out infinite;
+  animation: web-chart-bar 3.2s ease-in-out both;
 }
 .web-visual__bars span:nth-child(1) {
   height: 42%;
@@ -462,28 +462,23 @@
     stroke-dashoffset: 1;
   }
   48%,
-  76% {
-    stroke-dashoffset: 0;
-  }
   100% {
-    stroke-dashoffset: 1;
+    stroke-dashoffset: 0;
   }
 }
 @keyframes web-chart-area {
   0%,
-  12%,
-  100% {
+  12% {
     opacity: 0;
   }
   38%,
-  78% {
+  100% {
     opacity: 1;
   }
 }
 @keyframes web-chart-point {
   0%,
-  12%,
-  100% {
+  12% {
     opacity: 0;
     transform: scale(0.45);
   }
@@ -496,21 +491,23 @@
     opacity: 1;
     transform: scale(1.22);
   }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 @keyframes web-chart-donut {
   0%,
-  10%,
-  100% {
+  10% {
     stroke-dashoffset: 100;
   }
   48%,
-  78% {
+  100% {
     stroke-dashoffset: 0;
   }
 }
 @keyframes web-chart-bar {
-  0%,
-  100% {
+  0% {
     transform: scaleY(0.28);
   }
   38% {
@@ -519,7 +516,8 @@
   68% {
     transform: scaleY(0.64);
   }
-  82% {
+  82%,
+  100% {
     transform: scaleY(0.88);
   }
 }

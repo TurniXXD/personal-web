@@ -6,7 +6,7 @@
 }
 
 .ai-pipeline__input {
-  animation: ai-pipeline-input 7.2s cubic-bezier(0.45, 0, 0.25, 1) infinite;
+  animation: ai-pipeline-input 7.2s cubic-bezier(0.45, 0, 0.25, 1) both;
 }
 
 .ai-pipeline__input--contract {
@@ -18,11 +18,11 @@
 }
 
 .ai-pipeline__core-icon {
-  animation: ai-pipeline-core-pulse 2.4s ease-in-out infinite;
+  animation: ai-pipeline-core-pulse 2.4s ease-in-out both;
 }
 
 .ai-pipeline__core-status i {
-  animation: ai-pipeline-status 1.2s ease-in-out infinite;
+  animation: ai-pipeline-status 1.2s ease-in-out both;
 }
 
 .ai-pipeline__core-status i:nth-child(2) {
@@ -34,7 +34,7 @@
 }
 
 .ai-pipeline__output {
-  animation: ai-pipeline-output 7.2s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+  animation: ai-pipeline-output 7.2s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 .ai-pipeline__output--contract {
@@ -96,14 +96,9 @@
   }
 
   36%,
-  74% {
+  100% {
     opacity: 1;
     transform: translate3d(0, 0, 0) scale(1);
-  }
-
-  100% {
-    opacity: 0.35;
-    transform: translate3d(0.5rem, 0, 0) scale(1);
   }
 }
 

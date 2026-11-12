@@ -275,9 +275,7 @@
   width: min(31rem, 90%);
   aspect-ratio: 1;
   translate: -50% -50%;
-  animation:
-    referral-orbit-breathe 9s ease-in-out infinite,
-    referral-orbit-dot 13s linear infinite;
+  animation: referral-orbit-breathe 9s ease-in-out both;
 }
 .referral-hero__orbit-dot-track--inner {
   right: -2.5rem;
@@ -285,9 +283,7 @@
   width: min(18rem, 55%);
   aspect-ratio: 1;
   border-color: rgba(95, 108, 255, 0.24);
-  animation:
-    referral-orbit-breathe 11s ease-in-out -4s infinite reverse,
-    referral-orbit-dot 9s linear infinite reverse;
+  animation: referral-orbit-breathe 11s ease-in-out -4s reverse both;
 }
 .referral-hero__reward-card {
   position: relative;
@@ -389,10 +385,5 @@
   50% {
     scale: 1.04;
     opacity: 1;
-  }
-}
-@keyframes referral-orbit-dot {
-  to {
-    transform: rotate(1turn);
   }
 }

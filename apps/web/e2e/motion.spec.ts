@@ -338,7 +338,7 @@ test("button micro-interactions and decorative cleanup are preserved", async ({
     .toBe("none");
 });
 
-test("hero illustration reacts to pointer and decorative planets orbit", async ({
+test("hero illustration reacts to pointer and contact planets orbit", async ({
   page,
 }) => {
   await page.goto("/");
@@ -359,18 +359,12 @@ test("hero illustration reacts to pointer and decorative planets orbit", async (
     )
     .not.toBe(initialTransform);
 
+  // Hero orbits stay still: an endless spin inside the perspective and blur
+  // layers dropped Firefox and Safari to a few frames per second.
   await expect(page.locator("[data-home-hero-orbit]")).toHaveCount(2);
   const orbits = page.locator("[data-home-hero-orbit]");
   for (const orbit of await orbits.all()) {
-    await expect(orbit).toHaveCSS("animation-name", /orbit-spin$/);
-    const initialTransform = await orbit.evaluate(
-      (element) => getComputedStyle(element).transform,
-    );
-    await expect
-      .poll(() =>
-        orbit.evaluate((element) => getComputedStyle(element).transform),
-      )
-      .not.toBe(initialTransform);
+    await expect(orbit).toHaveCSS("animation-name", "none");
   }
   await expect(page.locator(".contact-section__planet")).toHaveCount(2);
   await expect(page.locator(".contact-section__planet--two")).toHaveCSS(
