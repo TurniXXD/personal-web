@@ -61,6 +61,16 @@
     scale(var(--hero-orbit-two-scale));
 }
 
+/* Only a thin strip from the orbit centre to the dot rotates, so each frame
+   repaints a few pixels instead of the whole orbit ring. */
+.hero-art__orbit-spinner--one {
+  animation: hero-orbit-spin 28s linear infinite;
+}
+
+.hero-art__orbit-spinner--two {
+  animation: hero-orbit-spin 44s linear infinite reverse;
+}
+
 .hero-art__window-layer {
   /* Flat 2D only: a 3D tilt inside a perspective made Firefox and Safari
      recomposite the hero on every pointer move. */
@@ -90,6 +100,12 @@
     rotate(2deg);
 }
 
+@keyframes hero-orbit-spin {
+  to {
+    transform: rotate(1turn);
+  }
+}
+
 @keyframes hero-art-enter {
   from {
     opacity: 0;
@@ -103,7 +119,8 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .hero-art {
+  .hero-art,
+  .hero-art__orbit-spinner {
     animation: none;
   }
 

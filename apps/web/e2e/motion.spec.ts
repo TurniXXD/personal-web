@@ -338,7 +338,7 @@ test("button micro-interactions and decorative cleanup are preserved", async ({
     .toBe("none");
 });
 
-test("hero illustration reacts to pointer and contact planets orbit", async ({
+test("hero illustration reacts to pointer and decorative planets orbit", async ({
   page,
 }) => {
   await page.goto("/");
@@ -359,12 +359,25 @@ test("hero illustration reacts to pointer and contact planets orbit", async ({
     )
     .not.toBe(initialTransform);
 
-  // Hero orbits stay still: an endless spin inside the perspective and blur
-  // layers dropped Firefox and Safari to a few frames per second.
+  // The orbit rings stay still and only a thin strip carrying the dot spins:
+  // rotating the whole ring dropped Firefox and Safari to a few fps.
   await expect(page.locator("[data-home-hero-orbit]")).toHaveCount(2);
   const orbits = page.locator("[data-home-hero-orbit]");
   for (const orbit of await orbits.all()) {
     await expect(orbit).toHaveCSS("animation-name", "none");
+  }
+  const spinners = page.locator("[data-home-hero-orbit-spinner]");
+  await expect(spinners).toHaveCount(2);
+  for (const spinner of await spinners.all()) {
+    await expect(spinner).toHaveCSS("animation-name", /orbit-spin$/);
+    const initialSpin = await spinner.evaluate(
+      (element) => getComputedStyle(element).transform,
+    );
+    await expect
+      .poll(() =>
+        spinner.evaluate((element) => getComputedStyle(element).transform),
+      )
+      .not.toBe(initialSpin);
   }
   await expect(page.locator(".contact-section__planet")).toHaveCount(2);
   await expect(page.locator(".contact-section__planet--two")).toHaveCSS(
@@ -378,8 +391,8 @@ test("hero illustration reacts to pointer and contact planets orbit", async ({
   await expect(contactOrbit).toHaveCSS("animation-play-state", "running");
 
   await page.emulateMedia({ reducedMotion: "reduce" });
-  for (const orbit of await orbits.all()) {
-    await expect(orbit).toHaveCSS("animation-name", "none");
+  for (const spinner of await spinners.all()) {
+    await expect(spinner).toHaveCSS("animation-name", "none");
   }
 });
 

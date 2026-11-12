@@ -217,7 +217,12 @@ export function InteractiveHeroArt() {
           className={`relative size-[29rem] rounded-full border border-primary/15 max-[1100px]:size-[26rem]`}
           data-home-hero-orbit
         >
-          <span className="absolute top-[-0.25rem] left-[calc(50%-0.25rem)] size-2 rounded-full bg-primary shadow-[0_0_0_0.32rem_rgba(79,93,224,0.1)]" />
+          <span
+            className={`${styles["hero-art__orbit-spinner"]} ${styles["hero-art__orbit-spinner--one"]} absolute top-0 left-[calc(50%-0.25rem)] h-1/2 w-2 origin-bottom`}
+            data-home-hero-orbit-spinner
+          >
+            <span className="absolute top-[-0.25rem] left-0 size-2 rounded-full bg-primary shadow-[0_0_0_0.32rem_rgba(79,93,224,0.1)]" />
+          </span>
         </div>
       </div>
       <div
@@ -227,7 +232,12 @@ export function InteractiveHeroArt() {
           className={`relative size-[38rem] rounded-full border border-primary/15 max-[1100px]:size-[34rem]`}
           data-home-hero-orbit
         >
-          <span className="absolute top-[-0.25rem] left-[calc(50%-0.25rem)] size-2 rounded-full bg-primary shadow-[0_0_0_0.32rem_rgba(79,93,224,0.1)]" />
+          <span
+            className={`${styles["hero-art__orbit-spinner"]} ${styles["hero-art__orbit-spinner--two"]} absolute top-0 left-[calc(50%-0.25rem)] h-1/2 w-2 origin-bottom`}
+            data-home-hero-orbit-spinner
+          >
+            <span className="absolute top-[-0.25rem] left-0 size-2 rounded-full bg-primary shadow-[0_0_0_0.32rem_rgba(79,93,224,0.1)]" />
+          </span>
         </div>
       </div>
 
