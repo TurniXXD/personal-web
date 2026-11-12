@@ -1,4 +1,10 @@
-import { Clock3, ExternalLink, Globe, MapPin } from "lucide-react";
+import {
+  CalendarRange,
+  Clock3,
+  ExternalLink,
+  Globe,
+  MapPin,
+} from "lucide-react";
 import { useTranslations } from "next-intl";
 import { cn } from "cn";
 import {
@@ -112,7 +118,11 @@ export function EventCard({ event, locale, categoryLabels }: EventCardProps) {
               {time && event.startsAt ? (
                 <div className="flex min-w-0 items-start gap-1.5">
                   <dt className="shrink-0 pt-px">
-                    <Clock3 size={14} aria-hidden="true" />
+                    {time.kind === "dates" ? (
+                      <CalendarRange size={14} aria-hidden="true" />
+                    ) : (
+                      <Clock3 size={14} aria-hidden="true" />
+                    )}
                     <span className="sr-only">{t("time")}</span>
                   </dt>
                   <dd className="m-0 min-w-0">
@@ -121,7 +131,7 @@ export function EventCard({ event, locale, categoryLabels }: EventCardProps) {
                         ? t("allDay")
                         : time.kind === "from"
                           ? t("from", { time: time.start })
-                          : time.kind === "range"
+                          : time.kind === "range" || time.kind === "dates"
                             ? `${time.start}–${time.end}`
                             : time.start}
                     </time>

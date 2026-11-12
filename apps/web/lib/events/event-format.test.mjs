@@ -153,27 +153,43 @@ test("card time hides end-of-day placeholders", () => {
     formatEventCardTime({ ...event, endsAt: "2026-11-20T22:59:00.000Z" }, "cs"),
     { kind: "from", start: "18:00" },
   );
+});
+
+test("multi-day card time shows only the first and last day", () => {
+  const multiDayAllDay = {
+    startsAt: "2026-11-12T23:00:00.000Z",
+    endsAt: "2026-12-20T22:59:00.000Z",
+    timezone: "Europe/Prague",
+  };
   assert.deepEqual(
-    formatEventCardTime(course, "cs", new Date("2026-09-01T12:00:00Z")),
-    { kind: "from", start: "12:00" },
+    formatEventCardTime(multiDayAllDay, "cs", new Date("2026-11-13T12:00:00Z")),
+    { kind: "dates", start: "13.11.", end: "20.12." },
   );
-  assert.equal(
-    formatEventCardTime(course, "cs", new Date("2026-11-11T12:00:00Z")),
-    null,
+  // A midnight end belongs to the previous day.
+  assert.deepEqual(
+    formatEventCardTime(
+      { ...multiDayAllDay, endsAt: "2026-12-20T23:00:00.000Z" },
+      "cs",
+      new Date("2026-11-13T12:00:00Z"),
+    ),
+    { kind: "dates", start: "13.11.", end: "20.12." },
   );
-  // Matching start and end times across days are not daily hours.
+  // Upcoming and ongoing courses or exhibitions keep the same range.
+  for (const now of ["2026-09-01T12:00:00Z", "2026-11-11T12:00:00Z"]) {
+    assert.deepEqual(formatEventCardTime(course, "cs", new Date(now)), {
+      kind: "dates",
+      start: "14.9.",
+      end: "30.11.",
+    });
+  }
   const exhibition = {
     startsAt: "2026-10-21T13:03:00.000Z",
-    endsAt: "2026-12-07T14:03:00.000Z",
+    endsAt: "2027-01-07T14:03:00.000Z",
     timezone: "Europe/Prague",
   };
   assert.deepEqual(
     formatEventCardTime(exhibition, "cs", new Date("2026-10-01T12:00:00Z")),
-    { kind: "from", start: "15:03" },
-  );
-  assert.equal(
-    formatEventCardTime(exhibition, "cs", new Date("2026-11-11T12:00:00Z")),
-    null,
+    { kind: "dates", start: "21.10.", end: "7.1.2027" },
   );
 });
 

@@ -103,14 +103,11 @@ const isMultiDay = (schedule: NonNullable<ReturnType<typeof cardSchedule>>) =>
   schedule.endParts !== null &&
   schedule.endParts.dayKey !== schedule.startParts.dayKey;
 
-const isOngoing = (
-  schedule: NonNullable<ReturnType<typeof cardSchedule>>,
-  now: Date,
-) =>
-  schedule.end !== null &&
-  isMultiDay(schedule) &&
-  schedule.start <= now &&
-  now < schedule.end;
+/** "13.11." from a zoned day key, with the year only when it is not current. */
+const cardDayLabel = (dayKey: string, currentYear: string) => {
+  const [year, month, day] = dayKey.split("-");
+  return `${Number(day)}.${Number(month)}.${year === currentYear ? "" : year}`;
+};
 
 /** Short date badge; show the year only when it differs in the event zone. */
 export const formatEventCardDateBadge = (
@@ -139,7 +136,8 @@ export type EventCardTime =
   | { kind: "allDay" }
   | { kind: "at"; start: string }
   | { kind: "from"; start: string }
-  | { kind: "range"; start: string; end: string };
+  | { kind: "range"; start: string; end: string }
+  | { kind: "dates"; start: string; end: string };
 
 /**
  * Compact card time. Sources mark "until the end of the day" as 23:59 or
@@ -154,14 +152,19 @@ export const formatEventCardTime = (
   if (!schedule) return null;
   const start = schedule.startParts.time;
   if (!schedule.endParts) return { kind: "at", start };
+  // Across several days neither the start nor the end time is a daily
+  // opening time, so only the first and last day are shown.
+  if (isMultiDay(schedule)) {
+    const currentYear = zonedParts(now, event.timezone).dayKey.slice(0, 4);
+    return {
+      kind: "dates",
+      start: cardDayLabel(schedule.startParts.dayKey, currentYear),
+      end: cardDayLabel(schedule.endParts.dayKey, currentYear),
+    };
+  }
   const end = schedule.endParts.time;
   const openEnded = end === "23:59" || end === "00:00";
   if (start === "00:00" && openEnded) return { kind: "allDay" };
-  // Across several days the end time is not a daily closing time, and the
-  // opening hours of a running exhibition or course are not known.
-  if (isMultiDay(schedule)) {
-    return isOngoing(schedule, now) ? null : { kind: "from", start };
-  }
   if (openEnded) return { kind: "from", start };
   return { kind: "range", start, end };
 };
