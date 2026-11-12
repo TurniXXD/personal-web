@@ -33,6 +33,7 @@ Do not preload every reference. Open the documents relevant to the files or beha
 - Preserve form validation, Turnstile, honeypots, rate limits, safe provider boundaries, redacted Sentry diagnostics, CSP, and server-only secrets.
 - Never add decorative pipeline connectors around heroes or move UI upward on hover or focus.
 - Preserve visible focus, semantic HTML, keyboard and touch behavior, reduced motion, and mobile-first reflow.
+- Protect rendering performance in Firefox and Safari, not only Chromium: no infinite paint animations in always-visible areas, no blur or backdrop-filter over content that repaints every frame, and lazy-loaded third-party iframes such as Turnstile. See "Rendering performance in Firefox and Safari" in `docs/agent/ui-and-css.md`, and measure hero, animation, and third-party script changes in Firefox and WebKit.
 - Preserve unrelated user changes. Prefer the smallest coherent diff; do not create compatibility layers, backups, or speculative shared abstractions.
 
 ## Verification discipline

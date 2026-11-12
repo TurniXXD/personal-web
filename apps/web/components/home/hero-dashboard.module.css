@@ -65,7 +65,7 @@
 .hero-dashboard__sidebar > span[data-active="true"] {
   background: #e9eafe;
   color: #5158e6;
-  animation: hero-dashboard-active 6s ease-in-out infinite;
+  animation: hero-dashboard-active 6s ease-in-out both;
 }
 .hero-dashboard__sidebar svg {
   width: 3.4cqi;
@@ -136,7 +136,7 @@
   border-radius: 2.4cqi;
   background: #fff;
   box-shadow: 0 0.6cqi 1.8cqi rgba(52, 65, 145, 0.04);
-  animation: hero-dashboard-metric 6s ease-in-out infinite;
+  animation: hero-dashboard-metric 6s ease-in-out both;
 }
 .hero-dashboard__metric:nth-child(2) {
   animation-delay: 300ms;
@@ -176,7 +176,7 @@
   width: 2.4cqi;
   height: 2.4cqi;
   stroke-width: 2.2;
-  animation: hero-dashboard-trend 6s ease-in-out infinite;
+  animation: hero-dashboard-trend 6s ease-in-out both;
 }
 .hero-dashboard__metric:nth-child(2) > small svg {
   animation-delay: 300ms;
@@ -207,7 +207,7 @@
 .hero-dashboard__chart-area {
   fill: url(#hero-dashboard-chart-fill);
   opacity: 0;
-  animation: hero-dashboard-area 6s ease-in-out infinite;
+  animation: hero-dashboard-area 6s ease-in-out both;
 }
 .hero-dashboard__chart-line {
   fill: none;
@@ -218,7 +218,7 @@
   stroke-dasharray: 1;
   stroke-dashoffset: 1;
   vector-effect: non-scaling-stroke;
-  animation: hero-dashboard-draw 6s cubic-bezier(0.45, 0, 0.25, 1) infinite;
+  animation: hero-dashboard-draw 6s cubic-bezier(0.45, 0, 0.25, 1) both;
 }
 /* Matches the path end (592, 22) in the 600 × 150 viewBox. */
 .hero-dashboard__chart-point {
@@ -232,7 +232,7 @@
   box-shadow: 0 0 0 0 rgba(81, 88, 230, 0.32);
   opacity: 0;
   translate: -50% -50%;
-  animation: hero-dashboard-point 6s ease-in-out infinite;
+  animation: hero-dashboard-point 6s ease-in-out both;
 }
 @media (prefers-reduced-motion: reduce) {
   .hero-dashboard__sidebar,
@@ -262,28 +262,23 @@
     stroke-dashoffset: 1;
   }
   52%,
-  88% {
-    stroke-dashoffset: 0;
-  }
   100% {
-    stroke-dashoffset: 1;
+    stroke-dashoffset: 0;
   }
 }
 @keyframes hero-dashboard-area {
   0%,
-  16%,
-  100% {
+  16% {
     opacity: 0;
   }
   56%,
-  86% {
+  100% {
     opacity: 1;
   }
 }
 @keyframes hero-dashboard-point {
   0%,
-  46%,
-  100% {
+  46% {
     opacity: 0;
     box-shadow: 0 0 0 0 rgba(81, 88, 230, 0.32);
   }
@@ -294,7 +289,8 @@
   70% {
     box-shadow: 0 0 0 1.6cqi rgba(81, 88, 230, 0);
   }
-  88% {
+  88%,
+  100% {
     opacity: 1;
     box-shadow: 0 0 0 0 rgba(81, 88, 230, 0);
   }

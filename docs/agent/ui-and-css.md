@@ -51,6 +51,16 @@ CSS Modules are reserved for complex keyframes, multi-element choreography, pseu
 - Animation cannot shift layout, obscure controls, block pointer input, or make content depend on JavaScript activation.
 - Sticky navigation reappears on upward scroll and stays visible while its menu is open or focus is inside it.
 
+## Rendering performance in Firefox and Safari
+
+Chromium hides costs that freeze Gecko and WebKit. The homepage once ran at 2–5 fps in Firefox and Safari while Chrome stayed at 60 fps, because two costs stacked: an eagerly rendered Turnstile iframe, and infinite paint animations inside the blurred, 3D-transformed hero.
+
+- No infinite animation of paint properties (`stroke-dashoffset`, `box-shadow`, `border-color`, `background`, `width`, `clip-path`, `filter`) inside heroes or other always-visible areas. Entrance animations run once and end in their final state (`animation: … both` with the last keyframe holding the finished look). Continuous decorative loops may animate only `transform` or `opacity` on a small element, and only outside layers that use `filter: blur`, `backdrop-filter`, `perspective`, or `mask-image`.
+- Do not combine `backdrop-filter` or large `filter: blur()` with content that repaints every frame behind or inside it. Prefer an opaque or semi-opaque background over adding blur.
+- Every-frame JavaScript loops (`requestAnimationFrame`) must stop once the values settle and must not write many CSS custom properties to an ancestor of large subtrees; each write restyles every descendant.
+- Third-party widgets and iframes (Turnstile, embeds, maps, video) load lazily when their container nears the viewport or on first interaction, never on page load for below-the-fold content, at least in Firefox and WebKit. `TurnstileWidget` defers loading there (Chromium, detected by `navigator.userAgentData`, renders eagerly); reuse it.
+- Verify any change to hero visuals, global layout, long-running animation, or third-party scripts in Firefox and WebKit, not only Chromium: run a production build and compare idle and scroll frame rates with the change against the same page without it. A drop below ~50 fps in Firefox is a regression.
+
 ## Accessibility and responsive behavior
 
 - Preserve visible keyboard focus using the semantic ring and primary tokens.

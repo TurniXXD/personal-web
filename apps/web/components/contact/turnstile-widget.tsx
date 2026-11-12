@@ -83,12 +83,34 @@ export function TurnstileWidget({
   const containerRef = useRef<HTMLDivElement>(null);
   const [failed, setFailed] = useState(false);
   const [attempt, setAttempt] = useState(0);
+  const [nearViewport, setNearViewport] = useState(false);
   const widgetIdRef = useRef<string | null>(null);
   const onTokenChangeRef = useRef(onTokenChange);
   onTokenChangeRef.current = onTokenChange;
 
+  // The Turnstile iframe keeps the main thread and compositor busy in
+  // Firefox and Safari (every iOS browser is WebKit), so there it loads only
+  // once the form is about to be used. Chromium handles it fine and renders
+  // eagerly; only Chromium exposes `navigator.userAgentData`.
   useEffect(() => {
-    if (!siteKey) return;
+    const container = containerRef.current;
+    if (!siteKey || !container || nearViewport) return;
+    if ("userAgentData" in navigator || !("IntersectionObserver" in window)) {
+      setNearViewport(true);
+      return;
+    }
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry?.isIntersecting) setNearViewport(true);
+      },
+      { rootMargin: "400px 0px" },
+    );
+    observer.observe(container);
+    return () => observer.disconnect();
+  }, [nearViewport]);
+
+  useEffect(() => {
+    if (!siteKey || !nearViewport) return;
     let cancelled = false;
     setFailed(false);
 
@@ -127,7 +149,7 @@ export function TurnstileWidget({
         widgetIdRef.current = null;
       }
     };
-  }, [action, attempt]);
+  }, [action, attempt, nearViewport]);
 
   useEffect(() => {
     if (!resetKey || !widgetIdRef.current || !window.turnstile) return;
