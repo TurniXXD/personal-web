@@ -23,8 +23,15 @@ export default {
     highlight: "save time and grow.",
     description:
       "I design and build websites, internal tools, automation and practical AI integrations around the way your business works — from the first analysis to launch and ongoing support.",
+    mobileDescription:
+      "I build business websites, internal tools and AI automation that simplify work and support the growth of your business.",
     primary: "Discuss your project",
     secondary: "Explore my work",
+    stats: [
+      { value: "20+", label: "projects" },
+      { value: "5+ years", label: "of experience" },
+      { value: "100%", label: "tailored approach" },
+    ],
   },
   services: {
     eyebrow: "WHAT WE CAN IMPROVE",

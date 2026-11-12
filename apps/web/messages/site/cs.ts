@@ -23,8 +23,15 @@ export default {
     highlight: "šetří čas a pomáhají růst.",
     description:
       "Navrhuji a stavím firemní weby, interní nástroje, automatizace a praktická propojení s AI podle toho, jak vaše firma skutečně funguje — od úvodní analýzy po spuštění a další podporu.",
+    mobileDescription:
+      "Tvořím firemní weby, interní nástroje a AI automatizace, které zjednodušují práci a podporují růst vašeho podnikání.",
     primary: "Probrat projekt",
     secondary: "Prohlédnout realizace",
+    stats: [
+      { value: "20+", label: "realizací" },
+      { value: "5+ let", label: "praxe" },
+      { value: "100 %", label: "individuální přístup" },
+    ],
   },
   services: {
     eyebrow: "CO MŮŽEME ZLEPŠIT",

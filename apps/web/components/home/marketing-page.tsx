@@ -71,7 +71,12 @@ export const MarketingPage = ({ locale }: MarketingPageProps) => {
               <h1 id="hero-title">
                 {t.hero.title} <span>{t.hero.highlight}</span>
               </h1>
-              <p className="hero__description">{t.hero.description}</p>
+              <p className="hero__description hero__description--full">
+                {t.hero.description}
+              </p>
+              <p className="hero__description hero__description--mobile">
+                {t.hero.mobileDescription}
+              </p>
               <div className="hero__actions">
                 <ActionLink
                   href={localizedPath(locale, "#contact")}
@@ -88,6 +93,14 @@ export const MarketingPage = ({ locale }: MarketingPageProps) => {
                   {t.hero.secondary} <Layers3 size={18} aria-hidden="true" />
                 </ActionLink>
               </div>
+              <dl className="hero__stats">
+                {t.hero.stats.map((stat) => (
+                  <div key={stat.label}>
+                    <dt>{stat.label}</dt>
+                    <dd>{stat.value}</dd>
+                  </div>
+                ))}
+              </dl>
             </div>
             <InteractiveHeroArt />
           </div>

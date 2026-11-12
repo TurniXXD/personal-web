@@ -114,8 +114,10 @@ export type SiteCopy = {
     title: string;
     highlight: string;
     description: string;
+    mobileDescription: string;
     primary: string;
     secondary: string;
+    stats: { value: string; label: string }[];
   };
   services: {
     eyebrow: string;
