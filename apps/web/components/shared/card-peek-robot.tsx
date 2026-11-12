@@ -26,6 +26,8 @@ const NEXT_PEEK_DELAY_MAX_MS = 45000;
 const GRAB_MS = 520;
 const PEEK_MS = 4200;
 const HIDE_MS = 600;
+/** Candidate spots along a card edge, away from its rounded corners. */
+const ANCHORS = [0.2, 0.35, 0.5, 0.65, 0.8];
 
 type Phase = "hidden" | "grab" | "peek" | "hide";
 type Edge = "top" | "left" | "right";
@@ -111,6 +113,100 @@ const hasRoomAbove = (card: Element) => {
   });
 };
 
+type Box = { top: number; left: number; right: number; bottom: number };
+
+const intersects = (a: Box, b: Box) =>
+  a.left < b.right && a.right > b.left && a.top < b.bottom && a.bottom > b.top;
+
+const MEDIA_SELECTOR = "img, video, svg, button, input, select, textarea";
+
+/**
+ * True when visible text, media, or controls outside the card would sit under
+ * the robot, e.g. a section heading right above the first card.
+ */
+const coversContent = (card: Element, box: Box) => {
+  const walker = document.createTreeWalker(
+    document.body,
+    NodeFilter.SHOW_ELEMENT | NodeFilter.SHOW_TEXT,
+    {
+      acceptNode: (node) => {
+        if (node instanceof Text)
+          return node.data.trim()
+            ? NodeFilter.FILTER_ACCEPT
+            : NodeFilter.FILTER_REJECT;
+        const element = node as Element;
+        if (
+          element === card ||
+          element.matches('[data-card-robot], [aria-hidden="true"], script')
+        )
+          return NodeFilter.FILTER_REJECT;
+        const rect = element.getBoundingClientRect();
+        // `display: contents` wrappers have no box of their own.
+        if (!rect.width && !rect.height) return NodeFilter.FILTER_SKIP;
+        if (!intersects(rect, box)) return NodeFilter.FILTER_REJECT;
+        return element.matches(MEDIA_SELECTOR)
+          ? NodeFilter.FILTER_ACCEPT
+          : NodeFilter.FILTER_SKIP;
+      },
+    },
+  );
+  const range = document.createRange();
+  for (let node = walker.nextNode(); node; node = walker.nextNode()) {
+    if (!(node instanceof Text)) return true;
+    const style = getComputedStyle(node.parentElement!);
+    if (style.visibility === "hidden" || style.opacity === "0") continue;
+    range.selectNodeContents(node);
+    if ([...range.getClientRects()].some((line) => intersects(line, box)))
+      return true;
+  }
+  return false;
+};
+
+/** Viewport box of the robot on the given card edge. */
+const robotBox = (rect: DOMRect, edge: Edge, anchor: number): Box => {
+  const left =
+    edge === "left"
+      ? rect.left - ROBOT_WIDTH
+      : edge === "right"
+        ? rect.right
+        : Math.min(
+            Math.max(
+              rect.left + rect.width * anchor - ROBOT_WIDTH / 2,
+              rect.left + 16,
+            ),
+            rect.right - ROBOT_WIDTH - 16,
+          );
+  const top =
+    edge === "top"
+      ? rect.top - PEEK_HEIGHT
+      : Math.min(
+          Math.max(
+            rect.top + rect.height * anchor - PEEK_HEIGHT / 2,
+            rect.top + 16,
+          ),
+          rect.bottom - PEEK_HEIGHT - 16,
+        );
+  return {
+    top,
+    left,
+    right: left + ROBOT_WIDTH,
+    bottom: top + PEEK_HEIGHT,
+  };
+};
+
+/** A random anchor along the card edge where the robot covers no content. */
+const freeAnchor = (card: Element) => {
+  const rect = card.getBoundingClientRect();
+  const edge = cardEdge(card);
+  const start = Math.floor(Math.random() * ANCHORS.length);
+  const anchors = ANCHORS.map(
+    (_, index) => ANCHORS[(start + index) % ANCHORS.length],
+  );
+  return anchors.find(
+    (anchor) => !coversContent(card, robotBox(rect, edge, anchor)),
+  );
+};
+
 const cardEdge = (card: Element): Edge => {
   if (window.innerWidth < 1024) return "top";
   const rect = card.getBoundingClientRect();
@@ -183,38 +279,24 @@ export function CardPeekRobot() {
       const pool = visible.length ? visible : cards;
       const candidates =
         pool.length > 1 ? pool.filter((candidate) => candidate !== card) : pool;
-      card = candidates.length
-        ? candidates[Math.floor(Math.random() * candidates.length)]
-        : null;
-      anchor = randomBetween(0.2, 0.8);
+      // Start at a random card and take the first one with a free spot.
+      const start = Math.floor(Math.random() * candidates.length);
+      card = null;
+      for (let index = 0; index < candidates.length; index++) {
+        const candidate = candidates[(start + index) % candidates.length];
+        const free = freeAnchor(candidate);
+        if (free === undefined) continue;
+        card = candidate;
+        anchor = free;
+        break;
+      }
     };
 
     const measure = () => {
       if (!card?.isConnected || eventsListingIsEmpty()) return false;
       const rect = card.getBoundingClientRect();
       const edge = cardEdge(card);
-      const left =
-        edge === "left"
-          ? rect.left - ROBOT_WIDTH
-          : edge === "right"
-            ? rect.right
-            : Math.min(
-                Math.max(
-                  rect.left + rect.width * anchor - ROBOT_WIDTH / 2,
-                  rect.left + 16,
-                ),
-                rect.right - ROBOT_WIDTH - 16,
-              );
-      const top =
-        edge === "top"
-          ? rect.top - PEEK_HEIGHT
-          : Math.min(
-              Math.max(
-                rect.top + rect.height * anchor - PEEK_HEIGHT / 2,
-                rect.top + 16,
-              ),
-              rect.bottom - PEEK_HEIGHT - 16,
-            );
+      const { top, left } = robotBox(rect, edge, anchor);
       setPosition({
         top: top + window.scrollY,
         left: left + window.scrollX,

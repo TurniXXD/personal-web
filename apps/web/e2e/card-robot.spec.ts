@@ -203,3 +203,34 @@ test("robot disappears when filters leave no events", async ({ page }) => {
   await expect(page.locator("[data-event-card]")).toHaveCount(0);
   await expect(robot).toHaveCount(0);
 });
+
+test("robot never covers the section heading above the first card", async ({
+  page,
+}) => {
+  await enableRobot(page);
+  await page.setViewportSize({ width: 441, height: 860 });
+  await page.goto("/");
+
+  const heading = page.getByRole("heading", {
+    name: "Co pro vás můžu vytvořit.",
+  });
+  await heading.scrollIntoViewIfNeeded();
+  await page.evaluate(() =>
+    window.scrollBy({ top: -250, behavior: "instant" }),
+  );
+  // The first peek is due after 10 s; give the retry loop a few rounds.
+  await page.waitForTimeout(14_000);
+
+  const robot = page.locator("[data-card-robot]");
+  if ((await robot.count()) === 0) return;
+  const robotBox = await robot.boundingBox();
+  const headingBox = await heading.boundingBox();
+  expect(robotBox).not.toBeNull();
+  expect(headingBox).not.toBeNull();
+  const overlaps =
+    robotBox!.x < headingBox!.x + headingBox!.width &&
+    robotBox!.x + robotBox!.width > headingBox!.x &&
+    robotBox!.y < headingBox!.y + headingBox!.height &&
+    robotBox!.y + robotBox!.height > headingBox!.y;
+  expect(overlaps).toBe(false);
+});
