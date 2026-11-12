@@ -55,14 +55,6 @@ export function InteractiveHeroArt() {
         "--hero-window-y",
         `${currentY * 12 - currentScroll * 48}px`,
       );
-      art.style.setProperty(
-        "--hero-window-rotate-x",
-        `${currentY * -0.8 - currentScroll * 0.8}deg`,
-      );
-      art.style.setProperty(
-        "--hero-window-rotate-y",
-        `${currentX + currentScroll * 0.6}deg`,
-      );
       art.style.setProperty("--hero-ambient-one-x", `${currentX * -18}px`);
       art.style.setProperty(
         "--hero-ambient-one-y",
@@ -207,16 +199,16 @@ export function InteractiveHeroArt() {
 
   return (
     <div
-      className={`${styles["hero-art"]} relative grid min-h-[29rem] place-items-center [perspective:75rem] max-[900px]:hidden`}
+      className={`${styles["hero-art"]} relative grid min-h-[29rem] place-items-center max-[900px]:hidden`}
       aria-hidden="true"
       data-home-hero-art
       ref={artRef}
     >
       <div
-        className={`${styles["hero-art__ambient"]} ${styles["hero-art__ambient--one"]} pointer-events-none absolute top-[8%] right-[3%] size-[24rem] rounded-full bg-primary/10 blur-3xl`}
+        className={`${styles["hero-art__ambient"]} ${styles["hero-art__ambient--one"]} pointer-events-none absolute top-[8%] right-[3%] size-[24rem] rounded-full`}
       />
       <div
-        className={`${styles["hero-art__ambient"]} ${styles["hero-art__ambient--two"]} pointer-events-none absolute bottom-[6%] left-[8%] size-72 rounded-full bg-secondary blur-3xl`}
+        className={`${styles["hero-art__ambient"]} ${styles["hero-art__ambient--two"]} pointer-events-none absolute bottom-[6%] left-[8%] size-72 rounded-full`}
       />
       <div
         className={`${styles["hero-art__orbit-layer"]} ${styles["hero-art__orbit-layer--one"]} pointer-events-none absolute inset-0 z-[1] grid place-items-center will-change-transform`}
@@ -249,7 +241,7 @@ export function InteractiveHeroArt() {
       </div>
 
       <div
-        className={`${styles["hero-art__floating"]} ${styles["hero-art__floating--top"]} absolute top-2 right-0 z-[3] flex max-w-[11.5rem] items-start gap-2.5 rounded-2xl border border-border-soft bg-card/95 p-3 shadow-[0_1rem_2.2rem_rgba(36,46,94,0.11)] backdrop-blur-sm will-change-transform`}
+        className={`${styles["hero-art__floating"]} ${styles["hero-art__floating--top"]} absolute top-2 right-0 z-[3] flex max-w-[11.5rem] items-start gap-2.5 rounded-2xl border border-border-soft bg-card/95 p-3 shadow-[0_1rem_2.2rem_rgba(36,46,94,0.11)] will-change-transform`}
       >
         <span className="grid size-8 shrink-0 place-items-center rounded-xl bg-secondary text-primary">
           <Bot size={15} />
@@ -265,7 +257,7 @@ export function InteractiveHeroArt() {
       </div>
 
       <div
-        className={`${styles["hero-art__floating"]} ${styles["hero-art__floating--middle"]} absolute bottom-[2.8rem] left-0 z-[3] flex max-w-[11.5rem] items-start gap-2.5 rounded-2xl border border-border-soft bg-card/95 p-3 shadow-[0_1rem_2.2rem_rgba(36,46,94,0.11)] backdrop-blur-sm will-change-transform`}
+        className={`${styles["hero-art__floating"]} ${styles["hero-art__floating--middle"]} absolute bottom-[2.8rem] left-0 z-[3] flex max-w-[11.5rem] items-start gap-2.5 rounded-2xl border border-border-soft bg-card/95 p-3 shadow-[0_1rem_2.2rem_rgba(36,46,94,0.11)] will-change-transform`}
       >
         <span className="grid size-8 shrink-0 place-items-center rounded-xl bg-secondary text-primary">
           <Code2 size={15} />
@@ -281,7 +273,7 @@ export function InteractiveHeroArt() {
       </div>
 
       <div
-        className={`${styles["hero-art__floating"]} ${styles["hero-art__floating--bottom"]} absolute right-0 bottom-0 z-[3] flex max-w-[11.5rem] items-start gap-2.5 rounded-2xl border border-border-soft bg-card/95 p-3 shadow-[0_1rem_2.2rem_rgba(36,46,94,0.11)] backdrop-blur-sm will-change-transform`}
+        className={`${styles["hero-art__floating"]} ${styles["hero-art__floating--bottom"]} absolute right-0 bottom-0 z-[3] flex max-w-[11.5rem] items-start gap-2.5 rounded-2xl border border-border-soft bg-card/95 p-3 shadow-[0_1rem_2.2rem_rgba(36,46,94,0.11)] will-change-transform`}
       >
         <span className="grid size-8 shrink-0 place-items-center rounded-xl bg-secondary text-primary">
           <ShieldCheck size={15} />

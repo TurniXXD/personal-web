@@ -1,8 +1,6 @@
 .hero-art {
   --hero-window-x: 0px;
   --hero-window-y: 0px;
-  --hero-window-rotate-x: 0deg;
-  --hero-window-rotate-y: 0deg;
   --hero-ambient-one-x: 0px;
   --hero-ambient-one-y: 0px;
   --hero-ambient-two-x: 0px;
@@ -24,7 +22,13 @@
   animation: hero-art-enter 620ms cubic-bezier(0.22, 1, 0.36, 1) 170ms both;
 }
 
+/* Soft glows as gradients: a large filter: blur() re-renders on every move. */
 .hero-art__ambient--one {
+  background: radial-gradient(
+    closest-side,
+    color-mix(in srgb, var(--color-primary) 16%, transparent),
+    transparent
+  );
   transform: translate3d(
       var(--hero-ambient-one-x),
       var(--hero-ambient-one-y),
@@ -34,6 +38,11 @@
 }
 
 .hero-art__ambient--two {
+  background: radial-gradient(
+    closest-side,
+    var(--color-secondary),
+    transparent
+  );
   transform: translate3d(
       var(--hero-ambient-two-x),
       var(--hero-ambient-two-y),
@@ -53,8 +62,9 @@
 }
 
 .hero-art__window-layer {
-  transform: translate3d(var(--hero-window-x), var(--hero-window-y), 0)
-    rotateX(var(--hero-window-rotate-x)) rotateY(var(--hero-window-rotate-y));
+  /* Flat 2D only: a 3D tilt inside a perspective made Firefox and Safari
+     recomposite the hero on every pointer move. */
+  transform: translate3d(var(--hero-window-x), var(--hero-window-y), 0);
 }
 
 .hero-art__floating--top {

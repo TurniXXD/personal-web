@@ -53,11 +53,12 @@ CSS Modules are reserved for complex keyframes, multi-element choreography, pseu
 
 ## Rendering performance in Firefox and Safari
 
-Chromium hides costs that freeze Gecko and WebKit. The homepage once ran at 2–5 fps in Firefox and Safari while Chrome stayed at 60 fps, because two costs stacked: an eagerly rendered Turnstile iframe, and infinite paint animations inside the blurred, 3D-transformed hero.
+Chromium hides costs that freeze Gecko and WebKit. The homepage once ran at 2–5 fps in Firefox and Safari while Chrome stayed at 60 fps, because costs stacked: an eagerly rendered Turnstile iframe, infinite hero animations (including a spinning orbit inside a 3D perspective), and pointer-reactive layers moving over large blurs, `backdrop-filter`, and a 3D tilt.
 
 - No infinite animation of paint properties (`stroke-dashoffset`, `box-shadow`, `border-color`, `background`, `width`, `clip-path`, `filter`) inside heroes or other always-visible areas. Entrance animations run once and end in their final state (`animation: … both` with the last keyframe holding the finished look). Continuous decorative loops may animate only `transform` or `opacity` on a small element, and only outside layers that use `filter: blur`, `backdrop-filter`, `perspective`, or `mask-image`.
 - Do not combine `backdrop-filter` or large `filter: blur()` with content that repaints every frame behind or inside it. Prefer an opaque or semi-opaque background over adding blur.
-- Every-frame JavaScript loops (`requestAnimationFrame`) must stop once the values settle and must not write many CSS custom properties to an ancestor of large subtrees; each write restyles every descendant.
+- Every-frame JavaScript loops (`requestAnimationFrame`) must stop once the values settle.
+- Pointer- and scroll-reactive layers move with flat 2D transforms only: no `perspective`, `rotateX`/`rotateY`, `filter: blur()` or `backdrop-filter` on or around them. Draw soft glows with `radial-gradient` instead of blurring a shape.
 - Third-party widgets and iframes (Turnstile, embeds, maps, video) load lazily when their container nears the viewport or on first interaction, never on page load for below-the-fold content. `TurnstileWidget` already does this in every browser; reuse it.
 - Verify any change to hero visuals, global layout, long-running animation, or third-party scripts in Firefox and WebKit, not only Chromium: run a production build and compare idle and scroll frame rates with the change against the same page without it. A drop below ~50 fps in Firefox is a regression.
 
