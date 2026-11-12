@@ -17,28 +17,28 @@
     "@fontsource-variable/sora": "5.3.0",
     "@fontsource/ibm-plex-mono": "5.3.0",
     "@fontsource/sora": "5.3.0",
-    "@sentry/browser": "11.10.0",
-    "@sentry/nextjs": "^11.10.0",
+    "@sentry/browser": "11.11.0",
+    "@sentry/nextjs": "^11.11.0",
     "@vantuch/ui": "workspace:*",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cn": "^0.5.2",
     "libphonenumber-js": "1.13.15",
-    "lucide-react": "^0.575.0",
-    "next": "16.4.3",
+    "lucide-react": "^1.70.0",
+    "next": "16.4.6",
     "next-intl": "^4.9.0",
     "radix-ui": "^1.8.1",
     "react": "19.3.1",
-    "react-day-picker": "^9.14.0",
+    "react-day-picker": "^10.0.2",
     "react-dom": "19.3.1",
     "resend": "^6.37.0",
     "tailwind-merge": "^3.7.0"
   },
   "devDependencies": {
-    "@tailwindcss/postcss": "^4.3.3",
+    "@tailwindcss/postcss": "^4.3.5",
     "openapi-typescript": "^7.13.0",
     "postcss": "^8.5.32",
-    "tailwindcss": "^4.3.3",
-    "typescript": "^5.9.3"
+    "tailwindcss": "^4.3.5",
+    "typescript": "^7.0.2"
   }
 }
