@@ -57,11 +57,13 @@
       calc(var(--reveal-delay) + var(--reveal-index) * 75ms);
 }
 
+/* Slide only: the home hero heading is the LCP element, and Chrome does not
+   report LCP for text held at opacity 0 until the fade can paint. */
 .hero__content > .eyebrow,
 .hero__content > h1,
 .hero__description,
 .hero__actions {
-  animation: hero-content-enter 620ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: hero-content-rise 620ms cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 .hero__content > .eyebrow {
   animation-delay: 20ms;
@@ -75,6 +77,14 @@
 }
 .hero__actions {
   animation-delay: 185ms;
+}
+@keyframes hero-content-rise {
+  from {
+    translate: 0 1rem;
+  }
+  to {
+    translate: 0 0;
+  }
 }
 @keyframes hero-content-enter {
   from {

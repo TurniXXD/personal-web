@@ -42,6 +42,9 @@ declare global {
   }
 }
 
+const CLARITY_IDLE_TIMEOUT_MS = 4000;
+const CLARITY_FALLBACK_DELAY_MS = 2000;
+
 function loadClarity(projectId: string) {
   if (document.querySelector('script[data-analytics="clarity"]')) return;
   window.clarity =
@@ -124,10 +127,21 @@ export function CookieConsent({
 
   useEffect(() => {
     if (consent !== "accepted") return;
-    if (clarityProjectId) loadClarity(clarityProjectId);
     if (cloudflareAnalyticsToken) {
       loadCloudflareAnalytics(cloudflareAnalyticsToken);
     }
+    if (!clarityProjectId) return;
+    // Clarity snapshots the whole DOM when it starts, so keep that work off
+    // the first paint and the first interaction.
+    const load = () => loadClarity(clarityProjectId);
+    if (typeof window.requestIdleCallback === "function") {
+      const handle = window.requestIdleCallback(load, {
+        timeout: CLARITY_IDLE_TIMEOUT_MS,
+      });
+      return () => window.cancelIdleCallback(handle);
+    }
+    const handle = window.setTimeout(load, CLARITY_FALLBACK_DELAY_MS);
+    return () => window.clearTimeout(handle);
   }, [clarityProjectId, cloudflareAnalyticsToken, consent]);
 
   const saveConsent = (value: Consent) => {
