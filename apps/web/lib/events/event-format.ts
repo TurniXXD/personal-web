@@ -151,7 +151,9 @@ export const formatEventCardTime = (
   const schedule = cardSchedule(event);
   if (!schedule) return null;
   const start = schedule.startParts.time;
-  if (!schedule.endParts) return { kind: "at", start };
+  // A bare midnight start is a date without a known time.
+  if (!schedule.endParts)
+    return start === "00:00" ? null : { kind: "at", start };
   // Across several days neither the start nor the end time is a daily
   // opening time, so only the first and last day are shown.
   if (isMultiDay(schedule)) {
