@@ -155,6 +155,20 @@ test("card time hides end-of-day placeholders", () => {
   );
 });
 
+test("card time hides a date-only midnight start", () => {
+  assert.equal(
+    formatEventCardTime(
+      {
+        startsAt: "2026-11-13T23:00:00.000Z",
+        endsAt: null,
+        timezone: "Europe/Prague",
+      },
+      "cs",
+    ),
+    null,
+  );
+});
+
 test("multi-day card time shows only the first and last day", () => {
   const multiDayAllDay = {
     startsAt: "2026-11-12T23:00:00.000Z",
