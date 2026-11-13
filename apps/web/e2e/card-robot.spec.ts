@@ -102,6 +102,36 @@ test("robot stays still for reduced motion", async ({ page }) => {
   await expect(robot).toHaveAttribute("data-phase", "peek");
 });
 
+test("robot stays on the card edge when content above shifts", async ({
+  page,
+}) => {
+  await enableRobot(page);
+  await page.setViewportSize({ width: 768, height: 1024 });
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto("/akce");
+  const robot = page.locator("[data-card-robot]");
+  await expect(robot).toHaveAttribute("data-phase", "peek");
+
+  // Grow the content above the cards, like the filter status row does.
+  await page.evaluate(() => {
+    const spacer = document.createElement("div");
+    spacer.style.height = "48px";
+    document.querySelector("[data-events-grid]")!.before(spacer);
+  });
+
+  await expect
+    .poll(async () => {
+      const box = await robot.boundingBox();
+      const tops = await page
+        .locator("[data-event-card]")
+        .evaluateAll((cards) =>
+          cards.map((card) => card.getBoundingClientRect().top),
+        );
+      return tops.some((top) => Math.abs(box!.y + box!.height - top) < 2);
+    })
+    .toBe(true);
+});
+
 test("robot moves to another visible card on the next peek", async ({
   page,
 }) => {

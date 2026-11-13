@@ -297,15 +297,35 @@ export function CardPeekRobot() {
       const rect = card.getBoundingClientRect();
       const edge = cardEdge(card);
       const { top, left } = robotBox(rect, edge, anchor);
-      setPosition({
+      const next: Position = {
         top: top + window.scrollY,
         left: left + window.scrollX,
         edge,
         // Keep the bubble inside the viewport.
         bubbleAlign:
           left + ROBOT_WIDTH / 2 > window.innerWidth / 2 ? "end" : "start",
-      });
+      };
+      setPosition((current) =>
+        current &&
+        current.top === next.top &&
+        current.left === next.left &&
+        current.edge === next.edge &&
+        current.bubbleAlign === next.bubbleAlign
+          ? current
+          : next,
+      );
       return true;
+    };
+
+    // Content above the card can grow (e.g. the filter status row), so follow
+    // the card instead of floating at stale page coordinates.
+    let frame = 0;
+    const remeasure = () => {
+      if (frame) return;
+      frame = requestAnimationFrame(() => {
+        frame = 0;
+        if (card) measure();
+      });
     };
 
     const later = (callback: () => void, delay: number) => {
@@ -357,6 +377,8 @@ export function CardPeekRobot() {
     // Leave as soon as a filter change starts, before the cards are replaced.
     const observer = new MutationObserver(() => {
       if (card && eventFiltersBusy()) {
+        // The busy state may have shifted the cards; hide from the card's edge.
+        measure();
         card = null;
         if (timer) clearTimeout(timer);
         if (reducedMotion) {
@@ -384,6 +406,8 @@ export function CardPeekRobot() {
         document.querySelector("[data-event-card]")
       ) {
         placeStatic();
+      } else if (card) {
+        remeasure();
       }
     });
     observer.observe(document.body, {
@@ -401,6 +425,7 @@ export function CardPeekRobot() {
     return () => {
       cancelled = true;
       if (timer) clearTimeout(timer);
+      if (frame) cancelAnimationFrame(frame);
       observer.disconnect();
       window.removeEventListener("resize", onResize);
       setPhase("hidden");

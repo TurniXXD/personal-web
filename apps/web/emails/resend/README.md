@@ -29,7 +29,17 @@ set, the route keeps sending its inline HTML email.
 | `referral-link.cs.html`        | `RESEND_TEMPLATE_REFERRAL_LINK_CS_ID`        | `Váš osobní doporučovací odkaz`   | `NAME`, `REFERRAL_URL`                                                                                           |
 | `referral-link.en.html`        | `RESEND_TEMPLATE_REFERRAL_LINK_EN_ID`        | `Your personal referral link`     | `NAME`, `REFERRAL_URL`                                                                                           |
 
-The copy mirrors the inline emails in `app/api/contact/route.ts`,
+`redesign-offer.cs.html` is a manual sales email, not sent by any route, so
+it has no environment variable. Subject: `Návrh redesignu webu {{{WEBSITE}}}`.
+Variables: `NAME` (vocative, e.g. `pane Nováku`), `COMPANY`, `WEBSITE`,
+`FINDINGS` (one observation per line), `PRICE`, `TIMELINE`, `PREVIEW_URL`.
+Send it from your personal mailbox so replies reach you, not `noreply@`.
+The Twenty workflow "Redesign 3 – odeslat nabídku" embeds a copy of this HTML
+in its Resend HTTP step, with Twenty variables in place of `{{{…}}}`, because
+the self-hosted Twenty cannot run code steps. After editing this file, update
+that step too. Twenty inserts the values unescaped.
+
+The copy of the route-backed templates mirrors the inline emails in `app/api/contact/route.ts`,
 `app/api/referral-request/route.ts`, `messages/contact/email.ts` and
 `messages/referrals/email.ts`.
 
