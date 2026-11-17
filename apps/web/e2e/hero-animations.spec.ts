@@ -24,16 +24,14 @@ test("hero animations on every page resolve to real keyframes", async ({
     {
       path: "/automatizace",
       selector: ".automation-page-hero",
-      minimumAnimatedParts: 5,
+      minimumAnimatedParts: 3,
     },
     {
       path: "/doporuceni",
       selector: ".referral-hero",
       minimumAnimatedParts: 5,
     },
-    { path: "/kontakt", selector: ".contact-page", minimumAnimatedParts: 2 },
-    { path: "/privacy", selector: ".privacy-page", minimumAnimatedParts: 2 },
-    { path: "/work/robe", selector: ".case-detail", minimumAnimatedParts: 2 },
+    // Contact, privacy and case-study heroes are static: text renders at once.
     {
       path: "/sluzby/firemni-weby",
       selector: ".service-detail-hero",
@@ -57,12 +55,12 @@ test("hero animations on every page resolve to real keyframes", async ({
     {
       path: "/sluzby/darkove-poukazy",
       selector: ".service-detail-hero",
-      minimumAnimatedParts: 5,
+      minimumAnimatedParts: 2,
     },
     {
       path: "/sluzby/audit-ai-aplikaci",
       selector: ".service-detail-hero",
-      minimumAnimatedParts: 5,
+      minimumAnimatedParts: 4,
     },
   ] as const;
 

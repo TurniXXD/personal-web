@@ -11,7 +11,7 @@ export default {
   name: "Company websites",
   hero: {
     eyebrow: "COMPANY WEBSITES",
-    title: "Leave a lasting impression.",
+    title: "Leave a lasting impression",
     description:
       "For companies and service businesses that want to look professional, generate relevant enquiries and stay in control of their content.",
     primary: "Discuss a new website",
@@ -28,7 +28,7 @@ export default {
   },
   benefits: {
     eyebrow: "BUSINESS VALUE",
-    title: "A presentation with a clear business goal.",
+    title: "A presentation with a clear business goal",
     description:
       "I do not treat the website as a digital brochure. Its structure, content and contact journey reflect the people you want to reach.",
     items: [
@@ -50,7 +50,7 @@ export default {
   },
   workflow: {
     eyebrow: "HOW IT IS BUILT",
-    title: "From business goals to a launched website.",
+    title: "From business goals to a launched website",
     description: "Every stage has a tangible output and room for feedback.",
     steps: [
       {
@@ -76,7 +76,7 @@ export default {
     {
       id: "options",
       eyebrow: "WHAT CAN BE INCLUDED",
-      title: "Features aligned with the way your business works.",
+      title: "Features aligned with the way your business works",
       items: [
         {
           title: "Responsive design",
@@ -97,7 +97,7 @@ export default {
   ],
   useCases: {
     eyebrow: "REAL-WORLD EXAMPLES",
-    title: "A website built around your business.",
+    title: "A website built around your business",
     description:
       "The scope can range from a focused presentation to a content-rich website.",
     items: [
@@ -120,7 +120,7 @@ export default {
   },
   faq: {
     eyebrow: "FREQUENTLY ASKED QUESTIONS",
-    title: "Useful points before we start.",
+    title: "Useful points before we start",
     items: [
       {
         question: "Can you help with the content structure?",

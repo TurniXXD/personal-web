@@ -127,7 +127,7 @@ export const ServiceLandingPage = ({
                 <p>{content.offering.description}</p>
               )}
             </ScrollReveal>
-            <ScrollReveal className="service-offering__grid" stagger>
+            <ScrollReveal className="service-offering__grid" animate stagger>
               {content.offering.items.map((item) => {
                 const Icon = serviceIcons[item.icon];
                 return (

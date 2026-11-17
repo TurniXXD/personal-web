@@ -11,7 +11,7 @@ export default {
   name: "Gift vouchers",
   hero: {
     eyebrow: "GIFT VOUCHERS",
-    title: "Gift Vouchers, Simplified.",
+    title: "Gift Vouchers, Simplified",
     description:
       "Customers choose a voucher, pay online and automatically receive a PDF by email. You can track sales, validity and redemption.",
     primary: "Discuss gift voucher sales",
@@ -24,7 +24,7 @@ export default {
   },
   benefits: {
     eyebrow: "OPERATIONAL VALUE",
-    title: "Sell 24/7 without manual issuance.",
+    title: "Sell 24/7 without manual issuance",
     description:
       "From payment and PDF creation to redemption, customers get a simple journey while you retain visibility over every voucher.",
     items: [
@@ -47,7 +47,7 @@ export default {
   },
   workflow: {
     eyebrow: "CUSTOMER JOURNEY",
-    title: "From selection to secure redemption.",
+    title: "From selection to secure redemption",
     description:
       "A voucher is issued only after server-side payment confirmation, never merely from a browser success redirect.",
     steps: [
@@ -86,7 +86,7 @@ export default {
   },
   demoCopy: {
     eyebrow: "INTERACTIVE DEMO",
-    title: "Create a demo gift voucher.",
+    title: "Create a demo gift voucher",
   },
   sections: [
     {
@@ -94,7 +94,7 @@ export default {
       featured: true,
       itemLimit: 3,
       eyebrow: "VOUCHER TYPES",
-      title: "The offer can reflect your services and sales model.",
+      title: "The offer can reflect your services and sales model",
       description:
         "Specific options depend on the selected solution and business terms.",
       items: [
@@ -166,7 +166,7 @@ export default {
       featured: true,
       itemLimit: 4,
       eyebrow: "BRAND AND EXPERIENCE",
-      title: "A voucher that feels like a natural part of your brand.",
+      title: "A voucher that feels like a natural part of your brand",
       tone: "navy",
       layout: "list",
       description:
@@ -199,7 +199,7 @@ export default {
       featured: true,
       itemLimit: 3,
       eyebrow: "BUSINESS MANAGEMENT",
-      title: "Every voucher has a traceable status and history.",
+      title: "Every voucher has a traceable status and history",
       tone: "soft",
       items: [
         {
@@ -232,7 +232,7 @@ export default {
     {
       id: "redemption",
       eyebrow: "VOUCHER REDEMPTION",
-      title: "Fast staff checks with double-redemption protection.",
+      title: "Fast staff checks with double-redemption protection",
       items: [
         {
           title: "1. Presentation",
@@ -257,7 +257,7 @@ export default {
     {
       id: "email",
       eyebrow: "EMAIL DELIVERY",
-      title: "Customers receive the voucher after confirmed payment.",
+      title: "Customers receive the voucher after confirmed payment",
       description:
         "A branded template, attachment or secure link, resending and basic delivery status can be included. Inbox placement cannot be guaranteed.",
       items: [
@@ -280,7 +280,7 @@ export default {
     {
       id: "terms",
       eyebrow: "BUSINESS AND LEGAL CONTEXT",
-      title: "The technical solution must follow your terms.",
+      title: "The technical solution must follow your terms",
       tone: "soft",
       layout: "list",
       items: [
@@ -304,7 +304,7 @@ export default {
   ],
   useCases: {
     eyebrow: "WHO IT SUITS",
-    title: "Vouchers for services, experiences and local businesses.",
+    title: "Vouchers for services, experiences and local businesses",
     description: "The offer and rules always reflect the specific business.",
     items: [
       {
@@ -325,7 +325,7 @@ export default {
   },
   faq: {
     eyebrow: "FREQUENTLY ASKED QUESTIONS",
-    title: "What to clarify before voucher sales launch.",
+    title: "What to clarify before voucher sales launch",
     items: [
       {
         question: "Can customers buy directly on the website?",

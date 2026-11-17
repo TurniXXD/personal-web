@@ -1,14 +1,14 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
-import { setRequestLocale } from "next-intl/server";
+import { getMessages, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { CookieConsent } from "@/components/layout/cookie-consent";
 import { CardPeekRobot } from "@/components/shared/card-peek-robot";
 import { routing } from "@/i18n/routing";
-import { copy } from "@/lib/site/content";
 import { cookieConsentBootScript } from "@/lib/site/cookie-consent";
 import { SITE_ORIGIN } from "@/lib/site/routes";
+import { getSiteCopy } from "@/lib/site/site-copy";
 import "@fontsource-variable/sora";
 import "@fontsource/ibm-plex-mono/400.css";
 import "@fontsource/ibm-plex-mono/600.css";
@@ -31,7 +31,7 @@ export async function generateMetadata({
   const { locale } = await params;
   if (!hasLocale(routing.locales, locale)) notFound();
 
-  const content = copy[locale];
+  const content = await getSiteCopy(locale);
   const canonical = locale === "en" ? "/en" : "/";
 
   return {
@@ -66,6 +66,10 @@ export default async function LocaleLayout({
   const { locale } = await params;
   if (!hasLocale(routing.locales, locale)) notFound();
   setRequestLocale(locale);
+  // The site catalog is rendered on the server only; keep it out of the client payload.
+  const clientMessages = Object.fromEntries(
+    Object.entries(await getMessages()).filter(([key]) => key !== "site"),
+  );
 
   return (
     <html lang={locale} data-scroll-behavior="smooth" suppressHydrationWarning>
@@ -73,7 +77,7 @@ export default async function LocaleLayout({
         <script dangerouslySetInnerHTML={{ __html: cookieConsentBootScript }} />
       </head>
       <body>
-        <NextIntlClientProvider>
+        <NextIntlClientProvider messages={clientMessages}>
           {children}
           <CardPeekRobot />
           <CookieConsent

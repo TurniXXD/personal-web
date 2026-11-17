@@ -10,7 +10,7 @@ test("AI service page presents an interactive use-case carousel", async ({
     "Praktická AI řešení pro firmy | Jakub Vantuch",
   );
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
-    "Umělá inteligence, která má praktické využití.",
+    "Umělá inteligence, která má praktické využití",
   );
   await expect(page.locator(".service-offering-card")).toHaveCount(6);
   await expect(

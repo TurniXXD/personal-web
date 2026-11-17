@@ -10,7 +10,7 @@ export default {
   hero: {
     eyebrow: "AI APPLICATION AUDIT",
     title: "AI prototype?",
-    highlight: "Prepare it for production.",
+    highlight: "Prepare it for production",
     description:
       "I audit your app’s security, performance and code quality, identify risks, help fix issues, deploy and scale.",
     primary: "Request an application review",
@@ -92,7 +92,7 @@ export default {
       featured: true,
       itemLimit: 3,
       eyebrow: "PROCESS AND DELIVERABLES",
-      title: "From the first review to a clear plan of action.",
+      title: "From the first review to a clear plan of action",
       description:
         "We agree the scope in advance. The result is a technical assessment, not a penetration test or legal certification.",
       tone: "soft",
@@ -117,7 +117,7 @@ export default {
   ],
   faq: {
     eyebrow: "FREQUENTLY ASKED QUESTIONS",
-    title: "What to know before an audit.",
+    title: "What to know before an audit",
     items: [
       {
         question: "Do I need the application's source code?",

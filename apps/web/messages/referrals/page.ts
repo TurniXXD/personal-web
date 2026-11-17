@@ -114,7 +114,7 @@ export const referralCopy: Record<Locale, ReferralCopy> = {
       conditions: "Podmínky doporučení",
     },
     who: {
-      title: "Nemusíte nic prodávat.",
+      title: "Nemusíte nic prodávat",
       text: "Stačí poslat odkaz člověku, který má o spolupráci zájem, nebo ho požádat, aby vás zmínil při prvním hovoru. Jeho kontaktní údaje nikam nezadáváte; rozhodnutí ozvat se je na něm. Projekt, nabídku i cenu pak řeším přímo s ním.",
     },
     fit: {
@@ -132,7 +132,7 @@ export const referralCopy: Record<Locale, ReferralCopy> = {
     },
     link: {
       eyebrow: "PŘEDAT DOPORUČENÍ",
-      title: "Odkaz předáte vy. Poptávku pošle klient.",
+      title: "Odkaz předáte vy. Poptávku pošle klient",
       intro:
         "Kontaktní údaje firem na této stránce nesbírám. Doporučení se počítá, když klient přijde přes váš osobní odkaz, nebo vás uvede jako doporučitele při úvodním hovoru.",
       cardEyebrow: "VÁŠ OSOBNÍ ODKAZ",
@@ -269,7 +269,7 @@ export const referralCopy: Record<Locale, ReferralCopy> = {
       conditions: "Referral conditions",
     },
     who: {
-      title: "You don't have to sell anything.",
+      title: "You don't have to sell anything",
       text: "Just share your link with someone interested or ask them to name you during the first call. You don't enter their contact details anywhere; it's their choice to reach out. I'll discuss the project, proposal, and price directly with them.",
     },
     fit: {
@@ -287,7 +287,7 @@ export const referralCopy: Record<Locale, ReferralCopy> = {
     },
     link: {
       eyebrow: "PASS ON A REFERRAL",
-      title: "You share the link. The client sends the enquiry.",
+      title: "You share the link. The client sends the enquiry",
       intro:
         "This page does not collect other businesses' contact details. A referral counts when the client arrives through your personal link or names you as the referrer during the introductory call.",
       cardEyebrow: "YOUR PERSONAL LINK",

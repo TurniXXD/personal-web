@@ -315,7 +315,11 @@ export const ServiceDetailPage = ({ locale, slug }: ServiceDetailPageProps) => {
               id="detail-workflow-title"
               content={content.workflow}
             />
-            <ScrollReveal className="service-detail-workflow__grid" stagger>
+            <ScrollReveal
+              className="service-detail-workflow__grid"
+              animate
+              stagger
+            >
               {visibleWorkflowSteps.map((step, index) => (
                 <article key={step.title}>
                   <span>{String(index + 1).padStart(2, "0")}</span>

@@ -9,7 +9,7 @@ export default {
   name: "API a integrace",
   hero: {
     eyebrow: "API A INTEGRACE",
-    title: "Propojte systémy, které dnes fungují každý zvlášť.",
+    title: "Propojte systémy, které dnes fungují každý zvlášť",
     description:
       "Spolehlivý přenos dat mezi webem, CRM, účetnictvím, platbami a dalšími nástroji s dostupným rozhraním.",
     primary: "Probrat integraci",
@@ -22,7 +22,7 @@ export default {
   },
   benefits: {
     eyebrow: "PŘÍNOS PRO PROVOZ",
-    title: "Aktuálnější data a méně opakované administrativy.",
+    title: "Aktuálnější data a méně opakované administrativy",
     description:
       "Integrace navrhuji s ohledem na výpadky, opakované požadavky a dohledatelnost změn.",
     items: [
@@ -44,7 +44,7 @@ export default {
   },
   workflow: {
     eyebrow: "JAK INTEGRACE FUNGUJE",
-    title: "Každý přenos má pravidla, kontrolu a bezpečný návrat.",
+    title: "Každý přenos má pravidla, kontrolu a bezpečný návrat",
     description:
       "Dostupnost závisí na API a podmínkách konkrétních poskytovatelů.",
     steps: [
@@ -71,7 +71,7 @@ export default {
     {
       id: "odolnost",
       eyebrow: "SPOLEHLIVOST",
-      title: "Integrace musí počítat i s tím, že něco není dostupné.",
+      title: "Integrace musí počítat i s tím, že něco není dostupné",
       tone: "soft",
       items: [
         {
@@ -96,7 +96,7 @@ export default {
   ],
   useCases: {
     eyebrow: "PŘÍKLADY VYUŽITÍ",
-    title: "Propojení tam, kde dává provozní smysl.",
+    title: "Propojení tam, kde dává provozní smysl",
     description: "Předem ověřím dostupná rozhraní a limity.",
     items: [
       {
@@ -117,7 +117,7 @@ export default {
   },
   faq: {
     eyebrow: "ČASTÉ DOTAZY",
-    title: "Nejdřív ověřit, potom slibovat.",
+    title: "Nejdřív ověřit, potom slibovat",
     items: [
       {
         question: "Lze propojit libovolné dva systémy?",

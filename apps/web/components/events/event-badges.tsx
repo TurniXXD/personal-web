@@ -4,7 +4,7 @@ import type { EventItem } from "@/lib/events/event-model";
 import { describeEventPrice } from "@/lib/events/event-format";
 import { hasVerifiedFreeFood } from "@/lib/events/event-mapping";
 
-// Plain join: tailwind-merge treats the custom `text-ui-*` size tokens as
+// Plain join: class merging via `cn` treats the custom `text-ui-*` size tokens as
 // colors and would drop them next to a text color utility.
 const classes = (...values: Array<string | false | null | undefined>) =>
   values.filter(Boolean).join(" ");

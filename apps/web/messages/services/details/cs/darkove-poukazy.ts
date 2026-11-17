@@ -9,7 +9,7 @@ export default {
   name: "Dárkové poukazy",
   hero: {
     eyebrow: "DÁRKOVÉ POUKAZY",
-    title: "Dárkové poukazy bez starostí.",
+    title: "Dárkové poukazy bez starostí",
     description:
       "Zákazník vybere poukaz, zaplatí online a automaticky obdrží PDF e-mailem. Vy máte přehled o prodeji, platnosti i uplatnění.",
     primary: "Probrat prodej poukazů",
@@ -22,7 +22,7 @@ export default {
   },
   benefits: {
     eyebrow: "PŘÍNOS PRO PROVOZ",
-    title: "Prodávejte 24/7 bez ručního vystavování.",
+    title: "Prodávejte 24/7 bez ručního vystavování",
     description:
       "Od zaplacení přes vytvoření PDF až po uplatnění má zákazník jednoduchou cestu a vy přehled nad každým poukazem.",
     items: [
@@ -45,7 +45,7 @@ export default {
   },
   workflow: {
     eyebrow: "CESTA ZÁKAZNÍKA",
-    title: "Od výběru po bezpečné uplatnění.",
+    title: "Od výběru po bezpečné uplatnění",
     description:
       "Poukaz vzniká až po potvrzení platby serverem, nikdy jen podle návratu zákazníka na stránku s úspěchem.",
     steps: [
@@ -85,7 +85,7 @@ export default {
   demo: "voucher",
   demoCopy: {
     eyebrow: "INTERAKTIVNÍ UKÁZKA",
-    title: "Sestavte si dárkový poukaz.",
+    title: "Sestavte si dárkový poukaz",
   },
   sections: [
     {
@@ -93,7 +93,7 @@ export default {
       featured: true,
       itemLimit: 3,
       eyebrow: "TYPY POUKAZŮ",
-      title: "Nabídka může odpovídat vašim službám i způsobu prodeje.",
+      title: "Nabídka může odpovídat vašim službám i způsobu prodeje",
       description:
         "Konkrétní varianty závisí na zvoleném řešení a obchodních podmínkách.",
       items: [
@@ -130,7 +130,7 @@ export default {
     {
       id: "pdf",
       eyebrow: "PDF POUKAZ",
-      title: "Poukaz, který odpovídá vaší značce a obsahuje vše podstatné.",
+      title: "Poukaz, který odpovídá vaší značce a obsahuje vše podstatné",
       items: [
         {
           title: "Vzhled a logo",
@@ -165,7 +165,7 @@ export default {
       featured: true,
       itemLimit: 4,
       eyebrow: "ZNAČKA A ZÁŽITEK",
-      title: "Poukaz, který působí jako přirozená součást vaší značky.",
+      title: "Poukaz, který působí jako přirozená součást vaší značky",
       tone: "navy",
       layout: "list",
       description:
@@ -198,7 +198,7 @@ export default {
       featured: true,
       itemLimit: 3,
       eyebrow: "SPRÁVA PRO FIRMU",
-      title: "Každý poukaz má dohledatelný stav a historii.",
+      title: "Každý poukaz má dohledatelný stav a historii",
       tone: "soft",
       items: [
         {
@@ -233,7 +233,7 @@ export default {
     {
       id: "uplatneni",
       eyebrow: "UPLATNĚNÍ POUKAZU",
-      title: "Rychlá kontrola pro obsluhu, ochrana proti dvojímu čerpání.",
+      title: "Rychlá kontrola pro obsluhu, ochrana proti dvojímu čerpání",
       items: [
         {
           title: "1. Předložení",
@@ -258,7 +258,7 @@ export default {
     {
       id: "email",
       eyebrow: "E-MAILOVÉ DORUČENÍ",
-      title: "Zákazník dostane poukaz po potvrzené platbě.",
+      title: "Zákazník dostane poukaz po potvrzené platbě",
       description:
         "Lze použít značkovou šablonu, PDF přílohu nebo bezpečný odkaz, opětovné odeslání a základní sledování výsledku doručení. Nelze zaručit umístění ve schránce příjemce.",
       items: [
@@ -281,7 +281,7 @@ export default {
     {
       id: "podminky",
       eyebrow: "OBCHODNÍ A PRÁVNÍ NÁVAZNOSTI",
-      title: "Technické řešení musí respektovat vaše podmínky.",
+      title: "Technické řešení musí respektovat vaše podmínky",
       tone: "soft",
       layout: "list",
       items: [
@@ -305,7 +305,7 @@ export default {
   ],
   useCases: {
     eyebrow: "PRO KOHO SE HODÍ",
-    title: "Poukazy pro služby, zážitky i lokální provozy.",
+    title: "Poukazy pro služby, zážitky i lokální provozy",
     description:
       "Nabídka a pravidla se vždy přizpůsobují konkrétnímu podnikání.",
     items: [
@@ -328,7 +328,7 @@ export default {
   },
   faq: {
     eyebrow: "ČASTÉ DOTAZY",
-    title: "Co je dobré vyjasnit před spuštěním prodeje.",
+    title: "Co je dobré vyjasnit před spuštěním prodeje",
     items: [
       {
         question: "Může si zákazník koupit poukaz přímo na webu?",

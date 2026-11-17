@@ -1,0 +1,407 @@
+/* Web application detail hero visual. */
+.appBar,
+.appBar > div,
+.appHeading,
+.appSync,
+.appNotification {
+  display: flex;
+  align-items: center;
+}
+
+.webAppRoot {
+  background:
+    radial-gradient(
+      circle at 85% 15%,
+      rgba(91, 218, 182, 0.18),
+      transparent 27%
+    ),
+    linear-gradient(145deg, #eef2ff 0%, #f8faff 48%, #eef8f6 100%);
+}
+
+.appWindow {
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+  width: min(29rem, 94%);
+  border: 1px solid rgba(52, 67, 121, 0.22);
+  border-radius: 1.35rem;
+  background: #fff;
+  box-shadow: 0 2rem 4.5rem rgba(35, 46, 98, 0.2);
+  transform: translate3d(
+      var(--service-hero-primary-x, 0),
+      var(--service-hero-primary-y, 0),
+      0
+    )
+    rotateX(var(--service-hero-rotate-x, 0deg))
+    rotateY(var(--service-hero-rotate-y, 0deg)) rotate(1.25deg);
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.appBar {
+  justify-content: space-between;
+  min-height: 3rem;
+  padding: 0 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  background: #222c4a;
+  color: #fff;
+}
+
+.appBar > div {
+  gap: 0.48rem;
+}
+
+.appBar strong {
+  font-size: 0.62rem;
+}
+
+.appBar > span {
+  color: #aeb9e3;
+  font-family: var(--mono);
+  font-size: 0.44rem;
+  letter-spacing: 0.06em;
+}
+
+.appLayout {
+  display: grid;
+  grid-template-columns: 3.2rem minmax(0, 1fr);
+  min-height: 23.5rem;
+}
+
+.appSidebar {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 1.25rem;
+  padding: 0.8rem 0;
+  background: #293452;
+  color: #8793bc;
+}
+
+.appSidebar svg:nth-of-type(1) {
+  color: #fff;
+}
+
+.appLogo,
+.appAvatar {
+  display: grid;
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: 0.55rem;
+  background: #5968e6;
+  color: #fff;
+  font-family: var(--mono);
+  font-size: 0.58rem;
+  font-style: normal;
+  font-weight: 800;
+  place-items: center;
+}
+
+.appAvatar {
+  width: 1.55rem;
+  height: 1.55rem;
+  margin-top: auto;
+  border-radius: 50%;
+  background: #e7eaff;
+  color: #4f5de0;
+  font-size: 0.46rem;
+}
+
+.appDashboard {
+  padding: 1rem;
+  background: #f7f8fc;
+}
+
+.appHeading {
+  justify-content: space-between;
+  color: #7f89aa;
+}
+
+.appHeading > div {
+  display: grid;
+  gap: 0.2rem;
+}
+
+.appHeading small {
+  color: #8b95b4;
+  font-size: 0.48rem;
+}
+
+.appHeading strong {
+  max-width: 16rem;
+  color: #273152;
+  font-size: 0.78rem;
+}
+
+.appMetrics {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  gap: 0.65rem;
+  margin-top: 0.85rem;
+}
+
+.appMetrics > div {
+  position: relative;
+  overflow: hidden;
+  min-height: 5.3rem;
+  padding: 0.72rem;
+  border: 1px solid #e1e5f4;
+  border-radius: 0.82rem;
+  background: #fff;
+}
+
+.appMetrics small {
+  display: block;
+  color: #8490ad;
+  font-size: 0.48rem;
+}
+
+.appMetrics strong {
+  display: block;
+  margin-top: 0.35rem;
+  color: #2d3758;
+  font-size: 1.18rem;
+  letter-spacing: -0.05em;
+}
+
+.metricBars {
+  position: absolute;
+  right: 0.65rem;
+  bottom: 0.65rem;
+  left: 3.7rem;
+  display: flex;
+  align-items: end;
+  justify-content: flex-end;
+  gap: 0.22rem;
+  height: 2.8rem;
+}
+
+.metricBars i {
+  width: 0.32rem;
+  border-radius: 0.3rem 0.3rem 0 0;
+  background: linear-gradient(#7682ed, #4f5de0);
+  transform-origin: bottom;
+  animation: app-metric-grow 3.8s ease-in-out both;
+}
+
+.metricBars i:nth-child(2n) {
+  animation-delay: -1.4s;
+}
+
+.metricBars i:nth-child(3n) {
+  animation-delay: -2.6s;
+}
+
+.teamAvatars {
+  display: flex;
+  margin-top: 0.55rem;
+}
+
+.teamAvatars i {
+  display: grid;
+  width: 1.35rem;
+  height: 1.35rem;
+  margin-right: -0.22rem;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  background: #e7eaff;
+  color: #4f5de0;
+  font-size: 0.38rem;
+  font-style: normal;
+  font-weight: 800;
+  place-items: center;
+}
+
+.teamAvatars i:nth-child(2) {
+  background: #e0f5ed;
+  color: #24765e;
+}
+
+.appCases {
+  display: grid;
+  gap: 0.48rem;
+  margin-top: 0.72rem;
+}
+
+.appCase {
+  display: grid;
+  grid-template-columns: 1.4rem minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.63rem 0.7rem;
+  border: 1px solid #e1e5f4;
+  border-radius: 0.72rem;
+  background: #fff;
+  animation: app-case-focus 6s ease-in-out both;
+}
+
+.appCase:nth-child(2) {
+  animation-delay: -4s;
+}
+
+.appCase:nth-child(3) {
+  animation-delay: -2s;
+}
+
+.appCase > span {
+  color: #6573df;
+  font-family: var(--mono);
+  font-size: 0.43rem;
+}
+
+.appCase strong {
+  overflow: hidden;
+  color: #3b4566;
+  font-size: 0.52rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.appCase small {
+  padding: 0.25rem 0.4rem;
+  border-radius: 2rem;
+  background: #eef0ff;
+  color: #5361d5;
+  font-size: 0.4rem;
+  font-weight: 750;
+}
+
+.appSync {
+  gap: 0.35rem;
+  margin-top: 0.7rem;
+  color: #4f8f79;
+  font-size: 0.46rem;
+}
+
+.appSync i {
+  width: 0.35rem;
+  height: 0.35rem;
+  margin-left: auto;
+  border-radius: 50%;
+  background: #4bbf9b;
+  animation: app-sync-pulse 2.6s ease-in-out both;
+}
+
+.appNotification {
+  position: absolute;
+  z-index: 3;
+  right: 0.3rem;
+  bottom: 2.1rem;
+  gap: 0.58rem;
+  min-width: 12.8rem;
+  padding: 0.7rem 0.8rem;
+  border: 1px solid #dce2f4;
+  border-radius: 0.9rem;
+  background: rgba(255, 255, 255, 0.97);
+  box-shadow: 0 1rem 2.5rem rgba(35, 46, 98, 0.16);
+  animation: app-notification-arrive 6s ease-in-out both;
+}
+
+.appNotification > span {
+  display: grid;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 0.65rem;
+  background: #eef0ff;
+  color: #4f5de0;
+  place-items: center;
+}
+
+.appNotification > div {
+  display: grid;
+  gap: 0.14rem;
+}
+
+.appNotification strong {
+  color: #303a5c;
+  font-size: 0.58rem;
+}
+
+.appNotification small {
+  max-width: 8rem;
+  overflow: hidden;
+  color: #7b86a4;
+  font-size: 0.46rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@media (max-width: 1100px) {
+  .appWindow {
+    width: 100%;
+  }
+
+  .appNotification {
+    right: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .metricBars i,
+  .appCase,
+  .appSync i,
+  .appNotification {
+    animation: none;
+  }
+
+  .appWindow {
+    will-change: auto;
+  }
+
+  .appNotification {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes app-metric-grow {
+  0%,
+  100% {
+    scale: 1 0.72;
+    opacity: 0.72;
+  }
+  50% {
+    scale: 1 1;
+    opacity: 1;
+  }
+}
+
+@keyframes app-case-focus {
+  0%,
+  8%,
+  36%,
+  100% {
+    border-color: #e1e5f4;
+    background: #fff;
+    box-shadow: 0 0 0 0 rgba(79, 93, 224, 0);
+  }
+  18%,
+  29% {
+    border-color: #7c88ea;
+    background: #f8f9ff;
+    box-shadow: 0 0 0 0.22rem rgba(79, 93, 224, 0.08);
+  }
+}
+
+@keyframes app-sync-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(75, 191, 155, 0);
+  }
+  50% {
+    box-shadow: 0 0 0 0.3rem rgba(75, 191, 155, 0.14);
+  }
+}
+
+@keyframes app-notification-arrive {
+  0%,
+  48% {
+    opacity: 0;
+    transform: translateX(1.1rem) scale(0.96);
+  }
+  60%,
+  100% {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}

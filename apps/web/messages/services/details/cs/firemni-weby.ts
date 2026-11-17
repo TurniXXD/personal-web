@@ -9,7 +9,7 @@ export default {
   name: "Firemní weby",
   hero: {
     eyebrow: "FIREMNÍ WEBY",
-    title: "Zaujměte na první pohled.",
+    title: "Zaujměte na první pohled",
     description:
       "Pro firmy a služby, které chtějí působit profesionálně, získávat kvalitní poptávky a mít obsah pod kontrolou.",
     primary: "Probrat nový web",
@@ -22,7 +22,7 @@ export default {
   },
   benefits: {
     eyebrow: "PŘÍNOS PRO FIRMU",
-    title: "Prezentace s jasným obchodním cílem.",
+    title: "Prezentace s jasným obchodním cílem",
     description:
       "Web nestavím jen jako vizitku. Struktura, obsah i kontaktní cesta vycházejí z toho, koho chcete oslovit.",
     items: [
@@ -45,7 +45,7 @@ export default {
   },
   workflow: {
     eyebrow: "JAK WEB VZNIKÁ",
-    title: "Od cílů firmy k hotovému webu.",
+    title: "Od cílů firmy k hotovému webu",
     description:
       "Každá fáze má konkrétní výstup a prostor pro vaši zpětnou vazbu.",
     steps: [
@@ -71,7 +71,7 @@ export default {
     {
       id: "moznosti",
       eyebrow: "CO MŮŽE BÝT SOUČÁSTÍ",
-      title: "Funkce podle toho, jak vaše firma pracuje.",
+      title: "Funkce podle toho, jak vaše firma pracuje",
       items: [
         {
           title: "Responzivní design",
@@ -92,7 +92,7 @@ export default {
   ],
   useCases: {
     eyebrow: "PŘÍKLADY VYUŽITÍ",
-    title: "Web podle vašeho podnikání.",
+    title: "Web podle vašeho podnikání",
     description:
       "Rozsah se může pohybovat od menší prezentace po obsahově rozsáhlý web.",
     items: [
@@ -115,7 +115,7 @@ export default {
   },
   faq: {
     eyebrow: "ČASTÉ DOTAZY",
-    title: "Co je dobré vědět před začátkem.",
+    title: "Co je dobré vědět před začátkem",
     items: [
       {
         question: "Pomůžete mi i se strukturou obsahu?",

@@ -10,7 +10,7 @@ export default {
   },
   hero: {
     eyebrow: "WEBSITES AND APPLICATIONS",
-    title: "Custom web applications.",
+    title: "Custom web applications",
     description:
       "I design and build modern websites, client portals and custom applications, from the first concept through launch and long-term development.",
     primary: "Discuss your project",
@@ -60,7 +60,7 @@ export default {
   },
   related: {
     eyebrow: "RELATED SERVICES",
-    title: "The solution can connect with other areas too.",
+    title: "The solution can connect with other areas too",
     note: {
       title: "Do you also need help with marketing?",
       description:

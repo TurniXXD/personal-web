@@ -11,7 +11,7 @@ export default {
   name: "Digital loyalty programmes",
   hero: {
     eyebrow: "DIGITAL LOYALTY PROGRAMMES",
-    title: "Give customers a reason to return.",
+    title: "Give customers a reason to return",
     description:
       "Encourage repeat visits with a digital card customers open on their phone and staff can manage with ease.",
     primary: "Discuss a loyalty programme",
@@ -24,7 +24,7 @@ export default {
   },
   benefits: {
     eyebrow: "WHY DIGITAL",
-    title: "More reasons to return, less manual tracking.",
+    title: "More reasons to return, less manual tracking",
     description:
       "Customers see their progress towards a reward on their phone. You set rules around your operation and retain a clear history of every change.",
     items: [
@@ -47,7 +47,7 @@ export default {
   },
   workflow: {
     eyebrow: "HOW IT WORKS",
-    title: "Four simple steps for customers and staff.",
+    title: "Four simple steps for customers and staff",
     description:
       "The customer's QR code identifies them. It never authorises a balance change or redemption by itself.",
     steps: [
@@ -77,7 +77,7 @@ export default {
     {
       id: "ways-to-use",
       eyebrow: "THREE WAYS TO USE IT",
-      title: "Choose an approach that fits your operation.",
+      title: "Choose an approach that fits your operation",
       description:
         "A customer card and staff phone is often the simplest option for a small business.",
       items: [
@@ -106,7 +106,7 @@ export default {
       featured: true,
       itemLimit: 3,
       eyebrow: "REWARD CONFIGURATION",
-      title: "A loyalty programme can use different rules.",
+      title: "A loyalty programme can use different rules",
       description:
         "The exact combination depends on service economics and customer behaviour; not every option is automatically included.",
       items: [
@@ -144,7 +144,7 @@ export default {
       featured: true,
       itemLimit: 4,
       eyebrow: "BUSINESS ADMINISTRATION",
-      title: "Staff get speed while management keeps a traceable history.",
+      title: "Staff get speed while management keeps a traceable history",
       tone: "soft",
       items: [
         {
@@ -157,7 +157,7 @@ export default {
     {
       id: "integrations",
       eyebrow: "INTEGRATIONS AND EXTENSIONS",
-      title: "The programme can connect to tools you already use.",
+      title: "The programme can connect to tools you already use",
       description:
         "Availability depends on selected systems, APIs, provider requirements and project scope.",
       items: [
@@ -186,7 +186,7 @@ export default {
     {
       id: "security",
       eyebrow: "SECURITY AND PRIVACY",
-      title: "Rewards should be convenient, not easy to abuse.",
+      title: "Rewards should be convenient, not easy to abuse",
       tone: "navy",
       layout: "list",
       items: [
@@ -215,7 +215,7 @@ export default {
   ],
   useCases: {
     eyebrow: "WHO IT SUITS",
-    title: "For businesses where happy customers naturally return.",
+    title: "For businesses where happy customers naturally return",
     description: "Rules always reflect the specific service and economics.",
     items: [
       {
@@ -235,7 +235,7 @@ export default {
   },
   faq: {
     eyebrow: "FREQUENTLY ASKED QUESTIONS",
-    title: "Practical questions before launch.",
+    title: "Practical questions before launch",
     items: [
       {
         question: "Do customers need to install an app?",

@@ -9,7 +9,7 @@ export default {
   name: "CMS a správa obsahu",
   hero: {
     eyebrow: "CMS A SPRÁVA OBSAHU",
-    title: "Aktualizujte web bez obav, že něco rozbijete.",
+    title: "Aktualizujte web bez obav, že něco rozbijete",
     description:
       "Obsahová správa navržená pro vaše stránky, služby, produkty, média a týmové role.",
     primary: "Probrat správu obsahu",
@@ -22,7 +22,7 @@ export default {
   },
   benefits: {
     eyebrow: "PŘÍNOS PRO TÝM",
-    title: "Obsah se mění rychle, vzhled zůstává konzistentní.",
+    title: "Obsah se mění rychle, vzhled zůstává konzistentní",
     description:
       "Editor dostane přesně ty možnosti, které potřebuje pro bezpečnou každodenní práci.",
     items: [
@@ -44,7 +44,7 @@ export default {
   },
   workflow: {
     eyebrow: "JAK TO FUNGUJE",
-    title: "Obsah má jasnou cestu od konceptu k publikaci.",
+    title: "Obsah má jasnou cestu od konceptu k publikaci",
     description: "Workflow přizpůsobím velikosti týmu a citlivosti změn.",
     steps: [
       {
@@ -69,7 +69,7 @@ export default {
     {
       id: "funkce",
       eyebrow: "MOŽNOSTI CMS",
-      title: "Správa odpovídající typu obsahu.",
+      title: "Správa odpovídající typu obsahu",
       items: [
         {
           title: "Stránky a služby",
@@ -92,7 +92,7 @@ export default {
   ],
   useCases: {
     eyebrow: "PŘÍKLADY VYUŽITÍ",
-    title: "CMS podle toho, co skutečně publikujete.",
+    title: "CMS podle toho, co skutečně publikujete",
     description: "Datový model přizpůsobím obsahu, ne naopak.",
     items: [
       {
@@ -114,7 +114,7 @@ export default {
   },
   faq: {
     eyebrow: "ČASTÉ DOTAZY",
-    title: "Správa bez zbytečných kompromisů.",
+    title: "Správa bez zbytečných kompromisů",
     items: [
       {
         question: "Jaké CMS používáte?",

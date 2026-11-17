@@ -10,7 +10,7 @@ export default {
   hero: {
     eyebrow: "AUDIT AI APLIKACÍ",
     title: "Vytvořili jste aplikaci pomocí AI?",
-    highlight: "Nechte ji prověřit.",
+    highlight: "Nechte ji prověřit",
     description:
       "Prověřím bezpečnost, výkon a kvalitu kódu vaší aplikace. Odhalím rizika, navrhnu konkrétní řešení a pomůžu s opravami, nasazením i dalším vývojem.",
     primary: "Nechat zkontrolovat aplikaci",
@@ -92,7 +92,7 @@ export default {
       featured: true,
       itemLimit: 3,
       eyebrow: "POSTUP A VÝSTUP",
-      title: "Od první kontroly k jasnému plánu oprav.",
+      title: "Od první kontroly k jasnému plánu oprav",
       description:
         "Rozsah si předem dohodneme. Výsledkem je technické posouzení, nikoli penetrační test nebo právní certifikace.",
       tone: "soft",
@@ -117,7 +117,7 @@ export default {
   ],
   faq: {
     eyebrow: "ČASTÉ DOTAZY",
-    title: "Co je dobré vědět před auditem.",
+    title: "Co je dobré vědět před auditem",
     items: [
       {
         question: "Musím mít zdrojový kód aplikace?",

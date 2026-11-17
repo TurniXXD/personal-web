@@ -15,7 +15,8 @@ import { MobileNavigation } from "@/components/layout/mobile-navigation";
 import { ScrollAwareHeader } from "@/components/layout/scroll-aware-header";
 import { ServicesDropdown } from "@/components/layout/services-dropdown";
 import { ScrollReveal } from "@/components/shared/scroll-reveal";
-import { copy, localizedPath, type Locale } from "@/lib/site/content";
+import { localizedPath, type Locale } from "@/lib/site/content";
+import { useSiteCopy } from "@/lib/site/site-copy";
 import type { ContactRequestType } from "@/lib/contact/submission";
 import { contactMailto, contactTel, siteConfig } from "@/lib/site/config";
 import { SERVICE_SLUG, SITE_PATH, serviceDetailPath } from "@/lib/site/routes";
@@ -50,7 +51,7 @@ type ContactBlockProps = {
 };
 
 export function SiteHeader({ locale, path = "" }: SiteHeaderProps) {
-  const t = copy[locale];
+  const t = useSiteCopy();
   const chrome = useTranslations("siteChrome");
   const otherLocale = locale === "cs" ? "en" : "cs";
   const languageHref = localizedPath(otherLocale, path);
@@ -214,7 +215,7 @@ export function ContactBlock({
   topic,
   requestType,
 }: ContactBlockProps) {
-  const t = copy[locale].contact;
+  const t = useSiteCopy().contact;
 
   return (
     <section
@@ -254,8 +255,9 @@ export function ContactBlock({
 type SiteFooterProps = { locale: Locale };
 
 export const SiteFooter = ({ locale }: SiteFooterProps) => {
-  const t = copy[locale].footer;
-  const nav = copy[locale].nav;
+  const siteCopy = useSiteCopy();
+  const t = siteCopy.footer;
+  const nav = siteCopy.nav;
   const chrome = useTranslations("siteChrome");
   return (
     <footer className="site-footer border-t border-[rgba(188,196,255,0.16)] bg-surface-dark text-white">

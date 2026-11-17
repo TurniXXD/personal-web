@@ -10,7 +10,7 @@ export default {
   },
   hero: {
     eyebrow: "AI SOLUTIONS",
-    title: "Artificial intelligence with a practical purpose.",
+    title: "Artificial intelligence with a practical purpose",
     description:
       "I help businesses use AI for documents, data and everyday processes.",
     primary: "Discuss an AI solution",

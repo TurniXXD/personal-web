@@ -11,7 +11,7 @@ export default {
   name: "Web applications",
   hero: {
     eyebrow: "WEB APPLICATIONS",
-    title: "Tools that fit your team.",
+    title: "Tools that fit your team",
     description:
       "Internal systems, customer portals and dashboards for companies that have outgrown spreadsheets or off-the-shelf tools.",
     primary: "Discuss an application",
@@ -24,7 +24,7 @@ export default {
   },
   benefits: {
     eyebrow: "VALUE FOR THE TEAM",
-    title: "Less manual work and better visibility into every case.",
+    title: "Less manual work and better visibility into every case",
     description:
       "The application follows the real business process and connects information currently spread across tools.",
     items: [
@@ -45,7 +45,7 @@ export default {
   },
   workflow: {
     eyebrow: "HOW IT WORKS",
-    title: "From incoming data to a clear next action.",
+    title: "From incoming data to a clear next action",
     description:
       "The workflow is designed around your process, roles and connected systems.",
     steps: [
@@ -74,7 +74,7 @@ export default {
       id: "features",
       itemLimit: 3,
       eyebrow: "SOLUTION OPTIONS",
-      title: "The application can grow with your process.",
+      title: "The application can grow with your process",
       items: [
         {
           title: "User roles",
@@ -100,7 +100,7 @@ export default {
   ],
   faq: {
     eyebrow: "FREQUENTLY ASKED QUESTIONS",
-    title: "Before development starts.",
+    title: "Before development starts",
     items: [
       {
         question: "Do I need a detailed technical specification?",

@@ -4,7 +4,8 @@ import { ImageResponse } from "next/og";
 
 import csMessages from "@/messages/cs.json";
 import enMessages from "@/messages/en.json";
-import { copy, type Locale } from "@/lib/site/content";
+import type { Locale } from "@/lib/site/content";
+import { getSiteCopy } from "@/lib/site/site-copy";
 
 export const socialImageSize = { width: 1200, height: 630 };
 
@@ -66,7 +67,7 @@ const ArrowUpRight = ({ color, size }: { color: string; size: number }) => (
 );
 
 export async function createSocialImage(locale: Locale) {
-  const hero = copy[locale].hero;
+  const hero = (await getSiteCopy(locale)).hero;
   const visual = heroVisual[locale];
   const fonts = await loadFonts();
 
@@ -125,7 +126,7 @@ export async function createSocialImage(locale: Locale) {
                 width: 10,
               }}
             />
-            {hero.eyebrow}
+            vantuch.dev
           </div>
           <div
             style={{

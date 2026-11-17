@@ -5,7 +5,7 @@ import { formatEventLocation } from "@/lib/events/event-format";
 import { canAddEventToCalendar } from "@/lib/events/event-status";
 import { buildGoogleCalendarUrl } from "@/lib/events/google-calendar";
 
-// Plain join: tailwind-merge treats the custom `text-ui-*` size tokens as
+// Plain join: class merging via `cn` treats the custom `text-ui-*` size tokens as
 // colors and would drop them next to a text color utility.
 const classes = (...values: Array<string | false | null | undefined>) =>
   values.filter(Boolean).join(" ");

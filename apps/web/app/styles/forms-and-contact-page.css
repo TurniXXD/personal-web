@@ -51,14 +51,6 @@
 .contact-page__form .contact-form {
   box-shadow: 0 28px 70px rgba(34, 43, 93, 0.14);
 }
-
-@media (hover: hover) and (pointer: fine) {
-  .hero__scroll:hover {
-    border-color: rgba(95, 108, 255, 0.34);
-    background: #fff;
-    box-shadow: 0 7px 16px rgba(72, 85, 180, 0.09);
-  }
-}
 @media (max-width: 600px) {
   .contact-form__field,
   .referral-request-form__field,
