@@ -9,7 +9,7 @@ export default {
   name: "E-shopy na Shoptetu",
   hero: {
     eyebrow: "E-SHOPY NA SHOPTETU",
-    title: "Shoptet, kde se zákazník neztratí.",
+    title: "Shoptet, kde se zákazník neztratí",
     description:
       "Pro nové i zavedené obchody, které chtějí přehlednější vzhled, lepší nákupní cestu a smysluplná napojení.",
     primary: "Probrat e-shop",
@@ -22,7 +22,7 @@ export default {
   },
   benefits: {
     eyebrow: "PŘÍNOS PRO E-SHOP",
-    title: "Lepší nákupní zkušenost bez zbytečné složitosti.",
+    title: "Lepší nákupní zkušenost bez zbytečné složitosti",
     description:
       "Úpravy navrhuji podle sortimentu, zákazníků a reálných možností platformy Shoptet.",
     items: [
@@ -45,7 +45,7 @@ export default {
   },
   workflow: {
     eyebrow: "POSTUP REALIZACE",
-    title: "Úpravy vycházejí z reálné nákupní cesty.",
+    title: "Úpravy vycházejí z reálné nákupní cesty",
     description:
       "Nejdřív ověřím možnosti tarifu, doplňků a dostupných rozhraní Shoptetu.",
     steps: [
@@ -73,7 +73,7 @@ export default {
       id: "moznosti",
       itemLimit: 3,
       eyebrow: "CO LZE ŘEŠIT",
-      title: "Vzhled, obsah i provozní návaznosti.",
+      title: "Vzhled, obsah i provozní návaznosti",
       items: [
         {
           title: "Úpravy šablony",
@@ -99,7 +99,7 @@ export default {
   ],
   useCases: {
     eyebrow: "PŘÍKLADY VYUŽITÍ",
-    title: "Od nového obchodu po cílené zlepšení.",
+    title: "Od nového obchodu po cílené zlepšení",
     description: "Rozsah přizpůsobím stavu e-shopu.",
     items: [
       {
@@ -121,7 +121,7 @@ export default {
   },
   faq: {
     eyebrow: "ČASTÉ DOTAZY",
-    title: "Co ověřit u Shoptetu.",
+    title: "Co ověřit u Shoptetu",
     items: [
       {
         question: "Lze upravit každý prvek e-shopu?",

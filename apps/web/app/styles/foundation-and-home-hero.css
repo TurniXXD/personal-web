@@ -170,21 +170,3 @@ summary:focus-visible {
   gap: 0.7rem;
   margin-top: 2rem;
 }
-.hero__scroll {
-  position: absolute;
-  left: 50%;
-  bottom: 1.6rem;
-  transform: translateX(-50%);
-  display: grid;
-  place-items: center;
-  width: 2.65rem;
-  height: 2.65rem;
-  border: 1px solid rgba(95, 108, 255, 0.18);
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.82);
-  color: var(--brand);
-  transition:
-    border-color 180ms ease,
-    background-color 180ms ease,
-    box-shadow 220ms ease;
-}

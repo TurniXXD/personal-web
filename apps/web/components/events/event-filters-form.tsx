@@ -21,17 +21,15 @@ import {
 } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import type { DateRange } from "react-day-picker";
-import { cs, enUS } from "react-day-picker/locale";
 import { cn } from "cn";
 import { CityCombobox } from "@/components/events/city-combobox";
-import { Calendar } from "@/components/ui/calendar";
 import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogTitle,
-} from "@/components/ui/dialog";
+  controlClasses,
+  EventAdvancedFiltersDialog,
+  EventDateRangeDialog,
+  useEventDateFormatter,
+  type AdvancedFilters,
+} from "@/components/events/event-filter-dialogs";
 import type { EventCategory } from "@/lib/events/event-model";
 import {
   datePresetForRange,
@@ -47,9 +45,8 @@ import {
   EVENT_CITIES,
   normalizeSearchQuery,
   type EventFilters,
-  type EventPriceFilter,
-  type EventSort,
 } from "@/lib/events/event-filters";
+import { toDateValue, toLocalDate } from "@/lib/events/event-date-values";
 
 const SEARCH_DEBOUNCE_MS = 350;
 
@@ -60,18 +57,6 @@ type EventFiltersFormProps = {
   categories: EventCategory[];
 };
 
-/** `YYYY-MM-DD` URL values to local calendar dates and back. */
-const toLocalDate = (value: string | null) => {
-  if (!value) return undefined;
-  const [year, month, day] = value.split("-").map(Number);
-  return new Date(year, month - 1, day);
-};
-const toDateValue = (date: Date | undefined) =>
-  date
-    ? `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`
-    : null;
-
-type AdvancedFilters = Pick<EventFilters, "category" | "price" | "sort">;
 const pickAdvanced = ({ category, price, sort }: EventFilters) => ({
   category,
   price,
@@ -84,11 +69,6 @@ const DATE_SHORT_LABEL = {
   month: "dateMonthShort",
   custom: "dateCustomShort",
 } as const satisfies Record<EventDatePreset, string>;
-
-const fieldClasses = "grid min-w-0 content-start gap-[0.4rem]";
-const labelClasses = "text-[0.75rem] leading-[1.4] font-bold text-[#434d70]";
-const controlClasses =
-  "min-h-11 w-full min-w-0 rounded-[0.7rem] border border-[#dce2f5] bg-background px-[0.8rem] py-[0.6rem] text-[0.84rem] leading-normal text-ink transition-colors duration-150 hover:border-primary focus-visible:border-primary focus-visible:outline-[3px] focus-visible:outline-offset-2 focus-visible:outline-[#5f6cff40]";
 
 /**
  * Filter state lives in the URL. Without JavaScript the form submits as a
@@ -225,16 +205,7 @@ export function EventFiltersForm({
     navigate({ ...draft, q: typedQuery, ...advancedDraft });
   };
 
-  const formatDate = (value: Date | string | null | undefined) => {
-    const date = typeof value === "string" ? toLocalDate(value) : value;
-    return date
-      ? new Intl.DateTimeFormat(locale, {
-          day: "numeric",
-          month: "numeric",
-          year: "numeric",
-        }).format(date)
-      : t("rangeNotSet");
-  };
+  const formatDate = useEventDateFormatter();
 
   const active = hasActiveEventFilters(draft) || typedQuery !== null;
   const advancedCount =
@@ -428,170 +399,23 @@ export function EventFiltersForm({
       />
       <input type="hidden" name={EVENT_FILTER_PARAM.sort} value={draft.sort} />
 
-      <Dialog open={rangeOpen} onOpenChange={setRangeOpen}>
-        <DialogContent
-          closeLabel={t("rangeClose")}
-          data-custom-date-range
-          // Start on the dialog itself instead of the previous-month button.
-          onOpenAutoFocus={(event) => {
-            event.preventDefault();
-            (event.currentTarget as HTMLElement).focus();
-          }}
-        >
-          <div className="grid gap-1 pr-10">
-            <DialogTitle className="m-0 text-[1.2rem] leading-[1.25] font-bold tracking-[-0.03em] text-ink-strong">
-              {t("rangeTitle")}
-            </DialogTitle>
-            <DialogDescription className="m-0 text-ui-sm text-ink-muted">
-              {t("rangeDescription")}
-            </DialogDescription>
-          </div>
-          <div className="grid grid-cols-2 gap-2" aria-live="polite">
-            {(
-              [
-                ["from", t("fromLabel"), rangeDraft?.from],
-                ["to", t("toLabel"), rangeDraft?.to ?? rangeDraft?.from],
-              ] as const
-            ).map(([key, label, value]) => (
-              <div
-                key={key}
-                data-range-value={key}
-                className={cn(
-                  "grid gap-0.5 rounded-[0.9rem] border px-3.5 py-2.5 transition-colors",
-                  value
-                    ? "border-primary bg-secondary"
-                    : "border-border-card bg-background",
-                )}
-              >
-                <span className="text-[0.68rem] font-bold tracking-[0.06em] text-ink-soft uppercase">
-                  {label}
-                </span>
-                <span
-                  className={cn(
-                    "text-[0.95rem] font-bold",
-                    value ? "text-primary" : "text-ink-soft",
-                  )}
-                >
-                  {formatDate(value)}
-                </span>
-              </div>
-            ))}
-          </div>
-          <Calendar
-            mode="range"
-            resetOnSelect
-            selected={rangeDraft}
-            onSelect={setRangeDraft}
-            locale={locale === "cs" ? cs : enUS}
-            weekStartsOn={1}
-            defaultMonth={rangeDraft?.from ?? toLocalDate(today)}
-            disabled={{ before: toLocalDate(today)! }}
-          />
-          <div className="flex items-center justify-end gap-2 border-t border-border-soft pt-4">
-            <DialogClose className="cursor-pointer inline-flex min-h-11 items-center rounded-full px-4 text-ui-sm font-bold text-ink-muted transition-colors hover:bg-secondary hover:text-primary focus-visible:outline-[3px] focus-visible:outline-offset-2 focus-visible:outline-[#5f6cff40]">
-              {t("rangeCancel")}
-            </DialogClose>
-            <button
-              type="button"
-              onClick={applyRange}
-              disabled={!rangeDraft?.from}
-              className="cursor-pointer inline-flex min-h-11 items-center rounded-full bg-primary px-5 text-ui-sm font-bold text-white transition-colors hover:bg-[#4656cb] focus-visible:outline-[3px] focus-visible:outline-offset-2 focus-visible:outline-[#5f6cff40] disabled:cursor-not-allowed disabled:opacity-45"
-            >
-              {t("rangeApply")}
-            </button>
-          </div>
-        </DialogContent>
-      </Dialog>
+      <EventDateRangeDialog
+        open={rangeOpen}
+        onOpenChange={setRangeOpen}
+        range={rangeDraft}
+        onRangeChange={setRangeDraft}
+        today={today}
+        onApply={applyRange}
+      />
 
-      <Dialog open={advancedOpen} onOpenChange={setAdvancedOpen}>
-        <DialogContent closeLabel={t("advancedClose")} data-advanced-filters>
-          <div className="grid gap-1 pr-10">
-            <DialogTitle className="m-0 text-[1.2rem] leading-[1.25] font-bold tracking-[-0.03em] text-ink-strong">
-              {t("advancedTitle")}
-            </DialogTitle>
-            <DialogDescription className="m-0 text-ui-sm text-ink-muted">
-              {t("advancedDescription")}
-            </DialogDescription>
-          </div>
-          <div className="grid gap-3">
-            <div className={fieldClasses}>
-              <label htmlFor={`${id}-category`} className={labelClasses}>
-                {t("categoryLabel")}
-              </label>
-              <select
-                id={`${id}-category`}
-                value={advancedDraft.category ?? ""}
-                onChange={(event) =>
-                  setAdvancedDraft((current) => ({
-                    ...current,
-                    category: event.target.value || null,
-                  }))
-                }
-                className={cn(controlClasses, "cursor-pointer")}
-              >
-                <option value="">{t("categoryAll")}</option>
-                {categoryOptions.map((category) => (
-                  <option key={category.slug} value={category.slug}>
-                    {category.label}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div className={fieldClasses}>
-              <label htmlFor={`${id}-price`} className={labelClasses}>
-                {t("priceLabel")}
-              </label>
-              <select
-                id={`${id}-price`}
-                value={advancedDraft.price ?? ""}
-                onChange={(event) =>
-                  setAdvancedDraft((current) => ({
-                    ...current,
-                    price: (event.target.value ||
-                      null) as EventPriceFilter | null,
-                  }))
-                }
-                className={cn(controlClasses, "cursor-pointer")}
-              >
-                <option value="">{t("priceAll")}</option>
-                <option value="free">{t("priceFree")}</option>
-                <option value="paid">{t("pricePaid")}</option>
-              </select>
-            </div>
-            <div className={fieldClasses}>
-              <label htmlFor={`${id}-sort`} className={labelClasses}>
-                {t("sortLabel")}
-              </label>
-              <select
-                id={`${id}-sort`}
-                value={advancedDraft.sort}
-                onChange={(event) =>
-                  setAdvancedDraft((current) => ({
-                    ...current,
-                    sort: event.target.value as EventSort,
-                  }))
-                }
-                className={cn(controlClasses, "cursor-pointer")}
-              >
-                <option value="nearest">{t("sortNearest")}</option>
-                <option value="latest">{t("sortLatest")}</option>
-              </select>
-            </div>
-          </div>
-          <div className="flex items-center justify-end gap-2 border-t border-border-soft pt-4">
-            <DialogClose className="cursor-pointer inline-flex min-h-11 items-center rounded-full px-4 text-ui-sm font-bold text-ink-muted transition-colors hover:bg-secondary hover:text-primary focus-visible:outline-[3px] focus-visible:outline-offset-2 focus-visible:outline-[#5f6cff40]">
-              {t("advancedCancel")}
-            </DialogClose>
-            <button
-              type="button"
-              onClick={applyAdvanced}
-              className="cursor-pointer inline-flex min-h-11 items-center rounded-full bg-primary px-5 text-ui-sm font-bold text-white transition-colors hover:bg-[#4656cb] focus-visible:outline-[3px] focus-visible:outline-offset-2 focus-visible:outline-[#5f6cff40]"
-            >
-              {t("advancedApply")}
-            </button>
-          </div>
-        </DialogContent>
-      </Dialog>
+      <EventAdvancedFiltersDialog
+        open={advancedOpen}
+        onOpenChange={setAdvancedOpen}
+        filters={advancedDraft}
+        onFiltersChange={setAdvancedDraft}
+        categoryOptions={categoryOptions}
+        onApply={applyAdvanced}
+      />
 
       <div className="flex flex-wrap items-center gap-2 empty:hidden">
         {dateMode === "custom" && (draft.from || draft.to) ? (

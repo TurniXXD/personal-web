@@ -61,8 +61,6 @@
     scroll-behavior: auto;
   }
   .ui-action,
-  .hero__scroll,
-  .hero__scroll svg,
   .text-link svg,
   .contact-section__actions > a:not(.ui-action) svg,
   .case-card__image img {

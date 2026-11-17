@@ -13,7 +13,7 @@ test("Czech homepage presents the offer and contact", async ({ page }) => {
     "Navrhuji webové aplikace, automatizace a AI řešení, která firmám šetří čas a zjednodušují každodenní práci.",
   );
   await expect(page.getByRole("heading", { level: 1 })).toContainText(
-    "Technologie, které firmám šetří čas a pomáhají růst.",
+    "Technologie, které firmám šetří čas a pomáhají růst",
   );
   await expect(
     page.getByRole("heading", {
@@ -84,7 +84,7 @@ test("Czech homepage presents the offer and contact", async ({ page }) => {
   ]);
   await expect(
     page.getByRole("heading", {
-      name: "Projekty, na kterých jsem pracoval.",
+      name: "Projekty, na kterých jsem pracoval",
     }),
   ).toBeVisible();
   await expect(page.locator(".site-header__cta")).toHaveAttribute(
@@ -122,7 +122,7 @@ test("Czech homepage presents the offer and contact", async ({ page }) => {
   ).toHaveCount(0);
   await expect(
     page.getByRole("heading", {
-      name: "Na každém projektu pracuji osobně.",
+      name: "Na každém projektu pracuji osobně",
     }),
   ).toBeVisible();
   await expect(page.locator("#about .about-section__intro")).toHaveText(
@@ -206,10 +206,10 @@ test("Czech homepage presents the offer and contact", async ({ page }) => {
     .evaluateAll((sections) => sections.map((section) => section.id));
   expect(sectionOrder).toEqual([
     "services",
-    "automation",
     "work",
-    "process",
     "about",
+    "automation",
+    "process",
     "newsletter",
     "contact",
   ]);
@@ -240,7 +240,7 @@ test("English homepage explains the offer and automation categories", async ({
 }) => {
   await page.goto("/en");
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
-    "Technologies that help businesses save time and grow.",
+    "Technologies that help businesses save time and grow",
   );
   await expect(
     page.getByRole("heading", {

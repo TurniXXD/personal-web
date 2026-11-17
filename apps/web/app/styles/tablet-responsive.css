@@ -203,9 +203,6 @@
     font-size: clamp(2.55rem, 8.5vw, 4rem);
     letter-spacing: -0.055em;
   }
-  .hero__scroll {
-    display: none;
-  }
   .section-heading,
   .about-section__grid,
   .community-grid,
@@ -283,14 +280,6 @@
     height: auto;
     transform: scaleY(1);
     transform-origin: top;
-  }
-  .service-flow--ai
-    .service-flow__diagram[data-reveal-state="pending"]::before {
-    transform: scaleY(0);
-  }
-  .service-flow--ai
-    .service-flow__diagram[data-reveal-state="visible"]::before {
-    transform: scaleY(1);
   }
   .service-flow--ai .service-flow__step {
     min-height: 5.5rem;

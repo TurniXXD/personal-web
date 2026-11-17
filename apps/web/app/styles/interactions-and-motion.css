@@ -147,39 +147,6 @@
 [data-slot="dropdown-menu-item"]:not([data-disabled]) {
   cursor: pointer;
 }
-/* Consistent, restrained motion for page heroes that do not have a dedicated visual animation. */
-.automation-page-hero__content > *,
-.service-detail-hero__content > *,
-.referral-hero__content > .eyebrow,
-.referral-hero__content > h1,
-.contact-page__intro > h1,
-.privacy-page__inner > .eyebrow,
-.privacy-page__inner > h1,
-.privacy-page__lead,
-.case-detail__intro {
-  animation: hero-content-enter 650ms cubic-bezier(0.22, 1, 0.36, 1) both;
-}
-.automation-page-hero__content > :nth-child(2),
-.service-detail-hero__content > :nth-child(2),
-.referral-hero__content > h1,
-.privacy-page__inner > h1 {
-  animation-delay: 70ms;
-}
-.automation-page-hero__content > :nth-child(3),
-.service-detail-hero__content > :nth-child(3),
-.privacy-page__lead {
-  animation-delay: 140ms;
-}
-.automation-page-hero__content > :nth-child(4),
-.service-detail-hero__content > :nth-child(4) {
-  animation-delay: 210ms;
-}
-.automation-page-hero__visual,
-.service-detail-hero .service-detail-visual,
-.contact-page__form,
-.case-detail__image {
-  animation: hero-content-enter 750ms cubic-bezier(0.22, 1, 0.36, 1) 180ms both;
-}
 .automation-page-hero__visual-check,
 .service-detail-visual__signal i,
 .audit-hero__code-heading > i {

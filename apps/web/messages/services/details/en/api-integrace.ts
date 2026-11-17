@@ -11,7 +11,7 @@ export default {
   name: "APIs and integrations",
   hero: {
     eyebrow: "APIS AND INTEGRATIONS",
-    title: "Connect systems that currently work in isolation.",
+    title: "Connect systems that currently work in isolation",
     description:
       "Reliable data exchange between websites, CRM, accounting, payment services and other tools with supported interfaces.",
     primary: "Discuss an integration",
@@ -28,7 +28,7 @@ export default {
   },
   benefits: {
     eyebrow: "OPERATIONAL VALUE",
-    title: "More current data and less repetitive administration.",
+    title: "More current data and less repetitive administration",
     description:
       "Integrations account for outages, repeated requests and traceability.",
     items: [
@@ -50,7 +50,7 @@ export default {
   },
   workflow: {
     eyebrow: "HOW AN INTEGRATION WORKS",
-    title: "Every transfer has rules, validation and a safe recovery path.",
+    title: "Every transfer has rules, validation and a safe recovery path",
     description: "Availability depends on each provider's API and terms.",
     steps: [
       {
@@ -76,7 +76,7 @@ export default {
     {
       id: "reliability",
       eyebrow: "RELIABILITY",
-      title: "A connection must expect temporary failure.",
+      title: "A connection must expect temporary failure",
       tone: "soft",
       items: [
         {
@@ -102,7 +102,7 @@ export default {
   ],
   useCases: {
     eyebrow: "REAL-WORLD EXAMPLES",
-    title: "Connections where they bring operational value.",
+    title: "Connections where they bring operational value",
     description: "Available interfaces and limits are verified in advance.",
     items: [
       {
@@ -123,7 +123,7 @@ export default {
   },
   faq: {
     eyebrow: "FREQUENTLY ASKED QUESTIONS",
-    title: "Verify first, promise second.",
+    title: "Verify first, promise second",
     items: [
       {
         question: "Can any two systems be connected?",

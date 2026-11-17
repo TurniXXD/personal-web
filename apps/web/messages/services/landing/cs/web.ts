@@ -8,7 +8,7 @@ export default {
   },
   hero: {
     eyebrow: "WEBY A APLIKACE",
-    title: "Webové aplikace na míru.",
+    title: "Webové aplikace na míru",
     description:
       "Navrhuji a vyvíjím moderní webové stránky, klientské portály a aplikace na míru. Od prvního návrhu až po nasazení a dlouhodobý rozvoj.",
     primary: "Probrat projekt",
@@ -58,7 +58,7 @@ export default {
   },
   related: {
     eyebrow: "SOUVISEJÍCÍ SLUŽBY",
-    title: "Řešení lze propojit i s dalšími oblastmi.",
+    title: "Řešení lze propojit i s dalšími oblastmi",
     note: {
       title: "Potřebujete pomoci i s marketingem?",
       description:

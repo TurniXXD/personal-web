@@ -12,12 +12,12 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { ActionLink, Pill } from "@vantuch/ui";
 import { SiteFooter, SiteHeader } from "@/components/layout/site-chrome";
+import { getSiteCopy } from "@/lib/site/site-copy";
 import { routing } from "@/i18n/routing";
 import {
   caseStudyProjects,
   caseStudySlugs,
   caseStudyTimeline,
-  copy,
   localizedPath,
   type CaseStudySlug,
 } from "@/lib/site/content";
@@ -43,8 +43,9 @@ export async function generateMetadata({
   if (!hasLocale(routing.locales, locale) || !isCaseStudySlug(slug)) notFound();
 
   const project = caseStudyProjects[slug];
-  const content = copy[locale].cases[slug];
-  const title = project.name + " | " + copy[locale].meta.title;
+  const siteCopy = await getSiteCopy(locale);
+  const content = siteCopy.cases[slug];
+  const title = project.name + " | " + siteCopy.meta.title;
   const canonical = localizedPath(locale, "/work/" + slug);
 
   return {
@@ -73,7 +74,7 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
   if (!hasLocale(routing.locales, locale) || !isCaseStudySlug(slug)) notFound();
   setRequestLocale(locale);
 
-  const t = copy[locale];
+  const t = await getSiteCopy(locale);
   const common = await getTranslations({ locale, namespace: "common" });
   const project = caseStudyProjects[slug];
   const period = caseStudyTimeline[slug];

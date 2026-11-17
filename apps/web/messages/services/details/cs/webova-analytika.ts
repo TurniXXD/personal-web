@@ -9,7 +9,7 @@ export default {
   name: "Webová analytika",
   hero: {
     eyebrow: "WEBOVÁ ANALYTIKA",
-    title: "Zjistěte, co lidé na webu skutečně dělají.",
+    title: "Zjistěte, co lidé na webu skutečně dělají",
     description:
       "Měření návštěvnosti, poptávek a klíčových kroků, které pomůže rozhodovat podle dat místo dojmů.",
     primary: "Probrat měření",
@@ -22,7 +22,7 @@ export default {
   },
   benefits: {
     eyebrow: "PŘÍNOS PRO ROZHODOVÁNÍ",
-    title: "Měřte to, co souvisí s vaším cílem.",
+    title: "Měřte to, co souvisí s vaším cílem",
     description:
       "Nezahlcuji dashboard metrikami. Nejdřív určíme otázky, na které mají data odpovědět.",
     items: [
@@ -45,7 +45,7 @@ export default {
   },
   workflow: {
     eyebrow: "JAK MĚŘENÍ VZNIKÁ",
-    title: "Od obchodní otázky k použitelnému přehledu.",
+    title: "Od obchodní otázky k použitelnému přehledu",
     description:
       "Výsledek musí být srozumitelný lidem, kteří podle něj rozhodují.",
     steps: [
@@ -71,7 +71,7 @@ export default {
     {
       id: "rozsah",
       eyebrow: "CO LZE SLEDOVAT",
-      title: "Přehled od návštěvy po poptávku.",
+      title: "Přehled od návštěvy po poptávku",
       items: [
         {
           title: "Návštěvnost",
@@ -95,7 +95,7 @@ export default {
   ],
   useCases: {
     eyebrow: "PŘÍKLADY VYUŽITÍ",
-    title: "Data jako podklad, ne jako automatický slib výsledku.",
+    title: "Data jako podklad, ne jako automatický slib výsledku",
     description: "Analytika pomáhá odhalit souvislosti; sama nezaručuje růst.",
     items: [
       {
@@ -116,7 +116,7 @@ export default {
   },
   faq: {
     eyebrow: "ČASTÉ DOTAZY",
-    title: "Smysluplné měření bez falešné jistoty.",
+    title: "Smysluplné měření bez falešné jistoty",
     items: [
       {
         question: "Jaký analytický nástroj zvolit?",

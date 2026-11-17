@@ -9,7 +9,7 @@ export default {
   hero: {
     eyebrow: "AUTOMATION FOR EVERYDAY WORK",
     title: "Less Routine.",
-    highlight: "More Impact.",
+    highlight: "More Impact",
     description:
       "I connect the tools you already use and turn repetitive tasks into a reliable process. Less copying, waiting, and checking every step by hand.",
     primary: "Discuss automation options",

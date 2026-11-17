@@ -15,7 +15,7 @@ test("web applications service page presents real work and contact flow", async 
     "Weby a webové aplikace na míru | Jakub Vantuch",
   );
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
-    "Webové aplikace na míru.",
+    "Webové aplikace na míru",
   );
   await expect(page.locator(".service-offering-card")).toHaveCount(4);
   await expect(
@@ -284,7 +284,7 @@ test("AI application audit page is complete, localized and production-oriented",
     "Vytvořili jste aplikaci pomocí AI?",
   );
   await expect(page.getByRole("heading", { level: 1 })).toContainText(
-    "Nechte ji prověřit.",
+    "Nechte ji prověřit",
   );
   await expect(page.locator(".service-detail-workflow article")).toHaveCount(6);
   await expect(page.locator(".service-detail-section")).toHaveCount(1);
@@ -345,7 +345,7 @@ test("AI application audit page is complete, localized and production-oriented",
   await expect(page).toHaveTitle("AI-built application audits | Jakub Vantuch");
   await expect(page.locator(".service-detail-section article")).toHaveCount(3);
   await expect(page.getByRole("heading", { level: 1 })).toContainText(
-    "AI prototype?Prepare it for production.",
+    "AI prototype?Prepare it for production",
   );
   await expect(page.locator("#contact-message")).toHaveValue("");
   await expect(page.locator("#contact-message")).toHaveAttribute(
@@ -362,7 +362,7 @@ test("loyalty programme page omits the interactive card demo", async ({
   });
 
   await expect(
-    page.getByRole("heading", { name: "Dejte zákazníkům důvod se vracet." }),
+    page.getByRole("heading", { name: "Dejte zákazníkům důvod se vracet" }),
   ).toBeVisible();
   await expect(page.getByText("7 z 10 návštěv")).toBeVisible();
   await expect(page.locator(".service-detail-demo")).toHaveCount(0);

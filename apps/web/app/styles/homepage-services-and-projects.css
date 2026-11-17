@@ -23,15 +23,6 @@
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 1rem;
 }
-.service-grid[data-reveal-state="visible"] > .service-card {
-  transition:
-    opacity var(--reveal-duration) ease-out
-      calc(var(--reveal-delay) + var(--reveal-index) * 75ms),
-    transform var(--reveal-duration) cubic-bezier(0.22, 1, 0.36, 1)
-      calc(var(--reveal-delay) + var(--reveal-index) * 75ms),
-    border-color 240ms ease,
-    box-shadow 240ms ease;
-}
 .automation-section {
   background: #f9faff;
 }
@@ -81,11 +72,7 @@
   margin-bottom: clamp(2.2rem, 4vw, 3.5rem);
 }
 .work-section .section-heading h2 {
-  max-width: 13ch;
-}
-.work-section .section-heading h2 span {
-  display: block;
-  color: var(--brand);
+  max-width: 20ch;
 }
 .text-link {
   display: inline-flex;
@@ -123,13 +110,6 @@
   background: #cfd6f5;
   transform: scaleX(1);
   transform-origin: left;
-}
-.process-grid[data-reveal-state="pending"]::before {
-  transform: scaleX(0);
-}
-.process-grid[data-reveal-state="visible"]::before {
-  transform: scaleX(1);
-  transition: transform 780ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 .process-step {
   position: relative;
@@ -188,14 +168,4 @@
   border-radius: 1.7rem;
   opacity: 1;
   transform: translate3d(0, 0, 0);
-  transition:
-    opacity 360ms ease-out,
-    transform 680ms cubic-bezier(0.22, 1, 0.36, 1);
-  will-change: opacity, transform;
-}
-.about-section__portrait-reveal[data-reveal-state="pending"]
-  .about-section__portrait::before {
-  opacity: 0;
-  transform: translate3d(1rem, 1rem, 0) scale(0.985);
-  transition-delay: 0ms;
 }

@@ -242,18 +242,6 @@
   position: relative;
   z-index: 2;
 }
-.service-hero__content > * {
-  animation: hero-content-enter 620ms cubic-bezier(0.22, 1, 0.36, 1) both;
-}
-.service-hero__content > h1 {
-  animation-delay: 60ms;
-}
-.service-hero__content > .service-hero__description {
-  animation-delay: 120ms;
-}
-.service-hero__content > .service-hero__actions {
-  animation-delay: 180ms;
-}
 .service-hero h1 {
   max-width: 14ch;
   margin: 0;
@@ -278,5 +266,4 @@
   position: relative;
   min-width: 0;
   aspect-ratio: 1.2;
-  animation: hero-content-enter 700ms cubic-bezier(0.22, 1, 0.36, 1) 160ms both;
 }

@@ -10,7 +10,7 @@ export default {
   name: "Digitální věrnostní programy",
   hero: {
     eyebrow: "DIGITÁLNÍ VĚRNOSTNÍ PROGRAMY",
-    title: "Dejte zákazníkům důvod se vracet.",
+    title: "Dejte zákazníkům důvod se vracet",
     description:
       "Podpořte opakované návštěvy pomocí digitální karty, kterou zákazník otevře v mobilu a obsluha snadno spravuje.",
     primary: "Probrat věrnostní program",
@@ -23,7 +23,7 @@ export default {
   },
   benefits: {
     eyebrow: "PROČ DIGITÁLNĚ",
-    title: "Více důvodů k návratu, méně ruční evidence.",
+    title: "Více důvodů k návratu, méně ruční evidence",
     description:
       "Zákazník vidí svůj postup k odměně v mobilu. Vy nastavíte pravidla podle svého provozu a máte přehled o každé změně.",
     items: [
@@ -46,7 +46,7 @@ export default {
   },
   workflow: {
     eyebrow: "JAK TO FUNGUJE",
-    title: "Čtyři jednoduché kroky pro zákazníka i obsluhu.",
+    title: "Čtyři jednoduché kroky pro zákazníka i obsluhu",
     description:
       "QR kód zákazníka slouží k identifikaci. Samotný kód nikdy neopravňuje ke změně bodů nebo uplatnění odměny.",
     steps: [
@@ -76,7 +76,7 @@ export default {
     {
       id: "zpusoby-pouziti",
       eyebrow: "TŘI ZPŮSOBY POUŽITÍ",
-      title: "Vybereme způsob, který odpovídá vašemu provozu.",
+      title: "Vybereme způsob, který odpovídá vašemu provozu",
       description:
         "Pro malé provozovny bývá nejjednodušší karta zákazníka a telefon obsluhy.",
       items: [
@@ -105,7 +105,7 @@ export default {
       featured: true,
       itemLimit: 3,
       eyebrow: "NASTAVENÍ ODMĚN",
-      title: "Věrnostní program může mít různá pravidla.",
+      title: "Věrnostní program může mít různá pravidla",
       description:
         "Konkrétní kombinace se navrhuje podle ekonomiky služby a chování zákazníků; není automaticky součástí každé realizace.",
       items: [
@@ -145,7 +145,7 @@ export default {
       featured: true,
       itemLimit: 4,
       eyebrow: "SPRÁVA PRO FIRMU",
-      title: "Obsluha má rychlý přehled, vedení dohledatelnou historii.",
+      title: "Obsluha má rychlý přehled, vedení dohledatelnou historii",
       tone: "soft",
       items: [
         {
@@ -158,7 +158,7 @@ export default {
     {
       id: "integrace",
       eyebrow: "INTEGRACE A ROZŠÍŘENÍ",
-      title: "Program může navázat na nástroje, které už používáte.",
+      title: "Program může navázat na nástroje, které už používáte",
       description:
         "Dostupnost závisí na vybraných systémech, jejich API, podmínkách poskytovatelů a rozsahu projektu.",
       items: [
@@ -187,7 +187,7 @@ export default {
     {
       id: "bezpecnost",
       eyebrow: "BEZPEČNOST A SOUKROMÍ",
-      title: "Odměny musí být pohodlné, ne snadno zneužitelné.",
+      title: "Odměny musí být pohodlné, ne snadno zneužitelné",
       tone: "navy",
       layout: "list",
       items: [
@@ -216,7 +216,7 @@ export default {
   ],
   useCases: {
     eyebrow: "PRO KOHO SE HODÍ",
-    title: "Pro podniky, kde se spokojený zákazník přirozeně vrací.",
+    title: "Pro podniky, kde se spokojený zákazník přirozeně vrací",
     description:
       "Pravidla se vždy přizpůsobují konkrétní službě a její ekonomice.",
     items: [
@@ -239,7 +239,7 @@ export default {
   },
   faq: {
     eyebrow: "ČASTÉ DOTAZY",
-    title: "Praktické otázky před spuštěním programu.",
+    title: "Praktické otázky před spuštěním programu",
     items: [
       {
         question: "Potřebují zákazníci instalovat aplikaci?",

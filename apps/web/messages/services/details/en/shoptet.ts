@@ -11,7 +11,7 @@ export default {
   name: "Shoptet stores",
   hero: {
     eyebrow: "SHOPTET STORES",
-    title: "Sell More. Grow Faster.",
+    title: "Sell More. Grow Faster",
     description:
       "For new and established stores that need a clearer design, smoother purchasing journey and useful integrations.",
     primary: "Discuss the store",
@@ -24,7 +24,7 @@ export default {
   },
   benefits: {
     eyebrow: "STORE VALUE",
-    title: "A better buying experience without unnecessary complexity.",
+    title: "A better buying experience without unnecessary complexity",
     description:
       "Changes reflect your range, customers and the verified capabilities of Shoptet.",
     items: [
@@ -45,7 +45,7 @@ export default {
   },
   workflow: {
     eyebrow: "DELIVERY PROCESS",
-    title: "Improvements follow the real shopping journey.",
+    title: "Improvements follow the real shopping journey",
     description:
       "I first verify the plan, add-ons and available Shoptet interfaces.",
     steps: [
@@ -73,7 +73,7 @@ export default {
       id: "options",
       itemLimit: 3,
       eyebrow: "WHAT CAN BE IMPROVED",
-      title: "Design, content and operational links.",
+      title: "Design, content and operational links",
       items: [
         {
           title: "Template customisation",
@@ -100,7 +100,7 @@ export default {
   ],
   useCases: {
     eyebrow: "REAL-WORLD EXAMPLES",
-    title: "From a new store to focused improvements.",
+    title: "From a new store to focused improvements",
     description: "The scope reflects the store's current state.",
     items: [
       {
@@ -121,7 +121,7 @@ export default {
   },
   faq: {
     eyebrow: "FREQUENTLY ASKED QUESTIONS",
-    title: "What to verify with Shoptet.",
+    title: "What to verify with Shoptet",
     items: [
       {
         question: "Can every store element be changed?",

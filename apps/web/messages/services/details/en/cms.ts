@@ -11,7 +11,7 @@ export default {
   name: "CMS and content management",
   hero: {
     eyebrow: "CMS AND CONTENT MANAGEMENT",
-    title: "Update your website without worrying about breaking it.",
+    title: "Update your website without worrying about breaking it",
     description:
       "Content management designed around your pages, services, products, media and team roles.",
     primary: "Discuss content management",
@@ -24,7 +24,7 @@ export default {
   },
   benefits: {
     eyebrow: "TEAM VALUE",
-    title: "Content changes quickly while the design stays consistent.",
+    title: "Content changes quickly while the design stays consistent",
     description:
       "Editors get exactly the options they need for safe daily work.",
     items: [
@@ -44,7 +44,7 @@ export default {
   },
   workflow: {
     eyebrow: "HOW IT WORKS",
-    title: "Content follows a clear path from draft to publication.",
+    title: "Content follows a clear path from draft to publication",
     description: "The workflow reflects team size and change sensitivity.",
     steps: [
       {
@@ -69,7 +69,7 @@ export default {
     {
       id: "features",
       eyebrow: "CMS OPTIONS",
-      title: "Management aligned with your content.",
+      title: "Management aligned with your content",
       items: [
         {
           title: "Pages and services",
@@ -92,7 +92,7 @@ export default {
   ],
   useCases: {
     eyebrow: "REAL-WORLD EXAMPLES",
-    title: "A CMS shaped around what you publish.",
+    title: "A CMS shaped around what you publish",
     description:
       "The content model reflects your information, not the other way around.",
     items: [
@@ -115,7 +115,7 @@ export default {
   },
   faq: {
     eyebrow: "FREQUENTLY ASKED QUESTIONS",
-    title: "Management without unnecessary compromise.",
+    title: "Management without unnecessary compromise",
     items: [
       {
         question: "Which CMS do you use?",

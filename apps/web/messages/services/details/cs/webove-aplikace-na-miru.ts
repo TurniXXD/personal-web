@@ -9,7 +9,7 @@ export default {
   name: "Webové aplikace",
   hero: {
     eyebrow: "WEBOVÉ APLIKACE",
-    title: "Aplikace podle vašich potřeb.",
+    title: "Aplikace podle vašich potřeb",
     description:
       "Interní systémy, zákaznické portály a přehledy pro firmy, kterým běžné tabulky nebo hotové nástroje přestávají stačit.",
     primary: "Probrat aplikaci",
@@ -22,7 +22,7 @@ export default {
   },
   benefits: {
     eyebrow: "PŘÍNOS PRO TÝM",
-    title: "Méně ruční práce a lepší přehled o každém případu.",
+    title: "Méně ruční práce a lepší přehled o každém případu",
     description:
       "Aplikace kopíruje reálný proces firmy a propojí informace, které dnes žijí na více místech.",
     items: [
@@ -44,7 +44,7 @@ export default {
   },
   workflow: {
     eyebrow: "JAK ŘEŠENÍ FUNGUJE",
-    title: "Od vstupu dat po jasný další krok.",
+    title: "Od vstupu dat po jasný další krok",
     description:
       "Konkrétní pracovní postup navrhnu podle vašeho procesu, rolí a návazných systémů.",
     steps: [
@@ -72,7 +72,7 @@ export default {
       id: "funkce",
       itemLimit: 3,
       eyebrow: "MOŽNOSTI ŘEŠENÍ",
-      title: "Aplikace může růst spolu s vaším procesem.",
+      title: "Aplikace může růst spolu s vaším procesem",
       items: [
         {
           title: "Uživatelské role",
@@ -99,7 +99,7 @@ export default {
   ],
   faq: {
     eyebrow: "ČASTÉ DOTAZY",
-    title: "Než začneme vyvíjet.",
+    title: "Než začneme vyvíjet",
     items: [
       {
         question: "Musím mít přesné technické zadání?",

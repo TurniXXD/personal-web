@@ -18,9 +18,8 @@ export default {
     language: "English",
   },
   hero: {
-    eyebrow: "WEBY · AUTOMATIZACE · SYSTÉMY · AI",
     title: "Technologie, které firmám",
-    highlight: "šetří čas a pomáhají růst.",
+    highlight: "šetří čas a pomáhají růst",
     description:
       "Navrhuji a stavím firemní weby, interní nástroje, automatizace a praktická propojení s AI podle toho, jak vaše firma skutečně funguje — od úvodní analýzy po spuštění a další podporu.",
     mobileDescription:
@@ -30,19 +29,18 @@ export default {
     stats: [
       { value: "20+", label: "realizací" },
       { value: "5+ let", label: "praxe" },
-      { value: "100 %", label: "individuální přístup" },
+      { value: "Přímo", label: "se mnou, bez prostředníků" },
     ],
   },
   services: {
-    eyebrow: "CO MŮŽEME ZLEPŠIT",
-    title: "Co pro vás můžu vytvořit.",
+    title: "Co pro vás můžu vytvořit",
     intro: "Řešení vybírám podle toho, co firmě opravdu pomůže.",
     more: "Zjistit více",
     items: [
       {
         title: "Weby a aplikace",
         description:
-          "Moderní weby, klientské portály a firemní aplikace na míru.",
+          "Firemní weby, klientské portály a interní aplikace, které váš tým zvládne sám spravovat a dál rozvíjet.",
         tags: ["Firemní weby", "Portály", "Interní aplikace"],
       },
       {
@@ -60,7 +58,6 @@ export default {
     ],
   },
   automation: {
-    eyebrow: "AUTOMATIZACE V PRAXI",
     title: "Co můžete automatizovat?",
     description:
       "Od komunikace se zákazníky přes marketing až po interní firemní procesy. Podívejte se, kde vám automatizace mohou ušetřit práci.",
@@ -99,14 +96,11 @@ export default {
     ],
   },
   work: {
-    eyebrow: "VYBRANÉ PROJEKTY",
-    title: "Projekty, na kterých",
-    titleHighlight: "jsem pracoval.",
+    title: "Projekty, na kterých jsem pracoval",
     viewCase: "Detail projektu",
   },
   process: {
-    eyebrow: "04 / SPOLUPRÁCE",
-    title: "Od prvního rozhovoru po spuštění.",
+    title: "Od prvního rozhovoru po spuštění",
     intro: "Jasný postup, průběžná komunikace a žádné zbytečné komplikace.",
     steps: [
       {
@@ -135,16 +129,14 @@ export default {
     ],
   },
   about: {
-    eyebrow: "KDO ZA TÍM STOJÍ",
-    title: "Na každém projektu pracuji osobně.",
+    title: "Na každém projektu pracuji osobně",
     intro: "Ahoj,\njsem Jakub Vantuch.",
     text: "Už více než 5 let se věnuji vývoji webů, aplikací a automatizací. Pomáhám firmám vytvářet digitální řešení, která jim usnadňují práci a dávají smysl i z dlouhodobého hlediska.",
     detail:
       "Na projektu spolupracujete přímo se mnou – od prvního rozhovoru až po spuštění. Zakládám si na otevřené komunikaci, kvalitním provedení a řešeních, která lze dál rozvíjet.",
   },
   community: {
-    eyebrow: "ZŮSTAŇME V KONTAKTU",
-    title: "Sledujte, na čem pracuji.",
+    title: "Sledujte, na čem pracuji",
     description:
       "Sdílím své projekty, zkušenosti z vývoje a praktické tipy k webům, automatizacím a AI.",
     newsletterTitle: "Jednou měsíčně do e-mailu.",
@@ -168,13 +160,11 @@ export default {
     githubText: "Kód a open source",
   },
   audit: {
-    eyebrow: "ÚVODNÍ ANALÝZA",
     title: "Nevíte, co automatizovat jako první?",
     text: "Společně projdeme váš současný proces, najdeme místa, kde firma ztrácí čas, a navrhneme nejjednodušší technické řešení.",
     cta: "Probrat možnosti",
   },
   contact: {
-    eyebrow: "POJĎME TO PROBRAT",
     title: "Co vaši firmu zbytečně brzdí?",
     text: "Popište mi, co vás ve firmě brzdí nebo co byste chtěli posunout dál. Probereme vaše cíle, možnosti řešení a další postup.",
     email: "Napsat e-mail",
@@ -192,7 +182,7 @@ export default {
     next: "Další projekt",
     all: "Všechny reference",
     ctaEyebrow: "MÁTE PODOBNÝ PROJEKT?",
-    ctaTitle: "Pojďme vytvořit něco, co bude fungovat i pro vás.",
+    ctaTitle: "Pojďme vytvořit něco, co bude fungovat i pro vás",
     ctaText: "Napište mi, co potřebujete vyřešit. Společně probereme možnosti.",
   },
   footer: {

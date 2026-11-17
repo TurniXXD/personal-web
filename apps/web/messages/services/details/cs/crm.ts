@@ -9,7 +9,7 @@ export default {
   name: "CRM a práce se zákazníky",
   hero: {
     eyebrow: "CRM A ZÁKAZNICKÁ AGENDA",
-    title: "Mějte každou poptávku a další krok pod kontrolou.",
+    title: "Mějte každou poptávku a další krok pod kontrolou",
     description:
       "Přehled kontaktů, historie komunikace a obchodních případů pro týmy, které nechtějí hledat informace v e-mailech a tabulkách.",
     primary: "Probrat zákaznickou agendu",
@@ -22,7 +22,7 @@ export default {
   },
   benefits: {
     eyebrow: "PŘÍNOS PRO TÝM",
-    title: "Méně zapomenutých návazností, více sdíleného kontextu.",
+    title: "Méně zapomenutých návazností, více sdíleného kontextu",
     description:
       "CRM má podporovat reálnou práci týmu, ne přidávat další administrativní vrstvu.",
     items: [
@@ -44,7 +44,7 @@ export default {
   },
   workflow: {
     eyebrow: "JAK TO FUNGUJE",
-    title: "Poptávka dostane vlastníka, stav a další krok.",
+    title: "Poptávka dostane vlastníka, stav a další krok",
     description: "Workflow nastavím podle délky vašeho obchodního procesu.",
     steps: [
       {
@@ -70,7 +70,7 @@ export default {
     {
       id: "funkce",
       eyebrow: "MOŽNOSTI ŘEŠENÍ",
-      title: "CRM podle procesu, který potřebujete řídit.",
+      title: "CRM podle procesu, který potřebujete řídit",
       items: [
         {
           title: "Kontakty a firmy",
@@ -93,7 +93,7 @@ export default {
   ],
   useCases: {
     eyebrow: "PŘÍKLADY VYUŽITÍ",
-    title: "Přehledná péče od prvního kontaktu dál.",
+    title: "Přehledná péče od prvního kontaktu dál",
     description:
       "Rozsah může být od jednoduché evidence po propojený obchodní proces.",
     items: [
@@ -116,7 +116,7 @@ export default {
   },
   faq: {
     eyebrow: "ČASTÉ DOTAZY",
-    title: "CRM má zjednodušovat, ne brzdit.",
+    title: "CRM má zjednodušovat, ne brzdit",
     items: [
       {
         question: "Potřebuji vlastní CRM?",

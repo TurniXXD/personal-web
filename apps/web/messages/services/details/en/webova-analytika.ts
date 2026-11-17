@@ -11,7 +11,7 @@ export default {
   name: "Web analytics",
   hero: {
     eyebrow: "WEB ANALYTICS",
-    title: "Understand what people actually do on your website.",
+    title: "Understand what people actually do on your website",
     description:
       "Measurement of traffic, enquiries and key actions to support decisions with data rather than impressions.",
     primary: "Discuss measurement",
@@ -24,7 +24,7 @@ export default {
   },
   benefits: {
     eyebrow: "DECISION VALUE",
-    title: "Measure what relates to your goal.",
+    title: "Measure what relates to your goal",
     description:
       "I avoid dashboards full of vanity metrics. We first define the questions the data should answer.",
     items: [
@@ -47,7 +47,7 @@ export default {
   },
   workflow: {
     eyebrow: "HOW MEASUREMENT IS BUILT",
-    title: "From a business question to a useful overview.",
+    title: "From a business question to a useful overview",
     description: "The result must be understandable to the people using it.",
     steps: [
       {
@@ -74,7 +74,7 @@ export default {
     {
       id: "scope",
       eyebrow: "WHAT CAN BE MEASURED",
-      title: "From website visit to enquiry.",
+      title: "From website visit to enquiry",
       items: [
         {
           title: "Traffic",
@@ -97,7 +97,7 @@ export default {
   ],
   useCases: {
     eyebrow: "REAL-WORLD EXAMPLES",
-    title: "Data as evidence, not an automatic promise.",
+    title: "Data as evidence, not an automatic promise",
     description: "Analytics reveals patterns but does not guarantee growth.",
     items: [
       {
@@ -118,7 +118,7 @@ export default {
   },
   faq: {
     eyebrow: "FREQUENTLY ASKED QUESTIONS",
-    title: "Useful measurement without false certainty.",
+    title: "Useful measurement without false certainty",
     items: [
       {
         question: "Which analytics tool should I choose?",

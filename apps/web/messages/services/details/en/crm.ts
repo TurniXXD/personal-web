@@ -11,7 +11,7 @@ export default {
   name: "CRM and customer management",
   hero: {
     eyebrow: "CRM AND CUSTOMER WORK",
-    title: "Keep every enquiry and next step under control.",
+    title: "Keep every enquiry and next step under control",
     description:
       "Contacts, communication history and commercial cases for teams that no longer want to search through email and spreadsheets.",
     primary: "Discuss customer management",
@@ -24,7 +24,7 @@ export default {
   },
   benefits: {
     eyebrow: "TEAM VALUE",
-    title: "Fewer missed follow-ups and more shared context.",
+    title: "Fewer missed follow-ups and more shared context",
     description:
       "CRM should support the team's real work rather than adding administration.",
     items: [
@@ -47,7 +47,7 @@ export default {
   },
   workflow: {
     eyebrow: "HOW IT WORKS",
-    title: "Every enquiry receives an owner, status and next step.",
+    title: "Every enquiry receives an owner, status and next step",
     description:
       "The workflow reflects the length and complexity of your sales process.",
     steps: [
@@ -75,7 +75,7 @@ export default {
     {
       id: "features",
       eyebrow: "SOLUTION OPTIONS",
-      title: "CRM shaped around the process you manage.",
+      title: "CRM shaped around the process you manage",
       items: [
         {
           title: "Contacts and companies",
@@ -100,7 +100,7 @@ export default {
   ],
   useCases: {
     eyebrow: "REAL-WORLD EXAMPLES",
-    title: "Clear customer care from first contact onward.",
+    title: "Clear customer care from first contact onward",
     description:
       "The scope can range from a simple register to a connected sales process.",
     items: [
@@ -121,7 +121,7 @@ export default {
   },
   faq: {
     eyebrow: "FREQUENTLY ASKED QUESTIONS",
-    title: "CRM should simplify, not slow the team down.",
+    title: "CRM should simplify, not slow the team down",
     items: [
       {
         question: "Do I need a custom CRM?",

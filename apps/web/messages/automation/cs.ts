@@ -9,7 +9,7 @@ export default {
   hero: {
     eyebrow: "AUTOMATIZACE PRO KAŽDODENNÍ PRÁCI",
     title: "Méně ruční práce.",
-    highlight: "Více výsledků.",
+    highlight: "Více výsledků",
     description:
       "Propojím nástroje, které už používáte, a opakované úkoly proměním ve spolehlivý proces. Bez zbytečného přepisování, čekání a hlídání každého kroku.",
     primary: "Probrat automatizaci",

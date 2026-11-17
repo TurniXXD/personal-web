@@ -1,10 +1,4 @@
 /* About, community, testimonials, and contact section layouts. */
-.about-section__portrait-reveal[data-reveal-state="visible"]
-  .about-section__portrait::before {
-  opacity: 1;
-  transform: translate3d(0, 0, 0) scale(1);
-  transition-delay: calc(var(--reveal-delay) + 140ms);
-}
 .about-section__portrait > div {
   position: relative;
   overflow: hidden;

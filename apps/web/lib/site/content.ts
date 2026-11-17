@@ -1,6 +1,3 @@
-import cs from "@/messages/site/cs";
-import en from "@/messages/site/en";
-
 import { projectImages } from "@vantuch/ui/project-images";
 import { englishPath } from "@/lib/site/routes";
 
@@ -70,7 +67,6 @@ export const caseStudyTimelineSlugs = [...caseStudySlugs].sort(
 type Service = { title: string; description: string; tags: string[] };
 type ProcessStep = { number: string; title: string; description: string };
 export type CommunityCopy = {
-  eyebrow: string;
   title: string;
   description: string;
   newsletterTitle: string;
@@ -110,7 +106,6 @@ export type SiteCopy = {
     language: string;
   };
   hero: {
-    eyebrow: string;
     title: string;
     highlight: string;
     description: string;
@@ -120,33 +115,27 @@ export type SiteCopy = {
     stats: { value: string; label: string }[];
   };
   services: {
-    eyebrow: string;
     title: string;
     intro: string;
     more: string;
     items: Service[];
   };
   automation: {
-    eyebrow: string;
     title: string;
     description: string;
     cta: string;
     items: Array<{ title: string; description: string }>;
   };
   work: {
-    eyebrow: string;
     title: string;
-    titleHighlight: string;
     viewCase: string;
   };
   process: {
-    eyebrow: string;
     title: string;
     intro: string;
     steps: ProcessStep[];
   };
   about: {
-    eyebrow: string;
     title: string;
     intro?: string;
     text: string;
@@ -154,13 +143,11 @@ export type SiteCopy = {
   };
   community: CommunityCopy;
   audit: {
-    eyebrow: string;
     title: string;
     text: string;
     cta: string;
   };
   contact: {
-    eyebrow: string;
     title: string;
     text: string;
     email: string;
@@ -190,8 +177,6 @@ export type SiteCopy = {
   };
   cases: Record<CaseStudySlug, CaseCopy>;
 };
-
-export const copy: Record<Locale, SiteCopy> = { cs, en };
 
 export function localizedPath(locale: Locale, path = "") {
   const home = locale === "en" ? "/en" : "/";

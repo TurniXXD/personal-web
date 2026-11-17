@@ -11,6 +11,8 @@ import {
 type ScrollRevealProps = {
   children: ReactNode;
   className?: string;
+  /** Reveal on scroll. Keep this for a few card grids; headings and copy render immediately. */
+  animate?: boolean;
   stagger?: boolean;
   delay?: number;
 };
@@ -22,6 +24,7 @@ type ScrollRevealStyle = CSSProperties & {
 export const ScrollReveal = ({
   children,
   className,
+  animate = false,
   stagger = false,
   delay = 0,
 }: ScrollRevealProps) => {
@@ -32,9 +35,16 @@ export const ScrollReveal = ({
 
   useEffect(() => {
     const root = rootRef.current;
-    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    if (!animate || !root) return;
 
-    if (!root || reducedMotion.matches) {
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    if (reducedMotion.matches) return;
+
+    // Content already on screen (or scrolled past) must never be hidden, and
+    // neither must a block taller than the viewport (a stacked grid on a
+    // phone): a fast scroll would land inside it while it is still hidden.
+    const rect = root.getBoundingClientRect();
+    if (rect.top < window.innerHeight || rect.height > window.innerHeight) {
       return;
     }
 
@@ -47,12 +57,16 @@ export const ScrollReveal = ({
           observer.disconnect();
         }
       },
-      { rootMargin: "0px 0px -8%", threshold: 0.06 },
+      { rootMargin: "0px 0px 10% 0px", threshold: 0 },
     );
 
     observer.observe(root);
     return () => observer.disconnect();
-  }, []);
+  }, [animate]);
+
+  if (!animate) {
+    return <div className={className}>{children}</div>;
+  }
 
   return (
     <div

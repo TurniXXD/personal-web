@@ -7,10 +7,10 @@ import {
   caseStudySlugs,
   caseStudyTimeline,
   caseStudyTimelineSlugs,
-  copy,
   localizedPath,
   type Locale,
 } from "@/lib/site/content";
+import { useSiteCopy } from "@/lib/site/site-copy";
 
 type ProjectGridProps = {
   locale: Locale;
@@ -32,7 +32,7 @@ export const ProjectGrid = ({
   timeline = false,
 }: ProjectGridProps) => {
   const t = useTranslations("common");
-  const content = copy[locale];
+  const content = useSiteCopy();
   const projects = timeline ? caseStudyTimelineSlugs : caseStudySlugs;
 
   return (
@@ -44,6 +44,7 @@ export const ProjectGrid = ({
       ]
         .filter(Boolean)
         .join(" ")}
+      animate
       stagger
     >
       {projects.map((slug, index) => {

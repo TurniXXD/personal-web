@@ -67,7 +67,7 @@
   },
   "notFound": {
     "eyebrow": "PAGE NOT FOUND",
-    "title": "This page is not here.",
+    "title": "This page is not here",
     "description": "The link may be outdated or the page may have moved. Return home and continue from there.",
     "action": "Back to home"
   },

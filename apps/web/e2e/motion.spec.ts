@@ -27,17 +27,23 @@ test("service pages remain visible with reduced motion", async ({ page }) => {
   ).toHaveCSS("animation-name", "none");
 });
 
-test("homepage reveals cards once and keeps them visible", async ({ page }) => {
+test("homepage reveals only card grids, once, and keeps them visible", async ({
+  page,
+}) => {
   await page.goto("/");
 
+  // Headings, copy and the first card grid render immediately.
   const serviceCards = page.locator(".service-card");
   await expect(serviceCards).toHaveCount(3);
-  await serviceCards.first().scrollIntoViewIfNeeded();
-  await expect(page.locator(".service-grid")).toHaveAttribute(
-    "data-reveal-state",
-    "visible",
+  await expect(page.locator(".service-grid")).not.toHaveAttribute(
+    "data-scroll-reveal",
+    "true",
   );
   await expect(serviceCards.nth(0)).toHaveCSS("opacity", "1");
+  await expect(page.locator("#work-title")).not.toHaveAttribute(
+    "data-scroll-reveal",
+    "true",
+  );
 
   const caseCard = page.locator(".case-card").first();
   await caseCard.scrollIntoViewIfNeeded();
@@ -61,7 +67,7 @@ test("technical backgrounds become static with reduced motion", async ({
   await page.goto("/");
 
   await expect(page.locator(".technical-background")).toHaveCount(2);
-  await expect(page.locator('[data-scroll-reveal="true"]')).toHaveCount(16);
+  await expect(page.locator('[data-scroll-reveal="true"]')).toHaveCount(2);
   await expect(
     page.locator(
       ".technical-background--services .technical-background__lines path",
@@ -154,33 +160,16 @@ test("large ambient shapes slide in and out from their nearest side", async ({
   await expect(automationShape).toHaveCSS("opacity", "1");
 });
 
-test("about portrait outline slides out from behind the image", async ({
+test("about portrait and its outline render without a reveal", async ({
   page,
 }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto("/");
 
-  const reveal = page.locator(".about-section__portrait-reveal");
-  const portrait = reveal.locator(".about-section__portrait");
-  await expect(reveal).toHaveAttribute("data-reveal-state", "pending");
-
-  await expect
-    .poll(() =>
-      portrait.evaluate(
-        (element) => getComputedStyle(element, "::before").opacity,
-      ),
-    )
-    .toBe("0");
-
-  const hiddenOutline = await portrait.evaluate((element) => {
-    const style = getComputedStyle(element, "::before");
-    return { opacity: style.opacity, transform: style.transform };
-  });
-  expect(hiddenOutline.opacity).toBe("0");
-  expect(hiddenOutline.transform).not.toBe("none");
-
-  await reveal.scrollIntoViewIfNeeded();
-  await expect(reveal).toHaveAttribute("data-reveal-state", "visible");
+  const portrait = page.locator(".about-section__portrait");
+  await expect(
+    page.locator(".about-section__portrait-reveal"),
+  ).not.toHaveAttribute("data-scroll-reveal", "true");
   await expect
     .poll(() =>
       portrait.evaluate(
@@ -188,11 +177,6 @@ test("about portrait outline slides out from behind the image", async ({
       ),
     )
     .toBe("1");
-
-  const visibleTransform = await portrait.evaluate(
-    (element) => getComputedStyle(element, "::before").transform,
-  );
-  expect(visibleTransform).not.toBe(hiddenOutline.transform);
 });
 
 test("button micro-interactions and decorative cleanup are preserved", async ({
@@ -262,10 +246,8 @@ test("button micro-interactions and decorative cleanup are preserved", async ({
     )
     .not.toBe(secondaryPosition);
 
-  for (const selector of [
-    ".hero__scroll",
-    ".contact-section__actions > a:not(.ui-action)",
-  ]) {
+  await expect(page.locator(".hero__scroll")).toHaveCount(0);
+  for (const selector of [".contact-section__actions > a:not(.ui-action)"]) {
     const link = page.locator(selector).first();
     await link.hover();
     await expect(link.locator("svg > *").first()).toHaveCSS(

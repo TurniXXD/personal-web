@@ -212,7 +212,7 @@ test("robot never covers the section heading above the first card", async ({
   await page.goto("/");
 
   const heading = page.getByRole("heading", {
-    name: "Co pro vás můžu vytvořit.",
+    name: "Co pro vás můžu vytvořit",
   });
   await heading.scrollIntoViewIfNeeded();
   await page.evaluate(() =>

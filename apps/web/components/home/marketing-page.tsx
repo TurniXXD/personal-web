@@ -9,13 +9,13 @@ import {
   Layers3,
   Mail,
   MessageCircle,
-  Mouse,
   Share2,
   ShoppingCart,
   Workflow,
 } from "lucide-react";
 import { ActionLink } from "@vantuch/ui";
-import { copy, localizedPath, type Locale } from "@/lib/site/content";
+import { localizedPath, type Locale } from "@/lib/site/content";
+import { useSiteCopy } from "@/lib/site/site-copy";
 import { InteractiveHeroArt } from "@/components/home/interactive-hero-art";
 import { NewsletterSocialSection } from "@/components/home/newsletter-social-section";
 import { ProjectGrid } from "@/components/home/project-grid";
@@ -51,7 +51,7 @@ const automationCategoryIcons = [
 type MarketingPageProps = { locale: Locale };
 
 export const MarketingPage = ({ locale }: MarketingPageProps) => {
-  const t = copy[locale];
+  const t = useSiteCopy();
   const ui = useTranslations("homeUi");
   const newsletterEnabled = Boolean(process.env.NEWSLETTER_WEBHOOK_URL?.trim());
   const newsletterVisible = process.env.NEWSLETTER_VISIBLE === "true";
@@ -104,13 +104,6 @@ export const MarketingPage = ({ locale }: MarketingPageProps) => {
             </div>
             <InteractiveHeroArt />
           </div>
-          <a
-            className="hero__scroll"
-            href={localizedPath(locale, "#services")}
-            aria-label={t.nav.services}
-          >
-            <Mouse size={20} aria-hidden="true" />
-          </a>
         </section>
 
         <section
@@ -154,46 +147,6 @@ export const MarketingPage = ({ locale }: MarketingPageProps) => {
         </section>
 
         <section
-          className="section automation-section"
-          id="automation"
-          aria-labelledby="automation-title"
-        >
-          <TechnicalBackground variant="automation" />
-          <div className="site-container">
-            <ScrollReveal className="automation-section__intro">
-              <h2 id="automation-title">{t.automation.title}</h2>
-              <p>{t.automation.description}</p>
-            </ScrollReveal>
-            <ScrollReveal className="automation-category-grid" stagger>
-              {t.automation.items.map((item, index) => {
-                const Icon = automationCategoryIcons[index];
-                return (
-                  <ContentCard
-                    className="automation-category-card"
-                    key={item.title}
-                    title={item.title}
-                    description={item.description}
-                    icon={
-                      <Icon size={20} strokeWidth={1.8} aria-hidden="true" />
-                    }
-                  />
-                );
-              })}
-            </ScrollReveal>
-            <ScrollReveal className="automation-section__cta">
-              <ActionLink
-                href={localizedPath(locale, "/automatizace")}
-                variant="secondary"
-                className="ui-action--icon-layers"
-              >
-                {t.automation.cta}
-                <Layers3 size={18} aria-hidden="true" />
-              </ActionLink>
-            </ScrollReveal>
-          </div>
-        </section>
-
-        <section
           className="section work-section"
           id="work"
           aria-labelledby="work-title"
@@ -201,35 +154,10 @@ export const MarketingPage = ({ locale }: MarketingPageProps) => {
           <div className="site-container">
             <ScrollReveal className="section-heading">
               <div>
-                <h2 id="work-title">
-                  {t.work.title} <span>{t.work.titleHighlight}</span>
-                </h2>
+                <h2 id="work-title">{t.work.title}</h2>
               </div>
             </ScrollReveal>
             <ProjectGrid locale={locale} timeline />
-          </div>
-        </section>
-
-        <section
-          className="section process-section"
-          id="process"
-          aria-labelledby="process-title"
-        >
-          <div className="site-container">
-            <ScrollReveal className="section-heading">
-              <div>
-                <h2 id="process-title">{t.process.title}</h2>
-              </div>
-            </ScrollReveal>
-            <ScrollReveal className="process-grid" stagger>
-              {t.process.steps.map((step) => (
-                <article className="process-step" key={step.number}>
-                  <span className="process-step__number">{step.number}</span>
-                  <h3>{step.title}</h3>
-                  <p>{step.description}</p>
-                </article>
-              ))}
-            </ScrollReveal>
           </div>
         </section>
 
@@ -259,6 +187,69 @@ export const MarketingPage = ({ locale }: MarketingPageProps) => {
               ) : null}
               <p>{t.about.text}</p>
               <p>{t.about.detail}</p>
+            </ScrollReveal>
+          </div>
+        </section>
+
+        <section
+          className="section automation-section"
+          id="automation"
+          aria-labelledby="automation-title"
+        >
+          <TechnicalBackground variant="automation" />
+          <div className="site-container">
+            <ScrollReveal className="automation-section__intro">
+              <h2 id="automation-title">{t.automation.title}</h2>
+              <p>{t.automation.description}</p>
+            </ScrollReveal>
+            <ScrollReveal className="automation-category-grid" animate stagger>
+              {t.automation.items.map((item, index) => {
+                const Icon = automationCategoryIcons[index];
+                return (
+                  <ContentCard
+                    className="automation-category-card"
+                    key={item.title}
+                    title={item.title}
+                    description={item.description}
+                    icon={
+                      <Icon size={20} strokeWidth={1.8} aria-hidden="true" />
+                    }
+                  />
+                );
+              })}
+            </ScrollReveal>
+            <ScrollReveal className="automation-section__cta">
+              <ActionLink
+                href={localizedPath(locale, "/automatizace")}
+                variant="secondary"
+                className="ui-action--icon-layers"
+              >
+                {t.automation.cta}
+                <Layers3 size={18} aria-hidden="true" />
+              </ActionLink>
+            </ScrollReveal>
+          </div>
+        </section>
+
+        <section
+          className="section process-section"
+          id="process"
+          aria-labelledby="process-title"
+        >
+          <div className="site-container">
+            <ScrollReveal className="section-heading">
+              <div>
+                <h2 id="process-title">{t.process.title}</h2>
+              </div>
+            </ScrollReveal>
+            <ScrollReveal className="process-grid" stagger>
+              {t.process.steps.map((step) => (
+                <article className="process-step" key={step.number}>
+                  <span className="process-step__number">{step.number}</span>
+                  <h3>{step.title}</h3>
+                  <p>{step.description}</p>
+                </article>
+              ))}
             </ScrollReveal>
           </div>
         </section>

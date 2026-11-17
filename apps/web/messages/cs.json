@@ -67,7 +67,7 @@
   },
   "notFound": {
     "eyebrow": "STRÁNKA NENALEZENA",
-    "title": "Tahle stránka tu není.",
+    "title": "Tahle stránka tu není",
     "description": "Odkaz může být zastaralý nebo se stránka přesunula. Vraťte se na úvod a pokračujte odtud.",
     "action": "Zpět na úvod"
   },

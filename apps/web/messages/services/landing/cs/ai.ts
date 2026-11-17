@@ -8,7 +8,7 @@ export default {
   },
   hero: {
     eyebrow: "AI ŘEŠENÍ",
-    title: "Umělá inteligence, která má praktické využití.",
+    title: "Umělá inteligence, která má praktické využití",
     description:
       "Pomáhám firmám využívat AI při práci s dokumenty, daty a každodenními procesy.",
     primary: "Probrat AI řešení",

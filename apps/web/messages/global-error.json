@@ -1,13 +1,13 @@
 {
   "cs": {
     "label": "NĚCO SE NEPOVEDLO",
-    "title": "Stránku se nepodařilo načíst.",
+    "title": "Stránku se nepodařilo načíst",
     "description": "Zkuste to znovu. Pokud problém přetrvá, vraťte se na web později.",
     "action": "Zkusit znovu"
   },
   "en": {
     "label": "SOMETHING WENT WRONG",
-    "title": "This page could not be loaded.",
+    "title": "This page could not be loaded",
     "description": "Try again. If the problem continues, come back later.",
     "action": "Try again"
   }

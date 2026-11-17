@@ -9,7 +9,7 @@ test("gift voucher demo clearly simulates payment, PDF and redemption states", a
   });
 
   const headline = page.getByRole("heading", {
-    name: "Dárkové poukazy bez starostí.",
+    name: "Dárkové poukazy bez starostí",
   });
   await expect(headline).toBeVisible();
   expect(
@@ -51,7 +51,7 @@ test("gift voucher demo clearly simulates payment, PDF and redemption states", a
   );
   await expect(
     page.getByRole("heading", {
-      name: "Poukaz, který působí jako přirozená součást vaší značky.",
+      name: "Poukaz, který působí jako přirozená součást vaší značky",
     }),
   ).toBeVisible();
   await expect(page.getByText("Ověřený webhook", { exact: true })).toHaveCount(
